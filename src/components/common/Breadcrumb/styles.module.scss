@@ -1,0 +1,42 @@
+.breadcrumbs {
+  margin-bottom: 1rem;
+  padding: 0;
+  background: transparent;
+
+  :global {
+    .breadcrumb {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .breadcrumb-item {
+      font-size: 0.875rem;
+      
+      & + .breadcrumb-item::before {
+        content: "/";
+        color: var(--bs-gray-600);
+      }
+
+      a {
+        color: var(--bs-gray-600);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: var(--bs-primary);
+          text-decoration: underline;
+        }
+      }
+
+      &.active {
+        color: var(--bs-gray-900);
+      }
+    }
+  }
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+} 

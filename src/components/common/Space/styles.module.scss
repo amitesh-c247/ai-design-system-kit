@@ -1,0 +1,25 @@
+.space {
+  display: inline-flex;
+  gap: var(--bs-gap, 0.5rem);
+
+  > svg {
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+}
+
+.block {
+  display: flex;
+}
+
+.alignSVGBaseline {
+  svg {
+    vertical-align: baseline;
+  }
+}
+
+.alignSVGCenter {
+  svg {
+    vertical-align: middle;
+  }
+} 

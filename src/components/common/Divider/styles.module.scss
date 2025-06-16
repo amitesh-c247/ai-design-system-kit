@@ -1,0 +1,81 @@
+.divider {
+  padding: 0;
+  margin: $spacer 0;
+
+  &.noMargin {
+    margin: 0;
+  }
+
+  &.separatorVertical {
+    width: 1px;
+    height: 100%;
+    min-height: 1rem;
+    margin: 0 $spacer;
+    padding: 0;
+
+    .hr {
+      border-left: 1px solid $gray-300;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      height: 100%;
+      margin: 0;
+    }
+  }
+}
+
+.hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid $gray-300;
+  opacity: 1;
+}
+
+// Variants
+.primary {
+  .hr {
+    border-color: $primary;
+  }
+}
+
+.secondary {
+  .hr {
+    border-color: $secondary;
+  }
+}
+
+.success {
+  .hr {
+    border-color: $success;
+  }
+}
+
+.danger {
+  .hr {
+    border-color: $danger;
+  }
+}
+
+.warning {
+  .hr {
+    border-color: $warning;
+  }
+}
+
+.info {
+  .hr {
+    border-color: $info;
+  }
+}
+
+.light {
+  .hr {
+    border-color: $gray-200;
+  }
+}
+
+.dark {
+  .hr {
+    border-color: $gray-700;
+  }
+} 

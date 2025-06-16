@@ -1,0 +1,134 @@
+// Variables
+$border-radius-default: 0.75rem;
+$default-padding: 1.5rem;
+$tight-padding: 1rem;
+$shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-strong: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+.card {
+  background-color: $white;
+  border-radius: $card-border-radius;
+  transition: all $transition-base;
+  margin-bottom: $spacer;
+
+  &:hover {
+    box-shadow: $box-shadow;
+  }
+
+  // Variants
+  &.variant-default {
+    padding: $card-spacer-y $card-spacer-x;
+  }
+
+  &.variant-strong {
+    background-color: $gray-100;
+    padding: $card-spacer-y $card-spacer-x;
+  }
+
+  &.variant-tight {
+    padding: $spacer * 0.5;
+  }
+
+  &.variant-tight-strong {
+    background-color: $gray-100;
+    padding: $spacer * 0.5;
+  }
+
+  // Border styles
+  &.bordered {
+    border: 1px solid $gray-200;
+  }
+
+  // Shadow styles
+  &:not(.noShadow) {
+    box-shadow: $box-shadow-sm;
+  }
+
+  // Header styles
+  :global {
+    .card-header {
+      background-color: transparent;
+      border-bottom: 1px solid $gray-200;
+      padding: $card-spacer-y $card-spacer-x;
+      margin: -$card-spacer-y -$card-spacer-x $card-spacer-y;
+      border-radius: $card-border-radius $card-border-radius 0 0;
+
+      &:first-child {
+        border-radius: calc($card-border-radius - 1px) calc($card-border-radius - 1px) 0 0;
+      }
+    }
+
+    .card-footer {
+      background-color: transparent;
+      border-top: 1px solid $gray-200;
+      padding: $card-spacer-y $card-spacer-x;
+      margin: $card-spacer-y -$card-spacer-x -$card-spacer-y;
+      border-radius: 0 0 $card-border-radius $card-border-radius;
+
+      &:last-child {
+        border-radius: 0 0 calc($card-border-radius - 1px) calc($card-border-radius - 1px);
+      }
+    }
+
+    .card-title {
+      margin-bottom: $card-title-spacer-y;
+      font-size: $h5-font-size;
+      font-weight: $font-weight-bold;
+      color: $gray-900;
+    }
+
+    .card-subtitle {
+      margin-top: -$card-title-spacer-y * 0.5;
+      margin-bottom: 0;
+      font-size: $h6-font-size;
+      color: $gray-600;
+    }
+
+    .card-text {
+      margin-bottom: $card-spacer-y;
+      color: $gray-700;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.bordered {
+  border: 1px solid var(--bs-gray-200) !important;
+}
+
+.variantDefault {
+  :global(.card-body) {
+    padding: $default-padding;
+  }
+  box-shadow: $shadow-soft;
+}
+
+.variantTight {
+  :global(.card-body) {
+    padding: $tight-padding;
+  }
+  box-shadow: $shadow-soft;
+}
+
+.variantStrong {
+  :global(.card-body) {
+    padding: $default-padding;
+  }
+  box-shadow: $shadow-strong;
+}
+
+.variantTightStrong {
+  :global(.card-body) {
+    padding: $tight-padding;
+  }
+  box-shadow: $shadow-strong;
+}
+
+// Hover effect
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: $shadow-strong;
+} 

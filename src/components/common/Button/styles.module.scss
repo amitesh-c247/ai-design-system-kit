@@ -1,0 +1,266 @@
+// Variables
+$button-min-width: 96px;
+$button-padding: 0.75rem 1rem;
+$button-icon-padding: 0.5rem;
+$button-border-radius: 0.5rem;
+$button-icon-border-radius: 50%;
+$button-transition: all 0.2s ease-in-out;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@mixin button-active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: $btn-padding-y $btn-padding-x;
+  font-size: $btn-font-size;
+  line-height: $btn-line-height;
+  border-radius: $btn-border-radius;
+  transition: all $transition-base;
+  position: relative;
+  gap: $spacer * 0.5;
+
+  &:disabled,
+  &.disabled {
+    opacity: $btn-disabled-opacity;
+    pointer-events: none;
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Size variants
+.size-button-default {
+  padding: $btn-padding-y $btn-padding-x;
+  font-size: $btn-font-size;
+}
+
+.size-button-large {
+  padding: $btn-padding-y-lg $btn-padding-x-lg;
+  font-size: $btn-font-size-lg;
+}
+
+// Type variants
+.type-primary {
+  color: $white;
+  background-color: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background-color: darken($primary, 10%);
+    border-color: darken($primary, 10%);
+  }
+}
+
+.type-secondary {
+  color: $gray-700;
+  background-color: $white;
+  border-color: $gray-300;
+
+  &:hover {
+    background-color: $gray-100;
+    border-color: $gray-400;
+  }
+}
+
+.type-tertiary {
+  color: $gray-700;
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover {
+    background-color: $gray-100;
+  }
+}
+
+.type-danger {
+  color: $white;
+  background-color: $danger;
+  border-color: $danger;
+
+  &:hover {
+    background-color: darken($danger, 10%);
+    border-color: darken($danger, 10%);
+  }
+}
+
+.type-link {
+  color: $primary;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0;
+
+  &:hover {
+    color: darken($primary, 10%);
+    text-decoration: underline;
+  }
+}
+
+// Icon variants
+.type-icon,
+.type-iconBordered {
+  padding: $btn-padding-y;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &.size-button-large {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.type-iconBordered {
+  border: 1px solid $gray-300;
+  background-color: $white;
+
+  &:hover {
+    background-color: $gray-100;
+    border-color: $gray-400;
+  }
+}
+
+.type-inlineIcon {
+  padding: 0;
+  background: none;
+  border: none;
+  color: $gray-700;
+
+  &:hover {
+    color: $gray-900;
+  }
+}
+
+// Block variant
+.block {
+  display: flex;
+  width: 100%;
+}
+
+// Icon sizes
+.size-icon-default {
+  width: 1rem;
+  height: 1rem;
+}
+
+.size-icon-large {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+// Loading state
+.hideIconOnLoading {
+  opacity: 0;
+}
+
+.buttonWithIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacer * 0.5;
+}
+
+// Variant-specific styles
+:global {
+  .btn {
+    &-primary {
+      &:not(:disabled) {
+        &:hover {
+          background-color: var(--bs-primary-hover);
+          border-color: var(--bs-primary-hover);
+        }
+        &:active {
+          background-color: var(--bs-primary-active);
+          border-color: var(--bs-primary-active);
+        }
+      }
+    }
+
+    &-secondary {
+      &:not(:disabled) {
+        &:hover {
+          background-color: var(--bs-secondary-hover);
+          border-color: var(--bs-secondary-hover);
+        }
+        &:active {
+          background-color: var(--bs-secondary-active);
+          border-color: var(--bs-secondary-active);
+        }
+      }
+    }
+
+    &-outline-primary {
+      &:not(:disabled) {
+        &:hover {
+          background-color: var(--bs-primary);
+          border-color: var(--bs-primary);
+        }
+        &:active {
+          background-color: var(--bs-primary-active);
+          border-color: var(--bs-primary-active);
+        }
+      }
+    }
+
+    &-danger {
+      &:not(:disabled) {
+        &:hover {
+          background-color: var(--bs-danger-hover);
+          border-color: var(--bs-danger-hover);
+        }
+        &:active {
+          background-color: var(--bs-danger-active);
+          border-color: var(--bs-danger-active);
+        }
+      }
+    }
+
+    &-link {
+      text-decoration: none;
+      padding: 0;
+      min-width: auto;
+
+      &:not(:disabled) {
+        &:hover {
+          text-decoration: underline;
+          transform: none;
+          box-shadow: none;
+        }
+        &:active {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+} 
