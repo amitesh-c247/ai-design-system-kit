@@ -53,111 +53,42 @@ export interface AlertLink {
 }
 
 export interface AlertProps {
+  children: React.ReactNode;
+  type?: 'grey' | 'blue';
+  inline?: boolean;
   className?: string;
-  color?: 'grey';
-  type?: 'success' | 'info' | 'warning' | 'error' | 'loading';
-  isInline?: boolean;
-  message?: React.ReactNode;
-  description?: React.ReactNode;
-  showIcon?: boolean;
-  onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  /** Links to be displayed next to the alert message */
-  links?: [AlertLink?, AlertLink?];
-  /** Persists the close of the alert in the local storage until the user clears the cache.
-   *
-   * NOTE: use a unique id for each alert that you want to persist, indicating the location of the alert, the status, and the id of the entity
-   * e.g. `resource-propagation-last-resource-levels-${lastPropagation.id}-${lastPropagation.status}`
-   * */
-  persistCloseId?: string;
+  onClose?: () => void;
 }
 
-/**
- * When adding a message with links, make sure to use 16px separation between the link and the end of the text
- */
 const Alert: React.FC<AlertProps> = ({
-  className,
-  type,
-  color,
-  isInline,
-  showIcon = true,
-  message,
-  description,
-  links,
+  children,
+  type = 'grey',
+  inline = false,
+  className = '',
   onClose,
-  persistCloseId,
-  ...props
 }) => {
-  const { isAlertAlreadyClosed, closeAlert } = usePersistedClosedAlert(persistCloseId);
-
-  const hideAlert = Boolean(persistCloseId) && isAlertAlreadyClosed;
-
-  const typeProps = {
-    info: {
-      icon: <Info size={16} />,
-      className: styles['color-grey'],
-      variant: 'info',
-    },
-    error: {
-      icon: <AlertCircle size={16} />,
-      variant: 'danger',
-    },
-    warning: {
-      icon: <AlertTriangle size={16} />,
-      variant: 'warning',
-    },
-    success: {
-      icon: <CheckCircle size={16} />,
-      variant: 'success',
-    },
-    loading: {
-      icon: <LoaderIcon size={16} className={styles.loader} />,
-      className: styles['color-blue'],
-      variant: 'info',
-    },
-  }[type || 'info'];
-
-  if (hideAlert) return null;
-
-  const onCloseAlert = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (persistCloseId) {
-      closeAlert();
-    }
-    onClose?.(event);
-  };
-
+  const typeClass = `color${type.charAt(0).toUpperCase() + type.slice(1)}`;
+  
   return (
-    <BootstrapAlert
-      variant={typeProps.variant}
-      className={classnames(styles.alert, typeProps.className, className, {
-        [styles.inline]: isInline,
-      })}
-      onClose={onCloseAlert}
-      dismissible={!!onClose}
-      {...props}
+    <div
+      className={`${styles.alert} ${styles[typeClass]} ${
+        inline ? styles.inline : ''
+      } ${className}`}
     >
-      {showIcon && typeProps.icon && (
-        <div className="me-2">{typeProps.icon}</div>
-      )}
-      <div>
-        {message && <div className={styles['alert-message']}>{message}</div>}
-        {description && <div className={styles['alert-description']}>{description}</div>}
-        {links && links.length > 0 && (
-          <div className="mt-2">
-            {links.filter((link): link is AlertLink => !!link).map(({ to, label, openExternalLinkInNewTab }) => (
-              <Link
-                key={JSON.stringify(to)}
-                to={to}
-                variant="standalone"
-                openExternalLinkInNewTab={openExternalLinkInNewTab}
-                className="me-3"
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-        )}
+      <div className={styles.content}>
+        {children}
       </div>
-    </BootstrapAlert>
+      {onClose && (
+        <button
+          type="button"
+          className={styles.alertCloseIcon}
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
+      )}
+    </div>
   );
 };
 

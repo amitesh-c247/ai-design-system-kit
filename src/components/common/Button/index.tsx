@@ -15,6 +15,8 @@ export interface ButtonProps extends Omit<React.ComponentProps<typeof BootstrapB
   icon?: React.ReactElement;
   /** Position of the icon relative to the text */
   iconPosition?: 'left' | 'right';
+  /** Make button full width */
+  block?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -26,6 +28,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className,
       iconPosition = 'left',
+      block = false,
       ...otherProps
     },
     ref,
@@ -37,7 +40,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       {
         [styles[`type-${type}`]]: Boolean(type),
         [styles[`size-button-${type}-${size}`]]: type === 'icon' || type === 'iconBordered',
-        [styles.block]: otherProps?.block,
+        [styles.block]: block,
+        'w-100': block,
       },
       className,
     );
@@ -59,13 +63,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     };
 
+    // Remove block from otherProps so it doesn't get passed to BootstrapButton
+    const { block: _block, ...restProps } = otherProps;
+
     return (
       <BootstrapButton
         variant={getBootstrapVariant(type)}
         size={size === 'large' ? 'lg' : undefined}
         className={classNames}
         ref={ref}
-        {...otherProps}
+        {...restProps}
       >
         {icon ? (
           <div className={styles.buttonWithIcon}>

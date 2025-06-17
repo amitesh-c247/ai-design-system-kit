@@ -1,44 +1,31 @@
 import React from 'react';
-import { Card as BootstrapCard } from 'react-bootstrap';
-import classnames from 'classnames';
 import styles from './styles.module.scss';
 
-export type CardVariant = 'default' | 'strong' | 'tight' | 'tight-strong';
-
-export interface CardProps extends Omit<React.ComponentProps<typeof BootstrapCard>, 'variant'> {
-  /** Additional CSS class name */
-  className?: string;
-  /** The visual style of the card */
-  variant?: CardVariant;
-  /** Whether to show a border around the card */
+interface CardProps {
+  children: React.ReactNode;
+  variant?: 'default' | 'strong' | 'tight' | 'tight-strong';
   bordered?: boolean;
-  /** Whether to disable the shadow effect */
   noShadow?: boolean;
+  className?: string;
 }
 
-const Card: React.FC<React.PropsWithChildren<CardProps>> = ({
+const Card: React.FC<CardProps> = ({
+  children,
   variant = 'default',
   bordered = false,
-  className,
-  children,
-  noShadow,
-  ...props
+  noShadow = false,
+  className = '',
 }) => {
+  const variantClass = `variant${variant.charAt(0).toUpperCase() + variant.slice(1)}`;
+  
   return (
-    <BootstrapCard
-      className={classnames(
-        styles.card,
-        styles[`variant-${variant}`],
-        {
-          [styles.bordered]: bordered,
-          [styles.noShadow]: noShadow,
-        },
-        className,
-      )}
-      {...props}
+    <div
+      className={`${styles.card} ${styles[variantClass]} ${
+        bordered ? styles.bordered : ''
+      } ${noShadow ? styles.noShadow : ''} ${className}`}
     >
       {children}
-    </BootstrapCard>
+    </div>
   );
 };
 

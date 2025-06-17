@@ -138,27 +138,128 @@ interface FormProps {
   children: React.ReactNode;
   onSubmit?: (e: React.FormEvent) => void;
   className?: string;
-  layout?: 'horizontal' | 'vertical';
   validated?: boolean;
 }
 
-const Form: React.FC<FormProps> & {
-  Item: typeof Item;
-  List: typeof List;
-} = ({ children, onSubmit, className = '', layout = 'vertical', validated }) => {
+export const Form: React.FC<FormProps> = ({ children, ...props }) => {
   return (
-    <BootstrapForm
-      onSubmit={onSubmit}
-      className={classnames(className, { [styles.horizontal]: layout === 'horizontal' })}
-      validated={validated}
-    >
-      <Row>{children}</Row>
+    <BootstrapForm className={styles.form} {...props}>
+      {children}
     </BootstrapForm>
   );
 };
 
-Form.Item = Item;
-Form.List = List;
+interface FormGroupProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const FormGroup: React.FC<FormGroupProps> = ({ children, ...props }) => {
+  return (
+    <BootstrapForm.Group className={styles.formGroup} {...props}>
+      {children}
+    </BootstrapForm.Group>
+  );
+};
+
+interface FormLabelProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const FormLabel: React.FC<FormLabelProps> = ({ children, ...props }) => {
+  return (
+    <BootstrapForm.Label className={styles.formLabel} {...props}>
+      {children}
+    </BootstrapForm.Label>
+  );
+};
+
+interface FormControlProps {
+  type?: string;
+  className?: string;
+  [key: string]: any;
+}
+
+export const FormControl: React.FC<FormControlProps> = ({ type = 'text', ...props }) => {
+  return (
+    <BootstrapForm.Control
+      type={type}
+      className={styles.formControl}
+      {...props}
+    />
+  );
+};
+
+interface FormSelectProps {
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: any;
+}
+
+export const FormSelect: React.FC<FormSelectProps> = ({ children, ...props }) => {
+  return (
+    <BootstrapForm.Select className={styles.formSelect} {...props}>
+      {children}
+    </BootstrapForm.Select>
+  );
+};
+
+interface FormCheckProps {
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: any;
+}
+
+export const FormCheck: React.FC<FormCheckProps> = ({ children, ...props }) => {
+  return (
+    <BootstrapForm.Check className={styles.formCheck} {...props}>
+      {children}
+    </BootstrapForm.Check>
+  );
+};
+
+interface FormTextProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const FormText: React.FC<FormTextProps> = ({ children, ...props }) => {
+  return (
+    <BootstrapForm.Text className={styles.formText} {...props}>
+      {children}
+    </BootstrapForm.Text>
+  );
+};
+
+interface HorizontalFormGroupProps extends FormGroupProps {
+  label: React.ReactNode;
+  control: React.ReactNode;
+}
+
+export const HorizontalFormGroup: React.FC<HorizontalFormGroupProps> = ({
+  label,
+  control,
+  ...props
+}) => {
+  return (
+    <FormGroup className={styles.horizontal} {...props}>
+      <FormLabel className={styles.horizontalLabel}>{label}</FormLabel>
+      <div className={styles.horizontalControl}>{control}</div>
+    </FormGroup>
+  );
+};
+
+export const FormItem = Item;
 
 export { ModalContext };
-export default Form;
+export default {
+  Form,
+  Group: FormGroup,
+  Label: FormLabel,
+  Control: FormControl,
+  Select: FormSelect,
+  Check: FormCheck,
+  Text: FormText,
+  HorizontalGroup: HorizontalFormGroup,
+};
