@@ -7,34 +7,14 @@ import styles from './styles.module.scss';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 const Dashboard = () => {
-  const { user, isLoadingUser, isAuthenticated, logout } = useAuth();
+  const { user, isLoadingUser, isAuthenticated } = useAuth();
   const router = useRouter();
 
   React.useEffect(() => {
-    console.log('Dashboard effect:', { user, isLoadingUser, isAuthenticated });
-    
-    if (!isLoadingUser) {
-      if (!isAuthenticated || !user) {
-        console.log('Redirecting to login...');
-        router.replace('/login');
-      }
+    if (!isLoadingUser && !isAuthenticated) {
+      router.replace('/login');
     }
-  }, [user, isLoadingUser, isAuthenticated, router]);
-
-  React.useEffect(() => {
-    if (user) {
-      console.log(user, 'User Data:', {
-        success: true,
-        user: {
-          data: user
-        }
-      });
-    }
-  }, [user]);
-
-  const handleLogout = async () => {
-    await logout();
-  };
+  }, [isAuthenticated, isLoadingUser, router]);
 
   if (isLoadingUser) {
     return <LoadingSpinner fullScreen />;
@@ -43,14 +23,11 @@ const Dashboard = () => {
   if (!isAuthenticated || !user) {
     return null;
   }
-console.log("user  => ",user)
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.header}>
         <h1>Welcome, {user.data.display_name || 'User'}</h1>
-        <button onClick={handleLogout} className={styles.logoutButton}>
-          Logout
-        </button>
       </div>
       <div className={styles.content}>
         <div className={styles.card}>

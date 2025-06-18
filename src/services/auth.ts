@@ -29,11 +29,12 @@ export const authService = {
   // Login function
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     try {
+      console.log('Login attempt with credentials:', { ...credentials, password: '***' });
       const response = await api.post<AuthResponse>('login', credentials);
       const { user, token } = response.data;
 
       // Store token in cookies
-      cookieService.setJson('auth_token', {token}, {
+      cookieService.set('auth_token', {token}, {
         expires: 7, // 7 days
         path: '/',
         secure: process.env.NODE_ENV === 'production',
@@ -41,7 +42,7 @@ export const authService = {
       });
 
       // Store user data in cookies
-      cookieService.setJson('user_data', {user}, {
+      cookieService.set('user_data', {user}, {
         expires: 7, // 7 days
         path: '/',
         secure: process.env.NODE_ENV === 'production',
@@ -49,7 +50,7 @@ export const authService = {
       });
 
       // Verify token was stored
-      const storedToken = cookieService.getJson<string>('auth_token');
+      const storedToken = cookieService.get<string>('auth_token');
       console.log('Stored token:', storedToken);
       
       return response.data;
@@ -73,7 +74,7 @@ export const authService = {
   // Get current user
   getCurrentUser: async (): Promise<AuthResponse['user']> => {
     try {
-      const token = cookieService.getJson<string>('auth_token');
+      const token = cookieService.get<string>('auth_token');
       console.log('Token for me API:', token);
       
       if (!token) {
@@ -85,7 +86,7 @@ export const authService = {
     } catch (error) {
       console.error('Get current user error:', error);
       // If the API call fails, try to get user data from cookie
-      const userData = cookieService.getJson<AuthResponse['user']>('user_data');
+      const userData = cookieService.get<AuthResponse['user']>('user_data');
       if (userData) {
         return userData;
       }
@@ -95,13 +96,13 @@ export const authService = {
 
   // Check if user is authenticated
   isAuthenticated: (): boolean => {
-    const token = cookieService.getJson<string>('auth_token');
+    const token = cookieService.get<string>('auth_token');
     console.log('Checking authentication, token:', token);
     return !!token;
   },
 
   // Get auth token
   getToken: (): string | null => {
-    return cookieService.getJson<string>('auth_token');
+    return cookieService.get<string>('auth_token');
   },
 }; 

@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { GeistSans, GeistMono } from "geist/font";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
-import { Providers } from './providers';
-
-const geistSans = GeistSans;
-const geistMono = GeistMono;
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
-  description: "Admin dashboard application",
+  description: "Modern admin dashboard template",
 };
 
 export default function RootLayout({
@@ -19,9 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.className} ${geistMono.className} antialiased`}
-      >
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

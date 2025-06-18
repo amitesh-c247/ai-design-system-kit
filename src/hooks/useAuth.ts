@@ -25,6 +25,8 @@ export const useAuth = () => {
       await authService.logout();
     },
     onSuccess: () => {
+      // Remove the user query from cache to prevent refetch
+      queryClient.removeQueries({ queryKey: ['user'] });
       router.replace('/login');
     },
   });
@@ -35,6 +37,7 @@ export const useAuth = () => {
     queryFn: authService.getCurrentUser,
     retry: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: authService.isAuthenticated(), // Only fetch if authenticated
   });
 
   // Check if user is authenticated
