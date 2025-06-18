@@ -57,6 +57,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-.dark .body {
+.dark body {
     background: linear-gradient(135deg, #23272f 0%, #171717 100%);
 }
