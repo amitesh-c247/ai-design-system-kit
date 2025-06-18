@@ -40,10 +40,6 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
-        <div className={styles.leftSection}>
-          {/* Add any left section content here */}
-        </div>
-
         <div className={styles.rightSection}>
           <button 
             className={styles.themeToggle}
@@ -70,6 +66,7 @@ const Header = () => {
                   <div className={styles.userInfo}>
                     <span className={styles.name}>{user?.data?.display_name || 'User'}</span>
                     <span className={styles.email}>{user?.data?.email}</span>
+
                   </div>
                 </div>
                 <div className={styles.dropdownDivider} />
