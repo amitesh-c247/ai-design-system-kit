@@ -59,4 +59,5 @@ body {
 
 .dark body {
     background: linear-gradient(135deg, #23272f 0%, #171717 100%);
+    color: var(--accent-foreground);
 }
