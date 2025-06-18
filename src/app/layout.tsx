@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Header from "../components/header-sidebar/header/header";
 import Sidebar from "../components/header-sidebar/sidebar/sidebar";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -19,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <Providers>
           <div className="flex h-screen">
             <Sidebar />
