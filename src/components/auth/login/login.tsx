@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Form, FormGroup, FormLabel } from '@/components/common/Form';
 import Input from '@/components/common/Form/Input';
 import Button from '@/components/common/Button';
@@ -12,6 +10,7 @@ import ImageWithFallback from '@/components/common/ImageWithFallback';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { EMAIL_REGEX } from '@/constants/regex';
 
 type LoginFormInputs = {
   email: string;
@@ -19,40 +18,28 @@ type LoginFormInputs = {
   rememberMe: boolean;
 };
 
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Password is required'),
-  rememberMe: yup.boolean().default(false),
-});
-
 const Login = () => {
   const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } = useAuth();
   const router = useRouter();
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+    mode: 'onChange',
+  });
   
   React.useEffect(() => {
     if (!isLoadingUser && isAuthenticated) {
       router.push('/dashboard');
     }
   }, [isAuthenticated, isLoadingUser, router]);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: '',
-      password: '',
-      rememberMe: false,
-    },
-  });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
     login({
@@ -92,13 +79,19 @@ const Login = () => {
             </div>
           )}
 
-          <Form onSubmit={handleSubmit(onSubmit,()=>console.log("error  ",))}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <FormGroup>
               <FormLabel>Email Address</FormLabel>
               <Input
                 id="email"
                 type="email"
-                {...register('email')}
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: {
+                    value: EMAIL_REGEX,
+                    message: 'Please enter a valid email address'
+                  }
+                })}
                 placeholder="Enter your email"
                 disabled={isLoggingIn}
                 isInvalid={!!errors.email}
@@ -111,7 +104,9 @@ const Login = () => {
               <Input
                 id="password"
                 type="password"
-                {...register('password')}
+                {...register('password', {
+                  required: 'Password is required'
+                })}
                 placeholder="Enter your password"
                 disabled={isLoggingIn}
                 isInvalid={!!errors.password}
@@ -143,31 +138,6 @@ const Login = () => {
               {isLoggingIn ? 'Signing in...' : 'Sign In'}
             </Button>
           </Form>
-
-          <div className={styles.divider}>
-            <span>or continue with</span>
-          </div>
-
-          <div className={styles.socialLogin}>
-            <button type="button" disabled={isLoggingIn}>
-              <ImageWithFallback
-                src="/google.svg"
-                alt="Google"
-                width={24}
-                height={24}
-              />
-              Google
-            </button>
-            <button type="button" disabled={isLoggingIn}>
-              <ImageWithFallback
-                src="/github.svg"
-                alt="GitHub"
-                width={24}
-                height={24}
-              />
-              GitHub
-            </button>
-          </div>
 
           <p className={styles.signupText}>
             Don&apos;t have an account?{' '}

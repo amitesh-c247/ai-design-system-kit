@@ -28,14 +28,14 @@ const handleApiError = async (response: Response): Promise<never> => {
 
 // Helper to get auth token
 const getAuthToken = (): string | null => {
-  const authData = cookieService.getJson<{ token: { token: string, expire: string } }>('auth_token');
+  const authData = cookieService.get<{ token: { token: string, expire: string } }>('auth_token');
   console.log('Getting auth token:', authData);
   return authData?.token?.token || null;
 };
 
 // Helper to set auth token
 const setAuthToken = (token: string): void => {
-  cookieService.setJson('auth_token', { token });
+  cookieService.set('auth_token', { token });
 };
 
 // Helper to remove auth token
@@ -79,10 +79,11 @@ export const api = {
   post: async <T>(endpoint: string, body: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> => {
     const token = getAuthToken();
     console.log('Token for POST request:', token);
+    console.log('Request body:', body);
     
     const headers = {
       'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(token && { Authorization: token }),
       ...options.headers,
     };
     console.log('Request headers:', headers);

@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import Cookies from 'js-cookie';
 
 const WORKING_KEY = process.env.NEXT_PUBLIC_TEXT_ENCRYPT_KEY || 'your-default-key';
-const SECRET = process.env.NEXT_PUBLIC_JSON_DECRYPT_KEY || 'your-default-secret';
 
 // Text encryption/decryption
 const textEncrypt = (plainText: string): string => {
@@ -17,9 +16,10 @@ const textEncrypt = (plainText: string): string => {
 };
 
 const textDecrypt = (encText: string): string | null => {
-  if (typeof encText !== 'string' || encText === '') {
-    return encText;
+  if (!encText || typeof encText !== 'string') {
+    return null;
   }
+
   try {
     const m = crypto.createHash('md5');
     m.update(WORKING_KEY);
@@ -29,44 +29,6 @@ const textDecrypt = (encText: string): string | null => {
     let decoded = decipher.update(encText, 'hex', 'utf8');
     decoded += decipher.final('utf8');
     return decoded;
-  } catch (error) {
-    console.error('Decryption error:', error);
-    return null;
-  }
-};
-
-// JSON encryption/decryption
-interface EncryptedData {
-  encrypted: string;
-  iv: string;
-}
-
-const jsonEncrypt = (data: unknown): EncryptedData => {
-  const key = Buffer.from(SECRET.substring(0, 32), 'utf-8');
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-  
-  const jsonString = JSON.stringify(data);
-  let encrypted = cipher.update(jsonString, 'utf8', 'base64');
-  encrypted += cipher.final('base64');
-  
-  return {
-    encrypted,
-    iv: iv.toString('base64'),
-  };
-};
-
-const jsonDecrypt = (encryptedData: EncryptedData): unknown => {
-  try {
-    const key = Buffer.from(SECRET.substring(0, 32), 'utf-8');
-    const iv = Buffer.from(encryptedData.iv, 'base64');
-    const encrypted = Buffer.from(encryptedData.encrypted, 'base64');
-
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-    let decrypted = decipher.update(encrypted);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-
-    return JSON.parse(decrypted.toString('utf8'));
   } catch (error) {
     console.error('Decryption error:', error);
     return null;
@@ -116,31 +78,5 @@ export const cookieService = {
       ...defaultCookieOptions,
       ...options,
     });
-  },
-
-  // Set JSON cookie with encryption
-  setJson: (key: string, value: unknown, options = {}): void => {
-    const encryptedKey = textEncrypt(key);
-    const encryptedData = jsonEncrypt(value);
-    
-    Cookies.set(encryptedKey, JSON.stringify(encryptedData), {
-      ...defaultCookieOptions,
-      ...options,
-    });
-  },
-
-  // Get JSON cookie with decryption
-  getJson: <T>(key: string): T | null => {
-    const encryptedKey = textEncrypt(key);
-    const encryptedValue = Cookies.get(encryptedKey);
-    
-    if (!encryptedValue) return null;
-    
-    try {
-      const encryptedData = JSON.parse(encryptedValue) as EncryptedData;
-      return jsonDecrypt(encryptedData) as T;
-    } catch {
-      return null;
-    }
-  },
+  }
 }; 
