@@ -18,11 +18,11 @@
 
     &:focus {
       border-color: var(--bs-primary);
-      box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
     }
 
     &::placeholder {
-      color: var(--bs-gray-500);
+      color: var(--bs-gray-1000);
     }
   }
 

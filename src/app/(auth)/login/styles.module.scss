@@ -4,12 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary-dark) 100%);
-  padding: 2rem 1rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
   }
 }
-
-// Add any additional styles for the login page container here 

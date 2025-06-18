@@ -78,7 +78,7 @@ $shadow-strong: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 0.75rem;
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--bs-gray-900);
+  color: var(--bs-gray-800);
 }
 
 .cardSubtitle {
@@ -99,7 +99,7 @@ $shadow-strong: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: color 0.2s ease-in-out;
 
   &:hover {
-    color: var(--bs-primary-dark);
+    color: var(--bs-primary);
     text-decoration: underline;
   }
 }
