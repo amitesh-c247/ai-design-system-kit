@@ -1,4 +1,4 @@
-@import './global.scss';
+@use './global.scss' as *;
 
 // Variables
 $button-min-width: 96px;

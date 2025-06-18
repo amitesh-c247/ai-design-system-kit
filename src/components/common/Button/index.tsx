@@ -8,7 +8,7 @@ export type ButtonSize = 'default' | 'large';
 
 export interface ButtonProps extends Omit<React.ComponentProps<typeof BootstrapButton>, 'variant' | 'size'> {
   /** The visual style of the button */
-  type?: ButtonVariant;
+  variant?: ButtonVariant;
   /** The size of the button */
   size?: ButtonSize;
   /** Icon to display in the button */
@@ -22,7 +22,7 @@ export interface ButtonProps extends Omit<React.ComponentProps<typeof BootstrapB
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      type = 'secondary',
+      variant = 'secondary',
       size = 'default',
       icon,
       children,
@@ -38,16 +38,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       styles.button,
       styles[`size-button-${size}`],
       {
-        [styles[`type-${type}`]]: Boolean(type),
-        [styles[`size-button-${type}-${size}`]]: type === 'icon' || type === 'iconBordered',
+        [styles[`type-${variant}`]]: Boolean(variant),
+        [styles[`size-button-${variant}-${size}`]]: variant === 'icon' || variant === 'iconBordered',
         [styles.block]: block,
         'w-100': block,
       },
       className,
     );
 
-    const getBootstrapVariant = (type: ButtonVariant): string => {
-      switch (type) {
+    const getBootstrapVariant = (variant: ButtonVariant): string => {
+      switch (variant) {
         case 'primary':
           return 'primary';
         case 'secondary':
@@ -68,7 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <BootstrapButton
-        variant={getBootstrapVariant(type)}
+        variant={getBootstrapVariant(variant)}
         size={size === 'large' ? 'lg' : undefined}
         className={classNames}
         ref={ref}
@@ -82,7 +82,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   size: featherIconSize,
                   className: classnames(styles[`size-icon-${size}`], icon.props.className, {
                     [styles.hideIconOnLoading]:
-                      (type === 'icon' || type === 'iconBordered') && otherProps.disabled,
+                      (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
                   }),
                 })}
                 {children}
@@ -95,7 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   size: featherIconSize,
                   className: classnames(styles[`size-icon-${size}`], icon.props.className, {
                     [styles.hideIconOnLoading]:
-                      (type === 'icon' || type === 'iconBordered') && otherProps.disabled,
+                      (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
                   }),
                 })}
               </>
