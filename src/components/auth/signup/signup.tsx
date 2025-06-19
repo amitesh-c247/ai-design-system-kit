@@ -9,8 +9,6 @@ import ImageWithFallback from "@/components/common/ImageWithFallback";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 // import { useAuth } from "@/hooks/useAuth"; // Uncomment if you add signup logic
-// Use react-icons if available, otherwise fallback to inline SVG
-// import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Eye, EyeOff } from "@/components/common/Icons";
 
 export type SignupFormInputs = {
