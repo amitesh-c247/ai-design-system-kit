@@ -3,10 +3,12 @@
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import styles from './styles.module.scss';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 const Dashboard = () => {
+  const t = useTranslations('dashboard');
   const { user, isLoadingUser, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -27,17 +29,17 @@ const Dashboard = () => {
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.header}>
-        <h1>Welcome, {user.data.display_name || 'User'}</h1>
+        <h1>{t('welcome', { name: user.data.display_name || 'User' })}</h1>
       </div>
       <div className={styles.content}>
         <div className={styles.card}>
-          <h2>Dashboard Overview</h2>
-          <p>Welcome to your dashboard. This is where you can manage your account and view important information.</p>
+          <h2>{t('overview')}</h2>
+          <p>{t('info')}</p>
           <div className={styles.userInfo}>
-            <h3>Your Information</h3>
-            <p>Email: {user.data.email}</p>
-            {user.data.first_name && <p>First Name: {user.data.first_name}</p>}
-            {user.data.last_name && <p>Last Name: {user.data.last_name}</p>}
+            <h3>{t('yourInformation')}</h3>
+            <p>{t('email')}: {user.data.email}</p>
+            {user.data.first_name && <p>{t('firstName')}: {user.data.first_name}</p>}
+            {user.data.last_name && <p>{t('lastName')}: {user.data.last_name}</p>}
           </div>
         </div>
       </div>

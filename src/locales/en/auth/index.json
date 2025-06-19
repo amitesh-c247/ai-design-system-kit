@@ -1,0 +1,33 @@
+{
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Please sign in to continue",
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter your email",
+      "required": "Email is required",
+      "invalid": "Please enter a valid email address"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "required": "Password is required"
+    },
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot Password?",
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "orContinueWith": "Or continue with",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "logout": {
+    "success": "Logged out successfully",
+    "error": "Error logging out"
+  },
+  "errors": {
+    "invalidCredentials": "Invalid email or password",
+    "accountLocked": "Account has been locked. Please try again later",
+    "sessionExpired": "Your session has expired. Please login again"
+  }
+} 

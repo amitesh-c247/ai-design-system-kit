@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { EMAIL_REGEX } from '@/constants/regex';
+import { useTranslations } from 'next-intl';
 
 type LoginFormInputs = {
   email: string;
@@ -21,6 +22,7 @@ type LoginFormInputs = {
 const Login = () => {
   const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } = useAuth();
   const router = useRouter();
+  const t = useTranslations('auth.login');
   
   const {
     register,
@@ -70,8 +72,8 @@ const Login = () => {
             />
           </div>
 
-          <h1 className={styles.title}>Welcome Back</h1>
-          <p className={styles.subtitle}>Please sign in to continue</p>
+          <h1 className={styles.title}>{t('title')}</h1>
+          <p className={styles.subtitle}>{t('subtitle')}</p>
 
           {loginError && (
             <div className={styles.errorMessage}>
@@ -81,18 +83,18 @@ const Login = () => {
 
           <Form onSubmit={handleSubmit(onSubmit)}>
             <FormGroup>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>{t('email.label')}</FormLabel>
               <Input
                 id="email"
                 type="email"
                 {...register('email', {
-                  required: 'Email is required',
+                  required: t('email.required'),
                   pattern: {
                     value: EMAIL_REGEX,
-                    message: 'Please enter a valid email address'
+                    message: t('email.invalid')
                   }
                 })}
-                placeholder="Enter your email"
+                placeholder={t('email.placeholder')}
                 disabled={isLoggingIn}
                 isInvalid={!!errors.email}
                 feedback={errors.email?.message}
@@ -100,14 +102,14 @@ const Login = () => {
             </FormGroup>
 
             <FormGroup>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t('password.label')}</FormLabel>
               <Input
                 id="password"
                 type="password"
                 {...register('password', {
-                  required: 'Password is required'
+                  required: t('password.required')
                 })}
-                placeholder="Enter your password"
+                placeholder={t('password.placeholder')}
                 disabled={isLoggingIn}
                 isInvalid={!!errors.password}
                 feedback={errors.password?.message}
@@ -121,11 +123,11 @@ const Login = () => {
                   {...register('rememberMe')}
                   disabled={isLoggingIn}
                 />
-                Remember me
+                {t('rememberMe')}
               </label>
 
               <a href="/forgot-password" className={styles.forgotPassword}>
-                Forgot Password?
+                {t('forgotPassword')}
               </a>
             </div>
 
@@ -135,14 +137,14 @@ const Login = () => {
               className={styles.submitButton}
               disabled={isLoggingIn}
             >
-              {isLoggingIn ? 'Signing in...' : 'Sign In'}
+              {isLoggingIn ? t('submitting') : t('submit')}
             </Button>
           </Form>
 
           <p className={styles.signupText}>
-            Don&apos;t have an account?{' '}
+            {t('noAccount')}{' '}
             <a href="/register" className={styles.signupLink}>
-              Sign up
+              {t('signUp')}
             </a>
           </p>
         </div>

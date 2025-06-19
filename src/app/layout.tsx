@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import { useLocale } from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
+import { messages } from '@/locales';
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -9,13 +12,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale }
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
-        <Providers>{children}</Providers>
+        <NextIntlClientProvider locale={locale} messages={messages[locale as keyof typeof messages]}>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

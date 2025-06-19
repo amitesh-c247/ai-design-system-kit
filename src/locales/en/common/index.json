@@ -1,0 +1,39 @@
+{
+  "loading": {
+    "default": "Loading...",
+    "submitting": "Submitting...",
+    "processing": "Processing..."
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalid": "Invalid value",
+    "serverError": "Something went wrong. Please try again.",
+    "unauthorized": "You are not authorized to perform this action",
+    "notFound": "The requested resource was not found"
+  },
+  "success": {
+    "saved": "Changes saved successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "reset": "Reset"
+  },
+  "validation": {
+    "email": {
+      "required": "Email is required",
+      "invalid": "Please enter a valid email address"
+    },
+    "password": {
+      "required": "Password is required"
+    }
+  }
+} 

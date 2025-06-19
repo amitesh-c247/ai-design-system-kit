@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from '@/hooks/useFormatMessage';
 import { Form } from 'react-bootstrap';
 import capitalize from 'lodash/capitalize';
 import get from 'lodash/get';
@@ -25,7 +25,7 @@ const StatesFilter: React.FC<StateFilterProps> = ({
   showFilterButton = true,
   ...props
 }) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useFormatMessage();
   const [searchValue, setSearchValue] = useState('');
   const {
     data: stateResult,
