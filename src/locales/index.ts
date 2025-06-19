@@ -1,12 +1,15 @@
 import common from './en/common/index.json';
 import auth from './en/auth/index.json';
 import dashboard from './en/dashboard/index.json';
+import users from './en/users/index.json';
+
 
 export const messages = {
   en: {
     common,
     auth,
-    dashboard
+    dashboard,
+    users,
   }
 };
 
