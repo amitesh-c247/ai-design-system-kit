@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Form, FormGroup, FormLabel } from "@/components/common/Form";
 import Input from "@/components/common/Form/Input";
@@ -9,6 +9,9 @@ import ImageWithFallback from "@/components/common/ImageWithFallback";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 // import { useAuth } from "@/hooks/useAuth"; // Uncomment if you add signup logic
+// Use react-icons if available, otherwise fallback to inline SVG
+// import { FiEye, FiEyeOff } from "react-icons/fi";
+import { Eye, EyeOff } from "@/components/common/Icons";
 
 export type SignupFormInputs = {
   firstName: string;
@@ -38,6 +41,9 @@ const Signup = () => {
     },
     mode: "onChange",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
@@ -129,23 +135,44 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Password</FormLabel>
-              <Input
-                id="password"
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 8, message: "At least 8 characters" },
-                  validate: {
-                    hasUpper: (v) => /[A-Z]/.test(v) || "At least one uppercase letter",
-                    hasLower: (v) => /[a-z]/.test(v) || "At least one lowercase letter",
-                    hasNumber: (v) => /[0-9]/.test(v) || "At least one number",
-                    hasSpecial: (v) => /[^A-Za-z0-9]/.test(v) || "At least one special character",
-                  },
-                })}
-                placeholder="Enter your password"
-                isInvalid={!!errors.password}
-                feedback={errors.password?.message}
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 8, message: "At least 8 characters" },
+                    validate: {
+                      hasUpper: (v) => /[A-Z]/.test(v) || "At least one uppercase letter",
+                      hasLower: (v) => /[a-z]/.test(v) || "At least one lowercase letter",
+                      hasNumber: (v) => /[0-9]/.test(v) || "At least one number",
+                      hasSpecial: (v) => /[^A-Za-z0-9]/.test(v) || "At least one special character",
+                    },
+                  })}
+                  placeholder="Enter your password"
+                  isInvalid={!!errors.password}
+                  feedback={errors.password?.message}
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((v) => !v)}
+                  style={{
+                    position: 'absolute',
+                    right: 12,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: '#888',
+                  }}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
               {password && (
                 <div className={styles.passwordStrength}>
                   <span className={styles[`passwordStrength${passwordStrength}`]}>
@@ -156,17 +183,38 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Confirm Password</FormLabel>
-              <Input
-                id="confirmPassword"
-                type="password"
-                {...register("confirmPassword", {
-                  required: "Please confirm your password",
-                  validate: (v) => v === password || "Passwords do not match",
-                })}
-                placeholder="Re-enter your password"
-                isInvalid={!!errors.confirmPassword}
-                feedback={errors.confirmPassword?.message}
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: (v) => v === password || "Passwords do not match",
+                  })}
+                  placeholder="Re-enter your password"
+                  isInvalid={!!errors.confirmPassword}
+                  feedback={errors.confirmPassword?.message}
+                />
+                <button
+                  type="button"
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowConfirmPassword((v) => !v)}
+                  style={{
+                    position: 'absolute',
+                    right: 12,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: '#888',
+                  }}
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </FormGroup>
             <div className={styles.formFooter}>
               <label className={styles.rememberMe}>
