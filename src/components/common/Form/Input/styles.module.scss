@@ -5,14 +5,14 @@
   font-weight: 400;
   line-height: 1.5;
   color: var(--foreground);
-  background-color: var(--background);
+  background-color: var(--surface-dark);
   background-clip: padding-box;
   border: 1px solid var(--border);
   border-radius: var(--bs-border-radius);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   &:focus {
     color: var(--foreground);
-    background-color: var(--background);
+    background-color: var(--surface-dark);
     border-color: var(--primary);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
@@ -54,6 +54,6 @@
 
 .dark .input {
   color: var(--foreground);
-  background-color: var(--background);
+  background-color: var(--surface-dark);
   border-color: var(--border);
 }

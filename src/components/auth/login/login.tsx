@@ -7,7 +7,7 @@ import Input from '@/components/common/Form/Input';
 import Button from '@/components/common/Button';
 import { useAuth } from '@/hooks/useAuth';
 import ImageWithFallback from '@/components/common/ImageWithFallback';
-import styles from './styles.module.scss';
+import styles from '../auth.module.scss';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { EMAIL_REGEX } from '@/constants/regex';

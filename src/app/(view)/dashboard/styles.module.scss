@@ -1,8 +1,8 @@
 // All styles should be replaced by Bootstrap 5 utility classes in the component JSX.
 .dashboardContainer {
   padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: calc(100vw - 260px);
+  margin-left: auto;
 }
 
 .header {
