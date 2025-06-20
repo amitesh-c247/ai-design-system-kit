@@ -97,7 +97,6 @@ export const authService = {
   // Check if user is authenticated
   isAuthenticated: (): boolean => {
     const token = cookieService.get<string>('auth_token');
-    console.log('Checking authentication, token:', token);
     return !!token;
   },
 

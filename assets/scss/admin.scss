@@ -1,21 +1,18 @@
-@import "./_variables.scss";
+@use "./variables" as *;
 button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
 }
 
-.dark {
-  body {
-    // background-color: #1e293b;
-  }
-}
 .collapsed-sidebar + .main-content {
   .dashboard-container {
     max-width: calc(100vw - $sidebar-collapsed-width);
   }
 }
+
 form {
-  .form-control.is-invalid, .was-validated .form-control:invalid {
+  .form-control.is-invalid,
+  .was-validated .form-control:invalid {
     background-image: none;
   }
 }

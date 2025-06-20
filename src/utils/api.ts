@@ -78,8 +78,6 @@ export const api = {
   // POST request
   post: async <T>(endpoint: string, body: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> => {
     const token = getAuthToken();
-    console.log('Token for POST request:', token);
-    console.log('Request body:', body);
     
     const headers = {
       'Content-Type': 'application/json',

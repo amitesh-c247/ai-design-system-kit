@@ -1,0 +1,38 @@
+{
+  "title": "User Management",
+  "createUser": "Create User",
+  "make": "Make",
+  "short_code": "Short Code",
+  "status": "Status",
+  "statusOptions": {
+    "active": "Active",
+    "inactive": "Disabled"
+  },
+  "role": "Role",
+  "actions": "Actions",
+  "view": "View",
+  "edit": "Edit",
+  "delete": "Delete",
+  "noUsers": "No users found",
+  "confirmDelete": "Are you sure you want to delete this user?",
+  "userDetails": "User Details",
+  "save": "Save",
+  "cancel": "Cancel",
+  "createNewUser": "Create New User",
+  "editUser": "Edit User",
+  "roles": {
+    "admin": "Admin",
+    "user": "User"
+  },
+  "form": {
+    "makeRequired": "Make is required",
+    "shortCodeRequired": "Short code is required",
+    "statusRequired": "Status is required"
+  },
+  "messages": {
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "error": "An error occurred. Please try again."
+  }
+} 
