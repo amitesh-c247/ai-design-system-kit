@@ -8,14 +8,10 @@
   background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
 }
 
-.dark .loginContainer {
-  background: linear-gradient(135deg, #23272f 0%, #171717 100%);
-}
-
 .loginCard {
   width: 100%;
   max-width: 480px;
-  background-color: var(--card);
+  background-color: var(--surface-dark);
   border-radius: 1.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -231,6 +227,15 @@
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
   text-align: center;
+}
+
+:global(.dark) {
+  .loginContainer {
+    background: var(--bg-dark);
+  }
+  .loginCard {
+    background-color: var(--surface-dark);
+  }
 }
 
 @media (max-width: 640px) {
