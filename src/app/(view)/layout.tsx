@@ -13,9 +13,9 @@ export default function ViewLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
+    <div className="d-flex flex-column collesped-sidebar">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="main-content">
         <Header />
         <main className="flex-1 p-6 overflow-auto">
           {children}

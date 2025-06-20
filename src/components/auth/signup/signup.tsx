@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Form, FormGroup, FormLabel } from "@/components/common/Form";
-import Input from "@/components/common/Form/Input";
-import Button from "@/components/common/Button";
-import ImageWithFallback from "@/components/common/ImageWithFallback";
-import styles from '../auth.module.scss';
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { Form, FormGroup, FormLabel } from '@/components/common/Form'
+import Input from '@/components/common/Form/Input'
+import Button from '@/components/common/Button'
+import ImageWithFallback from '@/components/common/ImageWithFallback'
+import styles from '../auth.module.scss'
+import { useRouter } from 'next/navigation'
 // import { useAuth } from "@/hooks/useAuth"; // Uncomment if you add signup logic
-import { Eye, EyeOff } from "@/components/common/Icons";
+import { Eye, EyeOff } from '@/components/common/Icons'
 
 export type SignupFormInputs = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  acceptTerms: boolean;
-};
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmPassword: string
+  acceptTerms: boolean
+}
 
 const Signup = () => {
   // const { signup, isSigningUp, signupError } = useAuth(); // Uncomment if you add signup logic
-  const router = useRouter();
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -30,46 +30,46 @@ const Signup = () => {
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignupFormInputs>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       acceptTerms: false,
     },
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
+  const password = watch('password')
+  const confirmPassword = watch('confirmPassword')
 
   // Password strength logic (simple, for demo)
   const getPasswordStrength = (pw: string) => {
-    let score = 0;
-    if (pw.length >= 8) score++;
-    if (/[A-Z]/.test(pw)) score++;
-    if (/[a-z]/.test(pw)) score++;
-    if (/[0-9]/.test(pw)) score++;
-    if (/[^A-Za-z0-9]/.test(pw)) score++;
-    if (score <= 2) return "Weak";
-    if (score === 3 || score === 4) return "Medium";
-    if (score === 5) return "Strong";
-    return "";
-  };
-  const passwordStrength = getPasswordStrength(password);
+    let score = 0
+    if (pw.length >= 8) score++
+    if (/[A-Z]/.test(pw)) score++
+    if (/[a-z]/.test(pw)) score++
+    if (/[0-9]/.test(pw)) score++
+    if (/[^A-Za-z0-9]/.test(pw)) score++
+    if (score <= 2) return 'Weak'
+    if (score === 3 || score === 4) return 'Medium'
+    if (score === 5) return 'Strong'
+    return ''
+  }
+  const passwordStrength = getPasswordStrength(password)
 
   const onSubmit: SubmitHandler<SignupFormInputs> = async (data) => {
     // Placeholder for signup logic
     // await signup(data);
     // For now, just log and redirect
     // eslint-disable-next-line no-console
-    console.log("Signup form values:", data);
-    alert("Signup successful! (Check console for values)");
-    router.push("/login");
-  };
+    console.log('Signup form values:', data)
+    alert('Signup successful! (Check console for values)')
+    router.push('/login')
+  }
 
   return (
     <div className={styles.loginContainer}>
@@ -97,7 +97,9 @@ const Signup = () => {
               <Input
                 id="firstName"
                 type="text"
-                {...register("firstName", { required: "First name is required" })}
+                {...register('firstName', {
+                  required: 'First name is required',
+                })}
                 placeholder="Enter your first name"
                 isInvalid={!!errors.firstName}
                 feedback={errors.firstName?.message}
@@ -108,7 +110,7 @@ const Signup = () => {
               <Input
                 id="lastName"
                 type="text"
-                {...register("lastName", { required: "Last name is required" })}
+                {...register('lastName', { required: 'Last name is required' })}
                 placeholder="Enter your last name"
                 isInvalid={!!errors.lastName}
                 feedback={errors.lastName?.message}
@@ -119,11 +121,11 @@ const Signup = () => {
               <Input
                 id="email"
                 type="email"
-                {...register("email", {
-                  required: "Email is required",
+                {...register('email', {
+                  required: 'Email is required',
                   pattern: {
                     value: /^\S+@\S+\.\S+$/,
-                    message: "Please enter a valid email address",
+                    message: 'Please enter a valid email address',
                   },
                 })}
                 placeholder="Enter your email"
@@ -133,18 +135,23 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Password</FormLabel>
-              <div style={{ position: 'relative' }}>
+              <div className={styles.passwordInputWrapper}>
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: { value: 8, message: "At least 8 characters" },
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password', {
+                    required: 'Password is required',
+                    minLength: { value: 8, message: 'At least 8 characters' },
                     validate: {
-                      hasUpper: (v) => /[A-Z]/.test(v) || "At least one uppercase letter",
-                      hasLower: (v) => /[a-z]/.test(v) || "At least one lowercase letter",
-                      hasNumber: (v) => /[0-9]/.test(v) || "At least one number",
-                      hasSpecial: (v) => /[^A-Za-z0-9]/.test(v) || "At least one special character",
+                      hasUpper: (v) =>
+                        /[A-Z]/.test(v) || 'At least one uppercase letter',
+                      hasLower: (v) =>
+                        /[a-z]/.test(v) || 'At least one lowercase letter',
+                      hasNumber: (v) =>
+                        /[0-9]/.test(v) || 'At least one number',
+                      hasSpecial: (v) =>
+                        /[^A-Za-z0-9]/.test(v) ||
+                        'At least one special character',
                     },
                   })}
                   placeholder="Enter your password"
@@ -153,19 +160,11 @@ const Signup = () => {
                 />
                 <button
                   type="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword((v) => !v)}
-                  style={{
-                    position: 'absolute',
-                    right: 12,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    color: '#888',
-                  }}
+                  className={`${styles.passwordToggleBtn} ${
+                    showPassword ? styles.hidePassword : styles.showPassword
+                  }`}
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -173,7 +172,9 @@ const Signup = () => {
               </div>
               {password && (
                 <div className={styles.passwordStrength}>
-                  <span className={styles[`passwordStrength${passwordStrength}`]}>
+                  <span
+                    className={styles[`passwordStrength${passwordStrength}`]}
+                  >
                     {passwordStrength}
                   </span>
                 </div>
@@ -181,13 +182,13 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Confirm Password</FormLabel>
-              <div style={{ position: 'relative' }}>
+              <div className={styles.passwordInputWrapper}>
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: (v) => v === password || "Passwords do not match",
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  {...register('confirmPassword', {
+                    required: 'Please confirm your password',
+                    validate: (v) => v === password || 'Passwords do not match',
                   })}
                   placeholder="Re-enter your password"
                   isInvalid={!!errors.confirmPassword}
@@ -195,22 +196,20 @@ const Signup = () => {
                 />
                 <button
                   type="button"
-                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  aria-label={
+                    showConfirmPassword ? 'Hide password' : 'Show password'
+                  }
                   onClick={() => setShowConfirmPassword((v) => !v)}
-                  style={{
-                    position: 'absolute',
-                    right: 12,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    color: '#888',
-                  }}
+                  className={`${styles.passwordToggleBtn} ${
+                    showPassword ? styles.hidePassword : styles.showPassword
+                  }`}
                   tabIndex={-1}
                 >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
                 </button>
               </div>
             </FormGroup>
@@ -218,15 +217,18 @@ const Signup = () => {
               <label className={styles.rememberMe}>
                 <input
                   type="checkbox"
-                  {...register("acceptTerms", {
-                    required: "You must accept the Terms and Privacy Policy",
+                  {...register('acceptTerms', {
+                    required: 'You must accept the Terms and Privacy Policy',
                   })}
                 />
-                I accept the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+                I accept the <a href="#">Terms</a> and{' '}
+                <a href="#">Privacy Policy</a>
               </label>
             </div>
             {errors.acceptTerms && (
-              <div className={styles.errorMessage}>{errors.acceptTerms.message}</div>
+              <div className={styles.errorMessage}>
+                {errors.acceptTerms.message}
+              </div>
             )}
             <Button
               variant="primary"
@@ -234,7 +236,7 @@ const Signup = () => {
               className={styles.submitButton}
               disabled={!isValid || isSubmitting}
             >
-              {isSubmitting ? "Signing up..." : "Sign Up"}
+              {isSubmitting ? 'Signing up...' : 'Sign Up'}
             </Button>
           </Form>
 
@@ -247,7 +249,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

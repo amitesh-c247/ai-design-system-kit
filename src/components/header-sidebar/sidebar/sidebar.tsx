@@ -116,9 +116,12 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`${styles.sidebar} ${
-          isCollapsed ? styles.collapsed : ''
-        } ${isMobileMenuOpen ? styles.mobileOpen : ''}`}
+        className={`
+          ${styles.sidebar}
+          ${isCollapsed ? styles.collapsed : ''}
+          ${isCollapsed ? 'collapsed-sidebar' : ''}
+          ${isMobileMenuOpen ? styles.mobileOpen : ''}
+        `}
       >
         {/* Logo Section */}
         <div className={styles.logo}>
@@ -146,13 +149,15 @@ const Sidebar = () => {
               }`}
             >
               <span className={styles.icon}>{item.icon}</span>
-              {!isCollapsed && <span className={styles.label}>{item.label}</span>}
+              {!isCollapsed && (
+                <span className={styles.label}>{item.label}</span>
+              )}
             </Link>
           ))}
         </nav>
       </aside>
     </>
-  );
+  )
 };
 
-export default Sidebar; 
+export default Sidebar;

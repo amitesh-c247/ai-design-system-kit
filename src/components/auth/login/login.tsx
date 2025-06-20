@@ -21,7 +21,7 @@ type LoginFormInputs = {
 const Login = () => {
   const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } = useAuth();
   const router = useRouter();
-  
+
   const {
     register,
     handleSubmit,
@@ -34,7 +34,7 @@ const Login = () => {
     },
     mode: 'onChange',
   });
-  
+
   React.useEffect(() => {
     if (!isLoadingUser && isAuthenticated) {
       router.push('/dashboard');
@@ -74,9 +74,7 @@ const Login = () => {
           <p className={styles.subtitle}>Please sign in to continue</p>
 
           {loginError && (
-            <div className={styles.errorMessage}>
-              {loginError.message}
-            </div>
+            <div className={styles.errorMessage}>{loginError.message}</div>
           )}
 
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -89,8 +87,8 @@ const Login = () => {
                   required: 'Email is required',
                   pattern: {
                     value: EMAIL_REGEX,
-                    message: 'Please enter a valid email address'
-                  }
+                    message: 'Please enter a valid email address',
+                  },
                 })}
                 placeholder="Enter your email"
                 disabled={isLoggingIn}
@@ -105,7 +103,7 @@ const Login = () => {
                 id="password"
                 type="password"
                 {...register('password', {
-                  required: 'Password is required'
+                  required: 'Password is required',
                 })}
                 placeholder="Enter your password"
                 disabled={isLoggingIn}
@@ -115,7 +113,7 @@ const Login = () => {
             </FormGroup>
 
             <div className={styles.formFooter}>
-              <label className={styles.rememberMe}>
+              <label className={`cursor-pointer ${styles.rememberMe}`}>
                 <input
                   type="checkbox"
                   {...register('rememberMe')}
@@ -129,9 +127,9 @@ const Login = () => {
               </a>
             </div>
 
-            <Button 
+            <Button
               variant="primary"
-              type="submit" 
+              type="submit"
               className={styles.submitButton}
               disabled={isLoggingIn}
             >
@@ -148,7 +146,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default Login;

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className={styles.pageContainer}>
+    <main>
       <LoginForm />
     </main>
   );

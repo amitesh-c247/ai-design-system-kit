@@ -25,14 +25,17 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={styles.dashboardContainer}>
+    <div className={`dashboard-container ${styles.dashboardContainer}`}>
       <div className={styles.header}>
         <h1>Welcome, {user.data.display_name || 'User'}</h1>
       </div>
       <div className={styles.content}>
         <div className={styles.card}>
           <h2>Dashboard Overview</h2>
-          <p>Welcome to your dashboard. This is where you can manage your account and view important information.</p>
+          <p>
+            Welcome to your dashboard. This is where you can manage your account
+            and view important information.
+          </p>
           <div className={styles.userInfo}>
             <h3>Your Information</h3>
             <p>Email: {user.data.email}</p>
@@ -42,7 +45,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
-export default Dashboard; 
+export default Dashboard;
