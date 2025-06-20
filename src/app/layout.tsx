@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import './globals.css'
-import '../../assets/scss/admin.scss'
 import { Providers } from "./providers";
 import { NextIntlClientProvider } from 'next-intl';
 import { messages } from '@/locales';
+import './globals.css'
+import '../../assets/scss/admin.scss'
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard',

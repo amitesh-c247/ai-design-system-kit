@@ -16,12 +16,12 @@ import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
+import commonStyles from "../../../../assets/scss/admin.module.scss"
 import { Trash2, Pencil } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
 
 type User = UserFormValues & { id: number };
 
-const PAGE_SIZE = 10;
 
 export default function UsersPage() {
   const t = useTranslations("users");
@@ -35,8 +35,11 @@ export default function UsersPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pageFromUrl = Number(searchParams.get("page")) || 1;
-  const [currentPage, setCurrentPage] = useState(pageFromUrl);
-  const { data, isLoading } = useUsersQuery(currentPage, PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const { data, isLoading } = useUsersQuery(currentPage, pageSize);
+
+
   const users = data?.data || [];
   const total = data?.total || 0;
   const { mutateAsync: createUser } = useCreateUserMutation();
@@ -131,26 +134,34 @@ export default function UsersPage() {
   };
 
   return (
-    <div className={styles.usersContainer}>
-      <div className={styles.header}>
-        <h1>{t("title")}</h1>
+    <div className={commonStyles.customCardWrap}>
+      <div className={commonStyles.customCardHeader}>
+        <h4 className="mb-0">{t("title")}</h4>
         <button className={styles.createButton} onClick={handleOpenModal}>
           {t("createUser")}
         </button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={users}
-        rowKey="id"
-        hover
-        pagination={{
-          currentPage,
-          pageSize: PAGE_SIZE,
-          total,
-          onChange: setCurrentPage,
-        }}
-        loading={isLoading}
-      />
+      <div className={commonStyles.customCardBody}>
+        <Table
+          columns={columns}
+          dataSource={users}
+          rowKey="id"
+          hover
+          pagination={{
+            currentPage,
+            pageSize,
+            total,
+            onChange: setCurrentPage,
+            onPageSizeChange: (size) => {
+              setPageSize(size);
+              setCurrentPage(1); 
+            },
+        
+          }}
+          loading={isLoading}
+        />
+      </div>
+      
       <CommonModal
         show={showModal}
         onClose={handleCloseModal}

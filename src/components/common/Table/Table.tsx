@@ -23,6 +23,7 @@ export interface TableProps {
     pageSize: number;
     total: number;
     onChange: (page: number) => void;
+    onPageSizeChange?: (size: number) => void; 
   };
   loading?: boolean;
 }
@@ -42,24 +43,76 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const renderPagination = () => {
     if (!pagination) return null;
-    const { currentPage, pageSize, total, onChange } = pagination;
+  
+    const { currentPage, pageSize, total, onChange, onPageSizeChange } = pagination;
     const totalPages = Math.ceil(total / pageSize);
     if (totalPages <= 1) return null;
+  
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(currentPage * pageSize, total);
+  
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16, alignItems: 'center', gap: 12 }}>
-        <Pagination style={{ marginBottom: 0 }}>
-          <Pagination.Prev onClick={() => onChange(Math.max(1, currentPage - 1))} disabled={currentPage === 1} />
-        </Pagination>
-        <span style={{ minWidth: 32, textAlign: 'center', fontWeight: 500 }}>{currentPage}</span>
-        <Pagination style={{ marginBottom: 0 }}>
-          <Pagination.Next onClick={() => onChange(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages} />
-        </Pagination>
+      <div className='pagination-table-bottom pt-3'>
+        <span style={{ fontWeight: 500 }}>Go to page</span>
+        <input
+          type="number"
+          min={1}
+          max={totalPages}
+          value={currentPage}
+          onChange={(e) => {
+            const page = Math.max(1, Math.min(totalPages, Number(e.target.value)));
+            onChange(page);
+          }}
+          className='form-control'
+        />
+  
+        <span style={{ fontWeight: 500 }}>Per page</span>
+        <select
+          value={pageSize}
+          onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+          className='form-control'
+        >
+          {[10, 25, 50, 100].map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
+          ))}
+        </select>
+  
+        <span style={{ fontWeight: 500 }}>
+          {start} - {end} of {total}
+        </span>
+  
+        <button
+          onClick={() => onChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          style={{
+            backgroundColor: currentPage === 1 ? '#dbeafe' : '#60a5fa',
+            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+          }}
+          className='btn d-flex align-items-center justify-content-center'
+        >
+          &lt;
+        </button>
+  
+        <button
+          onClick={() => onChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          style={{
+            backgroundColor: currentPage === totalPages ? '#dbeafe' : '#60a5fa',
+            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+          }}
+          className='btn d-flex align-items-center justify-content-center'
+        >
+          &gt;
+        </button>
       </div>
     );
   };
+  
 
   return (
-    <div style={{ position: 'relative' }}>
+    <>
       <BootstrapTable
         className={className}
         bordered={bordered}
@@ -107,7 +160,7 @@ const Table: React.FC<TableProps> = ({
         </div>
       )}
       {renderPagination()}
-    </div>
+    </>
   );
 };
 

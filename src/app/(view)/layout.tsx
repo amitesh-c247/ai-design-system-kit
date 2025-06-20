@@ -17,7 +17,7 @@ export default function ViewLayout({
       <Sidebar />
       <div className="main-content">
         <Header />
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="dashboard-container flex-1 p-6 overflow-auto">
           {children}
         </main>
       </div>

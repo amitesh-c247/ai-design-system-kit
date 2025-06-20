@@ -27,7 +27,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`dashboard-container ${styles.dashboardContainer}`}>
+    <div className={`${styles.dashboardContainer}`}>
       <div className={styles.header}>
         <h1>{t('welcome', { name: user.data.display_name || 'User' })}</h1>
       </div>
