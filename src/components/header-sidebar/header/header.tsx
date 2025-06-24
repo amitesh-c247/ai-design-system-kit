@@ -5,12 +5,14 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon, User, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import styles from './styles.module.scss';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
   const { logout, user } = useAuth();
+  const router = useRouter();
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -41,7 +43,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.rightSection}>
-          <button 
+          <button
             className={styles.themeToggle}
             onClick={toggleTheme}
             aria-label="Toggle theme"
@@ -57,19 +59,32 @@ const Header = () => {
               <div className={styles.avatar}>
                 <User size={24} />
               </div>
-              <span className={styles.userName}>{user?.data?.display_name || 'User'}</span>
+              <span className={styles.userName}>
+                {user?.data?.display_name || 'User'}
+              </span>
             </button>
 
             {isDropdownOpen && (
               <div className={styles.dropdown}>
                 <div className={styles.dropdownHeader}>
                   <div className={styles.userInfo}>
-                    <span className={styles.name}>{user?.data?.display_name || 'User'}</span>
+                    <span className={styles.name}>
+                      {user?.data?.display_name || 'User'}
+                    </span>
                     <span className={styles.email}>{user?.data?.email}</span>
-
                   </div>
                 </div>
                 <div className={styles.dropdownDivider} />
+                <button
+                  onClick={() => {
+                    router.push('/profile')
+                    setIsDropdownOpen(false)
+                  }}
+                  className={styles.dropdownItem}
+                >
+                  <User size={16} />
+                  <span>Profile</span>
+                </button>
                 <button onClick={handleLogout} className={styles.dropdownItem}>
                   <LogOut size={16} />
                   <span>Logout</span>
@@ -80,7 +95,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
+  )
 };
 
-export default Header; 
+export default Header;

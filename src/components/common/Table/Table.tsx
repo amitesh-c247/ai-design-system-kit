@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table as BootstrapTable, Pagination, Spinner } from 'react-bootstrap';
+import TableSkeleton from './TableSkeleton';
 
 export interface Column {
   dataIndex: string;
@@ -23,7 +24,7 @@ export interface TableProps {
     pageSize: number;
     total: number;
     onChange: (page: number) => void;
-    onPageSizeChange?: (size: number) => void; 
+    onPageSizeChange?: (size: number) => void;
   };
   loading?: boolean;
 }
@@ -43,14 +44,14 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const renderPagination = () => {
     if (!pagination) return null;
-  
+
     const { currentPage, pageSize, total, onChange, onPageSizeChange } = pagination;
     const totalPages = Math.ceil(total / pageSize);
     if (totalPages <= 1) return null;
-  
+
     const start = (currentPage - 1) * pageSize + 1;
     const end = Math.min(currentPage * pageSize, total);
-  
+
     return (
       <div className='pagination-table-bottom pt-3'>
         <span style={{ fontWeight: 500 }}>Go to page</span>
@@ -65,7 +66,7 @@ const Table: React.FC<TableProps> = ({
           }}
           className='form-control'
         />
-  
+
         <span style={{ fontWeight: 500 }}>Per page</span>
         <select
           value={pageSize}
@@ -78,11 +79,11 @@ const Table: React.FC<TableProps> = ({
             </option>
           ))}
         </select>
-  
+
         <span style={{ fontWeight: 500 }}>
           {start} - {end} of {total}
         </span>
-  
+
         <button
           onClick={() => onChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -94,7 +95,7 @@ const Table: React.FC<TableProps> = ({
         >
           &lt;
         </button>
-  
+
         <button
           onClick={() => onChange(currentPage + 1)}
           disabled={currentPage === totalPages}
@@ -109,7 +110,7 @@ const Table: React.FC<TableProps> = ({
       </div>
     );
   };
-  
+
 
   return (
     <>
@@ -130,38 +131,28 @@ const Table: React.FC<TableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {dataSource.map((record) => (
-            <tr key={record[rowKey]}>
-              {columns.map((column) => (
-                <td key={`${record[rowKey]}-${column.dataIndex}`}>
-                  {column.render
-                    ? column.render(record[column.dataIndex], record)
-                    : record[column.dataIndex]}
-                </td>
+          {loading && dataSource.length === 0 ? (
+            <TableSkeleton columns={columns.length} rows={8} />
+          ) : (
+            <>
+              {dataSource.map((record) => (
+                <tr key={record[rowKey]}>
+                  {columns.map((column) => (
+                    <td key={`${record[rowKey]}-${column.dataIndex}`}>
+                      {column.render
+                        ? column.render(record[column.dataIndex], record)
+                        : record[column.dataIndex]}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
+            </>
+          )}
         </tbody>
       </BootstrapTable>
-      {loading && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'rgba(255,255,255,0.6)',
-          zIndex: 2,
-        }}>
-          <Spinner animation="border" variant="primary" />
-        </div>
-      )}
       {renderPagination()}
     </>
-  );
+  )
 };
 
-export default Table; 
+export default Table;

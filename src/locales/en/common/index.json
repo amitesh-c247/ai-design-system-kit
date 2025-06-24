@@ -35,5 +35,24 @@
     "password": {
       "required": "Password is required"
     }
+  },
+  "profile": {
+    "editProfile": "Edit Your Profile",
+    "profileImage": "Profile Image",
+    "uploadPhoto": "Upload new profile photo",
+    "removePhoto": "Remove",
+    "photoHelp": "Choose image in JPEG, JPG, PNG format and max size up to 5MB.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "jobTitle": "Job Title",
+    "email": "Email",
+    "required": "(Required)",
+    "profileInfo": "Profile Information",
+    "passwordAnd2fa": "Password & Two-step Authentication",
+    "editPassword": "Edit Password",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "phone": "Phone Number SMS",
+    "save": "Save Profile"
   }
-} 
+}

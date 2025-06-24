@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import commonStyles from "../../../../assets/scss/admin.module.scss"
 import { Trash2, Pencil } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
+import CardWrapper from '@/components/common/CardWrapper';
 
 type User = UserFormValues & { id: number };
 
@@ -134,33 +135,29 @@ export default function UsersPage() {
   };
 
   return (
-    <div className={commonStyles.customCardWrap}>
-      <div className={commonStyles.customCardHeader}>
-        <h4 className="mb-0">{t("title")}</h4>
-        <button className={styles.createButton} onClick={handleOpenModal}>
-          {t("createUser")}
-        </button>
-      </div>
-      <div className={commonStyles.customCardBody}>
-        <Table
-          columns={columns}
-          dataSource={users}
-          rowKey="id"
-          hover
-          pagination={{
-            currentPage,
-            pageSize,
-            total,
-            onChange: setCurrentPage,
-            onPageSizeChange: (size) => {
-              setPageSize(size);
-              setCurrentPage(1); 
-            },
-        
-          }}
-          loading={isLoading}
-        />
-      </div>
+    <CardWrapper
+      title={t("title")}
+      onCreate={handleOpenModal}
+      createButtonText={t("createUser")}
+    >
+      <Table
+        columns={columns}
+        dataSource={users}
+        rowKey="id"
+        hover
+        pagination={{
+          currentPage,
+          pageSize,
+          total,
+          onChange: setCurrentPage,
+          onPageSizeChange: (size) => {
+            setPageSize(size);
+            setCurrentPage(1); 
+          },
+      
+        }}
+        loading={isLoading}
+      />
       
       <CommonModal
         show={showModal}
@@ -192,6 +189,6 @@ export default function UsersPage() {
           </Toast.Body>
         </Toast>
       </ToastContainer>
-    </div>
+    </CardWrapper>
   );
 }

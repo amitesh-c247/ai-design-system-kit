@@ -16,6 +16,14 @@ button:disabled {
   }
 }
 
+.form-control {
+  height: 50px;
+}
+
+.btn {
+  padding: 12px;
+}
+
 form {
   .form-control.is-invalid,
   .was-validated .form-control:invalid {
@@ -23,7 +31,6 @@ form {
   }
 }
 
-// Table Styles
 .table {
   tr {
     th,
