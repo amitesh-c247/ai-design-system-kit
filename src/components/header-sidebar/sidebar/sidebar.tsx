@@ -53,6 +53,12 @@ const menuItems: MenuItem[] = [
     icon: <HelpCircle size={20} />,
     path: '/support',
   },
+  {
+    id: 'faq',
+    label: 'FAQ',
+    icon: <HelpCircle size={20} />,
+    path: '/faq',
+  },
 ];
 
 const Sidebar = () => {

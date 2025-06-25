@@ -16,8 +16,12 @@ button:disabled {
   }
 }
 
-.form-control {
+.form-control, .form-select {
   height: 50px;
+}
+
+textarea.form-control {
+  height: auto;
 }
 
 .btn {
