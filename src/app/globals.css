@@ -1,4 +1,5 @@
 :root {
+    --white: #ffffff;
     --background: #ffffff;
     --foreground: #171717;
     --card: #ffffff;
@@ -22,6 +23,7 @@
     --bg-dark: #f1f5f9;
     --surface-dark: #ffffff;
     --light-gray: #f2f4f6;
+    --success: #22c55e;
 }
 
 .dark {
@@ -48,6 +50,7 @@
     --surface-dark: #1e293b;
     --bs-table-bg: #1e293b;
     --light-gray: #0f172a;
+    --success: #22c55e;
 }
 
 * {
