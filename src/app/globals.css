@@ -22,9 +22,14 @@
     --bg-dark: #f1f5f9;
     --surface-dark: #ffffff;
     --light-gray: #f2f4f6;
+    --color-title-light: #1e293b;
+    --color-description-light: #3b3b3b;
+    --card-title: #ffffff;
 }
 
 .dark {
+    --color-title-light: #d1d5db;
+    --color-description-light: #94a3b8;
     --background: #171717;
     --foreground: #ffffff;
     --card: #171717;
@@ -48,6 +53,7 @@
     --surface-dark: #1e293b;
     --bs-table-bg: #1e293b;
     --light-gray: #0f172a;
+    --card-title: #1e293b;
 }
 
 * {
