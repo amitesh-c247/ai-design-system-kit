@@ -7,11 +7,12 @@ export interface TextAreaProps extends Omit<FormControlProps, 'size'> {
   isValid?: boolean;
   isInvalid?: boolean;
   feedback?: string;
+  rows?: number;
   feedbackType?: 'valid' | 'invalid';
 }
 
 const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, isValid, isInvalid, feedback, feedbackType = 'invalid', ...props }, ref) => {
+  ({ className, isValid, isInvalid, feedback, rows,  feedbackType = 'invalid', ...props }, ref) => {
     return (
       <>
         <Form.Control
@@ -20,6 +21,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
           className={classnames(styles.input, className)}
           isValid={isValid}
           isInvalid={isInvalid}
+          rows={rows || 3}
           {...props}
         />
         {feedback && (

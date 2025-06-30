@@ -1,4 +1,4 @@
-@use "./variables" as *;
+@use './variables' as *;
 button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
@@ -16,8 +16,16 @@ button:disabled {
   }
 }
 
-.form-control {
+.form-control,
+.form-select {
   height: 50px;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+textarea.form-control {
+  height: auto;
 }
 
 .btn {
@@ -125,5 +133,40 @@ form {
     background-color: var(--surface-dark);
     border-color: var(--border);
     color: var(--accent-foreground);
+  }
+}
+.custom-card {
+  background-color: var(--surface-dark);
+  border: 0;
+  border-radius: 10px;
+  flex-direction: column;
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 0;
+  display: flex;
+  position: relative;
+  box-shadow: -4px -4px 19px #4444440d;
+  padding: 30px;
+  border: 1px solid var(--border);
+}
+.min-vh-100vh-260 {
+  min-height: calc(100vh - 260px);
+}
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  &:hover {
+    background-color: var(--primary-foreground);
+    border-color: var(--primary-foreground);
+  }
+}
+.btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  &:hover {
+    background-color: var(--primary-foreground);
+    border-color: var(--primary-foreground);
+    border: 1px solid var(--primary-foreground);
   }
 }
