@@ -10,6 +10,7 @@ import { Form, FormGroup, FormLabel } from "@/components/common/Form";
 import { faqService, type Faq as FaqType } from '@/services/faq';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Button from '@/components/common/Button'
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
@@ -200,21 +201,12 @@ const FaqComponent: React.FC = () => {
               justifyContent: 'flex-end',
             }}
           >
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleCloseModal}
-              disabled={submitting}
-            >
+            <Button variant="secondary" type="submit">
               {tCommon('actions.cancel', { default: tFaq('cancel') })}
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={submitting}
-            >
+            </Button>
+            <Button variant="primary" type="submit">
               {editingId ? tFaq('update') : tFaq('save')}
-            </button>
+            </Button>
           </div>
         </Form>
       </Modal>
