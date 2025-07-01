@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import LogoIcon from '@/assets/images/logo-icon.svg';
 import {
   LayoutDashboard,
   Users,
@@ -52,6 +54,12 @@ const menuItems: MenuItem[] = [
     label: 'Support',
     icon: <HelpCircle size={20} />,
     path: '/support',
+  },
+  {
+    id: 'faq',
+    label: 'FAQ',
+    icon: <HelpCircle size={20} />,
+    path: '/faq',
   },
 ];
 
@@ -125,8 +133,14 @@ const Sidebar = () => {
       >
         {/* Logo Section */}
         <div className={styles.logo}>
-          <h1>Admin</h1>
-          {!isCollapsed && <span>Dashboard</span>}
+          <Image
+            src={LogoIcon}
+            alt="Logo"
+            width={40}
+            height={40}
+            className={styles.logoImage}
+          />
+          {!isCollapsed && <span>Frontend</span>}
         </div>
 
         {/* Toggle Button */}

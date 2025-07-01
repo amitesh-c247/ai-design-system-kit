@@ -16,25 +16,17 @@ const SwitchButton: React.FC<SwitchButtonProps> = ({
   label,
 }) => (
   <div className={styles.switchGroup} id={id}>
-    {label && <div className={styles.switchLabel}>{label}</div>}
-    <div className={styles.switchButtonWrapper}>
-      <Button
-        variant={checked ? 'primary' : 'outline-primary'}
-        className={`${styles.switchBtn} ${checked ? styles.active : ''}`}
-        onClick={() => onChange(true)}
-        size="sm"
-      >
-        YES
-      </Button>
-      <Button
-        variant={!checked ? 'primary' : 'outline-primary'}
-        className={`${styles.switchBtn} ${!checked ? styles.active : ''}`}
-        onClick={() => onChange(false)}
-        size="sm"
-      >
-        NO
-      </Button>
-    </div>
+    {label && <span className={styles.switchLabel}>{label}</span>}
+    <Button
+      variant="light"
+      className={`${styles.toggleSwitch} ${checked ? styles.on : styles.off}`}
+      onClick={() => onChange(!checked)}
+      aria-pressed={checked}
+      size="sm"
+    >
+      <span className={styles.slider} />
+      <span className={styles.toggleText}>{checked ? 'YES' : 'NO'}</span>
+    </Button>
   </div>
 )
 
