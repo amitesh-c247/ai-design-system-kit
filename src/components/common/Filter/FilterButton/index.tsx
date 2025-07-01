@@ -24,7 +24,7 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
         </span>
       );
       if (labelCount === 0) {
-        const title = formatMessage({ id: 'generic.filter.all' }, { label: labelBase });
+        const title = formatMessage({ id: 'common.generic.filter.all' }, { label: labelBase });
         return { title, name: title };
       }
       if (labelCount === 1) {
@@ -32,13 +32,13 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
       }
       return {
         title: formatMessage(
-          { id: 'generic.filter.appliedCount' },
+          { id: 'common.generic.filter.appliedCount' },
           { label: labelName, count: labelCount - 1 }
         ),
         name: getLabelName(
           labelName,
           formatMessage(
-            { id: 'generic.filter.plusCount' },
+            { id: 'common.generic.filter.plusCount' },
             { count: labelCount - 1 }
           )
         ),

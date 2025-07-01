@@ -54,5 +54,12 @@
     "confirmPassword": "Confirm Password",
     "phone": "Phone Number SMS",
     "save": "Save Profile"
+  },
+  "generic": {
+    "filter": {
+      "all": "All {label}",
+      "appliedCount": "{label} (+{count} more)",
+      "plusCount": "+{count}"
+    }
   }
 }

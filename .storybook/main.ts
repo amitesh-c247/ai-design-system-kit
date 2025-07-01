@@ -3,7 +3,6 @@ import path from "path";
 
 const config: StorybookConfig = {
   "stories": [
-    "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   "addons": [
@@ -19,6 +18,14 @@ const config: StorybookConfig = {
   "staticDirs": [
     "../public"
   ],
+  "typescript": {
+    "check": false,
+    "reactDocgen": "react-docgen-typescript",
+    "reactDocgenTypescriptOptions": {
+      "shouldExtractLiteralValuesFromEnum": true,
+      "propFilter": (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    },
+  },
   "webpackFinal": async (config) => {
     // Add path alias for @/
     config.resolve = config.resolve || {};
