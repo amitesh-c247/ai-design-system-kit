@@ -1,0 +1,40 @@
+{
+  "title": "CMS",
+  "slug": "Slug",
+  "lastModified": "Last Modified",
+  "status": "Status",
+  "actions": "Actions",
+  "edit": "Edit",
+  "delete": "Delete",
+  "createCms": "Create Page",
+  "editCms": "Edit Page",
+  "createNewCms": "Create a New Page",
+  "form": {
+    "titleRequired": "Page title is required.",
+    "contentRequired": "Content is required.",
+    "statusRequired": "Status is required.",
+    "contentTypeRequired": "Content type is required."
+  },
+  "pageTitle":"Page Name/Title",
+  "content": "Content",
+  "contentType": "Page Type",
+  "contentTypeOptions": {
+    "text": "Text",
+    "link": "Link"
+  },
+  "isAgreement": "Use this page as an agreement page?",
+  "openInNewTab": "Launch this page in a new browser tab?",
+  "statusOptions": {
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "messages": {
+    "cmsCreated": "Page created successfully!",
+    "cmsUpdated": "Page updated successfully!",
+    "cmsDeleted": "Page deleted successfully!",
+    "error": "An error occurred."
+  },
+  "cancel": "Cancel",
+  "save": "Save",
+  "confirmDelete": "Are you sure you want to delete this page?"
+} 

@@ -2,7 +2,7 @@ import common from './en/common/index.json';
 import auth from './en/auth/index.json';
 import dashboard from './en/dashboard/index.json';
 import users from './en/users/index.json';
-
+import cms from './en/cms.json';
 
 export const messages = {
   en: {
@@ -10,6 +10,7 @@ export const messages = {
     auth,
     dashboard,
     users,
+    cms,
   }
 };
 

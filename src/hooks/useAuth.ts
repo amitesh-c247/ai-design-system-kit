@@ -42,7 +42,6 @@ export const useAuth = () => {
 
   // Check if user is authenticated
   const isAuthenticated = authService.isAuthenticated();
-  console.log('Auth state:', { user, isLoadingUser, isAuthenticated });
 
   return {
     user,
