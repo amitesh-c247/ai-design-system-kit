@@ -1,29 +1,25 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import classnames from 'classnames';
-import { Link as RouterLink, To } from 'react-router-dom';
+import NextLink from 'next/link';
 import styles from './styles.module.scss';
 
 export interface LinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
-  to: string | To;
+  href: string;
   variant?: 'tertiary' | 'standalone' | 'inline' | 'inlineIcon' | 'button';
   emphasized?: boolean;
   icon?: React.ReactElement;
   iconPosition?: 'start' | 'end';
   openExternalLinkInNewTab?: boolean;
-  state?: Record<string, any>;
   isDisabled?: boolean;
 }
 
-const isUrl = (path: string | To): boolean => {
-  if (typeof path === 'string') {
-    return path.startsWith('http://') || path.startsWith('https://');
-  }
-  return false;
+const isUrl = (path: string): boolean => {
+  return path.startsWith('http://') || path.startsWith('https://');
 };
 
 const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
-  to,
+  href,
   icon,
   title,
   className,
@@ -33,22 +29,10 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
   iconPosition = 'start',
   children,
   openExternalLinkInNewTab,
-  state,
   isDisabled,
   ...props
 }) => {
-  const isExternalLink = isUrl(to);
-  const LinkComponent = isExternalLink ? 'a' : RouterLink;
-  const linkProps = isExternalLink
-    ? {
-        href: to as string,
-        target: openExternalLinkInNewTab ? '_blank' : undefined,
-        rel: openExternalLinkInNewTab ? 'noopener noreferrer' : undefined,
-      }
-    : {
-        to,
-        state,
-      };
+  const isExternalLink = isUrl(href);
 
   const linkContent = (
     <>
@@ -58,45 +42,75 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
     </>
   );
 
+  const linkClassName = classnames(className, styles.link, {
+    [styles.tertiary]: variant === 'tertiary',
+    [styles.emphasized]: emphasized,
+    [styles.standalone]: variant === 'standalone',
+    [styles.inline]: variant === 'inline',
+    [styles.inlineIcon]: variant === 'inlineIcon',
+    [styles.disabled]: isDisabled,
+  });
+
   if (variant === 'button') {
+    if (isExternalLink) {
+      return (
+        <Button
+          as="a"
+          href={href}
+          target={openExternalLinkInNewTab ? '_blank' : undefined}
+          rel={openExternalLinkInNewTab ? 'noopener noreferrer' : undefined}
+          disabled={isDisabled}
+          className={linkClassName}
+          onClick={onClick as any}
+        >
+          {linkContent}
+        </Button>
+      );
+    }
+
     return (
-      <Button
-        as={LinkComponent}
-        {...linkProps}
+      <NextLink href={href} passHref legacyBehavior>
+        <Button
+          as="a"
+          disabled={isDisabled}
+          className={linkClassName}
+          onClick={onClick as any}
+        >
+          {linkContent}
+        </Button>
+      </NextLink>
+    );
+  }
+
+  if (isExternalLink) {
+    return (
+      <a
+        href={href}
+        target={openExternalLinkInNewTab ? '_blank' : undefined}
+        rel={openExternalLinkInNewTab ? 'noopener noreferrer' : undefined}
         title={title}
-        disabled={isDisabled}
-        className={classnames(className, styles.link)}
-        onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
+        className={linkClassName}
+        onClick={onClick}
+        aria-disabled={isDisabled}
         {...props}
       >
         {linkContent}
-      </Button>
+      </a>
     );
   }
 
   return (
-    <LinkComponent
-      {...linkProps}
-      title={title}
-      aria-disabled={isDisabled}
-      className={classnames(className, styles.link, {
-        [styles.tertiary]: variant === 'tertiary',
-        [styles.emphasized]: emphasized,
-        [styles.standalone]: variant === 'standalone',
-        [styles.inline]: variant === 'inline',
-        [styles.inlineIcon]: variant === 'inlineIcon',
-        [styles.disabled]: isDisabled,
-      })}
-      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (onClick) {
-          e.preventDefault();
-          onClick(e);
-        }
-      }}
-      {...props}
-    >
-      {linkContent}
-    </LinkComponent>
+    <NextLink href={href} passHref legacyBehavior>
+      <a
+        title={title}
+        className={linkClassName}
+        onClick={onClick}
+        aria-disabled={isDisabled}
+        {...props}
+      >
+        {linkContent}
+      </a>
+    </NextLink>
   );
 };
 
