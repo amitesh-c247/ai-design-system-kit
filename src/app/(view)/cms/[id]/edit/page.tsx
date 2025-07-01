@@ -3,7 +3,7 @@
 import React from "react";
 import CmsForm from "@/components/common/CmsForm";
 import type { CmsFormValues } from "@/components/common/CmsForm";
-import { useUpdateCmsMutation, useCmsPageQuery } from "@/hooks/useCmsCrud";
+import { useUpdateCmsMutation, useCmsPageQuery } from "@/hooks/cms";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CardWrapper from '@/components/common/CardWrapper';

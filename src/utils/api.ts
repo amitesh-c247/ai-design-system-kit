@@ -29,7 +29,6 @@ const handleApiError = async (response: Response): Promise<never> => {
 // Helper to get auth token
 const getAuthToken = (): string | null => {
   const authData = cookieService.get<{ token: { token: string, expire: string } }>('auth_token');
-  console.log('Getting auth token:', authData);
   return authData?.token?.token || null;
 };
 
@@ -49,14 +48,12 @@ export const api = {
   // GET request
   get: async <T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> => {
     const token = getAuthToken();
-    console.log('Token for GET request:', token);
     
     const headers = {
       'Content-Type': 'application/json',
       ...(token && { Authorization: token }),
       ...options.headers,
     };
-    console.log('Request headers:', headers);
 
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
@@ -84,15 +81,12 @@ export const api = {
       ...(token && { Authorization: token }),
       ...options.headers,
     };
-    console.log('Request headers:', headers);
-
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       method: 'POST',
       headers,
       body: JSON.stringify(body),
     });
-
     if (!response.ok) {
       return handleApiError(response);
     }

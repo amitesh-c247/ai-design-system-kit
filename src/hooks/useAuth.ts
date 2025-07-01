@@ -10,7 +10,6 @@ export const useAuth = () => {
   const login = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
     onSuccess: (data) => {
-      console.log('Login success:', data);
       queryClient.invalidateQueries({ queryKey: ['user'] });
       router.replace('/dashboard');
     },

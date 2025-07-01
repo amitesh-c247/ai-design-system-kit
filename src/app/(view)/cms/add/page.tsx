@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import CmsForm from "@/components/common/CmsForm";
 import type { CmsFormValues } from "@/components/common/CmsForm";
-import { useCreateCmsMutation, useUpdateCmsMutation } from "@/hooks/useCmsCrud";
+import { useCreateCmsMutation, useUpdateCmsMutation } from "@/hooks/cms";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CardWrapper from '@/components/common/CardWrapper';
@@ -34,11 +34,12 @@ export default function CmsAddPage() {
       if (id && defaultValues) {
         await updateCms({ id: Number(id), data });
         setToast({ show: true, message: t('messages.cmsUpdated'), variant: 'success' });
+        router.push('/cms')
       } else {
-        await createCms({ ...data, _method: "post" });
+        await createCms(data);
         setToast({ show: true, message: t('messages.cmsCreated'), variant: 'success' });
+        router.push('/cms')
       }
-      setTimeout(() => router.push('/cms'), 1000);
     } catch (err: any) {
       setToast({ show: true, message: err?.message || t('messages.error'), variant: 'danger' });
     }

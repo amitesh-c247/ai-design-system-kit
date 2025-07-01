@@ -25,8 +25,9 @@ export function useCmsPageQuery(slug: string) {
 
 export function useCreateCmsMutation() {
   const queryClient = useQueryClient();
+  
   return useMutation({
-    mutationFn: (payload: any) => api.post('/page', payload),
+    mutationFn: (payload: any) => api.post('page', payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cms'] });
     },
