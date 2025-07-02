@@ -24,9 +24,6 @@ const ForgotPassword = () => {
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordInputs> = async (data) => {
-    // Placeholder for forget password logic
-    // eslint-disable-next-line no-console
-    console.log("Forget password email:", data.email);
     setSubmitted(true);
   };
 

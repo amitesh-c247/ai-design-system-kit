@@ -11,6 +11,12 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.30.8",
+    "@editorjs/header": "^2.8.8",
+    "@editorjs/image": "^2.10.2",
+    "@editorjs/list": "^2.0.8",
+    "@editorjs/paragraph": "^2.11.7",
+    "@editorjs/quote": "^2.7.6",
     "@hookform/resolvers": "^3.3.4",
     "@popperjs/core": "^2.11.8",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -30,6 +36,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.3.1",
+    "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.344.0",
     "next": "^15.3.3",

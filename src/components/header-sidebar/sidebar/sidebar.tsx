@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Menu,
+  Book,
 } from 'lucide-react';
 import styles from './styles.module.scss';
 
@@ -42,6 +43,12 @@ const menuItems: MenuItem[] = [
     label: 'Reports',
     icon: <BarChart2 size={20} />,
     path: '/reports',
+  },
+  {
+    id: 'cms',
+    label: 'CMS',
+    icon: <Book size={20} />,
+    path: '/cms',
   },
   {
     id: 'settings',

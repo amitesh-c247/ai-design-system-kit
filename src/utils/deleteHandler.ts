@@ -25,6 +25,7 @@ export async function handleDeleteAction({
     title: confirmTitle || t("confirmDelete"),
     confirmButtonText: confirmButtonText || t("delete"),
     cancelButtonText: cancelButtonText || t("cancel"),
+    icon: 'error',
   });
   if (!confirmed) return;
   try {
