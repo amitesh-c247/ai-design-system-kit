@@ -66,11 +66,9 @@ const Signup = () => {
     // Placeholder for signup logic
     // await signup(data);
     // For now, just log and redirect
-    // eslint-disable-next-line no-console
-    console.log("Signup form values:", data);
-    alert("Signup successful! (Check console for values)");
-    router.push("/login");
-  };
+    alert('Signup successful! (Check console for values)')
+    router.push('/login')
+  }
 
   return (
     <div className={styles.loginContainer}>

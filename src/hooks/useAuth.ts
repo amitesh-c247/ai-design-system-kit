@@ -10,7 +10,6 @@ export const useAuth = () => {
   const login = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
     onSuccess: (data) => {
-      console.log('Login success:', data);
       queryClient.invalidateQueries({ queryKey: ['user'] });
       router.replace('/dashboard');
     },
@@ -42,7 +41,6 @@ export const useAuth = () => {
 
   // Check if user is authenticated
   const isAuthenticated = authService.isAuthenticated();
-  console.log('Auth state:', { user, isLoadingUser, isAuthenticated });
 
   return {
     user,

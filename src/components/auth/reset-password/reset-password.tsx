@@ -31,9 +31,6 @@ const ResetPassword = () => {
   const password = watch("password");
 
   const onSubmit: SubmitHandler<ResetPasswordInputs> = async (data) => {
-    // Placeholder for reset password logic
-    // eslint-disable-next-line no-console
-    console.log("Reset password values:", data);
     setSubmitted(true);
   };
 

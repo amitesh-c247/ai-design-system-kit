@@ -29,7 +29,6 @@ export const authService = {
   // Login function
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     try {
-      console.log('Login attempt with credentials:', { ...credentials, password: '***' });
       const response = await api.post<AuthResponse>('login', credentials);
       const { user, token } = response.data;
 
@@ -49,10 +48,6 @@ export const authService = {
         sameSite: 'strict'
       });
 
-      // Verify token was stored
-      const storedToken = cookieService.get<string>('auth_token');
-      console.log('Stored token:', storedToken);
-      
       return response.data;
     } catch (error) {
       console.error('Login error:', error);
@@ -75,7 +70,6 @@ export const authService = {
   getCurrentUser: async (): Promise<AuthResponse['user']> => {
     try {
       const token = cookieService.get<string>('auth_token');
-      console.log('Token for me API:', token);
       
       if (!token) {
         throw new Error('No token found');
