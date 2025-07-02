@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Form, FormGroup, FormLabel } from '@/components/common/Form';
 import Input from '@/components/common/Form/Input';
 import Button from '@/components/common/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 import ImageWithFallback from '@/components/common/ImageWithFallback';
 import styles from '../auth.module.scss';
 import { useRouter } from 'next/navigation';

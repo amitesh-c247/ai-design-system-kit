@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import styles from './styles.module.scss';

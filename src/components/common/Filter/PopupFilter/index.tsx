@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { Popover, Button, Stack } from 'react-bootstrap';
+import { Popover, Button, Stack, OverlayTrigger } from 'react-bootstrap';
 import FilterButton from '../FilterButton';
 import styles from './styles.module.scss';
 
@@ -30,7 +30,7 @@ const PopupFilter: React.FC<PopupFilterProps> = ({
 
   const hideAndApply = () => {
     setIsPopupVisible(false);
-    onApply();
+    onApply?.();
   };
 
   const hideAndClear = () => {
@@ -38,14 +38,8 @@ const PopupFilter: React.FC<PopupFilterProps> = ({
     onClear();
   };
 
-  return (
-    <Popover
-      trigger="click"
-      placement="bottom"
-      show={isPopupVisible}
-      onToggle={(nextShow) => setIsPopupVisible(nextShow)}
-      className={styles.popover}
-    >
+  const popover = (
+    <Popover id="popup-filter" className={styles.popover}>
       <Popover.Body>
         <div className={styles.content}>{children}</div>
         <div className={styles.footer}>
@@ -62,6 +56,23 @@ const PopupFilter: React.FC<PopupFilterProps> = ({
         </div>
       </Popover.Body>
     </Popover>
+  );
+
+  return (
+    <OverlayTrigger
+      trigger="click"
+      placement="bottom"
+      show={isPopupVisible}
+      onToggle={setIsPopupVisible}
+      overlay={popover}
+    >
+      <FilterButton
+        labelCount={labelCount}
+        labelName={labelName}
+        labelBase={label}
+        active={active}
+      />
+    </OverlayTrigger>
   );
 };
 

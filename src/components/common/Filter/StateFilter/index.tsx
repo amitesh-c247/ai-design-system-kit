@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useFormatMessage } from '@/hooks/useFormatMessage';
+import { useFormatMessage } from '@/hooks/formatMessage';
 import { Form } from 'react-bootstrap';
 import capitalize from 'lodash/capitalize';
 import get from 'lodash/get';

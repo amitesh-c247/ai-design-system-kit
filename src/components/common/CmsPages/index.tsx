@@ -7,7 +7,7 @@ import Table from '@/components/common/Table';
 import CardWrapper from '@/components/common/CardWrapper';
 import { handleDeleteAction } from '@/utils/deleteHandler';
 import { Toast, ToastContainer } from 'react-bootstrap';
-import { usePagesQuery, useDeletePageMutation } from '@/hooks/useCmsCrud';
+import { usePagesQuery, useDeletePageMutation } from '@/hooks/cms';
 
 import { type Page } from '@/services/cms';
 import { Pencil, Trash2 } from 'lucide-react';
