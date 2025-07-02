@@ -1,4 +1,4 @@
-import Typography from '@leand/Typography';
+import Typography from '@/components/Typography';
 import { Collapse as AntdCollapse } from 'antd';
 import type {
   CollapsePanelProps as AntdCollapsePanelProps,
@@ -6,7 +6,7 @@ import type {
 } from 'antd/lib/collapse';
 import classnames from 'classnames';
 
-import styles from './styles.module.less';
+import styles from './styles.module.scss';
 
 interface CollapseProps extends AntdCollapseProps {
   className?: string;
@@ -31,7 +31,7 @@ export default Collapse;
 const Panel = ({ header, ...props }: CollapsePanelProps) =>
   AntdCollapse.Panel({
     header: (
-      <Typography variant="body1" title={typeof header === 'string' ? header : undefined}>
+      <Typography variant={undefined} className={typeof header === 'string' ? header : undefined}>
         {header}
       </Typography>
     ),

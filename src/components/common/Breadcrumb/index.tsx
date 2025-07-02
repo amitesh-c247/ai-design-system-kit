@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb as BootstrapBreadcrumb } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import NextLink from 'next/link';
 import styles from './styles.module.scss';
 
 export interface BreadcrumbProps {
@@ -11,6 +11,13 @@ export interface BreadcrumbProps {
   className?: string;
 }
 
+// Custom Link component for breadcrumbs
+const BreadcrumbLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
+  <NextLink href={href} passHref legacyBehavior>
+    <a>{children}</a>
+  </NextLink>
+);
+
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ crumbs, className }) => {
   return (
     <BootstrapBreadcrumb className={`${styles.breadcrumbs} ${className || ''}`}>
@@ -19,8 +26,8 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ crumbs, className }) => {
         return (
           <BootstrapBreadcrumb.Item
             key={`${link}-${title}`}
-            linkAs={isLastBreadcrumb ? 'span' : Link}
-            linkProps={isLastBreadcrumb ? undefined : { to: link }}
+            linkAs={isLastBreadcrumb ? 'span' : BreadcrumbLink}
+            linkProps={isLastBreadcrumb ? undefined : { href: link }}
             active={isLastBreadcrumb}
             className={styles.breadcrumbItem}
           >
