@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Table from '@/components/common/Table';
 import CardWrapper from '@/components/common/CardWrapper';
+import { handleDeleteAction } from '@/utils/deleteHandler';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import { usePagesQuery, useDeletePageMutation } from '@/hooks/useCmsCrud';
 
-import { cmsService, type Page } from '@/services/cms';
+import { type Page } from '@/services/cms';
 import { Pencil, Trash2 } from 'lucide-react';
 import styles from './styles.module.scss';
 
@@ -15,11 +18,11 @@ const CmsPagesComponent: React.FC = () => {
   const tCms = useTranslations('cms');
   const router = useRouter();
   
-  // State management
-  const [pages, setPages] = useState<Page[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  // React Query hooks
+  const { data: pages = [], isLoading: loading, error } = usePagesQuery();
+  const deletePageMutation = useDeletePageMutation();
+  
+  // Local state
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -30,37 +33,14 @@ const CmsPagesComponent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  useEffect(() => {
-    fetchPages();
-  }, []);
 
-  useEffect(() => {
-    if (toast.show) {
-      const timer = setTimeout(() => {
-        setToast(prev => ({ ...prev, show: false }));
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [toast.show]);
 
-  const fetchPages = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await cmsService.getPages();
-      // Sort pages by creation date (newest first)
-      const sortedData = data.sort((a, b) => {
-        if (!a.createdAt) return 1;
-        if (!b.createdAt) return -1;
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      });
-      setPages(sortedData);
-    } catch {
-      setError('Failed to load pages');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Sort pages by creation date (newest first)
+  const sortedPages = [...pages].sort((a: Page, b: Page) => {
+    if (!a.createdAt) return 1;
+    if (!b.createdAt) return -1;
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
 
   const handleOpenAddPage = () => {
     router.push('/cms/add');
@@ -70,24 +50,22 @@ const CmsPagesComponent: React.FC = () => {
     router.push(`/cms/${page.id}/edit`);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this page?')) return;
-    
-    setSubmitting(true);
-    try {
-      await cmsService.deletePage(id);
-      setToast({ show: true, message: 'Page deleted successfully', variant: 'success' });
-      fetchPages();
-    } catch {
-      setToast({ show: true, message: 'Failed to delete page', variant: 'danger' });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const handleDelete = (id: string) =>
+    handleDeleteAction({
+      id,
+      mutation: (id: string | number) => deletePageMutation.mutateAsync(String(id)),
+      t: tCms,
+      setToast,
+      confirmTitle: tCms('confirmDelete'),
+      confirmButtonText: tCms('delete'),
+      cancelButtonText: tCms('cancel'),
+      successMessage: tCms('messages.cmsDeleted'),
+      errorMessage: tCms('messages.errorDeleting'),
+    });
 
   // Pagination logic
-  const total = pages.length;
-  const pagedPages = pages.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const total = sortedPages.length;
+  const pagedPages = sortedPages.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   // Table columns
   const columns = [
@@ -136,7 +114,6 @@ const CmsPagesComponent: React.FC = () => {
             onClick={() => handleDelete(record.id)}
             title="Delete"
             aria-label="Delete"
-            disabled={submitting}
           >
             <Trash2 size={18} />
           </button>
@@ -153,7 +130,7 @@ const CmsPagesComponent: React.FC = () => {
     >
       {error && (
         <div className="alert alert-danger" role="alert">
-          {error}
+          {tCms('messages.errorLoading')}
         </div>
       )}
       
@@ -175,11 +152,11 @@ const CmsPagesComponent: React.FC = () => {
         loading={loading}
       />
 
-      {toast.show && (
-        <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 9999 }}>
-          <div className={`alert alert-${toast.variant}`}>{toast.message}</div>
-        </div>
-      )}
+      <ToastContainer position="top-end" className="p-3" style={{ zIndex: 9999 }}>
+        <Toast bg={toast.variant} onClose={() => setToast({ ...toast, show: false })} show={toast.show} delay={3000} autohide>
+          <Toast.Body style={{ color: toast.variant === "danger" ? "#fff" : undefined }}>{toast.message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </CardWrapper>
   );
 };
