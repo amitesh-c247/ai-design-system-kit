@@ -41,45 +41,63 @@ const ForgotPassword = () => {
             />
           </div>
           <h1 className={styles.title}>Forgot Password</h1>
-          <p className={styles.subtitle}>Enter your email to reset your password</p>
+          <p className={styles.subtitle}>
+            Enter your email to reset your password
+          </p>
 
           {submitted ? (
-            <div className={styles.errorMessage} style={{ background: '#dcfce7', color: '#166534', borderColor: '#bbf7d0' }}>
-              If an account with that email exists, a password reset link has been sent.
+            <div
+              className={styles.errorMessage}
+              style={{
+                background: '#dcfce7',
+                color: '#166534',
+                borderColor: '#bbf7d0',
+              }}
+            >
+              If an account with that email exists, a password reset link has
+              been sent.
             </div>
           ) : (
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormGroup>
-                <FormLabel>Email Address</FormLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: "Please enter a valid email address",
-                    },
-                  })}
-                  placeholder="Enter your email"
-                  isInvalid={!!errors.email}
-                  feedback={errors.email?.message}
-                />
-              </FormGroup>
-              <Button
-                variant="primary"
-                type="submit"
-                className={styles.submitButton}
-                disabled={!isValid || isSubmitting}
-              >
-                {isSubmitting ? "Sending..." : "Send Reset Link"}
-              </Button>
-            </Form>
+            <>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <FormGroup>
+                  <FormLabel>Email Address</FormLabel>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...register('email', {
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^\S+@\S+\.\S+$/,
+                        message: 'Please enter a valid email address',
+                      },
+                    })}
+                    placeholder="Enter your email"
+                    isInvalid={!!errors.email}
+                    feedback={errors.email?.message}
+                  />
+                </FormGroup>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={!isValid || isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                </Button>
+              </Form>
+              <p className={styles.signupText}>
+                Already have an account?{' '}
+                <a href="/login" className={styles.signupLink}>
+                  Sign in
+                </a>
+              </p>
+            </>
           )}
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default ForgotPassword;
