@@ -4,7 +4,7 @@ import dashboard from './en/dashboard/index.json';
 import users from './en/users/index.json';
 import faq from './en/faq/index.json';
 
-import cms from './en/cms.json';
+import cms from './en/cms/index.json';
 
 export const messages = {
   en: {

@@ -1,111 +1,169 @@
 import React, { useEffect, useRef, useState } from 'react';
-import EditorJS from '@editorjs/editorjs';
-import { Controller } from 'react-hook-form';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import ImageTool from '@editorjs/image';
-import Quote from '@editorjs/quote';
-import Paragraph from '@editorjs/paragraph';
 
 interface EditorJSFieldProps {
   name: string;
-  control: any;
   defaultValue?: any;
   isInvalid?: boolean;
   feedback?: string;
-  rules?: any;
-  trigger?: (name: string) => void;
+  onChange?: (data: any) => void;
 }
 
-const EditorJSField: React.FC<EditorJSFieldProps> = ({ name, control, defaultValue, rules, trigger }) => {
-  const holderId = useRef(`editorjs-${name}-${Math.random().toString(36).substr(2, 9)}`);
+const EditorJSField: React.FC<EditorJSFieldProps> = ({ 
+  name, 
+  defaultValue, 
+  isInvalid,
+  feedback,
+  onChange
+}) => {
   const editorRef = useRef<any>(null);
-  const [mounted, setMounted] = useState(false);
-  // Refs to always have latest onChange and trigger
-  const onChangeRef = useRef<(data: any) => void>();
-  const triggerRef = useRef<typeof trigger>();
-  onChangeRef.current = undefined;
-  triggerRef.current = trigger;
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isReady, setIsReady] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const initializingRef = useRef(false);
+  const onChangeRef = useRef(onChange);
+  const userIsTyping = useRef(false);
+  const hasInitializedContent = useRef(false);
+  
+  // Keep onChange ref updated
   useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
+  // Initialize client-side flag
   useEffect(() => {
-    if (mounted && !editorRef.current) {
-      const holderElement = document.getElementById(holderId.current);
-      if (holderElement) {
-        editorRef.current = new EditorJS({
-          holder: holderId.current,
-          data: defaultValue || { blocks: [] },
-          autofocus: true,
-          minHeight: 150,
-          tools: {
-            header: Header,
-            list: List,
-            image: ImageTool,
-            quote: Quote,
-            paragraph: Paragraph,
-          },
-          onChange: async () => {
-            const data = await editorRef.current.save();
-            if (onChangeRef.current) onChangeRef.current(data);
-            if (triggerRef.current) triggerRef.current(name);
-          },
-        });
-      }
-    }
+    setIsClient(true);
     return () => {
-      if (editorRef.current && editorRef.current.destroy) {
+      // Cleanup on unmount
+      if (editorRef.current?.destroy) {
         editorRef.current.destroy();
         editorRef.current = null;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted, defaultValue, name]);
+  }, []);
 
-  // Blur event for validation
+  // Initialize EditorJS
   useEffect(() => {
-    const holder = document.getElementById(holderId.current);
-    if (holder && trigger) {
-      const handleBlur = () => trigger(name);
-      holder.addEventListener('blur', handleBlur, true);
-      return () => holder.removeEventListener('blur', handleBlur, true);
+    if (!isClient || !containerRef.current || initializingRef.current || editorRef.current) {
+      return;
     }
-  }, [trigger, name]);
 
-  // Sync value to EditorJS only if value changes and editor is ready
-  useEffect(() => {
-    if (editorRef.current && control?._formValues) {
-      const value = control._formValues[name];
-      if (value) {
-        editorRef.current.isReady.then(() => {
-          editorRef.current.render(value);
+    initializingRef.current = true;
+
+    const initEditor = async () => {
+      try {
+        // Dynamic import for client-side only
+        const [
+          { default: EditorJS },
+          { default: Header },
+          { default: List },
+          { default: Paragraph }
+        ] = await Promise.all([
+          import('@editorjs/editorjs'),
+          import('@editorjs/header'),
+          import('@editorjs/list'),
+          import('@editorjs/paragraph')
+        ]);
+
+        // Prepare initial data
+        const initialData = defaultValue && defaultValue.blocks 
+          ? defaultValue 
+          : { blocks: [] };
+
+        editorRef.current = new EditorJS({
+          holder: containerRef.current!,
+          data: initialData,
+          placeholder: 'Start writing your content...',
+          tools: {
+            header: Header,
+            list: List,
+            paragraph: Paragraph
+          },
+          onChange: async () => {
+            try {
+              if (editorRef.current && onChangeRef.current) {
+                userIsTyping.current = true;
+                const data = await editorRef.current.save();
+                // Debounce the onChange to prevent rapid updates
+                setTimeout(() => {
+                  if (onChangeRef.current) {
+                    onChangeRef.current(data);
+                  }
+                  // Reset typing flag after a delay
+                  setTimeout(() => {
+                    userIsTyping.current = false;
+                  }, 500);
+                }, 100);
+              }
+            } catch (error) {
+              console.error('Error saving editor data:', error);
+            }
+          },
+          onReady: () => {
+            setIsReady(true);
+            initializingRef.current = false;
+            // If no defaultValue, mark as initialized to prevent future re-renders
+            if (!defaultValue || !defaultValue.blocks || defaultValue.blocks.length === 0) {
+              hasInitializedContent.current = true;
+            }
+          },
         });
+
+      } catch (error) {
+        console.error('Failed to initialize EditorJS:', error);
+        initializingRef.current = false;
       }
+    };
+
+    initEditor();
+  }, [isClient, defaultValue]);
+
+  // Update content only on initial load
+  useEffect(() => {
+    if (isReady && editorRef.current && defaultValue && defaultValue.blocks && !hasInitializedContent.current && !userIsTyping.current) {
+      hasInitializedContent.current = true;
+      editorRef.current.render(defaultValue).catch((error: any) => {
+        console.error('Error rendering editor data:', error);
+      });
     }
-  }, [control, name]);
+  }, [isReady, defaultValue]);
+
+  // Show loading state on server-side
+  if (!isClient) {
+    return (
+      <div style={{ 
+        minHeight: 200, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        backgroundColor: '#f8f9fa',
+        color: '#6c757d',
+        fontSize: '14px'
+      }}>
+        Loading editor...
+      </div>
+    );
+  }
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      defaultValue={defaultValue || { blocks: [] }}
-      rules={rules}
-      render={({ field: { onChange }, fieldState }) => {
-        // Store the latest onChange in a ref for Editor.js to use
-        onChangeRef.current = onChange;
-        return (
-          <div>
-            <div id={holderId.current} style={{ border: fieldState.invalid ? '1px solid #dc3545' : '1px solid #ced4da', borderRadius: 4, minHeight: 150 }} />
-            {fieldState.error?.message && (
-              <div className="invalid-feedback d-block">{fieldState.error.message}</div>
-            )}
-          </div>
-        );
-      }}
-    />
+    <div>
+      <div 
+        ref={containerRef}
+        style={{
+          minHeight: 200,
+          padding: '20px',
+          backgroundColor: '#fff'
+        }}
+      />
+      {isInvalid && feedback && (
+        <div style={{ 
+          color: '#dc3545', 
+          fontSize: '0.875rem', 
+          marginTop: '0.25rem' 
+        }}>
+          {feedback}
+        </div>
+      )}
+    </div>
   );
 };
 

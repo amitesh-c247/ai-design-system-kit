@@ -94,8 +94,21 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 If your project requires environment variables (e.g., API endpoints, secrets), create a `.env.local` file in the root. Example:
 
 ```env
-NEXT_PUBLIC_API_URL=https://api.example.com
+# Main API Configuration
+NEXT_PUBLIC_REST_API_ENDPOINT=http://localhost:3000/api
+
+# MockAPI Configuration (shared for FAQ and CMS)
+# Default: https://6853a9cea2a37a1d6f495380.mockapi.io/api/v1
+NEXT_PUBLIC_MOCKAPI_BASE_URL=https://6853a9cea2a37a1d6f495380.mockapi.io/api/v1
+
+# Security
+NEXT_PUBLIC_TEXT_ENCRYPT_KEY=your-encryption-key
 ```
+
+**Available Environment Variables:**
+- `NEXT_PUBLIC_REST_API_ENDPOINT` - Main API endpoint for general services
+- `NEXT_PUBLIC_MOCKAPI_BASE_URL` - Shared MockAPI base URL for FAQ and CMS (fallback: provided MockAPI URL)
+- `NEXT_PUBLIC_TEXT_ENCRYPT_KEY` - Encryption key for cookies and sensitive data
 
 Check the codebase for any usage of `process.env` to see which variables are required.
 

@@ -74,3 +74,42 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
 }
+
+/* Force EditorJS toolbar to left positioning */
+.ce-toolbar {
+    left: -20px !important;
+    transform: none !important;
+    margin-left: 0 !important;
+}
+
+.ce-toolbar--opened {
+    left: -20px !important;
+}
+
+.ce-toolbar__plus {
+    left: 20px !important;
+    position: absolute !important;
+    transform: none !important;
+    margin: 0 !important;
+}
+
+.ce-toolbar__actions {
+    left: 50px !important;
+    position: absolute !important;
+    transform: none !important;
+}
+
+.ce-block__content {
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Override any centering styles */
+.ce-toolbar[style*="left"] {
+    left: -20px !important;
+}
+
+.ce-toolbar__plus[style*="left"] {
+    left: 20px !important;
+}
+
