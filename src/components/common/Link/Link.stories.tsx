@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Link from './index';
-import { FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa';
+import { ExternalLink as ExternalLinkIcon, ArrowRight } from 'lucide-react';
 
 const meta: Meta<typeof Link> = {
   title: 'Common/Link',
@@ -32,7 +32,7 @@ type Story = StoryObj<typeof Link>;
 
 export const Tertiary: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'tertiary',
     children: 'Tertiary Link',
   },
@@ -40,9 +40,9 @@ export const Tertiary: Story = {
 
 export const TertiaryWithIcon: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'tertiary',
-    icon: <FaArrowRight />,
+    icon: <ArrowRight size={16} />,
     iconPosition: 'end',
     children: 'Tertiary Link with Icon',
   },
@@ -50,7 +50,7 @@ export const TertiaryWithIcon: Story = {
 
 export const Standalone: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'standalone',
     children: 'Standalone Link',
   },
@@ -58,7 +58,7 @@ export const Standalone: Story = {
 
 export const StandaloneEmphasized: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'standalone',
     emphasized: true,
     children: 'Standalone Link Emphasized',
@@ -67,7 +67,7 @@ export const StandaloneEmphasized: Story = {
 
 export const Inline: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'inline',
     children: 'Inline Link',
   },
@@ -75,16 +75,16 @@ export const Inline: Story = {
 
 export const InlineWithIcon: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'inlineIcon',
-    icon: <FaExternalLinkAlt />,
+    icon: <ExternalLinkIcon size={16} />,
     children: 'Inline Link with Icon',
   },
 };
 
 export const Button: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'button',
     children: 'Button Link',
   },
@@ -92,9 +92,9 @@ export const Button: Story = {
 
 export const ButtonWithIcon: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'button',
-    icon: <FaArrowRight />,
+    icon: <ArrowRight size={16} />,
     iconPosition: 'end',
     children: 'Button Link with Icon',
   },
@@ -102,7 +102,7 @@ export const ButtonWithIcon: Story = {
 
 export const Disabled: Story = {
   args: {
-    to: '#',
+    href: '#',
     variant: 'tertiary',
     isDisabled: true,
     children: 'Disabled Link',
@@ -111,9 +111,9 @@ export const Disabled: Story = {
 
 export const ExternalLink: Story = {
   args: {
-    to: 'https://example.com',
+    href: 'https://example.com',
     variant: 'tertiary',
-    icon: <FaExternalLinkAlt />,
+    icon: <ExternalLinkIcon size={16} />,
     iconPosition: 'end',
     openExternalLinkInNewTab: true,
     children: 'External Link',
