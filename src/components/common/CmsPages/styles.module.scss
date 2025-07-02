@@ -1,0 +1,104 @@
+@use '../../../../assets/scss/variables' as *;
+
+.cmsContainer {
+  .statusBadge {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-normal;
+    padding: 0.25rem 0.5rem;
+    border-radius: $border-radius-sm;
+    
+    &.published {
+      background-color: $success;
+      color: $white;
+    }
+    
+    &.draft {
+      background-color: $warning;
+      color: $black;
+    }
+    
+    &.archived {
+      background-color: $secondary;
+      color: $white;
+    }
+  }
+  
+  .slugCode {
+    font-family: monospace;
+    background-color: $gray-100;
+    padding: 0.125rem 0.25rem;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    color: $gray-800;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: $spacer * 0.25;
+    
+    .btn {
+      font-size: $font-size-sm;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+  
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: $spacer * 2;
+    min-height: 200px;
+  }
+  
+  .errorAlert {
+    margin-bottom: $spacer;
+    border-radius: $border-radius;
+  }
+  
+  .modalForm {
+    .formRow {
+      margin-bottom: $spacer;
+    }
+    
+    .formGroup {
+      margin-bottom: $spacer;
+    }
+    
+    .formLabel {
+      font-weight: $font-weight-bold;
+      margin-bottom: $spacer * 0.25;
+    }
+    
+    .formControl {
+      border-radius: $border-radius;
+      border: 1px solid $gray-400;
+      
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+      }
+    }
+    
+    .formText {
+      font-size: $font-size-sm;
+      color: $gray-600;
+      margin-top: $spacer * 0.25;
+    }
+    
+    .urlPreview {
+      font-family: monospace;
+      background-color: $gray-100;
+      padding: 0.25rem 0.5rem;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-sm;
+      color: $gray-700;
+    }
+  }
+  
+  .toastContainer {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1050;
+  }
+} 
