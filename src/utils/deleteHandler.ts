@@ -11,8 +11,8 @@ export async function handleDeleteAction({
   successMessage,
   errorMessage,
 }: {
-  id: number;
-  mutation: (id: number) => Promise<any>;
+  id: number | string;
+  mutation: (id: number | string) => Promise<any>;
   t: (key: string) => string;
   setToast: (toast: { show: boolean; message: string; variant: "success" | "danger" }) => void;
   confirmTitle?: string;

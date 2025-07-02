@@ -1,15 +1,17 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Table from '@/components/common/Table';
 import CardWrapper from '@/components/common/CardWrapper';
 import Modal from '@/components/common/Modal';
-import Toast from '@/components/common/Toast';
 import Input from '@/components/common/Form/Input';
 import TextArea from '@/components/common/Form/Input/TextArea';
 import { Form, FormGroup, FormLabel } from "@/components/common/Form";
-import { faqService, type Faq as FaqType } from '@/services/faq';
+import { type Faq as FaqType } from '@/services/faq';
+import { handleDeleteAction } from '@/utils/deleteHandler';
+import { useFaqsQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from '@/hooks/useFaqCrud';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Toast, ToastContainer } from 'react-bootstrap';
 import Button from '@/components/common/Button'
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
@@ -17,34 +19,26 @@ const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 const FaqComponent: React.FC = () => {
   const tCommon = useTranslations('common');
   const tFaq = useTranslations('faq');
-  const [faqs, setFaqs] = useState<FaqType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  
+  // React Query hooks
+  const { data: faqs = [], isLoading: loading, error } = useFaqsQuery();
+  const createFaqMutation = useCreateFaqMutation();
+  const updateFaqMutation = useUpdateFaqMutation();
+  const deleteFaqMutation = useDeleteFaqMutation();
+  
+  // Local state
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: '', description: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ show: boolean; message: string; variant: 'success' | 'danger' }>({ show: false, message: '', variant: 'success' });
+  
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  useEffect(() => {
-    fetchFaqs();
-  }, []);
+  const submitting = createFaqMutation.isPending || updateFaqMutation.isPending;
 
-  const fetchFaqs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await faqService.getFaqs();
-      setFaqs(data);
-    } catch {
-      setError('Failed to load FAQs');
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const handleOpenModal = () => {
     setForm({ title: '', description: '' });
@@ -58,19 +52,18 @@ const FaqComponent: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this FAQ?')) return;
-    setSubmitting(true);
-    try {
-      await faqService.deleteFaq(id);
-      setToast({ show: true, message: 'FAQ deleted successfully', variant: 'success' });
-      fetchFaqs();
-    } catch {
-      setToast({ show: true, message: 'Failed to delete FAQ', variant: 'danger' });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const handleDelete = (id: string) =>
+    handleDeleteAction({
+      id,
+      mutation: deleteFaqMutation.mutateAsync,
+      t: tFaq,
+      setToast,
+      confirmTitle: tFaq('confirmDelete'),
+      confirmButtonText: tFaq('delete'),
+      cancelButtonText: tFaq('cancel'),
+      successMessage: tFaq('messages.faqDeleted'),
+      errorMessage: tFaq('messages.errorDeleting'),
+    });
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -84,23 +77,19 @@ const FaqComponent: React.FC = () => {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     try {
       if (editingId) {
-        await faqService.updateFaq(editingId, form);
-        setToast({ show: true, message: 'FAQ updated successfully', variant: 'success' });
+        await updateFaqMutation.mutateAsync({ id: editingId, data: form });
+        setToast({ show: true, message: tFaq('messages.faqUpdated'), variant: 'success' });
       } else {
-        await faqService.createFaq(form);
-        setToast({ show: true, message: 'FAQ added successfully', variant: 'success' });
+        await createFaqMutation.mutateAsync(form);
+        setToast({ show: true, message: tFaq('messages.faqCreated'), variant: 'success' });
       }
       setShowModal(false);
       setEditingId(null);
       setForm({ title: '', description: '' });
-      fetchFaqs();
     } catch {
-      setToast({ show: true, message: 'Failed to save FAQ', variant: 'danger' });
-    } finally {
-      setSubmitting(false);
+      setToast({ show: true, message: tFaq('messages.errorSaving'), variant: 'danger' });
     }
   };
 
@@ -129,7 +118,7 @@ const FaqComponent: React.FC = () => {
             onClick={() => handleDelete(record.id)}
             title="Delete"
             aria-label="Delete"
-            disabled={submitting}
+            disabled={deleteFaqMutation.isPending}
           >
             <Trash2 size={18} />
           </button>
@@ -144,6 +133,12 @@ const FaqComponent: React.FC = () => {
       onCreate={handleOpenModal}
       createButtonText={tFaq('addFaq')}
     >
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {tFaq('messages.errorLoading')}
+        </div>
+      )}
+      
       <Table
         columns={columns}
         dataSource={pagedFaqs}
@@ -201,7 +196,7 @@ const FaqComponent: React.FC = () => {
               justifyContent: 'flex-end',
             }}
           >
-            <Button variant="secondary" type="submit">
+            <Button variant="secondary" type="button" onClick={handleCloseModal}>
               {tCommon('actions.cancel', { default: tFaq('cancel') })}
             </Button>
             <Button variant="primary" type="submit">
@@ -210,11 +205,11 @@ const FaqComponent: React.FC = () => {
           </div>
         </Form>
       </Modal>
-      {toast.show && (
-        <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 9999 }}>
-          <div className={`alert alert-${toast.variant}`}>{toast.message}</div>
-        </div>
-      )}
+      <ToastContainer position="top-end" className="p-3" style={{ zIndex: 9999 }}>
+        <Toast bg={toast.variant} onClose={() => setToast({ ...toast, show: false })} show={toast.show} delay={3000} autohide>
+          <Toast.Body style={{ color: toast.variant === "danger" ? "#fff" : undefined }}>{toast.message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </CardWrapper>
   )
 };
