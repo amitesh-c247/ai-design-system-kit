@@ -1,6 +1,7 @@
 {
   "title": "User Management",
   "createUser": "Create User",
+  "searchPlaceholder": "Search users...",
   "make": "Make",
   "short_code": "Short Code",
   "status": "Status",

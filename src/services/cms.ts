@@ -1,19 +1,12 @@
 import { mockApiClient } from '@/utils/mockapi';
-
-export interface Page {
-  id: string;
-  title: string;
-  content: string;
-  slug: string;
-  status: 'published' | 'draft' | 'archived';
-  meta_title?: string;
-  meta_description?: string;
-  is_agreement?: 0 | 1;
-  open_in_new_tab?: 0 | 1;
-  content_type?: 'TEXT' | 'LINK';
-  createdAt?: string;
-  updatedAt?: string;
-}
+import type { 
+  Page, 
+  PageCreateRequest, 
+  PageUpdateRequest, 
+  PageSearchParams,
+  PageStatus,
+  ContentType 
+} from '@/types/cms';
 
 export const cmsService = {
   // Get all pages
