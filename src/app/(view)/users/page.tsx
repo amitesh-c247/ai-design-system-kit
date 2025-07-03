@@ -149,9 +149,9 @@ export default function UsersPage() {
 
   return (
     <CardWrapper
-      title={t("title")}
+      title={t('title')}
       onCreate={handleOpenModal}
-      createButtonText={t("createUser")}
+      createButtonText={t('createUser')}
     >
       <Table
         columns={columns}
@@ -174,12 +174,13 @@ export default function UsersPage() {
       <CommonModal
         show={showModal}
         onClose={handleCloseModal}
-        title={editId ? t("editUser") : t("createNewUser")}
+        title={editId ? t('editUser') : t('createNewUser')}
       >
         <UserForm
           defaultValues={form}
           onSubmit={handleFormSubmit}
           onCancel={handleCloseModal}
+          editId={editId}
         />
       </CommonModal>
       <ToastContainer
@@ -195,12 +196,12 @@ export default function UsersPage() {
           autohide
         >
           <Toast.Body
-            style={{ color: toast.variant === "danger" ? "#fff" : undefined }}
+            style={{ color: toast.variant === 'danger' ? '#fff' : undefined }}
           >
             {toast.message}
           </Toast.Body>
         </Toast>
       </ToastContainer>
     </CardWrapper>
-  );
+  )
 }

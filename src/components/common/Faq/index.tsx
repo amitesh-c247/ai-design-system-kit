@@ -6,20 +6,23 @@ import Modal from "@/components/common/Modal";
 import Input from "@/components/common/Form/Input";
 import TextArea from "@/components/common/Form/Input/TextArea";
 import { Form, FormGroup, FormLabel } from "@/components/common/Form";
-import { type Faq as FaqType } from '@/services/faq';
-import { handleDeleteAction } from '@/utils/deleteHandler';
-import { useFaqsQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from '@/hooks/faq';
-import { Pencil, Trash2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import Button from '@/components/common/Button'
-import ActionButton from '@/components/common/ActionButton'
-
-const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+import { type Faq as FaqType } from "@/services/faq";
+import { handleDeleteAction } from "@/utils/deleteHandler";
+import {
+  useFaqsQuery,
+  useCreateFaqMutation,
+  useUpdateFaqMutation,
+  useDeleteFaqMutation,
+} from "@/hooks/faq";
+import { Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Toast, ToastContainer } from "react-bootstrap";
+import Button from "@/components/common/Button";
+import ActionButton from "@/components/common/ActionButton";
 
 const FaqComponent: React.FC = () => {
   const tCommon = useTranslations("common");
-  const tFaq = useTranslations("faq");
+  const t = useTranslations("faq");
 
   // React Query hooks
   const { data: faqs = [], isLoading: loading, error } = useFaqsQuery();
@@ -36,7 +39,6 @@ const FaqComponent: React.FC = () => {
     message: string;
     variant: "success" | "danger";
   }>({ show: false, message: "", variant: "success" });
-  const [editId, setEditId] = useState<string | null>(null);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,14 +61,15 @@ const FaqComponent: React.FC = () => {
   const handleDelete = (id: string) =>
     handleDeleteAction({
       id,
-      mutation: (id: number | string) => deleteFaqMutation.mutateAsync(String(id)),
-      t: tFaq,
+      mutation: deleteFaqMutation.mutateAsync,
+      t,
       setToast,
-      confirmTitle: tFaq("confirmDelete"),
-      confirmButtonText: tFaq("delete"),
-      cancelButtonText: tFaq("cancel"),
-      successMessage: tFaq("messages.faqDeleted"),
-      errorMessage: tFaq("messages.errorDeleting"),
+      confirmTitle: t("confirmDelete"),
+      confirmText: t("confirmText"),
+      confirmButtonText: t("delete"),
+      cancelButtonText: t("cancel"),
+      successMessage: t("messages.faqDeleted"),
+      errorMessage: t("messages.errorDeleting"),
     });
 
   const handleCloseModal = () => {
@@ -82,34 +85,34 @@ const FaqComponent: React.FC = () => {
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (editingId) {
-        await updateFaqMutation.mutateAsync({ id: editingId, data: form });
+        await updateFaqMutation.mutateAsync({ id: editingId, data: form })
         setToast({
           show: true,
-          message: tFaq("messages.faqUpdated"),
-          variant: "success",
-        });
+          message: t('messages.faqUpdated'),
+          variant: 'success',
+        })
       } else {
-        await createFaqMutation.mutateAsync(form);
+        await createFaqMutation.mutateAsync(form)
         setToast({
           show: true,
-          message: tFaq("messages.faqCreated"),
-          variant: "success",
-        });
+          message: t('messages.faqCreated'),
+          variant: 'success',
+        })
       }
-      setShowModal(false);
-      setEditingId(null);
-      setForm({ title: "", description: "" });
+      setShowModal(false)
+      setEditingId(null)
+      setForm({ title: '', description: '' })
     } catch {
       setToast({
         show: true,
-        message: tFaq("messages.errorSaving"),
-        variant: "danger",
-      });
+        message: t('messages.errorSaving'),
+        variant: 'danger',
+      })
     }
-  };
+  }
 
   // Pagination logic
   const total = faqs.length;
@@ -132,14 +135,9 @@ const FaqComponent: React.FC = () => {
               icon={<Pencil width={16} />}
               variant="primary"
               size="sm"
-              tooltip={tFaq("edit")}
+              tooltip={t("edit")}
               onClick={() => {
-                setEditId(record.id);
-                setForm({
-                  title: record.title,
-                  description: record.description,
-                });
-                setShowModal(true);
+                handleEdit(record)
               }}
             />
             <ActionButton
@@ -147,7 +145,7 @@ const FaqComponent: React.FC = () => {
               icon={<Trash2 width={16} />}
               variant="danger"
               size="sm"
-              tooltip={tFaq("delete")}
+              tooltip={t("delete")}
               onClick={() => handleDelete(record.id)}
             />
           </div>
@@ -158,13 +156,13 @@ const FaqComponent: React.FC = () => {
 
   return (
     <CardWrapper
-      title={tFaq("faqTitle")}
+      title={t("faqTitle")}
       onCreate={handleOpenModal}
-      createButtonText={tFaq("addFaq")}
+      createButtonText={t("addFaq")}
     >
       {error && (
         <div className="alert alert-danger" role="alert">
-          {tFaq("messages.errorLoading")}
+          {t("messages.errorLoading")}
         </div>
       )}
 
@@ -188,16 +186,15 @@ const FaqComponent: React.FC = () => {
       <Modal
         show={showModal}
         onClose={handleCloseModal}
-        title={editingId ? tFaq("editFaq") : tFaq("addFaq")}
+        title={editingId ? t("editFaq") : t("addFaq")}
         footer={null}
-        size="lg"
       >
         <Form onSubmit={handleFormSubmit}>
           <FormGroup>
-            <FormLabel>{tFaq("title")}</FormLabel>
+            <FormLabel>{t("title")}</FormLabel>
             <Input
               name="title"
-              placeholder={tFaq("title")}
+              placeholder={t("title")}
               value={form.title}
               onChange={handleFormChange}
               required
@@ -206,10 +203,10 @@ const FaqComponent: React.FC = () => {
             />
           </FormGroup>
           <FormGroup>
-            <FormLabel>{tFaq("description")}</FormLabel>
+            <FormLabel>{t("description")}</FormLabel>
             <TextArea
               name="description"
-              placeholder={tFaq("description")}
+              placeholder={t("description")}
               value={form.description}
               onChange={handleFormChange}
               required
@@ -217,23 +214,16 @@ const FaqComponent: React.FC = () => {
               rows={4}
             />
           </FormGroup>
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              marginTop: 16,
-              justifyContent: "flex-end",
-            }}
-          >
+          <div className="d-flex justify-content-end gap-2 mt-3">
             <Button
               variant="secondary"
               type="button"
               onClick={handleCloseModal}
             >
-              {tCommon("actions.cancel", { default: tFaq("cancel") })}
+              {tCommon("actions.cancel", { default: t("cancel") })}
             </Button>
             <Button variant="primary" type="submit">
-              {editingId ? tFaq("update") : tFaq("save")}
+              {editingId ? t("update") : t("save")}
             </Button>
           </div>
         </Form>
