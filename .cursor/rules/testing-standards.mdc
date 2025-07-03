@@ -1,0 +1,206 @@
+# Testing Standards
+
+## Testing Stack
+- **Storybook**: Component development and documentation
+- **Vitest**: Unit and integration testing
+- **Playwright**: End-to-end testing
+- **React Testing Library**: Component testing utilities
+
+## Test File Organization
+- **Unit tests**: `ComponentName.test.tsx` alongside component files
+- **Integration tests**: `__tests__/` folders for feature tests
+- **E2E tests**: `tests/` directory at project root
+- **Stories**: `src/stories/` for Storybook documentation
+
+## Component Testing Pattern
+```typescript
+// ComponentName.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import ComponentName from './ComponentName';
+
+describe('ComponentName', () => {
+  const defaultProps = {
+    title: 'Test Title',
+    onClick: vi.fn(),
+  };
+
+  it('renders with default props', () => {
+    render(<ComponentName {...defaultProps} />);
+    
+    expect(screen.getByText('Test Title')).toBeInTheDocument();
+  });
+
+  it('calls onClick when button is clicked', () => {
+    render(<ComponentName {...defaultProps} />);
+    
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    
+    expect(defaultProps.onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies custom className', () => {
+    render(<ComponentName {...defaultProps} className="custom-class" />);
+    
+    const element = screen.getByRole('button');
+    expect(element).toHaveClass('custom-class');
+  });
+
+  it('renders different variants correctly', () => {
+    const { rerender } = render(
+      <ComponentName {...defaultProps} variant="primary" />
+    );
+    
+    let element = screen.getByRole('button');
+    expect(element).toHaveClass('btn-primary');
+    
+    rerender(<ComponentName {...defaultProps} variant="secondary" />);
+    element = screen.getByRole('button');
+    expect(element).toHaveClass('btn-secondary');
+  });
+});
+```
+
+## Hook Testing Pattern
+```typescript
+// useCustomHook.test.ts
+import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { useCustomHook } from './useCustomHook';
+
+describe('useCustomHook', () => {
+  it('returns initial state', () => {
+    const { result } = renderHook(() => useCustomHook());
+    
+    expect(result.current.value).toBe(0);
+    expect(typeof result.current.increment).toBe('function');
+  });
+
+  it('increments value when increment is called', () => {
+    const { result } = renderHook(() => useCustomHook());
+    
+    act(() => {
+      result.current.increment();
+    });
+    
+    expect(result.current.value).toBe(1);
+  });
+});
+```
+
+## API Testing Pattern
+```typescript
+// userService.test.ts
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { userService } from './userService';
+import { api } from '@/utils/api';
+
+// Mock the API module
+vi.mock('@/utils/api');
+
+describe('userService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('fetches users successfully', async () => {
+    const mockUsers = [
+      { id: 1, name: 'John Doe', email: 'john@example.com' },
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+    ];
+
+    vi.mocked(api.get).mockResolvedValue({
+      data: mockUsers,
+      status: 200,
+    });
+
+    const result = await userService.getUsers();
+    
+    expect(api.get).toHaveBeenCalledWith('/users');
+    expect(result).toEqual(mockUsers);
+  });
+
+  it('handles API errors', async () => {
+    const error = new Error('API Error');
+    vi.mocked(api.get).mockRejectedValue(error);
+
+    await expect(userService.getUsers()).rejects.toThrow('API Error');
+  });
+});
+```
+
+## Storybook Pattern
+```typescript
+// ComponentName.stories.ts
+import type { Meta, StoryObj } from '@storybook/react';
+import ComponentName from './ComponentName';
+
+const meta: Meta<typeof ComponentName> = {
+  title: 'Components/ComponentName',
+  component: ComponentName,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'danger'],
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    title: 'Default Button',
+    variant: 'primary',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    title: 'Secondary Button',
+    variant: 'secondary',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    title: 'Large Button',
+    size: 'large',
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    title: 'Disabled Button',
+    disabled: true,
+  },
+};
+```
+
+## Testing Best Practices
+- **Test behavior, not implementation**: Focus on what the component does, not how
+- **Use semantic queries**: Prefer `getByRole`, `getByLabelText` over `getByTestId`
+- **Test accessibility**: Ensure components are accessible
+- **Mock external dependencies**: Mock API calls, timers, and browser APIs
+- **Test error states**: Verify error handling and edge cases
+- **Use data-testid sparingly**: Only when semantic queries aren't available
+
+## Coverage Requirements
+- **Components**: 80% line coverage
+- **Hooks**: 90% line coverage
+- **Utilities**: 95% line coverage
+- **Critical paths**: 100% coverage for authentication and payment flows
+description:
+globs:
+alwaysApply: false
+---

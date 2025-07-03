@@ -1,0 +1,69 @@
+# TypeScript Coding Standards
+
+## Code Style
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes for strings
+- **Semicolons**: Always required
+- **Trailing commas**: Use in objects and arrays
+- **Line length**: 80 characters max
+
+## TypeScript Best Practices
+- **Strict mode**: Always enabled in [tsconfig.json](mdc:tsconfig.json)
+- **Interfaces**: Use for object shapes and props
+- **Types**: Use for unions, intersections, and complex types
+- **Generics**: Use for reusable components and functions
+- **Never use `any`**: Use `unknown` or proper typing instead
+
+## Import/Export Standards
+- **Absolute imports**: Use `@/` prefix for src directory
+- **Named exports**: Prefer named exports over default exports
+- **Import order**: 
+  1. React and Next.js imports
+  2. Third-party libraries
+  3. Internal components/hooks
+  4. Utilities and constants
+  5. Types and interfaces
+  6. Styles
+
+## Component Patterns
+- **Props interface**: Always define with `ComponentNameProps`
+- **Default props**: Provide sensible defaults
+- **Children prop**: Use `React.ReactNode` type
+- **Event handlers**: Use proper event types from React
+
+## Example Component Structure
+```typescript
+import React from 'react';
+import { ComponentName as BootstrapComponent } from 'react-bootstrap';
+import styles from './ComponentName.module.scss';
+
+export interface ComponentNameProps {
+  variant?: 'primary' | 'secondary';
+  children?: React.ReactNode;
+  className?: string;
+  onClick?: (event: React.MouseEvent) => void;
+}
+
+const ComponentName: React.FC<ComponentNameProps> = ({
+  variant = 'primary',
+  children,
+  className = '',
+  onClick,
+}) => {
+  return (
+    <BootstrapComponent
+      variant={variant}
+      className={`${styles.componentName} ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </BootstrapComponent>
+  );
+};
+
+export default ComponentName;
+```
+description:
+globs:
+alwaysApply: false
+---

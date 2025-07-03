@@ -1,0 +1,73 @@
+# Component Architecture Guidelines
+
+## Component Organization
+- **Common components**: Place in `src/components/common/`
+- **Auth components**: Place in `src/components/auth/`
+- **Layout components**: Place in `src/components/header-sidebar/`
+- **Feature components**: Create feature-specific folders
+
+## Component Structure Pattern
+Each component should follow this structure:
+1. **Imports**: React, libraries, internal components, styles
+2. **Types/Interfaces**: Props interface definition
+3. **Component**: Main component function
+4. **Helper functions**: Variant/size handlers
+5. **Export**: Default export
+
+## Styling Guidelines
+- **SCSS Modules**: Use `.module.scss` for component styles
+- **CSS Variables**: Use for theming and consistent values
+- **Responsive Design**: Mobile-first approach
+- **Accessibility**: Include proper ARIA attributes
+
+## Component Categories
+
+### Layout Components
+- **Header**: Top navigation with user menu
+- **Sidebar**: Main navigation with collapsible design
+- **Page Layout**: Wrapper for page content
+
+### Common UI Components
+- **Button**: Multiple variants (primary, secondary, danger)
+- **Card**: Content containers with different styles
+- **Form Elements**: Input, Select, Checkbox, etc.
+- **Data Display**: Table, Typography, Tags
+- **Feedback**: Alert, Toast, Modal, LoadingSpinner
+
+### Authentication Components
+- **Login/Signup**: Form-based authentication
+- **Password Reset**: Forgot/reset password flows
+- **Profile**: User profile management
+
+## Props Interface Pattern
+```typescript
+export interface ComponentNameProps {
+  // Required props
+  title: string;
+  
+  // Optional props with defaults
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  
+  // Event handlers
+  onClick?: (event: React.MouseEvent) => void;
+  onChange?: (value: string) => void;
+  
+  // Styling
+  className?: string;
+  
+  // Content
+  children?: React.ReactNode;
+}
+```
+
+## Accessibility Requirements
+- **Semantic HTML**: Use proper HTML elements
+- **ARIA attributes**: Add appropriate aria-* attributes
+- **Keyboard navigation**: Ensure tab order and keyboard shortcuts
+- **Screen readers**: Provide proper labels and descriptions
+- **Color contrast**: Meet WCAG guidelines
+description:
+globs:
+alwaysApply: false
+---
