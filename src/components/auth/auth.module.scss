@@ -123,15 +123,9 @@
   font-size: 1.125rem;
   font-weight: 600;
   border-radius: 0.75rem;
-  background-color: var(--bs-primary);
-  color: white;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  &:hover {
-    background-color: var(--bs-primary);
-    transform: translateY(-1px);
-  }
   &:active {
     transform: translateY(0);
   }
@@ -152,34 +146,6 @@
   span {
     padding: 0 1rem;
     font-size: 0.875rem;
-  }
-}
-
-.socialLogin {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  button {
-    flex: 1;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 2px solid var(--bs-gray-200);
-    border-radius: 0.75rem;
-    background: white;
-    color: var(--bs-gray-700);
-    font-weight: 500;
-    transition: all 0.2s ease;
-    &:hover {
-      background-color: var(--bs-gray-100);
-      border-color: var(--bs-gray-300);
-    }
-    img {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
   }
 }
 

@@ -23,7 +23,7 @@ const Login = () => {
   const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } = useAuth();
   const router = useRouter();
   const t = useTranslations('auth.login');
-  
+
   const {
     register,
     handleSubmit,

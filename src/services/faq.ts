@@ -1,6 +1,7 @@
 import { mockApiClient } from '@/utils/mockapi';
 
 export interface Faq {
+  status: "ACTIVE" | "DISABLED";
   id: string;
   title: string;
   description: string;
@@ -27,4 +28,4 @@ export const faqService = {
     await mockApiClient.delete<null>(`/faq/${id}`);
     return true;
   },
-}; 
+};

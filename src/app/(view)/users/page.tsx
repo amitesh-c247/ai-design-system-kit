@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import Table from "@/components/common/Table";
 import type { Column } from "@/components/common/Table/Table";
 import CommonModal from "@/components/common/Modal";
@@ -16,18 +15,21 @@ import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
-import commonStyles from "../../../../assets/scss/admin.module.scss"
 import { Trash2, Pencil } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
-import CardWrapper from '@/components/common/CardWrapper';
+import CardWrapper from "@/components/common/CardWrapper";
+import ActionButton from "@/components/common/ActionButton";
 
 type User = UserFormValues & { id: number };
-
 
 export default function UsersPage() {
   const t = useTranslations("users");
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState<{ make: string; short_code: string; status: 'ACTIVE' | 'DISABLED' }>({ make: '', short_code: '', status: 'ACTIVE' });
+  const [form, setForm] = useState<{
+    make: string;
+    short_code: string;
+    status: "ACTIVE" | "DISABLED";
+  }>({ make: "", short_code: "", status: "ACTIVE" });
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -39,7 +41,6 @@ export default function UsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const { data, isLoading } = useUsersQuery(currentPage, pageSize);
-
 
   const users = data?.data || [];
   const total = data?.total || 0;
@@ -80,36 +81,40 @@ export default function UsersPage() {
       title: t("actions"),
       dataIndex: "id",
       render: (_: any, record: User) => (
-        <div className={styles.actions}>
-          <button
-            className={styles.actionLink}
-            style={{ color: '#0d6efd', background: 'none', border: 'none', marginRight: 8, cursor: 'pointer' }}
+        <div className="action-wrap">
+          <ActionButton
+            title=""
+            icon={<Pencil width={16} />}
+            variant="primary"
+            size="sm"
+            className={`text-white ${styles.actionLink}`}
+            tooltip={t("edit")}
             onClick={() => {
               setEditId(record.id);
-              setForm({ make: record.make, short_code: record.short_code, status: record.status as 'ACTIVE' | 'DISABLED' });
+              setForm({
+                make: record.make,
+                short_code: record.short_code,
+                status: record.status as "ACTIVE" | "DISABLED",
+              });
               setShowModal(true);
             }}
-            title={t('edit')}
-            aria-label={t('edit')}
-          >
-            <Pencil size={18} />
-          </button>
-          <button
-            className={styles.actionLink}
-            style={{ color: '#dc3545', background: 'none', border: 'none', marginLeft: 8, cursor: 'pointer' }}
+          />
+          <ActionButton
+            title=""
+            icon={<Trash2 width={16} />}
+            variant="danger"
+            size="sm"
+            className={`text-white ${styles.actionLink}`}
+            tooltip={t("delete")}
             onClick={() => handleDelete(record.id)}
-            title={t('delete')}
-            aria-label={t('delete')}
-          >
-            <Trash2 size={18} />
-          </button>
+          />
         </div>
       ),
     },
   ];
 
   const handleOpenModal = () => {
-    setForm({ make: '', short_code: '', status: 'ACTIVE' });
+    setForm({ make: "", short_code: "", status: "ACTIVE" });
     setEditId(null);
     setShowModal(true);
   };
@@ -122,7 +127,11 @@ export default function UsersPage() {
     try {
       if (editId) {
         await updateUser({ id: editId, data });
-        setToast({ show: true, message: t('messages.userUpdated'), variant: 'success' });
+        setToast({
+          show: true,
+          message: t("messages.userUpdated"),
+          variant: "success",
+        });
       } else {
         await createUser(data);
         setToast({ show: true, message: t('messages.userCreated'), variant: 'success' });
@@ -130,7 +139,11 @@ export default function UsersPage() {
       setShowModal(false);
       setEditId(null);
     } catch (err: any) {
-      setToast({ show: true, message: err?.message || t('messages.error'), variant: 'danger' });
+      setToast({
+        show: true,
+        message: err?.message || t("messages.error"),
+        variant: "danger",
+      });
     }
   };
 
@@ -152,13 +165,12 @@ export default function UsersPage() {
           onChange: setCurrentPage,
           onPageSizeChange: (size) => {
             setPageSize(size);
-            setCurrentPage(1); 
+            setCurrentPage(1);
           },
-      
         }}
         loading={isLoading}
       />
-      
+
       <CommonModal
         show={showModal}
         onClose={handleCloseModal}
