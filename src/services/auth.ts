@@ -1,28 +1,12 @@
 import { api, ApiError } from '@/utils/api';
 import { cookieService } from '@/utils/cookieService';
-
-// Define types for our auth data
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  user: {
-    success: boolean;
-    data: {
-      id: number;
-      first_name: string;
-      last_name: string;
-      display_name: string;
-      email: string;
-      dial_code: string;
-      country_code: string;
-      mobile_number: string;
-    }
-  };
-  token: string;
-}
+import type { 
+  LoginCredentials, 
+  SignupCredentials, 
+  ResetPasswordCredentials,
+  AuthResponse,
+  User 
+} from '@/types/auth';
 
 // Auth service functions
 export const authService = {

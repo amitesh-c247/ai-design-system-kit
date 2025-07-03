@@ -8,9 +8,10 @@ import CardWrapper from '@/components/common/CardWrapper';
 import { handleDeleteAction } from '@/utils/deleteHandler';
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { usePagesQuery, useDeletePageMutation } from '@/hooks/cms';
+import { useStandardPagination } from '@/hooks/usePagination';
 
-import { type Page } from '@/services/cms';
-import { Pencil, Trash2 } from 'lucide-react';
+import type { Page } from '@/types/cms';
+import { Pencil, Trash2, Search } from 'lucide-react';
 import styles from './styles.module.scss';
 
 const CmsPagesComponent: React.FC = () => {
@@ -29,9 +30,10 @@ const CmsPagesComponent: React.FC = () => {
     variant: 'success' | 'danger';
   }>({ show: false, message: '', variant: 'success' });
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  // Use the pagination hook for URL state management
+  const { params: pagination, setPage, setPageSize, setSearch } = useStandardPagination({
+    defaultPageSize: 10,
+  });
 
 
 
@@ -63,9 +65,18 @@ const CmsPagesComponent: React.FC = () => {
       errorMessage: tCms('messages.errorDeleting'),
     });
 
+  // Filter pages by search
+  const filteredPages = pagination.search
+    ? sortedPages.filter(page => 
+        page.title.toLowerCase().includes(pagination.search.toLowerCase()) ||
+        page.content.toLowerCase().includes(pagination.search.toLowerCase()) ||
+        page.slug.toLowerCase().includes(pagination.search.toLowerCase())
+      )
+    : sortedPages;
+
   // Pagination logic
-  const total = sortedPages.length;
-  const pagedPages = sortedPages.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const total = filteredPages.length;
+  const pagedPages = filteredPages.slice((pagination.page - 1) * pagination.pageSize, pagination.page * pagination.pageSize);
 
   // Table columns
   const columns = [
@@ -111,7 +122,7 @@ const CmsPagesComponent: React.FC = () => {
           </button>
           <button
             style={{ color: '#dc3545', background: 'none', border: 'none', cursor: 'pointer' }}
-            onClick={() => handleDelete(record.id)}
+            onClick={() => handleDelete(String(record.id))}
             title="Delete"
             aria-label="Delete"
           >
@@ -134,20 +145,43 @@ const CmsPagesComponent: React.FC = () => {
         </div>
       )}
       
+      {/* Search Input */}
+      <div className="mb-3">
+        <div className="input-group" style={{ maxWidth: '400px' }}>
+          <span className="input-group-text">
+            <Search size={16} />
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder={tCms("searchPlaceholder") || "Search pages..."}
+            value={pagination.search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {pagination.search && (
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={() => setSearch("")}
+              title="Clear search"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
+
       <Table
         columns={columns}
         dataSource={pagedPages}
         rowKey="id"
         hover
         pagination={{
-          currentPage,
-          pageSize,
+          currentPage: pagination.page,
+          pageSize: pagination.pageSize,
           total,
-          onChange: setCurrentPage,
-          onPageSizeChange: (size) => {
-            setPageSize(size);
-            setCurrentPage(1);
-          },
+          onChange: setPage,
+          onPageSizeChange: setPageSize,
         }}
         loading={loading}
       />

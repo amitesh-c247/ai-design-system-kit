@@ -1,28 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, { useState } from "react";
 import Table from "@/components/common/Table";
-import type { Column } from "@/components/common/Table/Table";
 import CommonModal from "@/components/common/Modal";
 import UserForm, { UserFormValues } from "@/components/common/UserForm";
+import type { TableColumn } from "@/types/ui";
 import {
   useUsersQuery,
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
 } from "@/hooks/user";
+import { useStandardPagination } from "@/hooks/usePagination";
 import { useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
-import commonStyles from "../../../../assets/scss/admin.module.scss"
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, Search } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
 import CardWrapper from '@/components/common/CardWrapper';
 
 type User = UserFormValues & { id: number };
-
 
 export default function UsersPage() {
   const t = useTranslations("users");
@@ -33,13 +30,18 @@ export default function UsersPage() {
     message: string;
     variant: "success" | "danger";
   }>({ show: false, message: "", variant: "success" });
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pageFromUrl = Number(searchParams.get("page")) || 1;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const { data, isLoading } = useUsersQuery(currentPage, pageSize);
+  
+  // Use the pagination hook for URL state management
+  const { params: pagination, setPage, setPageSize, setSearch } = useStandardPagination({
+    defaultPageSize: 10,
+  });
 
+  // Fetch users with current pagination state
+  const { data, isLoading } = useUsersQuery(
+    pagination.page, 
+    pagination.pageSize, 
+    pagination.search
+  );
 
   const users = data?.data || [];
   const total = data?.total || 0;
@@ -47,22 +49,6 @@ export default function UsersPage() {
   const { mutateAsync: deleteUser } = useDeleteUserMutation();
   const { mutateAsync: updateUser } = useUpdateUserMutation();
   const [editId, setEditId] = useState<number | null>(null);
-
-  // Keep currentPage in sync with URL
-  useEffect(() => {
-    if (currentPage !== pageFromUrl) {
-      router.replace(`?page=${currentPage}`, { scroll: false });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
-
-  // If the URL changes (e.g., back/forward), update currentPage
-  useEffect(() => {
-    if (pageFromUrl !== currentPage) {
-      setCurrentPage(pageFromUrl);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageFromUrl]);
 
   const handleDelete = (id: number) =>
     handleDeleteAction({
@@ -72,7 +58,7 @@ export default function UsersPage() {
       setToast,
     });
 
-  const columns: Column[] = [
+  const columns: TableColumn<User>[] = [
     { title: t("make"), dataIndex: "make" },
     { title: t("short_code"), dataIndex: "short_code" },
     { title: t("status"), dataIndex: "status" },
@@ -140,21 +126,43 @@ export default function UsersPage() {
       onCreate={handleOpenModal}
       createButtonText={t("createUser")}
     >
+      {/* Search Input */}
+      <div className="mb-3">
+        <div className="input-group" style={{ maxWidth: '400px' }}>
+          <span className="input-group-text">
+            <Search size={16} />
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder={t("searchPlaceholder") || "Search users..."}
+            value={pagination.search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {pagination.search && (
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={() => setSearch("")}
+              title="Clear search"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
+
       <Table
         columns={columns}
         dataSource={users}
         rowKey="id"
         hover
         pagination={{
-          currentPage,
-          pageSize,
+          currentPage: pagination.page,
+          pageSize: pagination.pageSize,
           total,
-          onChange: setCurrentPage,
-          onPageSizeChange: (size) => {
-            setPageSize(size);
-            setCurrentPage(1); 
-          },
-      
+          onChange: setPage,
+          onPageSizeChange: setPageSize,
         }}
         loading={isLoading}
       />
