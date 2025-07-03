@@ -1,17 +1,5 @@
 import { cookieService } from './cookieService';
-
-// API response types
-export interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message?: string;
-}
-
-export interface ApiError {
-  message: string;
-  code?: string;
-  status?: number;
-}
+import type { ApiResponse, ApiError } from '@/types';
 
 // Shared MockAPI configuration
 const MOCKAPI_BASE_URL = process.env.NEXT_PUBLIC_MOCKAPI_BASE_URL || 'https://6853a9cea2a37a1d6f495380.mockapi.io/api/v1';

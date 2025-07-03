@@ -2,6 +2,7 @@
   "pagesTitle": "Pages Management",
   "addPage": "Add Page",
   "editPage": "Edit Page",
+  "searchPlaceholder": "Search pages...",
   "createNewCms": "Create a New Page",
   "editCms": "Edit Page",
   "createCms": "Create Page",

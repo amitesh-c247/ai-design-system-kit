@@ -1,17 +1,5 @@
 import { cookieService } from './cookieService';
-
-// API response types
-export interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message?: string;
-}
-
-export interface ApiError {
-  message: string;
-  code?: string;
-  status?: number;
-}
+import type { ApiResponse, ApiError } from '@/types';
 
 // Global 401 handler - will be set by auth context
 let onUnauthorized: (() => void) | null = null;

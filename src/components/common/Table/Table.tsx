@@ -1,11 +1,13 @@
 import React from 'react';
 import { Table as BootstrapTable, Pagination, Spinner } from 'react-bootstrap';
+import type { TableColumn, TableProps as CentralizedTableProps } from '@/types/ui';
 import TableSkeleton from './TableSkeleton';
 import PrevArrowIcon from '@public/IconComponent/PrevArrowIcon'
 import NextArrowIcon from '@public/IconComponent/NextArrowIcon'
 import Button from '@/components/common/Button';
 
 
+// Keep existing Column interface for backward compatibility
 export interface Column {
   dataIndex: string;
   title: string;
@@ -13,6 +15,7 @@ export interface Column {
   render?: (text: any, record: any) => React.ReactNode;
 }
 
+// Enhanced interface using centralized types
 export interface TableProps {
   columns: Column[];
   dataSource: any[];
