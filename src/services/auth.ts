@@ -79,7 +79,15 @@ export const authService = {
       return response.data;
     } catch (error) {
       console.error('Get current user error:', error);
-      // If the API call fails, try to get user data from cookie
+      
+      // If it's a 401 error, don't fall back to cached data - the user is truly unauthorized
+      if ((error as ApiError)?.status === 401) {
+        // Clear any cached user data since it's no longer valid
+        cookieService.remove('user_data');
+        throw error as ApiError;
+      }
+      
+      // For other errors (network issues, etc.), try to get user data from cookie as fallback
       const userData = cookieService.get<AuthResponse['user']>('user_data');
       if (userData) {
         return userData;

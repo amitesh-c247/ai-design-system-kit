@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Menu,
   Book,
+  MessageCircle,
 } from 'lucide-react';
 import styles from './styles.module.scss';
 
@@ -65,7 +66,7 @@ const menuItems: MenuItem[] = [
   {
     id: 'faq',
     label: 'FAQ',
-    icon: <HelpCircle size={20} />,
+    icon: <MessageCircle size={20} />,
     path: '/faq',
   },
 ];

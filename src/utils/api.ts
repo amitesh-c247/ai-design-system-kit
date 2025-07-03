@@ -13,12 +13,51 @@ export interface ApiError {
   status?: number;
 }
 
+// Global 401 handler - will be set by auth context
+let onUnauthorized: (() => void) | null = null;
+
+/**
+ * Set the global handler for 401 Unauthorized responses
+ * This handler will be called whenever any API request receives a 401 status
+ * Typically used to redirect to login page and clear auth state
+ */
+export const setUnauthorizedHandler = (handler: () => void) => {
+  onUnauthorized = handler;
+};
+
+/**
+ * Clear the unauthorized handler (useful for cleanup)
+ */
+export const clearUnauthorizedHandler = () => {
+  onUnauthorized = null;
+};
+
 // API configuration
 const API_BASE_URL = process.env.NEXT_PUBLIC_REST_API_ENDPOINT || 'http://localhost:3000/api';
 
 // Helper to handle API errors
 const handleApiError = async (response: Response): Promise<never> => {
   const error = await response.json().catch(() => ({}));
+  
+  // Handle 401 Unauthorized - clear auth and trigger redirect
+  if (response.status === 401) {
+    console.warn('401 Unauthorized response received, clearing auth tokens and redirecting to login');
+    
+    // Clear auth tokens immediately
+    removeAuthToken();
+    
+    // Call the unauthorized handler if set (for redirect to login)
+    if (onUnauthorized) {
+      try {
+        onUnauthorized();
+      } catch (handlerError) {
+        console.error('Error in unauthorized handler:', handlerError);
+      }
+    } else {
+      console.warn('No unauthorized handler set, unable to redirect to login');
+    }
+  }
+  
   throw {
     message: error.message || 'An error occurred',
     code: error.code,
@@ -41,6 +80,7 @@ const setAuthToken = (token: string): void => {
 const removeAuthToken = (): void => {
   cookieService.remove('auth_token');
   cookieService.remove('refresh_token');
+  cookieService.remove('user_data');
 };
 
 // Base API handler
