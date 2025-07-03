@@ -28,12 +28,8 @@ export const TAG_COLORS = [
   '#eb2f96',
 ];
 
-// Filter constants
-export const DEFAULT_PAGE_SIZE_FOR_FILTER_OPTIONS = 50;
-
 export default {
   API_ENDPOINTS,
   STATUS,
   TAG_COLORS,
-  DEFAULT_PAGE_SIZE_FOR_FILTER_OPTIONS,
 }; 

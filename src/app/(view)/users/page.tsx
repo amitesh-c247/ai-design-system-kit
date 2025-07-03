@@ -11,7 +11,7 @@ import {
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
-} from "@/hooks/useUserCrud";
+} from "@/hooks/user";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast, ToastContainer } from "react-bootstrap";
@@ -67,7 +67,7 @@ export default function UsersPage() {
   const handleDelete = (id: number) =>
     handleDeleteAction({
       id,
-      mutation: deleteUser,
+      mutation: (id: string | number) => deleteUser(Number(id)),
       t,
       setToast,
     });
@@ -124,7 +124,7 @@ export default function UsersPage() {
         await updateUser({ id: editId, data });
         setToast({ show: true, message: t('messages.userUpdated'), variant: 'success' });
       } else {
-        await createUser({...data,_method:"post"});
+        await createUser(data);
         setToast({ show: true, message: t('messages.userCreated'), variant: 'success' });
       }
       setShowModal(false);

@@ -17,7 +17,7 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
   ({ onClick, active, className, labelCount, labelName, labelBase }, ref) => {
     const { formatMessage } = useIntl();
     const label = useMemo(() => {
-      const getLabelName = (label: string, count = null) => (
+      const getLabelName = (label: string, count: string | null = null) => (
         <span className={styles.labelWrapper}>
           <span className="text-truncate">{label}</span>
           {count && <span className="text-truncate">{count}</span>}
@@ -28,18 +28,18 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
         return { title, name: title };
       }
       if (labelCount === 1) {
-        return { name: getLabelName(labelName), title: labelName };
+        return { name: getLabelName(labelName || ''), title: labelName || '' };
       }
       return {
         title: formatMessage(
           { id: 'common.generic.filter.appliedCount' },
-          { label: labelName, count: labelCount - 1 }
+          { label: labelName || '', count: (labelCount || 0) - 1 }
         ),
         name: getLabelName(
-          labelName,
+          labelName || '',
           formatMessage(
             { id: 'common.generic.filter.plusCount' },
-            { count: labelCount - 1 }
+            { count: (labelCount || 0) - 1 }
           )
         ),
       };

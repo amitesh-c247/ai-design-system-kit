@@ -8,7 +8,7 @@ import TextArea from '@/components/common/Form/Input/TextArea';
 import { Form, FormGroup, FormLabel } from "@/components/common/Form";
 import { type Faq as FaqType } from '@/services/faq';
 import { handleDeleteAction } from '@/utils/deleteHandler';
-import { useFaqsQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from '@/hooks/useFaqCrud';
+import { useFaqsQuery, useCreateFaqMutation, useUpdateFaqMutation, useDeleteFaqMutation } from '@/hooks/faq';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Toast, ToastContainer } from 'react-bootstrap';
@@ -55,7 +55,7 @@ const FaqComponent: React.FC = () => {
   const handleDelete = (id: string) =>
     handleDeleteAction({
       id,
-      mutation: deleteFaqMutation.mutateAsync,
+      mutation: (id: number | string) => deleteFaqMutation.mutateAsync(String(id)),
       t: tFaq,
       setToast,
       confirmTitle: tFaq('confirmDelete'),

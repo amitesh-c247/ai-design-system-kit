@@ -8,7 +8,7 @@ import Button from "@/components/common/Button";
 import ImageWithFallback from "@/components/common/ImageWithFallback";
 import styles from "../auth.module.scss";
 import { useRouter } from "next/navigation";
-// import { useAuth } from "@/hooks/useAuth"; // Uncomment if you add signup logic
+// import { useAuth } from "@/hooks/auth"; // Uncomment if you add signup logic
 import { Eye, EyeOff } from "@/components/common/Icons";
 
 export type SignupFormInputs = {

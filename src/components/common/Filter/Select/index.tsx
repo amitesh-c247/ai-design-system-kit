@@ -21,15 +21,21 @@ export interface SelectFilterProps {
   currentPage?: number;
   isFetchingNextPage?: boolean;
   showFilterButton?: boolean;
+  searchValue?: string;
 }
 
-const getRawInputElementProps = (firstValueLabel, filterLabel, selectedCount, value) => {
+const getRawInputElementProps = (
+  firstValueLabel: string,
+  filterLabel: string,
+  selectedCount: number,
+  value: string | string[]
+) => {
   return (
     <FilterButton
       labelCount={selectedCount}
       labelName={firstValueLabel}
       labelBase={filterLabel}
-      active={Boolean(value?.[0])}
+      active={Boolean(Array.isArray(value) ? value[0] : value)}
     />
   );
 };
@@ -47,7 +53,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   fetchNextPage,
   isFetchingNextPage,
   showFilterButton = true,
-  searchValue,
+  searchValue = '',
   ...otherProps
 }) => {
   const { formatMessage } = useIntl();
@@ -58,18 +64,18 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   const isButtonMode = filterType === 'manual' && options?.length > 0;
 
   const onClear = () => {
-    onChange(isMultiple ? [] : '');
+    onChange?.(isMultiple ? [] : '');
     setSelectedOptions(isMultiple ? [] : '');
     setSearchTerm('');
   };
 
   const onApply = () => {
-    onChange(selectedOptions);
+    onChange?.(selectedOptions);
   };
 
   const onOptionChange = (selectedOption: string | string[]) => {
     if (!isButtonMode) {
-      onChange(selectedOption);
+      onChange?.(selectedOption);
     } else {
       setSelectedOptions(selectedOption);
     }
@@ -81,14 +87,14 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
 
   const ButtonContainer = isButtonMode ? Stack : Fragment;
 
-  const handleScroll = (e) => {
-    const { target } = e;
+  const handleScroll = (e: React.UIEvent<HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
     if (
       target.scrollTop + target.offsetHeight === target.scrollHeight &&
-      options.length < totalElements &&
+      options.length < (totalElements || 0) &&
       !isFetchingNextPage
     ) {
-      fetchNextPage();
+      fetchNextPage?.();
     }
   };
 
@@ -111,7 +117,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
-          {searchValue ? highlightText(option.label.toString(), searchValue) : option.label}
+          {searchValue ? highlightText(option.label?.toString() || '', searchValue) : option.label}
         </option>
       ))}
     </Form.Select>

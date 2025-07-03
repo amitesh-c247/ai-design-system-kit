@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, User, LogOut } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/navigation';
 
