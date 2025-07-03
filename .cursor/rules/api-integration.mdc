@@ -1,0 +1,122 @@
+# API Integration Patterns
+
+## Service Layer Architecture
+- **Services**: Place in `src/services/` for API calls
+- **Hooks**: Place in `src/hooks/` for React state management
+- **Utils**: Place in `src/utils/api.ts` for base API client
+
+## Base API Client
+Use the centralized API client from [src/utils/api.ts](mdc:src/utils/api.ts) for all HTTP requests:
+
+```typescript
+import { api } from '@/utils/api';
+
+// GET request
+const data = await api.get<UserData>('/users/me');
+
+// POST request
+const response = await api.post<CreateUserResponse>('/users', userData);
+
+// PUT request
+const updated = await api.put<UpdateUserResponse>('/users/123', updates);
+
+// DELETE request
+await api.delete('/users/123');
+```
+
+## Service Pattern
+```typescript
+// src/services/userService.ts
+import { api } from '@/utils/api';
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface CreateUserData {
+  name: string;
+  email: string;
+}
+
+export const userService = {
+  // Get all users
+  getUsers: async (): Promise<User[]> => {
+    const response = await api.get<User[]>('/users');
+    return response.data;
+  },
+
+  // Get single user
+  getUser: async (id: number): Promise<User> => {
+    const response = await api.get<User>(`/users/${id}`);
+    return response.data;
+  },
+
+  // Create user
+  createUser: async (data: CreateUserData): Promise<User> => {
+    const response = await api.post<User>('/users', data);
+    return response.data;
+  },
+
+  // Update user
+  updateUser: async (id: number, data: Partial<CreateUserData>): Promise<User> => {
+    const response = await api.put<User>(`/users/${id}`, data);
+    return response.data;
+  },
+
+  // Delete user
+  deleteUser: async (id: number): Promise<void> => {
+    await api.delete(`/users/${id}`);
+  },
+};
+```
+
+## Hook Pattern with TanStack Query
+```typescript
+// src/hooks/useUsers.ts
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { userService, User, CreateUserData } from '@/services/userService';
+
+export const useUsers = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: userService.getUsers,
+  });
+};
+
+export const useUser = (id: number) => {
+  return useQuery({
+    queryKey: ['users', id],
+    queryFn: () => userService.getUser(id),
+    enabled: !!id,
+  });
+};
+
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: userService.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+```
+
+## Error Handling
+- **Global error handler**: Use centralized error handling in API client
+- **Toast notifications**: Show user-friendly error messages
+- **Loading states**: Handle loading and error states in components
+- **Retry logic**: Implement retry mechanisms for failed requests
+
+## Authentication
+- **Token management**: Use cookie service for auth tokens
+- **Automatic headers**: API client adds auth headers automatically
+- **Token refresh**: Handle token expiration gracefully
+- **Protected routes**: Implement route protection middleware
+description:
+globs:
+alwaysApply: false
+---

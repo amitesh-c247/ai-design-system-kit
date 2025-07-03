@@ -1,0 +1,31 @@
+# Project Structure Guide
+
+This is a Next.js 15 React admin dashboard project with TypeScript. The main entry point is [src/app/layout.tsx](mdc:src/app/layout.tsx), which uses the app router structure.
+
+## Key Directories
+- **src/app/**: Next.js app router pages and layouts
+- **src/components/**: Reusable UI components organized by feature
+- **src/hooks/**: Custom React hooks for business logic
+- **src/services/**: API service layer for backend communication
+- **src/utils/**: Utility functions and helpers
+- **src/constants/**: Application constants and configuration
+- **src/locales/**: Internationalization files using next-intl
+- **src/assets/**: Static assets like images and icons
+
+## Technology Stack
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript (strict mode)
+- **UI Libraries**: React Bootstrap, Ant Design, Radix UI
+- **State Management**: TanStack Query for server state
+- **Styling**: SCSS modules with Bootstrap
+- **Forms**: React Hook Form with Yup/Zod validation
+- **Internationalization**: next-intl
+- **Testing**: Storybook, Vitest, Playwright
+
+## Path Aliases
+- `@/*` maps to `src/*` for absolute imports
+- Always use absolute imports from `@/` instead of relative paths
+description:
+globs:
+alwaysApply: false
+---
