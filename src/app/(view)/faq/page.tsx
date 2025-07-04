@@ -1,5 +1,5 @@
-import Faq from '@/components/common/Faq';
+import Faq from "@/components/faq/Faq";
 
 export default function FaqPage() {
   return <Faq />;
-} 
+}

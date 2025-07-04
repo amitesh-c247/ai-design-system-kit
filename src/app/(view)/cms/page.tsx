@@ -1,5 +1,5 @@
-import CmsPages from '@/components/common/CmsPages';
+import CmsPages from "@/components/cms/CmsPages";
 
 export default function CmsPage() {
   return <CmsPages />;
-} 
+}

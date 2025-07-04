@@ -1,32 +1,49 @@
-import { api, ApiResponse } from '@/utils/api';
+import { api } from "@/utils/api";
+import type { User } from "@/types/auth";
 
-export interface User {
-  id: number;
-  make: string;
-  short_code: string;
-  status: 'ACTIVE' | 'DISABLED';
-}
+// ============================================================================
+// ENDPOINTS
+// ============================================================================
+const BASE_PATH = "makes";
+const ENDPOINTS = {
+  USERS: BASE_PATH,
+  USER_BY_ID: (id: number) => `${BASE_PATH}/${id}`,
+};
 
 export const userService = {
-  async getUsers(page = 1, limit = 10, search = ''): Promise<{ data: User[]; total: number }> {
-    const offset = (page - 1) * limit;
-    const res = await api.get<{ data: User[]; total: number }>(`vehicle/makes?limit=${limit}&offset=${offset}&search=${encodeURIComponent(search)}`);
+  async getUsers(
+    page: number,
+    limit: number,
+    search: string = ""
+  ): Promise<User[]> {
+    // Example: /users?page=1&limit=10&search=foo
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      ...(search ? { search } : {}),
+    });
+    const res = await api.get<User[]>(
+      `${ENDPOINTS.USERS}?${params.toString()}`
+    );
     return res.data;
   },
   async getUser(id: number): Promise<User | undefined> {
-    const res = await api.get<User>(`vehicle/makes/${id}`);
+    const res = await api.get<User>(ENDPOINTS.USER_BY_ID(id));
     return res.data;
   },
-  async createUser(data: Omit<User, 'id'>): Promise<User> {
-    const res = await api.post<User>('vehicle/make', data);
+  async createUser(data: Omit<User, "id">): Promise<User> {
+    const res = await api.post<User>(ENDPOINTS.USERS, data);
     return res.data;
   },
-  async updateUser(id: number, data: Partial<Omit<User, 'id'>>): Promise<User | undefined> {
-    const res = await api.put<User>(`vehicle/make/${id}`, data);
+  async updateUser(
+    id: number,
+    data: Partial<Omit<User, "id">>
+  ): Promise<User | undefined> {
+    const res = await api.put<User>(ENDPOINTS.USER_BY_ID(id), data);
     return res.data;
   },
   async deleteUser(id: number): Promise<boolean> {
-    await api.delete<null>(`vehicle/make/${id}`);
+    await api.delete<null>(ENDPOINTS.USER_BY_ID(id));
     return true;
   },
-}; 
+};

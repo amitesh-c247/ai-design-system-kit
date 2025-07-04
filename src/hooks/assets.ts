@@ -1,4 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+
+// ============================================================================
+// ASSETS CONFIGURATION
+// ============================================================================
+const ASSETS_CONFIG = {
+  MOCK_DATA: [
+    { id: "1", name: "Asset 1", type: "image", url: "/placeholder1.jpg" },
+    { id: "2", name: "Asset 2", type: "document", url: "/placeholder2.pdf" },
+  ] as Asset[],
+  ERROR_MESSAGE: "Failed to fetch assets",
+} as const;
 
 interface Asset {
   id: string;
@@ -16,13 +27,9 @@ export const useAssets = () => {
     setLoading(true);
     try {
       // Mock data for now
-      const mockAssets: Asset[] = [
-        { id: '1', name: 'Asset 1', type: 'image', url: '/placeholder1.jpg' },
-        { id: '2', name: 'Asset 2', type: 'document', url: '/placeholder2.pdf' },
-      ];
-      setAssets(mockAssets);
+      setAssets(ASSETS_CONFIG.MOCK_DATA);
     } catch (err) {
-      setError('Failed to fetch assets');
+      setError(ASSETS_CONFIG.ERROR_MESSAGE);
     } finally {
       setLoading(false);
     }
@@ -55,4 +62,4 @@ export const useResourceTreeFilter = () => {
   };
 };
 
-export default useAssets; 
+export default useAssets;

@@ -1,4 +1,4 @@
-import Terms from "@/components/common/Policy/Terms";
+import Terms from "@/components/faq/Policy/Terms";
 
 export default function TermsPage() {
   return <Terms />;

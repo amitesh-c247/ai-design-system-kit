@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Table from "@/components/common/Table";
-import CommonModal from "@/components/common/Modal";
-import UserForm, { UserFormValues } from "@/components/common/UserForm";
+import Table from "@/components/pure-components/Table";
+import CommonModal from "@/components/pure-components/Modal";
+import UserForm, { UserFormValues } from "@/components/users/UserForm";
 import type { TableColumn } from "@/types/ui";
 import {
   useUsersQuery,
@@ -17,8 +17,8 @@ import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { Trash2, Pencil, Search } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
-import CardWrapper from "@/components/common/CardWrapper";
-import ActionButton from "@/components/common/ActionButton";
+import CardWrapper from "@/components/pure-components/CardWrapper";
+import ActionButton from "@/components/pure-components/ActionButton";
 
 type User = UserFormValues & { id: number };
 
@@ -35,16 +35,21 @@ export default function UsersPage() {
     message: string;
     variant: "success" | "danger";
   }>({ show: false, message: "", variant: "success" });
-  
+
   // Use the pagination hook for URL state management
-  const { params: pagination, setPage, setPageSize, setSearch } = useStandardPagination({
+  const {
+    params: pagination,
+    setPage,
+    setPageSize,
+    setSearch,
+  } = useStandardPagination({
     defaultPageSize: 10,
   });
 
   // Fetch users with current pagination state
   const { data, isLoading } = useUsersQuery(
-    pagination.page, 
-    pagination.pageSize, 
+    pagination.page,
+    pagination.pageSize,
     pagination.search
   );
 
@@ -124,7 +129,11 @@ export default function UsersPage() {
         });
       } else {
         await createUser(data);
-        setToast({ show: true, message: t('messages.userCreated'), variant: 'success' });
+        setToast({
+          show: true,
+          message: t("messages.userCreated"),
+          variant: "success",
+        });
       }
       setShowModal(false);
       setEditId(null);
@@ -139,13 +148,13 @@ export default function UsersPage() {
 
   return (
     <CardWrapper
-      title={t('title')}
+      title={t("title")}
       onCreate={handleOpenModal}
-      createButtonText={t('createUser')}
+      createButtonText={t("createUser")}
     >
       {/* Search Input */}
       <div className="mb-3">
-        <div className="input-group" style={{ maxWidth: '400px' }}>
+        <div className="input-group" style={{ maxWidth: "400px" }}>
           <span className="input-group-text">
             <Search size={16} />
           </span>
@@ -187,7 +196,7 @@ export default function UsersPage() {
       <CommonModal
         show={showModal}
         onClose={handleCloseModal}
-        title={editId ? t('editUser') : t('createNewUser')}
+        title={editId ? t("editUser") : t("createNewUser")}
       >
         <UserForm
           defaultValues={form}
@@ -209,12 +218,12 @@ export default function UsersPage() {
           autohide
         >
           <Toast.Body
-            style={{ color: toast.variant === 'danger' ? '#fff' : undefined }}
+            style={{ color: toast.variant === "danger" ? "#fff" : undefined }}
           >
             {toast.message}
           </Toast.Body>
         </Toast>
       </ToastContainer>
     </CardWrapper>
-  )
+  );
 }

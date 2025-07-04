@@ -11,8 +11,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Button } from '@/components/common/Button';
-import { Input } from '@/components/common/Form/Input';
+import { Button } from '@/components/pure-components/Button';
+import { Input } from '@/components/pure-components/Form/Input';
 import styles from './UserForm.module.scss';
 
 // Validation schema

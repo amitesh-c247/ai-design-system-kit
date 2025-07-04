@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
-import LogoIcon from '@/assets/images/logo-icon.svg';
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import LogoIcon from "@/assets/images/logo-icon.svg";
 import {
   LayoutDashboard,
   Users,
@@ -16,8 +16,8 @@ import {
   Menu,
   Book,
   MessageCircle,
-} from 'lucide-react';
-import styles from './styles.module.scss';
+} from "lucide-react";
+import styles from "./styles.module.scss";
 
 interface MenuItem {
   id: string;
@@ -28,46 +28,46 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
-    id: 'dashboard',
-    label: 'Dashboard',
+    id: "dashboard",
+    label: "Dashboard",
     icon: <LayoutDashboard size={20} />,
-    path: '/dashboard',
+    path: "/dashboard",
   },
   {
-    id: 'users',
-    label: 'Users',
+    id: "users",
+    label: "Users",
     icon: <Users size={20} />,
-    path: '/users',
+    path: "/users",
   },
   {
-    id: 'reports',
-    label: 'Reports',
+    id: "reports",
+    label: "Reports",
     icon: <BarChart2 size={20} />,
-    path: '/reports',
+    path: "/reports",
   },
   {
-    id: 'cms',
-    label: 'CMS',
+    id: "cms",
+    label: "CMS",
     icon: <Book size={20} />,
-    path: '/cms',
+    path: "/cms",
   },
   {
-    id: 'settings',
-    label: 'Settings',
+    id: "settings",
+    label: "Settings",
     icon: <Settings size={20} />,
-    path: '/settings',
+    path: "/settings",
   },
   {
-    id: 'support',
-    label: 'Support',
+    id: "support",
+    label: "Support",
     icon: <HelpCircle size={20} />,
-    path: '/support',
+    path: "/support",
   },
   {
-    id: 'faq',
-    label: 'FAQ',
+    id: "faq",
+    label: "FAQ",
     icon: <MessageCircle size={20} />,
-    path: '/faq',
+    path: "/faq",
   },
 ];
 
@@ -88,8 +88,8 @@ const Sidebar = () => {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // Handle click outside on mobile
@@ -98,14 +98,14 @@ const Sidebar = () => {
       if (
         isMobile &&
         sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
+        !sidebarRef.current.contains(event.target)
       ) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile]);
 
   const toggleSidebar = () => {
@@ -134,9 +134,9 @@ const Sidebar = () => {
         ref={sidebarRef}
         className={`
           ${styles.sidebar}
-          ${isCollapsed ? styles.collapsed : ''}
-          ${isCollapsed ? 'collapsed-sidebar' : ''}
-          ${isMobileMenuOpen ? styles.mobileOpen : ''}
+          ${isCollapsed ? styles.collapsed : ""}
+          ${isCollapsed ? "collapsed-sidebar" : ""}
+          ${isMobileMenuOpen ? styles.mobileOpen : ""}
         `}
       >
         {/* Logo Section */}
@@ -167,7 +167,7 @@ const Sidebar = () => {
               key={item.id}
               href={item.path}
               className={`${styles.navItem} ${
-                pathname === item.path ? styles.active : ''
+                pathname === item.path ? styles.active : ""
               }`}
             >
               <span className={styles.icon}>{item.icon}</span>
@@ -179,7 +179,7 @@ const Sidebar = () => {
         </nav>
       </aside>
     </>
-  )
+  );
 };
 
 export default Sidebar;

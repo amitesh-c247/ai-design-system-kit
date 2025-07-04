@@ -1,19 +1,46 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { userService, User } from '@/services/user';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { userService, User } from "@/services/user";
 
-export function useUsersQuery(page: number, limit: number, search: string = '') {
+// ============================================================================
+// USER QUERY KEYS
+// ============================================================================
+const USER_QUERY_KEYS = {
+  USERS: "users",
+  USER: "user",
+} as const;
+
+// ============================================================================
+// USER CONFIGURATION
+// ============================================================================
+const USER_CONFIG = {
+  STALE_TIME: 1000 * 60 * 5, // 5 minutes
+  RETRY: {
+    retries: 2,
+    retryDelay: 1000,
+  },
+} as const;
+
+export function useUsersQuery(
+  page: number,
+  limit: number,
+  search: string = ""
+) {
   return useQuery({
-    queryKey: ['users', page, limit, search],
+    queryKey: [USER_QUERY_KEYS.USERS, page, limit, search],
     queryFn: () => userService.getUsers(page, limit, search),
+    staleTime: USER_CONFIG.STALE_TIME,
+    retry: USER_CONFIG.RETRY.retries,
     // keepPreviousData: true, // Uncomment if your React Query version supports it
   });
 }
 
 export function useUserQuery(id: number) {
   return useQuery({
-    queryKey: ['users', id],
+    queryKey: [USER_QUERY_KEYS.USERS, id],
     queryFn: () => userService.getUser(id),
     enabled: !!id,
+    staleTime: USER_CONFIG.STALE_TIME,
+    retry: USER_CONFIG.RETRY.retries,
   });
 }
 
@@ -22,7 +49,7 @@ export function useCreateUserMutation() {
   return useMutation({
     mutationFn: userService.createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
     },
   });
 }
@@ -30,9 +57,15 @@ export function useCreateUserMutation() {
 export function useUpdateUserMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Omit<User, 'id'>> }) => userService.updateUser(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: Partial<Omit<User, "id">>;
+    }) => userService.updateUser(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
     },
   });
 }
@@ -42,7 +75,7 @@ export function useDeleteUserMutation() {
   return useMutation({
     mutationFn: (id: number) => userService.deleteUser(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
     },
   });
-} 
+}

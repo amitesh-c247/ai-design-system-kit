@@ -1,8 +1,27 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { authService, LoginCredentials } from '@/services/auth';
-import { setUnauthorizedHandler, clearUnauthorizedHandler } from '@/utils/api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { authService } from "@/services/auth";
+import { LoginCredentials } from "@/types/auth";
+import { setUnauthorizedHandler, clearUnauthorizedHandler } from "@/utils/api";
+
+// ============================================================================
+// AUTH QUERY KEYS
+// ============================================================================
+const AUTH_QUERY_KEYS = {
+  USER: "user",
+} as const;
+
+// ============================================================================
+// AUTH CONFIGURATION
+// ============================================================================
+const AUTH_CONFIG = {
+  STALE_TIME: 1000 * 60 * 5, // 5 minutes
+  RETRY: {
+    retries: 1, // Lower retries for auth to fail fast
+    retryDelay: 1000,
+  },
+} as const;
 
 export const useAuth = () => {
   const router = useRouter();
@@ -12,15 +31,15 @@ export const useAuth = () => {
   useEffect(() => {
     const handleUnauthorized = () => {
       // Clear all auth-related queries
-      queryClient.removeQueries({ queryKey: ['user'] });
+      queryClient.removeQueries({ queryKey: [AUTH_QUERY_KEYS.USER] });
       queryClient.clear();
-      
+
       // Redirect to login
-      router.replace('/login');
+      router.replace("/login");
     };
 
     setUnauthorizedHandler(handleUnauthorized);
-    
+
     // Cleanup on unmount
     return () => {
       clearUnauthorizedHandler();
@@ -29,10 +48,11 @@ export const useAuth = () => {
 
   // Login mutation
   const login = useMutation({
-    mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
+    mutationFn: (credentials: LoginCredentials) =>
+      authService.login(credentials),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-      router.replace('/dashboard');
+      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEYS.USER] });
+      router.replace("/dashboard");
     },
   });
 
@@ -46,14 +66,18 @@ export const useAuth = () => {
     },
     onSuccess: () => {
       // Remove the user query from cache to prevent refetch
-      queryClient.removeQueries({ queryKey: ['user'] });
-      router.replace('/login');
+      queryClient.removeQueries({ queryKey: [AUTH_QUERY_KEYS.USER] });
+      router.replace("/login");
     },
   });
 
   // Get current user query with 401 handling
-  const { data: user, isLoading: isLoadingUser, error } = useQuery({
-    queryKey: ['user'],
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    error,
+  } = useQuery({
+    queryKey: [AUTH_QUERY_KEYS.USER],
     queryFn: authService.getCurrentUser,
     retry: (failureCount, error: any) => {
       // Don't retry on 401 errors
@@ -61,9 +85,9 @@ export const useAuth = () => {
         return false;
       }
       // Retry up to 1 time for other errors
-      return failureCount < 1;
+      return failureCount < AUTH_CONFIG.RETRY.retries;
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: AUTH_CONFIG.STALE_TIME,
     enabled: authService.isAuthenticated(), // Only fetch if authenticated
   });
 
@@ -71,7 +95,7 @@ export const useAuth = () => {
   useEffect(() => {
     if (error && (error as any)?.status === 401) {
       // Clear user queries when we get a 401
-      queryClient.removeQueries({ queryKey: ['user'] });
+      queryClient.removeQueries({ queryKey: [AUTH_QUERY_KEYS.USER] });
     }
   }, [error, queryClient]);
 
@@ -89,4 +113,4 @@ export const useAuth = () => {
     loginError: login.error,
     userError: error,
   };
-}; 
+};

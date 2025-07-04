@@ -58,7 +58,7 @@ src/locales/
 ## Component Usage Pattern
 ```typescript
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/common/Button';
+import { Button } from '@/components/pure-components/Button';
 
 const MyComponent: React.FC = () => {
   const t = useTranslations('common');
