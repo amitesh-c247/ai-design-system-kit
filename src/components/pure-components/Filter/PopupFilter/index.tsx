@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { useIntl } from 'react-intl';
-import { Popover, Button, Stack, OverlayTrigger } from 'react-bootstrap';
-import FilterButton from '../FilterButton';
-import styles from './styles.module.scss';
+import React, { useState, useRef } from "react";
+import { useIntl } from "react-intl";
+import { Popover, Button, Stack, OverlayTrigger } from "react-bootstrap";
+import FilterButton from "../FilterButton";
+import styles from "./styles.module.scss";
 
 interface PopupFilterProps {
   label: string;
@@ -12,18 +12,17 @@ interface PopupFilterProps {
   onApply?: () => void;
   onClear: () => void;
   isDisabled?: boolean;
-  children: React.ReactNode;
 }
 
-const PopupFilter: React.FC<PopupFilterProps> = ({
+const PopupFilter: React.FC<React.PropsWithChildren<PopupFilterProps>> = ({
   label,
   labelCount,
   labelName,
   active,
   onApply,
   onClear,
-  children,
   isDisabled = false,
+  children,
 }) => {
   const { formatMessage } = useIntl();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -45,11 +44,15 @@ const PopupFilter: React.FC<PopupFilterProps> = ({
         <div className={styles.footer}>
           <Stack direction="horizontal" gap={2}>
             <Button variant="outline-secondary" onClick={hideAndClear}>
-              {formatMessage({ id: 'generic.clear' })}
+              {formatMessage({ id: "generic.clear" })}
             </Button>
             {onApply && (
-              <Button variant="primary" onClick={hideAndApply} disabled={isDisabled}>
-                {formatMessage({ id: 'generic.apply' })}
+              <Button
+                variant="primary"
+                onClick={hideAndApply}
+                disabled={isDisabled}
+              >
+                {formatMessage({ id: "generic.apply" })}
               </Button>
             )}
           </Stack>

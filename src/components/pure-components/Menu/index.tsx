@@ -1,10 +1,9 @@
-import React from 'react';
-import { Dropdown } from 'react-bootstrap';
-import classnames from 'classnames';
-import styles from './styles.module.scss';
+import React from "react";
+import { Dropdown } from "react-bootstrap";
+import classnames from "classnames";
+import styles from "./styles.module.scss";
 
 export interface MenuItemProps {
-  children: React.ReactNode;
   onClick?: () => void;
   active?: boolean;
   disabled?: boolean;
@@ -12,11 +11,10 @@ export interface MenuItemProps {
 }
 
 export interface MenuProps {
-  children: React.ReactNode;
   className?: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
+const MenuItem: React.FC<React.PropsWithChildren<MenuItemProps>> = ({
   children,
   onClick,
   active,
@@ -35,7 +33,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-const Menu: React.FC<MenuProps> & {
+const Menu: React.FC<React.PropsWithChildren<MenuProps>> & {
   Item: typeof MenuItem;
 } = ({ children, className }) => {
   return (

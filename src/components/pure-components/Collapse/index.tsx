@@ -1,20 +1,18 @@
-import Typography from '@/components/Typography';
-import { Collapse as AntdCollapse } from 'antd';
+import Typography from "@/components/Typography";
+import { Collapse as AntdCollapse } from "antd";
 import type {
   CollapsePanelProps as AntdCollapsePanelProps,
   CollapseProps as AntdCollapseProps,
-} from 'antd/lib/collapse';
-import classnames from 'classnames';
+} from "antd/lib/collapse";
+import classnames from "classnames";
 
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
-interface CollapseProps extends AntdCollapseProps {
+interface CollapseProps {
   className?: string;
 }
 
-type CollapsePanelProps = AntdCollapsePanelProps & {
-  children: React.ReactNode;
-};
+type CollapsePanelProps = AntdCollapsePanelProps & React.PropsWithChildren<{}>;
 
 const Collapse: React.FC<React.PropsWithChildren<CollapseProps>> & {
   Panel: (props: CollapsePanelProps) => React.ReactNode;
@@ -31,7 +29,10 @@ export default Collapse;
 const Panel = ({ header, ...props }: CollapsePanelProps) =>
   AntdCollapse.Panel({
     header: (
-      <Typography variant={undefined} className={typeof header === 'string' ? header : undefined}>
+      <Typography
+        variant={undefined}
+        className={typeof header === "string" ? header : undefined}
+      >
         {header}
       </Typography>
     ),

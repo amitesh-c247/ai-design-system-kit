@@ -9,7 +9,7 @@ export interface Faq {
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
-const BASE_PATH = "/faq";
+const BASE_PATH = "faq";
 const ENDPOINTS = {
   FAQS: BASE_PATH,
   FAQ_BY_ID: (id: string) => `${BASE_PATH}/${id}`,

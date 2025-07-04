@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { PropsWithChildren } from "react";
 import Header from "@/components/header-sidebar/header/header";
 import Sidebar from "@/components/header-sidebar/sidebar/sidebar";
 
@@ -7,11 +8,7 @@ export const metadata: Metadata = {
   description: "Modern admin dashboard template",
 };
 
-export default function ViewLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ViewLayout({ children }: PropsWithChildren<{}>) {
   return (
     <div className="d-flex flex-column collesped-sidebar">
       <Sidebar />

@@ -1,22 +1,21 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React from "react";
+import { Modal, Button } from "react-bootstrap";
 
 interface CommonModalProps {
   show: boolean;
   onClose: () => void;
   title: React.ReactNode;
-  children: React.ReactNode;
   footer?: React.ReactNode;
-  size?: 'sm' | 'lg' | 'xl';
+  size?: "sm" | "lg" | "xl";
 }
 
-const CommonModal: React.FC<CommonModalProps> = ({
+const CommonModal: React.FC<React.PropsWithChildren<CommonModalProps>> = ({
   show,
   onClose,
   title,
   children,
   footer,
-  size
+  size,
 }) => {
   return (
     <Modal show={show} onHide={onClose} size={size}>

@@ -1,18 +1,18 @@
-import React from 'react';
-import { Modal as BootstrapModal, Button } from 'react-bootstrap';
+import React from "react";
+import { Modal as BootstrapModal, Button } from "react-bootstrap";
 
-export interface ModalProps {
-  open: boolean;
-  onOk?: () => void;
-  onCancel?: () => void;
-  title?: string;
-  children: React.ReactNode;
-  okText?: string;
-  cancelText?: string;
-  size?: 'sm' | 'lg' | 'xl';
-  centered?: boolean;
-  className?: string;
-}
+export interface ModalProps
+  extends React.PropsWithChildren<{
+    open: boolean;
+    onOk?: () => void;
+    onCancel?: () => void;
+    title?: string;
+    okText?: string;
+    cancelText?: string;
+    size?: "sm" | "lg" | "xl";
+    centered?: boolean;
+    className?: string;
+  }> {}
 
 const Modal: React.FC<ModalProps> = ({
   open,
@@ -20,11 +20,11 @@ const Modal: React.FC<ModalProps> = ({
   onCancel,
   title,
   children,
-  okText = 'OK',
-  cancelText = 'Cancel',
+  okText = "OK",
+  cancelText = "Cancel",
   size,
   centered = true,
-  className = '',
+  className = "",
 }) => {
   return (
     <BootstrapModal
@@ -56,4 +56,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal; 
+export default Modal;

@@ -4,7 +4,7 @@ import type { User } from "@/types/auth";
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
-const BASE_PATH = "/users";
+const BASE_PATH = "makes";
 const ENDPOINTS = {
   USERS: BASE_PATH,
   USER_BY_ID: (id: number) => `${BASE_PATH}/${id}`,

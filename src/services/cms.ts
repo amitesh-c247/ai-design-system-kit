@@ -4,12 +4,15 @@ import type { Page } from "@/types/cms";
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
+const BASE_PATH = "page";
 const ENDPOINTS = {
-  PAGE: "/page",
-  PAGE_BY_ID: (id: string) => `/page/${id}`,
-  PAGE_BY_SLUG: (slug: string) => `/page?slug=${encodeURIComponent(slug)}`,
-  PAGE_BY_STATUS: (status: string) => `/page?status=${status}`,
-  PAGE_SEARCH: (query: string) => `/page?search=${encodeURIComponent(query)}`,
+  PAGE: BASE_PATH,
+  PAGE_BY_ID: (id: string) => `${BASE_PATH}/${id}`,
+  PAGE_BY_SLUG: (slug: string) =>
+    `${BASE_PATH}?slug=${encodeURIComponent(slug)}`,
+  PAGE_BY_STATUS: (status: string) => `${BASE_PATH}?status=${status}`,
+  PAGE_SEARCH: (query: string) =>
+    `${BASE_PATH}?search=${encodeURIComponent(query)}`,
 };
 
 export const cmsService = {

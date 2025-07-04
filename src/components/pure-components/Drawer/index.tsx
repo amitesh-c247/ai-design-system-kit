@@ -1,33 +1,32 @@
-import React from 'react';
-import { Offcanvas } from 'react-bootstrap';
-import classnames from 'classnames';
+import React from "react";
+import { Offcanvas } from "react-bootstrap";
+import classnames from "classnames";
 
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
-export interface DrawerProps {
+interface DrawerProps {
   show: boolean;
   onHide: () => void;
-  placement?: 'start' | 'end' | 'top' | 'bottom';
+  placement?: "top" | "bottom" | "end" | "start";
   title?: React.ReactNode;
-  children?: React.ReactNode;
   className?: string;
   minHeight?: string;
   maxHeight?: string;
   height?: string;
-  backdrop?: boolean | 'static';
+  backdrop?: boolean;
   scrollable?: boolean;
   closeButton?: boolean;
 }
 
-const Drawer: React.FC<DrawerProps> = ({
+const Drawer: React.FC<React.PropsWithChildren<DrawerProps>> = ({
   show,
   onHide,
-  placement = 'bottom',
+  placement = "bottom",
   title,
   children,
   className,
-  minHeight = '35%',
-  maxHeight = '95%',
+  minHeight = "35%",
+  maxHeight = "95%",
   height,
   backdrop = true,
   scrollable = true,
@@ -45,16 +44,16 @@ const Drawer: React.FC<DrawerProps> = ({
       style={{
         minHeight: minHeight,
         maxHeight: maxHeight,
-        height: height ?? 'auto',
+        height: height ?? "auto",
       }}
       {...props}
     >
-      {title && <Offcanvas.Header closeButton={closeButton}>
-        <Offcanvas.Title>{title}</Offcanvas.Title>
-      </Offcanvas.Header>}
-      <Offcanvas.Body>
-        {children}
-      </Offcanvas.Body>
+      {title && (
+        <Offcanvas.Header closeButton={closeButton}>
+          <Offcanvas.Title>{title}</Offcanvas.Title>
+        </Offcanvas.Header>
+      )}
+      <Offcanvas.Body>{children}</Offcanvas.Body>
     </Offcanvas>
   );
 };

@@ -5,11 +5,10 @@ interface CardWrapperProps {
   title: React.ReactNode;
   onCreate?: () => void;
   createButtonText?: React.ReactNode;
-  children: React.ReactNode;
   className?: string;
 }
 
-const CardWrapper: React.FC<CardWrapperProps> = ({
+const CardWrapper: React.FC<React.PropsWithChildren<CardWrapperProps>> = ({
   title,
   onCreate,
   createButtonText,
@@ -29,4 +28,4 @@ const CardWrapper: React.FC<CardWrapperProps> = ({
   </div>
 );
 
-export default CardWrapper; 
+export default CardWrapper;

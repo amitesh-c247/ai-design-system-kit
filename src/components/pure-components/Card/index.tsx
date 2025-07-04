@@ -1,28 +1,29 @@
-import React from 'react';
-import styles from './styles.module.scss';
+import React from "react";
+import styles from "./styles.module.scss";
 
 interface CardProps {
-  children: React.ReactNode;
-  variant?: 'default' | 'strong' | 'tight' | 'tight-strong';
+  variant?: string;
   bordered?: boolean;
   noShadow?: boolean;
   className?: string;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<React.PropsWithChildren<CardProps>> = ({
   children,
-  variant = 'default',
+  variant = "default",
   bordered = false,
   noShadow = false,
-  className = '',
+  className = "",
 }) => {
-  const variantClass = `variant${variant.charAt(0).toUpperCase() + variant.slice(1)}`;
-  
+  const variantClass = `variant${
+    variant.charAt(0).toUpperCase() + variant.slice(1)
+  }`;
+
   return (
     <div
       className={`${styles.card} ${styles[variantClass]} ${
-        bordered ? styles.bordered : ''
-      } ${noShadow ? styles.noShadow : ''} ${className}`}
+        bordered ? styles.bordered : ""
+      } ${noShadow ? styles.noShadow : ""} ${className}`}
     >
       {children}
     </div>

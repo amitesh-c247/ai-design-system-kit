@@ -5,6 +5,7 @@ import { messages } from "@/locales";
 import "./globals.css";
 import "../../assets/scss/admin.scss";
 import { cookies } from "next/headers";
+import type { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -14,10 +15,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: PropsWithChildren<{ params: Promise<{ locale: string }> }>) {
   const { locale } = await params;
   const cookieStore = await cookies();
   const theme = cookieStore.get("theme")?.value || "light";

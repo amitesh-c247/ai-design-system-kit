@@ -1,7 +1,7 @@
-import React, { createContext, useContext, HTMLAttributes } from 'react';
-import { Form as BootstrapForm, Row, Col, Button } from 'react-bootstrap';
-import classnames from 'classnames';
-import styles from './styles.module.scss';
+import React, { createContext, useContext, HTMLAttributes } from "react";
+import { Form as BootstrapForm, Row, Col, Button } from "react-bootstrap";
+import classnames from "classnames";
+import styles from "./styles.module.scss";
 
 export const FORM_ITEM_SIZE = {
   sm: 4,
@@ -21,13 +21,13 @@ export interface FormItemProps {
   children: React.ReactElement<HTMLAttributes<HTMLElement>>;
   className?: string;
   help?: React.ReactNode;
-  validateStatus?: 'success' | 'error' | 'warning' | 'validating';
+  validateStatus?: "success" | "error" | "warning" | "validating";
   feedback?: React.ReactNode;
   isInvalid?: boolean;
   isValid?: boolean;
 }
 
-const ModalContext = createContext<{ size?: 'sm' | 'lg' | 'xl' } | null>(null);
+const ModalContext = createContext<{ size?: "sm" | "lg" | "xl" } | null>(null);
 
 const Item: React.FC<FormItemProps> = ({
   size,
@@ -36,7 +36,7 @@ const Item: React.FC<FormItemProps> = ({
   name,
   required,
   children,
-  className = '',
+  className = "",
   help,
   validateStatus,
   feedback,
@@ -53,7 +53,7 @@ const Item: React.FC<FormItemProps> = ({
   };
 
   // default item span
-  let itemSpan: FormItemSize = FORM_ITEM_SIZE['sm'];
+  let itemSpan: FormItemSize = FORM_ITEM_SIZE["sm"];
   // if `size` prop passed, overrides default size
   if (size) itemSpan = FORM_ITEM_SIZE[size];
   // else if formItem is inside a modal, apply size based on Modal's size
@@ -62,16 +62,21 @@ const Item: React.FC<FormItemProps> = ({
   }
 
   const getValidationClass = () => {
-    if (isInvalid) return 'is-invalid';
-    if (isValid) return 'is-valid';
-    if (validateStatus === 'error') return 'is-invalid';
-    if (validateStatus === 'success') return 'is-valid';
-    return '';
+    if (isInvalid) return "is-invalid";
+    if (isValid) return "is-valid";
+    if (validateStatus === "error") return "is-invalid";
+    if (validateStatus === "success") return "is-valid";
+    return "";
   };
 
   return (
-    <Col xs={itemSpan} className={classnames(dense ? 'mb-2' : 'mb-3', className)}>
-      <BootstrapForm.Group className={classnames(styles.formGroup, { [styles.dense]: dense })}>
+    <Col
+      xs={itemSpan}
+      className={classnames(dense ? "mb-2" : "mb-3", className)}
+    >
+      <BootstrapForm.Group
+        className={classnames(styles.formGroup, { [styles.dense]: dense })}
+      >
         {label && (
           <BootstrapForm.Label className={styles.formLabel}>
             {label}
@@ -82,12 +87,18 @@ const Item: React.FC<FormItemProps> = ({
           className: classnames(children.props.className, getValidationClass()),
         })}
         {feedback && (
-          <BootstrapForm.Control.Feedback type={isInvalid ? 'invalid' : 'valid'}>
+          <BootstrapForm.Control.Feedback
+            type={isInvalid ? "invalid" : "valid"}
+          >
             {feedback}
           </BootstrapForm.Control.Feedback>
         )}
         {help && (
-          <BootstrapForm.Text className={classnames(styles.formText, { [styles.error]: validateStatus === 'error' })}>
+          <BootstrapForm.Text
+            className={classnames(styles.formText, {
+              [styles.error]: validateStatus === "error",
+            })}
+          >
             {help}
           </BootstrapForm.Text>
         )}
@@ -98,7 +109,10 @@ const Item: React.FC<FormItemProps> = ({
 
 interface FormListProps {
   name: string;
-  children: (fields: Array<{ key: number }>, actions: { add: () => void; remove: (index: number) => void }) => React.ReactNode;
+  children: (
+    fields: Array<{ key: number }>,
+    actions: { add: () => void; remove: (index: number) => void }
+  ) => React.ReactNode;
   addButtonText?: string;
   removeButtonText?: string;
 }
@@ -106,10 +120,12 @@ interface FormListProps {
 const List: React.FC<FormListProps> = ({
   name,
   children,
-  addButtonText = 'Add Item',
-  removeButtonText = 'Remove',
+  addButtonText = "Add Item",
+  removeButtonText = "Remove",
 }) => {
-  const [fields, setFields] = React.useState<Array<{ key: number }>>([{ key: 0 }]);
+  const [fields, setFields] = React.useState<Array<{ key: number }>>([
+    { key: 0 },
+  ]);
 
   const add = () => {
     setFields([...fields, { key: fields.length }]);
@@ -135,13 +151,15 @@ const List: React.FC<FormListProps> = ({
 };
 
 interface FormProps {
-  children: React.ReactNode;
   onSubmit?: (e: React.FormEvent) => void;
   className?: string;
   validated?: boolean;
 }
 
-export const Form: React.FC<FormProps> = ({ children, ...props }) => {
+export const Form: React.FC<React.PropsWithChildren<FormProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm className={styles.form} {...props}>
       {children}
@@ -150,11 +168,13 @@ export const Form: React.FC<FormProps> = ({ children, ...props }) => {
 };
 
 interface FormGroupProps {
-  children: React.ReactNode;
   className?: string;
 }
 
-export const FormGroup: React.FC<FormGroupProps> = ({ children, ...props }) => {
+export const FormGroup: React.FC<React.PropsWithChildren<FormGroupProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm.Group className={styles.formGroup} {...props}>
       {children}
@@ -163,11 +183,13 @@ export const FormGroup: React.FC<FormGroupProps> = ({ children, ...props }) => {
 };
 
 interface FormLabelProps {
-  children: React.ReactNode;
   className?: string;
 }
 
-export const FormLabel: React.FC<FormLabelProps> = ({ children, ...props }) => {
+export const FormLabel: React.FC<React.PropsWithChildren<FormLabelProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm.Label className={styles.formLabel} {...props}>
       {children}
@@ -181,7 +203,10 @@ interface FormControlProps {
   [key: string]: any;
 }
 
-export const FormControl: React.FC<FormControlProps> = ({ type = 'text', ...props }) => {
+export const FormControl: React.FC<FormControlProps> = ({
+  type = "text",
+  ...props
+}) => {
   return (
     <BootstrapForm.Control
       type={type}
@@ -192,12 +217,14 @@ export const FormControl: React.FC<FormControlProps> = ({ type = 'text', ...prop
 };
 
 interface FormSelectProps {
-  children: React.ReactNode;
   className?: string;
   [key: string]: any;
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({ children, ...props }) => {
+export const FormSelect: React.FC<React.PropsWithChildren<FormSelectProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm.Select className={styles.formSelect} {...props}>
       {children}
@@ -206,12 +233,14 @@ export const FormSelect: React.FC<FormSelectProps> = ({ children, ...props }) =>
 };
 
 interface FormCheckProps {
-  children: React.ReactNode;
   className?: string;
   [key: string]: any;
 }
 
-export const FormCheck: React.FC<FormCheckProps> = ({ children, ...props }) => {
+export const FormCheck: React.FC<React.PropsWithChildren<FormCheckProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm.Check className={styles.formCheck} {...props}>
       {children}
@@ -220,11 +249,13 @@ export const FormCheck: React.FC<FormCheckProps> = ({ children, ...props }) => {
 };
 
 interface FormTextProps {
-  children: React.ReactNode;
   className?: string;
 }
 
-export const FormText: React.FC<FormTextProps> = ({ children, ...props }) => {
+export const FormText: React.FC<React.PropsWithChildren<FormTextProps>> = ({
+  children,
+  ...props
+}) => {
   return (
     <BootstrapForm.Text className={styles.formText} {...props}>
       {children}
