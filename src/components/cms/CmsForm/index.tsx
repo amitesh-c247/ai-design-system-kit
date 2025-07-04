@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Form } from "react-bootstrap";
-import Input from "@/components/common/Form/Input";
+import Input from "@/components/pure-components/Form/Input";
 import { useTranslations } from "next-intl";
 import { isValidJsonString, setFormValues } from "@/utils/useSyncFormValues";
 import dynamic from "next/dynamic";
 
-import { Controller } from 'react-hook-form';
-import EditorJSField from '@/components/common/EditorJSField';
+import { Controller } from "react-hook-form";
+import EditorJSField from "@/components/pure-components/EditorJSField";
 
 export interface CmsFormValues {
   title: string;
@@ -26,9 +26,12 @@ interface CmsFormProps {
   isLoading?: boolean;
 }
 
-const EditorJS = dynamic(() => import("@/components/common/EditorJSField"), {
-  ssr: false,
-});
+const EditorJS = dynamic(
+  () => import("@/components/pure-components/EditorJSField"),
+  {
+    ssr: false,
+  }
+);
 
 const initialValues: Partial<CmsFormValues> = {
   title: "",
@@ -63,31 +66,37 @@ const CmsForm: React.FC<CmsFormProps> = ({
   useEffect(() => {
     if (defaultValues) {
       setFormValues<CmsFormValues>(defaultValues, initialValues, setValue);
-      
+
       // If content_type is TEXT and content is available, ensure it's properly formatted for EditorJS
-      if (defaultValues.content_type === 'TEXT' && defaultValues.content) {
+      if (defaultValues.content_type === "TEXT" && defaultValues.content) {
         let contentValue = defaultValues.content;
-        
+
         // If it's a string, try to parse it as JSON
-        if (typeof contentValue === 'string') {
+        if (typeof contentValue === "string") {
           try {
             contentValue = JSON.parse(contentValue);
           } catch (e) {
             // If parsing fails, wrap plain text in EditorJS format
             contentValue = {
-              blocks: [{
-                type: 'paragraph',
-                data: { text: contentValue }
-              }]
+              blocks: [
+                {
+                  type: "paragraph",
+                  data: { text: contentValue },
+                },
+              ],
             };
           }
         }
-        
-                 // Ensure it has the proper EditorJS structure
-         if (!contentValue || typeof contentValue !== 'object' || !contentValue.blocks) {
-           contentValue = { blocks: [] };
-         }
-        
+
+        // Ensure it has the proper EditorJS structure
+        if (
+          !contentValue ||
+          typeof contentValue !== "object" ||
+          !contentValue.blocks
+        ) {
+          contentValue = { blocks: [] };
+        }
+
         setValue("content", contentValue);
       }
     }
@@ -96,18 +105,19 @@ const CmsForm: React.FC<CmsFormProps> = ({
   const contentType = watch("content_type");
 
   const hasInitialized = useRef(false);
-  
+
   useEffect(() => {
     if (contentType && !hasInitialized.current) {
       hasInitialized.current = true;
       // Clear content errors when switching content type
       clearErrors("content");
-      
+
       if (contentType === "TEXT") {
         const content = defaultValues?.content;
-        const parsedText = (content && isValidJsonString(content))
-          ? JSON.parse(content)
-          : content || { blocks: [] };
+        const parsedText =
+          content && isValidJsonString(content)
+            ? JSON.parse(content)
+            : content || { blocks: [] };
         setValue("content", parsedText);
       } else if (contentType === "LINK") {
         setValue("content", (defaultValues?.content as string) || "");
@@ -143,37 +153,40 @@ const CmsForm: React.FC<CmsFormProps> = ({
   // Check if EditorJS content has meaningful data
   const hasEditorContent = (data: any): boolean => {
     if (!data) return false;
-    
+
     // Handle string content (might be JSON string)
-    if (typeof data === 'string') {
-      if (data.trim() === '') return false;
+    if (typeof data === "string") {
+      if (data.trim() === "") return false;
       try {
         data = JSON.parse(data);
       } catch {
         // If it's not JSON, treat as regular string content
-        return data.trim() !== '';
+        return data.trim() !== "";
       }
     }
-    
+
     if (!data.blocks || !Array.isArray(data.blocks)) return false;
-    
+
     return data.blocks.some((block: any) => {
       if (!block || !block.data) return false;
-      
+
       switch (block.type) {
-        case 'paragraph':
-          return block.data.text && block.data.text.trim() !== '';
-        case 'header':
-          return block.data.text && block.data.text.trim() !== '';
-        case 'list':
-          return block.data.items && Array.isArray(block.data.items) && 
-                 block.data.items.some((item: string) => item && item.trim() !== '');
-        case 'quote':
-          return block.data.text && block.data.text.trim() !== '';
-        case 'image':
-          return block.data.url && block.data.url.trim() !== '';
-        case 'code':
-          return block.data.code && block.data.code.trim() !== '';
+        case "paragraph":
+          return block.data.text && block.data.text.trim() !== "";
+        case "header":
+          return block.data.text && block.data.text.trim() !== "";
+        case "list":
+          return (
+            block.data.items &&
+            Array.isArray(block.data.items) &&
+            block.data.items.some((item: string) => item && item.trim() !== "")
+          );
+        case "quote":
+          return block.data.text && block.data.text.trim() !== "";
+        case "image":
+          return block.data.url && block.data.url.trim() !== "";
+        case "code":
+          return block.data.code && block.data.code.trim() !== "";
         default:
           return true; // For unknown block types, assume they have content
       }
@@ -219,7 +232,10 @@ const CmsForm: React.FC<CmsFormProps> = ({
         <Form.Label>{t("content")}</Form.Label>
         {contentType === "LINK" ? (
           <Input
-            value={(typeof watch("content") === "string" ? watch("content") : "") || ""}
+            value={
+              (typeof watch("content") === "string" ? watch("content") : "") ||
+              ""
+            }
             onChange={handleLinkContentChange}
             isInvalid={!!errors.content}
             feedback={errors.content?.message as string}
@@ -233,14 +249,19 @@ const CmsForm: React.FC<CmsFormProps> = ({
             rules={{
               validate: (value: any) => {
                 const currentContentType = watch("content_type");
-                
-                if (currentContentType === 'LINK') {
-                  return (value && typeof value === 'string' && value.trim() !== '') || t('form.contentRequired');
+
+                if (currentContentType === "LINK") {
+                  return (
+                    (value &&
+                      typeof value === "string" &&
+                      value.trim() !== "") ||
+                    t("form.contentRequired")
+                  );
                 }
-                
+
                 // For TEXT (EditorJS) content
-                return hasEditorContent(value) || t('form.contentRequired');
-              }
+                return hasEditorContent(value) || t("form.contentRequired");
+              },
             }}
             render={({ field, fieldState }) => (
               <EditorJSField
@@ -299,14 +320,27 @@ const CmsForm: React.FC<CmsFormProps> = ({
       </Form.Group>
       <div className="d-flex justify-content-end gap-2 mt-4">
         {onCancel && (
-          <Button variant="secondary" onClick={onCancel} type="button" disabled={isLoading}>
+          <Button
+            variant="secondary"
+            onClick={onCancel}
+            type="button"
+            disabled={isLoading}
+          >
             {t("cancel")}
           </Button>
         )}
-        <Button variant="primary" type="submit" disabled={isSubmitting || isLoading}>
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting || isLoading}
+        >
           {isLoading ? (
             <>
-              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span
+                className="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
               {t("saving")}
             </>
           ) : (

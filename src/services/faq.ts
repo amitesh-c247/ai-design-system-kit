@@ -1,4 +1,4 @@
-import { mockApiClient } from '@/utils/mockapi';
+import { mockApiClient } from "@/utils/mockapi";
 
 export interface Faq {
   id: string;
@@ -6,25 +6,37 @@ export interface Faq {
   description: string;
 }
 
+// ============================================================================
+// ENDPOINTS
+// ============================================================================
+const BASE_PATH = "/faq";
+const ENDPOINTS = {
+  FAQS: BASE_PATH,
+  FAQ_BY_ID: (id: string) => `${BASE_PATH}/${id}`,
+};
+
 export const faqService = {
   async getFaqs(): Promise<Faq[]> {
-    const res = await mockApiClient.get<Faq[]>('/faq');
+    const res = await mockApiClient.get<Faq[]>(ENDPOINTS.FAQS);
     return res.data;
   },
   async getFaq(id: string): Promise<Faq | undefined> {
-    const res = await mockApiClient.get<Faq>(`/faq/${id}`);
+    const res = await mockApiClient.get<Faq>(ENDPOINTS.FAQ_BY_ID(id));
     return res.data;
   },
-  async createFaq(data: Omit<Faq, 'id'>): Promise<Faq> {
-    const res = await mockApiClient.post<Faq>('/faq', data);
+  async createFaq(data: Omit<Faq, "id">): Promise<Faq> {
+    const res = await mockApiClient.post<Faq>(ENDPOINTS.FAQS, data);
     return res.data;
   },
-  async updateFaq(id: string, data: Partial<Omit<Faq, 'id'>>): Promise<Faq | undefined> {
-    const res = await mockApiClient.put<Faq>(`/faq/${id}`, data);
+  async updateFaq(
+    id: string,
+    data: Partial<Omit<Faq, "id">>
+  ): Promise<Faq | undefined> {
+    const res = await mockApiClient.put<Faq>(ENDPOINTS.FAQ_BY_ID(id), data);
     return res.data;
   },
   async deleteFaq(id: string): Promise<boolean> {
-    await mockApiClient.delete<null>(`/faq/${id}`);
+    await mockApiClient.delete<null>(ENDPOINTS.FAQ_BY_ID(id));
     return true;
   },
-}; 
+};

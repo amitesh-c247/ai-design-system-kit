@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Form, FormGroup, FormLabel } from '@/components/common/Form';
-import Input from '@/components/common/Form/Input';
-import Button from '@/components/common/Button';
-import { useAuth } from '@/hooks/auth';
-import ImageWithFallback from '@/components/common/ImageWithFallback';
-import styles from '../auth.module.scss';
-import { useRouter } from 'next/navigation';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { EMAIL_REGEX } from '@/constants/regex';
-import { useTranslations } from 'next-intl';
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
+import Input from "@/components/pure-components/Form/Input";
+import Button from "@/components/pure-components/Button";
+import { useAuth } from "@/hooks/auth";
+import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
+import styles from "../auth.module.scss";
+import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/pure-components/LoadingSpinner";
+import { EMAIL_REGEX } from "@/constants/regex";
+import { useTranslations } from "next-intl";
 
 type LoginFormInputs = {
   email: string;
@@ -20,26 +20,27 @@ type LoginFormInputs = {
 };
 
 const Login = () => {
-  const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } = useAuth();
+  const { login, isLoggingIn, loginError, isAuthenticated, isLoadingUser } =
+    useAuth();
   const router = useRouter();
-  const t = useTranslations('auth.login');
-  
+  const t = useTranslations("auth.login");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       rememberMe: false,
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   React.useEffect(() => {
     if (!isLoadingUser && isAuthenticated) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [isAuthenticated, isLoadingUser, router]);
 
@@ -72,8 +73,8 @@ const Login = () => {
             />
           </div>
 
-          <h1 className={styles.title}>{t('title')}</h1>
-          <p className={styles.subtitle}>{t('subtitle')}</p>
+          <h1 className={styles.title}>{t("title")}</h1>
+          <p className={styles.subtitle}>{t("subtitle")}</p>
 
           {loginError && (
             <div className={styles.errorMessage}>{loginError.message}</div>
@@ -81,18 +82,18 @@ const Login = () => {
 
           <Form onSubmit={handleSubmit(onSubmit)}>
             <FormGroup>
-              <FormLabel>{t('email.label')}</FormLabel>
+              <FormLabel>{t("email.label")}</FormLabel>
               <Input
                 id="email"
                 type="email"
-                {...register('email', {
-                  required: t('email.required'),
+                {...register("email", {
+                  required: t("email.required"),
                   pattern: {
                     value: EMAIL_REGEX,
-                    message: t('email.invalid')
-                  }
+                    message: t("email.invalid"),
+                  },
                 })}
-                placeholder={t('email.placeholder')}
+                placeholder={t("email.placeholder")}
                 disabled={isLoggingIn}
                 isInvalid={!!errors.email}
                 feedback={errors.email?.message}
@@ -100,14 +101,14 @@ const Login = () => {
             </FormGroup>
 
             <FormGroup>
-              <FormLabel>{t('password.label')}</FormLabel>
+              <FormLabel>{t("password.label")}</FormLabel>
               <Input
                 id="password"
                 type="password"
-                {...register('password', {
-                  required: t('password.required')
+                {...register("password", {
+                  required: t("password.required"),
                 })}
-                placeholder={t('password.placeholder')}
+                placeholder={t("password.placeholder")}
                 disabled={isLoggingIn}
                 isInvalid={!!errors.password}
                 feedback={errors.password?.message}
@@ -118,14 +119,14 @@ const Login = () => {
               <label className={`cursor-pointer ${styles.rememberMe}`}>
                 <input
                   type="checkbox"
-                  {...register('rememberMe')}
+                  {...register("rememberMe")}
                   disabled={isLoggingIn}
                 />
-                {t('rememberMe')}
+                {t("rememberMe")}
               </label>
 
               <a href="/forgot-password" className={styles.forgotPassword}>
-                {t('forgotPassword')}
+                {t("forgotPassword")}
               </a>
             </div>
 
@@ -135,12 +136,12 @@ const Login = () => {
               className={styles.submitButton}
               disabled={isLoggingIn}
             >
-              {isLoggingIn ? t('submitting') : t('submit')}
+              {isLoggingIn ? t("submitting") : t("submit")}
             </Button>
           </Form>
 
           <p className={styles.signupText}>
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{" "}
             <a href="/signup" className={styles.signupLink}>
               Sign up
             </a>
@@ -148,7 +149,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Login;

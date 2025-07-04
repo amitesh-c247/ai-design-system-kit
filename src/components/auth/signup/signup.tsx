@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Form, FormGroup, FormLabel } from "@/components/common/Form";
-import Input from "@/components/common/Form/Input";
-import Button from "@/components/common/Button";
-import ImageWithFallback from "@/components/common/ImageWithFallback";
+import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
+import Input from "@/components/pure-components/Form/Input";
+import Button from "@/components/pure-components/Button";
+import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
 import styles from "../auth.module.scss";
 import { useRouter } from "next/navigation";
 // import { useAuth } from "@/hooks/auth"; // Uncomment if you add signup logic
-import { Eye, EyeOff } from "@/components/common/Icons";
+import { Eye, EyeOff } from "@/components/pure-components/Icons";
 
 export type SignupFormInputs = {
   firstName: string;
@@ -66,9 +66,9 @@ const Signup = () => {
     // Placeholder for signup logic
     // await signup(data);
     // For now, just log and redirect
-    alert('Signup successful! (Check console for values)')
-    router.push('/login')
-  }
+    alert("Signup successful! (Check console for values)");
+    router.push("/login");
+  };
 
   return (
     <div className={styles.loginContainer}>

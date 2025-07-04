@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Form, FormGroup, FormLabel } from "@/components/common/Form";
-import Input from "@/components/common/Form/Input";
-import Button from "@/components/common/Button";
-import ImageWithFallback from "@/components/common/ImageWithFallback";
-import styles from '../auth.module.scss';
+import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
+import Input from "@/components/pure-components/Form/Input";
+import Button from "@/components/pure-components/Button";
+import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
+import styles from "../auth.module.scss";
 
 export type ForgotPasswordInputs = {
   email: string;
@@ -49,9 +49,9 @@ const ForgotPassword = () => {
             <div
               className={styles.errorMessage}
               style={{
-                background: '#dcfce7',
-                color: '#166534',
-                borderColor: '#bbf7d0',
+                background: "#dcfce7",
+                color: "#166534",
+                borderColor: "#bbf7d0",
               }}
             >
               If an account with that email exists, a password reset link has
@@ -65,11 +65,11 @@ const ForgotPassword = () => {
                   <Input
                     id="email"
                     type="email"
-                    {...register('email', {
-                      required: 'Email is required',
+                    {...register("email", {
+                      required: "Email is required",
                       pattern: {
                         value: /^\S+@\S+\.\S+$/,
-                        message: 'Please enter a valid email address',
+                        message: "Please enter a valid email address",
                       },
                     })}
                     placeholder="Enter your email"
@@ -83,11 +83,11 @@ const ForgotPassword = () => {
                   className={styles.submitButton}
                   disabled={!isValid || isSubmitting}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                  {isSubmitting ? "Sending..." : "Send Reset Link"}
                 </Button>
               </Form>
               <p className={styles.signupText}>
-                Already have an account?{' '}
+                Already have an account?{" "}
                 <a href="/login" className={styles.signupLink}>
                   Sign in
                 </a>
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default ForgotPassword;

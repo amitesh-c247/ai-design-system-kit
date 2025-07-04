@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Table from "@/components/common/Table";
-import CommonModal from "@/components/common/Modal";
-import UserForm, { UserFormValues } from "@/components/common/UserForm";
+import Table from "@/components/pure-components/Table";
+import CommonModal from "@/components/pure-components/Modal";
+import UserForm, { UserFormValues } from "@/components/users/UserForm";
 import type { TableColumn } from "@/types/ui";
 import {
   useUsersQuery,
@@ -17,29 +17,38 @@ import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { Trash2, Pencil, Search } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
-import CardWrapper from '@/components/common/CardWrapper';
+import CardWrapper from "@/components/pure-components/CardWrapper";
 
 type User = UserFormValues & { id: number };
 
 export default function UsersPage() {
   const t = useTranslations("users");
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState<{ make: string; short_code: string; status: 'ACTIVE' | 'DISABLED' }>({ make: '', short_code: '', status: 'ACTIVE' });
+  const [form, setForm] = useState<{
+    make: string;
+    short_code: string;
+    status: "ACTIVE" | "DISABLED";
+  }>({ make: "", short_code: "", status: "ACTIVE" });
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
     variant: "success" | "danger";
   }>({ show: false, message: "", variant: "success" });
-  
+
   // Use the pagination hook for URL state management
-  const { params: pagination, setPage, setPageSize, setSearch } = useStandardPagination({
+  const {
+    params: pagination,
+    setPage,
+    setPageSize,
+    setSearch,
+  } = useStandardPagination({
     defaultPageSize: 10,
   });
 
   // Fetch users with current pagination state
   const { data, isLoading } = useUsersQuery(
-    pagination.page, 
-    pagination.pageSize, 
+    pagination.page,
+    pagination.pageSize,
     pagination.search
   );
 
@@ -69,23 +78,39 @@ export default function UsersPage() {
         <div className={styles.actions}>
           <button
             className={styles.actionLink}
-            style={{ color: '#0d6efd', background: 'none', border: 'none', marginRight: 8, cursor: 'pointer' }}
+            style={{
+              color: "#0d6efd",
+              background: "none",
+              border: "none",
+              marginRight: 8,
+              cursor: "pointer",
+            }}
             onClick={() => {
               setEditId(record.id);
-              setForm({ make: record.make, short_code: record.short_code, status: record.status as 'ACTIVE' | 'DISABLED' });
+              setForm({
+                make: record.make,
+                short_code: record.short_code,
+                status: record.status as "ACTIVE" | "DISABLED",
+              });
               setShowModal(true);
             }}
-            title={t('edit')}
-            aria-label={t('edit')}
+            title={t("edit")}
+            aria-label={t("edit")}
           >
             <Pencil size={18} />
           </button>
           <button
             className={styles.actionLink}
-            style={{ color: '#dc3545', background: 'none', border: 'none', marginLeft: 8, cursor: 'pointer' }}
+            style={{
+              color: "#dc3545",
+              background: "none",
+              border: "none",
+              marginLeft: 8,
+              cursor: "pointer",
+            }}
             onClick={() => handleDelete(record.id)}
-            title={t('delete')}
-            aria-label={t('delete')}
+            title={t("delete")}
+            aria-label={t("delete")}
           >
             <Trash2 size={18} />
           </button>
@@ -95,7 +120,7 @@ export default function UsersPage() {
   ];
 
   const handleOpenModal = () => {
-    setForm({ make: '', short_code: '', status: 'ACTIVE' });
+    setForm({ make: "", short_code: "", status: "ACTIVE" });
     setEditId(null);
     setShowModal(true);
   };
@@ -108,15 +133,27 @@ export default function UsersPage() {
     try {
       if (editId) {
         await updateUser({ id: editId, data });
-        setToast({ show: true, message: t('messages.userUpdated'), variant: 'success' });
+        setToast({
+          show: true,
+          message: t("messages.userUpdated"),
+          variant: "success",
+        });
       } else {
         await createUser(data);
-        setToast({ show: true, message: t('messages.userCreated'), variant: 'success' });
+        setToast({
+          show: true,
+          message: t("messages.userCreated"),
+          variant: "success",
+        });
       }
       setShowModal(false);
       setEditId(null);
     } catch (err: any) {
-      setToast({ show: true, message: err?.message || t('messages.error'), variant: 'danger' });
+      setToast({
+        show: true,
+        message: err?.message || t("messages.error"),
+        variant: "danger",
+      });
     }
   };
 
@@ -128,7 +165,7 @@ export default function UsersPage() {
     >
       {/* Search Input */}
       <div className="mb-3">
-        <div className="input-group" style={{ maxWidth: '400px' }}>
+        <div className="input-group" style={{ maxWidth: "400px" }}>
           <span className="input-group-text">
             <Search size={16} />
           </span>
@@ -166,7 +203,7 @@ export default function UsersPage() {
         }}
         loading={isLoading}
       />
-      
+
       <CommonModal
         show={showModal}
         onClose={handleCloseModal}
