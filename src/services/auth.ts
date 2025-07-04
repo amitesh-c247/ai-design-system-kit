@@ -1,12 +1,10 @@
-import { api, ApiError } from '@/utils/api';
+import { api } from '@/utils/api';
 import { cookieService } from '@/utils/cookieService';
 import type { 
   LoginCredentials, 
-  SignupCredentials, 
-  ResetPasswordCredentials,
   AuthResponse,
-  User 
 } from '@/types/auth';
+import { ApiError } from '@/types';
 
 // Auth service functions
 export const authService = {

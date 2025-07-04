@@ -119,8 +119,8 @@ export default function CmsEditPage() {
     title: page.title,
     content: parsedContent,
     status: page.status === 'published' ? 'PUBLISHED' : 'DRAFT',
-    is_agreement: page.is_agreement || 0,
-    open_in_new_tab: page.open_in_new_tab || 0,
+    is_agreement: page.is_agreement ? 1 : 0,
+    open_in_new_tab: page.open_in_new_tab ? 1 : 0,
     content_type: page.content_type || 'TEXT',
     slug: page.slug,
   };
