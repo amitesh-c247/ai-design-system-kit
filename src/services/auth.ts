@@ -51,7 +51,7 @@ export const authService = {
       return response.data;
     } catch (error) {
       console.error("Login error:", error);
-      throw error as ApiError;
+      throw error;
     }
   },
 
@@ -84,7 +84,7 @@ export const authService = {
       if ((error as ApiError)?.status === 401) {
         // Clear any cached user data since it's no longer valid
         cookieService.remove("user_data");
-        throw error as ApiError;
+        throw error;
       }
 
       // For other errors (network issues, etc.), try to get user data from cookie as fallback
@@ -92,7 +92,7 @@ export const authService = {
       if (userData) {
         return userData;
       }
-      throw error as ApiError;
+      throw error;
     }
   },
 

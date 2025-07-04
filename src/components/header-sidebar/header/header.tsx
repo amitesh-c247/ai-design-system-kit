@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { useTheme } from 'next-themes';
-import { Sun, Moon, User, LogOut } from 'lucide-react';
-import { useAuth } from '@/hooks/auth';
-import styles from './styles.module.scss';
-import { useRouter } from 'next/navigation';
+import { useState, useRef, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { Sun, Moon, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/auth";
+import styles from "./styles.module.scss";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -17,17 +17,17 @@ const Header = () => {
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const handleLogout = async () => {
@@ -35,7 +35,7 @@ const Header = () => {
       await logout();
       setIsDropdownOpen(false);
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -48,7 +48,7 @@ const Header = () => {
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
           <div className={styles.userSection} ref={dropdownRef}>
@@ -60,7 +60,7 @@ const Header = () => {
                 <User size={24} />
               </div>
               <span className={styles.userName}>
-                {user?.data?.display_name || 'User'}
+                {user?.data?.display_name || "User"}
               </span>
             </button>
 
@@ -69,7 +69,7 @@ const Header = () => {
                 <div className={styles.dropdownHeader}>
                   <div className={styles.userInfo}>
                     <span className={styles.name}>
-                      {user?.data?.display_name || 'User'}
+                      {user?.data?.display_name || "User"}
                     </span>
                     <span className={styles.email}>{user?.data?.email}</span>
                   </div>
@@ -77,8 +77,8 @@ const Header = () => {
                 <div className={styles.dropdownDivider} />
                 <button
                   onClick={() => {
-                    router.push('/profile')
-                    setIsDropdownOpen(false)
+                    router.push("/profile");
+                    setIsDropdownOpen(false);
                   }}
                   className={styles.dropdownItem}
                 >
@@ -95,7 +95,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
+  );
 };
 
 export default Header;

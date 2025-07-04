@@ -1,21 +1,22 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import classnames from 'classnames';
-import NextLink from 'next/link';
-import styles from './styles.module.scss';
+import React from "react";
+import { Button } from "react-bootstrap";
+import classnames from "classnames";
+import NextLink from "next/link";
+import styles from "./styles.module.scss";
 
-export interface LinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+export interface LinkProps
+  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   href: string;
-  variant?: 'tertiary' | 'standalone' | 'inline' | 'inlineIcon' | 'button';
+  variant?: "tertiary" | "standalone" | "inline" | "inlineIcon" | "button";
   emphasized?: boolean;
   icon?: React.ReactElement;
-  iconPosition?: 'start' | 'end';
+  iconPosition?: "start" | "end";
   openExternalLinkInNewTab?: boolean;
   isDisabled?: boolean;
 }
 
 const isUrl = (path: string): boolean => {
-  return path.startsWith('http://') || path.startsWith('https://');
+  return path.startsWith("http://") || path.startsWith("https://");
 };
 
 const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
@@ -24,9 +25,9 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
   title,
   className,
   onClick,
-  variant = 'tertiary',
+  variant = "tertiary",
   emphasized = false,
-  iconPosition = 'start',
+  iconPosition = "start",
   children,
   openExternalLinkInNewTab,
   isDisabled,
@@ -36,32 +37,32 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
 
   const linkContent = (
     <>
-      {icon && iconPosition === 'start' && <span className="me-1">{icon}</span>}
+      {icon && iconPosition === "start" && <span className="me-1">{icon}</span>}
       {children}
-      {icon && iconPosition === 'end' && <span className="ms-1">{icon}</span>}
+      {icon && iconPosition === "end" && <span className="ms-1">{icon}</span>}
     </>
   );
 
   const linkClassName = classnames(className, styles.link, {
-    [styles.tertiary]: variant === 'tertiary',
+    [styles.tertiary]: variant === "tertiary",
     [styles.emphasized]: emphasized,
-    [styles.standalone]: variant === 'standalone',
-    [styles.inline]: variant === 'inline',
-    [styles.inlineIcon]: variant === 'inlineIcon',
+    [styles.standalone]: variant === "standalone",
+    [styles.inline]: variant === "inline",
+    [styles.inlineIcon]: variant === "inlineIcon",
     [styles.disabled]: isDisabled,
   });
 
-  if (variant === 'button') {
+  if (variant === "button") {
     if (isExternalLink) {
       return (
         <Button
           as="a"
           href={href}
-          target={openExternalLinkInNewTab ? '_blank' : undefined}
-          rel={openExternalLinkInNewTab ? 'noopener noreferrer' : undefined}
+          target={openExternalLinkInNewTab ? "_blank" : undefined}
+          rel={openExternalLinkInNewTab ? "noopener noreferrer" : undefined}
           disabled={isDisabled}
           className={linkClassName}
-          onClick={onClick as any}
+          onClick={onClick}
         >
           {linkContent}
         </Button>
@@ -74,7 +75,7 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
           as="a"
           disabled={isDisabled}
           className={linkClassName}
-          onClick={onClick as any}
+          onClick={onClick}
         >
           {linkContent}
         </Button>
@@ -86,8 +87,8 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
     return (
       <a
         href={href}
-        target={openExternalLinkInNewTab ? '_blank' : undefined}
-        rel={openExternalLinkInNewTab ? 'noopener noreferrer' : undefined}
+        target={openExternalLinkInNewTab ? "_blank" : undefined}
+        rel={openExternalLinkInNewTab ? "noopener noreferrer" : undefined}
         title={title}
         className={linkClassName}
         onClick={onClick}

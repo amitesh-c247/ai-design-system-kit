@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Form, InputGroup, Dropdown } from 'react-bootstrap';
-import { UseQueryResult } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
-import highlightText from '@/utils/highlight';
+import React, { useEffect, useState, useRef } from "react";
+import { Form, InputGroup, Dropdown } from "react-bootstrap";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Search } from "lucide-react";
+import highlightText from "@/utils/highlight";
 
 export interface AutoCompleteOption {
   key?: string | number;
@@ -28,10 +28,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   additionalFilters = {},
   placeholder,
   footer,
-  className = '',
+  className = "",
   ...props
 }) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -44,33 +44,34 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const onSelect = (option: AutoCompleteOption) => {
-    const stringValue = typeof option.value === 'string' 
-      ? option.value 
-      : entities.find((item) => item.id === option.key)?.name;
-    
+    const stringValue =
+      typeof option.value === "string"
+        ? option.value
+        : entities.find((item) => item.id === option.key)?.name;
+
     onChange?.({ key: option.key, value: stringValue });
-    setSearchValue('');
+    setSearchValue("");
     setShowDropdown(false);
   };
 
   useEffect(() => {
-    setSearchValue(value?.value?.toString() || '');
+    setSearchValue(value?.value?.toString() || "");
   }, [value]);
 
   const options = entities
     .map((entity) => ({
       key: entity.id,
-      value: highlightText(entity.name, searchValue ?? ''),
+      value: highlightText(entity.name, searchValue ?? ""),
     }))
     .filter((item: AutoCompleteOption) => value?.key !== String(item.key));
 
@@ -89,12 +90,12 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
           value={searchValue}
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => {
-            setSearchValue('');
+            setSearchValue("");
             setShowDropdown(true);
           }}
           onBlur={() => {
             setTimeout(() => {
-              setSearchValue(value?.value?.toString() || '');
+              setSearchValue(value?.value?.toString() || "");
             }, 200);
           }}
           {...props}
@@ -107,7 +108,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
       <Dropdown.Menu
         show={showDropdown && options.length > 0}
         className="w-100"
-        style={{ maxHeight: '300px', overflowY: 'auto' }}
+        style={{ maxHeight: "300px", overflowY: "auto" }}
       >
         {options.map((option) => (
           <Dropdown.Item

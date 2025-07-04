@@ -1,21 +1,21 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Form, Button, Stack, Spinner } from 'react-bootstrap';
-import { FetchNextPageOptions } from '@tanstack/react-query';
-import { Search } from '@/components/Icons';
-import highlightText from '@/utils/highlight';
-import FilterButton from '../FilterButton';
-import styles from './styles.module.scss';
+import React, { Fragment, useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import { Form, Button, Stack, Spinner } from "react-bootstrap";
+import { FetchNextPageOptions } from "@tanstack/react-query";
+import { Search } from "@/components/Icons";
+import highlightText from "@/utils/highlight";
+import FilterButton from "../FilterButton";
+import styles from "./styles.module.scss";
 
 export interface SelectFilterProps {
   filterLabel: string;
   options: { label: string | React.ReactNode; value: string }[];
   value?: string | string[];
   onChange?: (value: string | string[]) => void;
-  dropdownAlignment?: 'left' | 'right';
-  type?: 'multiple' | 'single';
+  dropdownAlignment?: "left" | "right";
+  type?: "multiple" | "single";
   isSearchable?: boolean;
-  filterType?: 'dynamic' | 'manual';
+  filterType?: "dynamic" | "manual";
   fetchNextPage?: (options?: FetchNextPageOptions) => void;
   totalElements?: number;
   currentPage?: number;
@@ -44,29 +44,31 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   options,
   filterLabel,
   onChange,
-  value = '',
-  dropdownAlignment = 'right',
-  type = 'single',
+  value = "",
+  dropdownAlignment = "right",
+  type = "single",
   isSearchable = false,
   filterType,
   totalElements,
   fetchNextPage,
   isFetchingNextPage,
   showFilterButton = true,
-  searchValue = '',
+  searchValue = "",
   ...otherProps
 }) => {
   const { formatMessage } = useIntl();
   const selectedCount = Array.isArray(value) ? value.length : value ? 1 : 0;
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<string | string[]>(value);
-  const isMultiple = type === 'multiple';
-  const isButtonMode = filterType === 'manual' && options?.length > 0;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<string | string[]>(
+    value
+  );
+  const isMultiple = type === "multiple";
+  const isButtonMode = filterType === "manual" && options?.length > 0;
 
   const onClear = () => {
-    onChange?.(isMultiple ? [] : '');
-    setSelectedOptions(isMultiple ? [] : '');
-    setSearchTerm('');
+    onChange?.(isMultiple ? [] : "");
+    setSelectedOptions(isMultiple ? [] : "");
+    setSearchTerm("");
   };
 
   const onApply = () => {
@@ -88,7 +90,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   const ButtonContainer = isButtonMode ? Stack : Fragment;
 
   const handleScroll = (e: React.UIEvent<HTMLSelectElement>) => {
-    const target = e.target as HTMLSelectElement;
+    const target = e.target;
     if (
       target.scrollTop + target.offsetHeight === target.scrollHeight &&
       options.length < (totalElements || 0) &&
@@ -99,11 +101,18 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   };
 
   const firstValue = isMultiple ? value?.[0] : value;
-  const firstValueLabel = options?.find((option) => option.value === firstValue)?.label as string;
+  const firstValueLabel = options?.find(
+    (option) => option.value === firstValue
+  )?.label;
 
   const rawInputElementProps = showFilterButton && {
     getRawInputElement: () =>
-      getRawInputElementProps(firstValueLabel, filterLabel, selectedCount, value),
+      getRawInputElementProps(
+        firstValueLabel,
+        filterLabel,
+        selectedCount,
+        value
+      ),
   };
 
   return (
@@ -117,7 +126,9 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
-          {searchValue ? highlightText(option.label?.toString() || '', searchValue) : option.label}
+          {searchValue
+            ? highlightText(option.label?.toString() || "", searchValue)
+            : option.label}
         </option>
       ))}
     </Form.Select>
