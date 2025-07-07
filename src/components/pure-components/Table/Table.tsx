@@ -1,11 +1,13 @@
-import React from 'react';
-import { Table as BootstrapTable, Pagination, Spinner } from 'react-bootstrap';
-import type { TableColumn, TableProps as CentralizedTableProps } from '@/types/ui';
-import TableSkeleton from './TableSkeleton';
-import PrevArrowIcon from '@public/IconComponent/PrevArrowIcon'
-import NextArrowIcon from '@public/IconComponent/NextArrowIcon'
-import Button from '@/components/common/Button';
-
+import React from "react";
+import { Table as BootstrapTable, Pagination, Spinner } from "react-bootstrap";
+import type {
+  TableColumn,
+  TableProps as CentralizedTableProps,
+} from "@/types/ui";
+import TableSkeleton from "./TableSkeleton";
+import PrevArrowIcon from "@public/IconComponent/PrevArrowIcon";
+import NextArrowIcon from "@public/IconComponent/NextArrowIcon";
+import Button from "@/components/pure-components/Button";
 
 // Keep existing Column interface for backward compatibility
 export interface Column {
@@ -24,7 +26,7 @@ export interface TableProps {
   bordered?: boolean;
   striped?: boolean;
   hover?: boolean;
-  size?: 'sm' | 'lg';
+  size?: "sm" | "lg";
   variant?: string;
   pagination?: {
     currentPage: number;
@@ -40,7 +42,7 @@ const Table: React.FC<TableProps> = ({
   columns,
   dataSource,
   rowKey,
-  className = '',
+  className = "",
   bordered = false,
   striped = false,
   hover = false,
@@ -52,7 +54,8 @@ const Table: React.FC<TableProps> = ({
   const renderPagination = () => {
     if (!pagination) return null;
 
-    const { currentPage, pageSize, total, onChange, onPageSizeChange } = pagination;
+    const { currentPage, pageSize, total, onChange, onPageSizeChange } =
+      pagination;
     const totalPages = Math.ceil(total / pageSize);
     if (totalPages <= 1) return null;
 
@@ -71,8 +74,8 @@ const Table: React.FC<TableProps> = ({
             const page = Math.max(
               1,
               Math.min(totalPages, Number(e.target.value))
-            )
-            onChange(page)
+            );
+            onChange(page);
           }}
           className="form-control"
         />
@@ -99,7 +102,7 @@ const Table: React.FC<TableProps> = ({
           disabled={currentPage === 1}
           style={{
             // backgroundColor: currentPage === 1 ? '#60a5fa' : '#60a5fa',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+            cursor: currentPage === 1 ? "not-allowed" : "pointer",
           }}
           className="btn d-flex align-items-center justify-content-center p-0 border-0"
           variant="primary"
@@ -112,7 +115,7 @@ const Table: React.FC<TableProps> = ({
           disabled={currentPage === totalPages}
           style={{
             // backgroundColor: currentPage === totalPages ? '#dbeafe' : '#60a5fa',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
           }}
           className="btn d-flex align-items-center justify-content-center p-0 border-0"
           variant="primary"
@@ -120,9 +123,8 @@ const Table: React.FC<TableProps> = ({
           <NextArrowIcon />
         </Button>
       </div>
-    )
+    );
   };
-
 
   return (
     <>
@@ -164,7 +166,7 @@ const Table: React.FC<TableProps> = ({
       </BootstrapTable>
       {renderPagination()}
     </>
-  )
+  );
 };
 
 export default Table;

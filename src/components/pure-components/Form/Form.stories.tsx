@@ -1,15 +1,14 @@
-import React from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
-import { Form } from 'react-bootstrap';
-import FormComponent from './index';
+import React from "react";
+import type { Meta, StoryFn } from "@storybook/react";
+import { Form } from "react-bootstrap";
+import FormComponent from "./index";
 
 export default {
-  title: 'Components/Form',
+  title: "Components/Form",
   component: FormComponent,
   argTypes: {
-    layout: {
-      control: 'select',
-      options: ['horizontal', 'vertical'],
+    validated: {
+      control: "boolean",
     },
   },
 } as Meta<typeof FormComponent>;
@@ -27,17 +26,19 @@ const Template: StoryFn<typeof FormComponent> = (args) => (
 
 export const Basic = Template.bind({});
 Basic.args = {
-  layout: 'vertical',
+  validated: false,
 };
 
 export const Horizontal = () => (
-  <FormComponent layout="horizontal">
-    <FormComponent.Item label="Username" required>
-      <Form.Control type="text" placeholder="Enter username" />
-    </FormComponent.Item>
-    <FormComponent.Item label="Password" required>
-      <Form.Control type="password" placeholder="Enter password" />
-    </FormComponent.Item>
+  <FormComponent>
+    <FormComponent.HorizontalGroup
+      label="Username"
+      control={<Form.Control type="text" placeholder="Enter username" />}
+    />
+    <FormComponent.HorizontalGroup
+      label="Password"
+      control={<Form.Control type="password" placeholder="Enter password" />}
+    />
   </FormComponent>
 );
 
@@ -98,4 +99,4 @@ export const FormList = () => (
       )}
     </FormComponent.List>
   </FormComponent>
-); 
+);

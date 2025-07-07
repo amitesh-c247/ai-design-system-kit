@@ -83,9 +83,13 @@ const Item: React.FC<FormItemProps> = ({
             {required && <span className={styles.required}>*</span>}
           </BootstrapForm.Label>
         )}
-        {React.cloneElement(children, {
-          className: classnames(children.props.className, getValidationClass()),
-        })}
+        {React.isValidElement(children) &&
+          React.cloneElement(children, {
+            className: classnames(
+              children.props.className,
+              getValidationClass()
+            ),
+          })}
         {feedback && (
           <BootstrapForm.Control.Feedback
             type={isInvalid ? "invalid" : "valid"}
@@ -162,7 +166,7 @@ export const Form: React.FC<React.PropsWithChildren<FormProps>> = ({
 }) => {
   return (
     <BootstrapForm className={styles.form} {...props}>
-      {children}
+      <Row>{children}</Row>
     </BootstrapForm>
   );
 };
@@ -284,8 +288,11 @@ export const HorizontalFormGroup: React.FC<HorizontalFormGroupProps> = ({
 export const FormItem = Item;
 
 export { ModalContext };
-export default {
-  Form,
+
+// Main Form component with attached sub-components
+const FormWithComponents = Object.assign(Form, {
+  Item,
+  List,
   Group: FormGroup,
   Label: FormLabel,
   Control: FormControl,
@@ -293,4 +300,6 @@ export default {
   Check: FormCheck,
   Text: FormText,
   HorizontalGroup: HorizontalFormGroup,
-};
+});
+
+export default FormWithComponents;

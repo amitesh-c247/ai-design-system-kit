@@ -1,9 +1,9 @@
-import type { Meta, StoryFn } from '@storybook/react';
-import { Menu } from 'antd';
+import type { Meta, StoryFn } from "@storybook/react";
+import { Menu } from "antd";
 
-import { Plus } from '@/components/Icons';
+import { Plus } from "@/components/Icons";
 
-import Dropdown from '.';
+import Dropdown from ".";
 
 const dropdownContent = () => (
   <Menu
@@ -11,22 +11,22 @@ const dropdownContent = () => (
     items={[
       {
         key: 1,
-        label: '1st menu Item',
+        label: "1st menu Item",
       },
       {
         key: 2,
-        label: '2nd Menu Item',
+        label: "2nd Menu Item",
       },
       {
         key: 3,
-        label: '3rd Menu Item',
+        label: "3rd Menu Item",
       },
     ]}
   />
 );
 
 export default {
-  title: 'LeanDesign/Dropdown',
+  title: "LeanDesign/Dropdown",
   component: Dropdown,
   parameters: {
     docs: {
@@ -47,16 +47,16 @@ const Template: StoryFn<typeof Dropdown> = (args) => <Dropdown {...args} />;
 export const Basic = Template.bind({});
 Basic.args = {
   dropdownRender: dropdownContent,
-  children: 'Dropdown',
+  children: "Dropdown",
   // eslint-disable-next-line no-console, @typescript-eslint/no-unused-vars
-  buttonProps: { onClick: (_event) => window.alert('Button clicked!') },
+  buttonProps: { onClick: (_event) => window.alert("Button clicked!") },
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   dropdownRender: dropdownContent,
   icon: <Plus size={16} />,
-  children: 'Dropdown with icon menu',
+  children: "Dropdown with icon menu",
 };
 
 export const NoIcon = Template.bind({});
@@ -64,11 +64,11 @@ NoIcon.args = {
   dropdownRender: dropdownContent,
   icon: <Plus size={16} />,
   noMenuIcon: true,
-  children: 'Dropdown with icon menu',
+  children: "Dropdown with icon menu",
 };
 
 export const CustomContent = Template.bind({});
-NoIcon.args = {
+CustomContent.args = {
   dropdownRender: dropdownContent,
   icon: <Plus size={16} />,
   noMenuIcon: true,
