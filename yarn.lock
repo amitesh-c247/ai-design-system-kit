@@ -2335,6 +2335,21 @@
     "@storybook/global" "^5.0.0"
     axe-core "^4.2.0"
 
+"@storybook/addon-actions@^9.1.0-alpha.5":
+  version "9.1.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-9.1.0-alpha.5.tgz#28f35c1d6a3ba7d335138d89f483e1e890f106b1"
+  integrity sha512-NsdFEMtaE3uN4l01T/RFuNwqzHeUBGqT8Nlz1eKY/EakScRxDQBUtRoSwwxQ/GRnx0J7b/hbzOFolUpHTlWn7Q==
+
+"@storybook/addon-backgrounds@^9.1.0-alpha.5":
+  version "9.1.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-backgrounds/-/addon-backgrounds-9.1.0-alpha.5.tgz#f195532b067317e2a367cbbb92b41e550c161398"
+  integrity sha512-OZ3dCRxsTZkbft7dL2pGdsceYK+lxXQBfqedVkgC/lwdG6656YQne98kOYaLERz/NHiV2sWuyvdQkB9qhqe6dg==
+
+"@storybook/addon-controls@^9.1.0-alpha.5":
+  version "9.1.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-controls/-/addon-controls-9.1.0-alpha.5.tgz#52f9071987ac91c37fc25623d21fb30b4e40e52f"
+  integrity sha512-xqr/dnIHh5flE0CGuGdB7kjBgs5xJ5FW6flPgQ3bIgFeYPMxpSwnCf25+Jwc/cFVy3+2IU+D5e4TMWSDAsbolA==
+
 "@storybook/addon-docs@^9.0.15":
   version "9.0.15"
   resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-9.0.15.tgz#fdde0c3422d1f977c8679f18db23d1775bf2d8b1"
@@ -2347,6 +2362,11 @@
     react "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     react-dom "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     ts-dedent "^2.0.0"
+
+"@storybook/addon-viewport@^9.1.0-alpha.5":
+  version "9.1.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-viewport/-/addon-viewport-9.1.0-alpha.5.tgz#d9b847b0017e300390fdf40da330c5b497e9bc45"
+  integrity sha512-4A/O+XXftoAcHRhoiHRFg6ipPJRuabaT34boiFgGAEhsjz9eQaX2naSFDDyVVttOJLwAWy6MwQ+aIZGURCfJRA==
 
 "@storybook/addon-vitest@^9.0.15":
   version "9.0.15"

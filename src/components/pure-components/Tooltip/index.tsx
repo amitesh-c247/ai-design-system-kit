@@ -6,7 +6,8 @@ import {
   TooltipProps as RbTooltipProps,
 } from "react-bootstrap";
 
-export interface TooltipProps extends Omit<RbTooltipProps, "children" | "title"> {
+export interface TooltipProps
+  extends Omit<RbTooltipProps, "children" | "title"> {
   title: React.ReactNode;
   placement?: OverlayTriggerProps["placement"];
   children: React.ReactElement<any>;
@@ -39,7 +40,11 @@ const Tooltip: React.FC<TooltipProps> = ({
   return (
     <OverlayTrigger
       placement={placement}
-      overlay={<RbTooltip id="common-tooltip" {...rest}>{title}</RbTooltip>}
+      overlay={
+        <RbTooltip id="common-tooltip" style={{ zIndex: 9999 }} {...rest}>
+          {title}
+        </RbTooltip>
+      }
       show={show}
       {...rest}
     >

@@ -11,26 +11,33 @@ export interface BreadcrumbProps {
   className?: string;
 }
 
-// Custom Link component for breadcrumbs
-const BreadcrumbLink: React.FC<React.PropsWithChildren<{ href: string }>> = ({
+// Conditional Link component for breadcrumbs
+const ConditionalBreadcrumbLink: React.FC<React.PropsWithChildren<{ href?: string }>> = ({
   href,
   children,
-}) => (
-  <NextLink href={href} passHref legacyBehavior>
-    <a>{children}</a>
-  </NextLink>
-);
+}) => {
+  if (!href || href.trim() === "") {
+    return <span>{children}</span>;
+  }
+  
+  return (
+    <NextLink href={href} passHref legacyBehavior>
+      <a>{children}</a>
+    </NextLink>
+  );
+};
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ crumbs, className }) => {
   return (
     <BootstrapBreadcrumb className={`${styles.breadcrumbs} ${className || ""}`}>
       {crumbs.map(({ link, title }, index) => {
         const isLastBreadcrumb = index === crumbs.length - 1;
+        
         return (
           <BootstrapBreadcrumb.Item
             key={`${link}-${title}`}
-            linkAs={isLastBreadcrumb ? "span" : BreadcrumbLink}
-            linkProps={isLastBreadcrumb ? undefined : { href: link }}
+            linkAs={ConditionalBreadcrumbLink}
+            linkProps={{ href: link }}
             active={isLastBreadcrumb}
             className={styles.breadcrumbItem}
           >
