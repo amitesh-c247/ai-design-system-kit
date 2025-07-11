@@ -55,7 +55,6 @@ const meta: Meta<typeof PillButton> = {
       description: "Whether the button is disabled",
     },
     onClick: {
-      action: "clicked",
       description: "Callback function called when the button is clicked",
     },
   },

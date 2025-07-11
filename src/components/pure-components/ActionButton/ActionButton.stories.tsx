@@ -36,7 +36,6 @@ const meta: Meta<typeof ActionButton> = {
       description: "Tooltip text",
     },
     onClick: {
-      action: "clicked",
       description: "Click handler",
     },
   },

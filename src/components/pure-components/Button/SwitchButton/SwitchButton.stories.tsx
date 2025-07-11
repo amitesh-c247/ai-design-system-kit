@@ -20,7 +20,6 @@ const meta: Meta<typeof SwitchButton> = {
       description: "Whether the switch is in the ON state",
     },
     onChange: {
-      action: "changed",
       description: "Callback function called when the switch state changes",
     },
     id: {

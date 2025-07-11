@@ -32,7 +32,6 @@ const meta: Meta<typeof TipTapEditor> = {
       description: "Error message to display when the field is invalid",
     },
     onChange: {
-      action: "changed",
       description: "Callback function called when the editor content changes",
     },
     placeholder: {

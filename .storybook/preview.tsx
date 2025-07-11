@@ -49,6 +49,12 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    docs: {
+      // Enable the "Show Code" feature
+      source: {
+        state: "open",
+      },
+    },
   },
   decorators: [
     (Story) => (

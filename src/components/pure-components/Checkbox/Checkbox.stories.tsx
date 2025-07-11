@@ -1,17 +1,17 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import Checkbox from './index';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import Checkbox from "./index";
 
 const meta: Meta<typeof Checkbox> = {
-  title: 'Common/Checkbox',
+  title: "Common/Checkbox",
   component: Checkbox,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    onChange: { action: 'changed' },
-    disabled: { control: 'boolean' },
-    inline: { control: 'boolean' },
-    isValid: { control: 'boolean' },
-    isInvalid: { control: 'boolean' },
+    onChange: {},
+    disabled: { control: "boolean" },
+    inline: { control: "boolean" },
+    isValid: { control: "boolean" },
+    isInvalid: { control: "boolean" },
   },
 };
 
@@ -21,35 +21,35 @@ type Story = StoryObj<typeof Checkbox>;
 // Basic Checkbox
 export const Basic: Story = {
   args: {
-    label: 'Basic Checkbox',
-    id: 'basic-checkbox',
+    label: "Basic Checkbox",
+    id: "basic-checkbox",
   },
 };
 
 // Checked State
 export const Checked: Story = {
   args: {
-    label: 'Checked Checkbox',
+    label: "Checked Checkbox",
     checked: true,
-    id: 'checked-checkbox',
+    id: "checked-checkbox",
   },
 };
 
 // Disabled States
 export const Disabled: Story = {
   args: {
-    label: 'Disabled Checkbox',
+    label: "Disabled Checkbox",
     disabled: true,
-    id: 'disabled-checkbox',
+    id: "disabled-checkbox",
   },
 };
 
 export const DisabledChecked: Story = {
   args: {
-    label: 'Disabled Checked Checkbox',
+    label: "Disabled Checked Checkbox",
     disabled: true,
     checked: true,
-    id: 'disabled-checked-checkbox',
+    id: "disabled-checked-checkbox",
   },
 };
 
@@ -57,21 +57,9 @@ export const DisabledChecked: Story = {
 export const InlineCheckboxes: Story = {
   render: () => (
     <div>
-      <Checkbox
-        label="Option 1"
-        id="inline-1"
-        inline
-      />
-      <Checkbox
-        label="Option 2"
-        id="inline-2"
-        inline
-      />
-      <Checkbox
-        label="Option 3"
-        id="inline-3"
-        inline
-      />
+      <Checkbox label="Option 1" id="inline-1" inline />
+      <Checkbox label="Option 2" id="inline-2" inline />
+      <Checkbox label="Option 3" id="inline-3" inline />
     </div>
   ),
 };
@@ -79,36 +67,36 @@ export const InlineCheckboxes: Story = {
 // Validation States
 export const ValidState: Story = {
   args: {
-    label: 'Valid Checkbox',
+    label: "Valid Checkbox",
     isValid: true,
-    feedback: 'This checkbox is valid',
-    id: 'valid-checkbox',
+    feedback: "This checkbox is valid",
+    id: "valid-checkbox",
   },
 };
 
 export const InvalidState: Story = {
   args: {
-    label: 'Invalid Checkbox',
+    label: "Invalid Checkbox",
     isInvalid: true,
-    feedback: 'This checkbox is invalid',
-    id: 'invalid-checkbox',
+    feedback: "This checkbox is invalid",
+    id: "invalid-checkbox",
   },
 };
 
 // Custom Value
 export const WithValue: Story = {
   args: {
-    label: 'Checkbox with Value',
-    value: 'custom-value',
-    id: 'value-checkbox',
+    label: "Checkbox with Value",
+    value: "custom-value",
+    id: "value-checkbox",
   },
 };
 
 // With Custom Class
 export const WithCustomClass: Story = {
   args: {
-    label: 'Custom Styled Checkbox',
-    className: 'custom-checkbox',
-    id: 'custom-class-checkbox',
+    label: "Custom Styled Checkbox",
+    className: "custom-checkbox",
+    id: "custom-class-checkbox",
   },
-}; 
+};

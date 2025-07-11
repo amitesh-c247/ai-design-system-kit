@@ -1,25 +1,33 @@
-import React from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
-import { Plus } from 'lucide-react';
-import Button from './Button';
+import React from "react";
+import type { Meta, StoryFn } from "@storybook/react";
+import { Plus } from "lucide-react";
+import Button from "./Button";
 
 export default {
-  title: 'Components/Button',
+  title: "Components/Button",
   component: Button,
+  tags: ["autodocs"],
   argTypes: {
     type: {
-      control: 'select',
-      options: ['primary', 'secondary', 'tertiary', 'icon', 'iconBordered', 'danger'],
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "icon",
+        "iconBordered",
+        "danger",
+      ],
     },
     size: {
-      control: 'select',
-      options: ['small', 'medium', 'large'],
+      control: "select",
+      options: ["small", "medium", "large"],
     },
     loading: {
-      control: 'boolean',
+      control: "boolean",
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
     },
   },
 } as Meta<typeof Button>;
@@ -28,8 +36,8 @@ const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 
 export const Basic = Template.bind({});
 Basic.args = {
-  children: 'Button',
-  type: 'primary',
+  children: "Button",
+  type: "primary",
 };
 
 export const Variants = () => (
