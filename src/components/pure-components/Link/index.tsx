@@ -62,7 +62,9 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
           rel={openExternalLinkInNewTab ? "noopener noreferrer" : undefined}
           disabled={isDisabled}
           className={linkClassName}
-          onClick={onClick}
+          onClick={
+            onClick as unknown as React.MouseEventHandler<HTMLButtonElement>
+          }
         >
           {linkContent}
         </Button>
@@ -75,7 +77,9 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
           as="a"
           disabled={isDisabled}
           className={linkClassName}
-          onClick={onClick}
+          onClick={
+            onClick as unknown as React.MouseEventHandler<HTMLButtonElement>
+          }
         >
           {linkContent}
         </Button>

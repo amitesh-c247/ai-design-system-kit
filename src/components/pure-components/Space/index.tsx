@@ -67,7 +67,9 @@ const Space = forwardRef<HTMLDivElement, React.PropsWithChildren<SpaceProps>>(
       >
         {split
           ? React.Children.map(children, (child, index) => (
-              <React.Fragment key={child.key ?? index}>
+              <React.Fragment
+                key={React.isValidElement(child) ? child.key ?? index : index}
+              >
                 {child}
                 {index < React.Children.count(children) - 1 && (
                   <span className="space-split">{split}</span>

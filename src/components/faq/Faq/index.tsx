@@ -123,9 +123,10 @@ const FaqComponent: React.FC = () => {
   );
 
   const columns = [
-    { title: "Title", dataIndex: "title" },
-    { title: "Description", dataIndex: "description" },
+    { key: "title", title: "Title", dataIndex: "title" },
+    { key: "description", title: "Description", dataIndex: "description" },
     {
+      key: "actions",
       title: "Actions",
       dataIndex: "id",
       render: (_: any, record: FaqType) => (

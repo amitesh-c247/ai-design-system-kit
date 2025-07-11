@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { userService, User } from "@/services/user";
+import { userService } from "@/services/user";
+import type { UserCreateRequest } from "@/services/user";
+import type { User } from "@/types/auth";
 
 // ============================================================================
 // USER QUERY KEYS
@@ -47,7 +49,7 @@ export function useUserQuery(id: number) {
 export function useCreateUserMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: userService.createUser,
+    mutationFn: (data: UserCreateRequest) => userService.createUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
     },
@@ -62,7 +64,7 @@ export function useUpdateUserMutation() {
       data,
     }: {
       id: number;
-      data: Partial<Omit<User, "id">>;
+      data: Partial<UserCreateRequest>;
     }) => userService.updateUser(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });

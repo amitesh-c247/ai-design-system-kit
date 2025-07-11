@@ -24,7 +24,10 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={theme} style={{ colorScheme }}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages[locale]}>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={messages[locale as keyof typeof messages]}
+        >
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>

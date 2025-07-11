@@ -1,23 +1,20 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import Modal from './index';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import Modal from "./Modal";
 
 const meta: Meta<typeof Modal> = {
-  title: 'Common/Modal',
+  title: "Common/Modal",
   component: Modal,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     size: {
-      control: 'select',
-      options: ['sm', 'lg', 'xl'],
+      control: "select",
+      options: ["sm", "lg", "xl"],
     },
     centered: {
-      control: 'boolean',
-    },
-    closeButton: {
-      control: 'boolean',
+      control: "boolean",
     },
   },
 };
@@ -31,7 +28,7 @@ const ModalTemplate = (args: any) => {
   return (
     <>
       <Button onClick={() => setShow(true)}>Open Modal</Button>
-      <Modal {...args} show={show} onHide={() => setShow(false)}>
+      <Modal {...args} open={show} onCancel={() => setShow(false)}>
         <p>This is the modal content.</p>
       </Modal>
     </>
@@ -41,129 +38,73 @@ const ModalTemplate = (args: any) => {
 export const Default: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Modal Title',
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    title: "Modal Title",
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
 export const WithoutTitle: Story = {
   render: ModalTemplate,
   args: {
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
 export const WithoutFooter: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Modal Title',
+    title: "Modal Title",
   },
 };
 
 export const Small: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Small Modal',
-    size: 'sm',
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    title: "Small Modal",
+    size: "sm",
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
 export const Large: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Large Modal',
-    size: 'lg',
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    title: "Large Modal",
+    size: "lg",
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
 export const ExtraLarge: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Extra Large Modal',
-    size: 'xl',
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    title: "Extra Large Modal",
+    size: "xl",
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
 export const Centered: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Centered Modal',
+    title: "Centered Modal",
     centered: true,
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };
 
-export const WithoutCloseButton: Story = {
+export const NotCentered: Story = {
   render: ModalTemplate,
   args: {
-    title: 'Modal Without Close Button',
-    closeButton: false,
-    footer: (
-      <>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save
-        </Button>
-      </>
-    ),
+    title: "Not Centered Modal",
+    centered: false,
+    onOk: () => console.log("OK clicked"),
+    onCancel: () => console.log("Cancel clicked"),
   },
 };

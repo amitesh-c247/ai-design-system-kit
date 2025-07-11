@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Table from "@/components/pure-components/Table";
 import CommonModal from "@/components/pure-components/Modal";
 import UserForm, { UserFormValues } from "@/components/users/UserForm";
-import type { TableColumn } from "@/types/ui";
+import type { UITableColumn } from "@/types/ui";
 import {
   useUsersQuery,
   useCreateUserMutation,
@@ -68,11 +68,12 @@ export default function UsersPage() {
       setToast,
     });
 
-  const columns: TableColumn<User>[] = [
-    { title: t("make"), dataIndex: "make" },
-    { title: t("short_code"), dataIndex: "short_code" },
-    { title: t("status"), dataIndex: "status" },
+  const columns: UITableColumn<User>[] = [
+    { key: "make", title: t("make"), dataIndex: "make" },
+    { key: "short_code", title: t("short_code"), dataIndex: "short_code" },
+    { key: "status", title: t("status"), dataIndex: "status" },
     {
+      key: "actions",
       title: t("actions"),
       dataIndex: "id",
       render: (_: any, record: User) => (
@@ -202,7 +203,6 @@ export default function UsersPage() {
           defaultValues={form}
           onSubmit={handleFormSubmit}
           onCancel={handleCloseModal}
-          editId={editId}
         />
       </CommonModal>
       <ToastContainer

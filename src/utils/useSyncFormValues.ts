@@ -8,10 +8,11 @@ export function setFormValues<T extends object>(
   if (!initialData || !initialValues || !setValue) return;
 
   Object.keys(initialValues).forEach((key) => {
-    setValue(
-      key as Path<T>,
-      initialData?.[key as keyof T] ?? initialValues[key as keyof T]
-    );
+    const value =
+      initialData?.[key as keyof T] ?? initialValues[key as keyof T];
+    if (value !== undefined) {
+      setValue(key as Path<T>, value as any);
+    }
   });
 }
 

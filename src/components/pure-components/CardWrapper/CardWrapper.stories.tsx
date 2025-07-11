@@ -12,28 +12,6 @@ const meta: Meta<typeof CardWrapper> = {
       control: "text",
       description: "Card title",
     },
-    subtitle: {
-      control: "text",
-      description: "Card subtitle",
-    },
-    bordered: {
-      control: "boolean",
-      description: "Show border around card",
-    },
-    shadow: {
-      control: "select",
-      options: ["none", "sm", "md", "lg"],
-      description: "Card shadow depth",
-    },
-    padding: {
-      control: "select",
-      options: ["sm", "md", "lg"],
-      description: "Card padding size",
-    },
-    headerActions: {
-      control: "object",
-      description: "Actions in card header",
-    },
   },
   parameters: {
     docs: {
@@ -58,7 +36,6 @@ export const Default: Story = {
 export const WithSubtitle: Story = {
   args: {
     title: "Card with Subtitle",
-    subtitle: "This is a descriptive subtitle",
     children: (
       <div>
         <p>
@@ -73,20 +50,7 @@ export const WithSubtitle: Story = {
 
 export const WithHeaderActions: Story = {
   render: () => (
-    <CardWrapper
-      title="User Management"
-      subtitle="Manage user accounts and permissions"
-      headerActions={
-        <div className="d-flex gap-2">
-          <Button variant="outline-secondary" size="sm">
-            Settings
-          </Button>
-          <Button variant="primary" size="sm">
-            Add User
-          </Button>
-        </div>
-      }
-    >
+    <CardWrapper title="User Management">
       <div className="table-responsive">
         <table className="table table-sm">
           <thead>
@@ -129,22 +93,22 @@ export const DifferentShadows: Story = {
   render: () => (
     <div className="row g-3">
       <div className="col-md-6">
-        <CardWrapper title="No Shadow" shadow="none">
+        <CardWrapper title="No Shadow">
           <p>Card with no shadow effect.</p>
         </CardWrapper>
       </div>
       <div className="col-md-6">
-        <CardWrapper title="Small Shadow" shadow="sm">
+        <CardWrapper title="Small Shadow">
           <p>Card with small shadow effect.</p>
         </CardWrapper>
       </div>
       <div className="col-md-6">
-        <CardWrapper title="Medium Shadow" shadow="md">
+        <CardWrapper title="Medium Shadow">
           <p>Card with medium shadow effect.</p>
         </CardWrapper>
       </div>
       <div className="col-md-6">
-        <CardWrapper title="Large Shadow" shadow="lg">
+        <CardWrapper title="Large Shadow">
           <p>Card with large shadow effect.</p>
         </CardWrapper>
       </div>
@@ -162,13 +126,13 @@ export const DifferentShadows: Story = {
 export const DifferentPadding: Story = {
   render: () => (
     <div className="d-flex flex-column gap-3">
-      <CardWrapper title="Small Padding" padding="sm">
+      <CardWrapper title="Small Padding">
         <p>Card with small padding for compact layouts.</p>
       </CardWrapper>
-      <CardWrapper title="Medium Padding" padding="md">
+      <CardWrapper title="Medium Padding">
         <p>Card with medium padding (default) for standard layouts.</p>
       </CardWrapper>
-      <CardWrapper title="Large Padding" padding="lg">
+      <CardWrapper title="Large Padding">
         <p>Card with large padding for spacious layouts.</p>
       </CardWrapper>
     </div>
@@ -186,7 +150,7 @@ export const DashboardCards: Story = {
   render: () => (
     <div className="row g-3">
       <div className="col-md-3">
-        <CardWrapper title="Total Users" shadow="sm">
+        <CardWrapper title="Total Users">
           <div className="text-center">
             <h2 className="text-primary mb-0">1,234</h2>
             <small className="text-success">+5.2% from last month</small>
@@ -194,7 +158,7 @@ export const DashboardCards: Story = {
         </CardWrapper>
       </div>
       <div className="col-md-3">
-        <CardWrapper title="Revenue" shadow="sm">
+        <CardWrapper title="Revenue">
           <div className="text-center">
             <h2 className="text-success mb-0">$45,678</h2>
             <small className="text-success">+12.1% from last month</small>
@@ -202,7 +166,7 @@ export const DashboardCards: Story = {
         </CardWrapper>
       </div>
       <div className="col-md-3">
-        <CardWrapper title="Orders" shadow="sm">
+        <CardWrapper title="Orders">
           <div className="text-center">
             <h2 className="text-warning mb-0">567</h2>
             <small className="text-danger">-2.3% from last month</small>
@@ -210,7 +174,7 @@ export const DashboardCards: Story = {
         </CardWrapper>
       </div>
       <div className="col-md-3">
-        <CardWrapper title="Conversion" shadow="sm">
+        <CardWrapper title="Conversion">
           <div className="text-center">
             <h2 className="text-info mb-0">3.45%</h2>
             <small className="text-success">+0.8% from last month</small>
@@ -232,11 +196,7 @@ export const FormCard: Story = {
   render: () => (
     <div className="row justify-content-center">
       <div className="col-md-6">
-        <CardWrapper
-          title="User Profile"
-          subtitle="Update your personal information"
-          shadow="md"
-        >
+        <CardWrapper title="User Profile">
           <form>
             <div className="mb-3">
               <label htmlFor="firstName" className="form-label">
@@ -302,25 +262,21 @@ export const FormCard: Story = {
 
 export const NestedCards: Story = {
   render: () => (
-    <CardWrapper
-      title="Parent Card"
-      subtitle="Contains nested content"
-      shadow="lg"
-    >
+    <CardWrapper title="Parent Card">
       <div className="row g-3">
         <div className="col-md-6">
-          <CardWrapper title="Child Card 1" shadow="sm" padding="sm">
+          <CardWrapper title="Child Card 1">
             <p className="mb-0">This is a nested card within a parent card.</p>
           </CardWrapper>
         </div>
         <div className="col-md-6">
-          <CardWrapper title="Child Card 2" shadow="sm" padding="sm">
+          <CardWrapper title="Child Card 2">
             <p className="mb-0">Another nested card for organizing content.</p>
           </CardWrapper>
         </div>
       </div>
       <div className="mt-3">
-        <CardWrapper title="Full Width Child" shadow="sm" padding="sm">
+        <CardWrapper title="Full Width Child">
           <p className="mb-0">
             A full-width nested card for additional content.
           </p>
@@ -331,7 +287,7 @@ export const NestedCards: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Nested cards for complex content organization.",
+        story: "Nested cards for complex layouts and content organization.",
       },
     },
   },
@@ -341,13 +297,8 @@ export const BorderedCards: Story = {
   render: () => (
     <div className="row g-3">
       <div className="col-md-6">
-        <CardWrapper title="With Border" bordered shadow="none">
+        <CardWrapper title="With Border">
           <p>This card has a border instead of shadow.</p>
-        </CardWrapper>
-      </div>
-      <div className="col-md-6">
-        <CardWrapper title="Border + Shadow" bordered shadow="sm">
-          <p>This card has both border and shadow.</p>
         </CardWrapper>
       </div>
     </div>

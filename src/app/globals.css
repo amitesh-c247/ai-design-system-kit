@@ -75,41 +75,85 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Force EditorJS toolbar to left positioning */
-.ce-toolbar {
-    left: -20px !important;
-    transform: none !important;
-    margin-left: 0 !important;
+/* TipTap Editor Styles */
+.ProseMirror {
+    outline: none;
+    min-height: 200px;
+    padding: 1rem;
 }
 
-.ce-toolbar--opened {
-    left: -20px !important;
+.ProseMirror p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
 }
 
-.ce-toolbar__plus {
-    left: 20px !important;
-    position: absolute !important;
-    transform: none !important;
-    margin: 0 !important;
+.ProseMirror h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
 }
 
-.ce-toolbar__actions {
-    left: 50px !important;
-    position: absolute !important;
-    transform: none !important;
+.ProseMirror h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
 }
 
-.ce-block__content {
-    max-width: 100% !important;
-    margin: 0 !important;
+.ProseMirror h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
-/* Override any centering styles */
-.ce-toolbar[style*="left"] {
-    left: -20px !important;
+.ProseMirror blockquote {
+    border-left: 3px solid #e5e7eb;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    font-style: italic;
 }
 
-.ce-toolbar__plus[style*="left"] {
-    left: 20px !important;
+.ProseMirror pre {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+.ProseMirror code {
+    background-color: #f1f3f4;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.ProseMirror li {
+    margin-bottom: 0.25rem;
+}
+
+.ProseMirror a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+    color: #1d4ed8;
+}
+
+.ProseMirror img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+    margin: 1rem 0;
 }
 

@@ -125,7 +125,7 @@ export const Sizes: Story = {
       <ActionButton
         title="Medium"
         icon={<Plus size={16} />}
-        size="md"
+        size="sm"
         variant="primary"
         tooltip="Medium"
       />
@@ -284,7 +284,7 @@ export const FloatingActions: Story = {
         <ActionButton
           title="Secondary Action"
           icon={<Edit size={16} />}
-          size="md"
+          size="sm"
           variant="secondary"
           tooltip="Secondary action"
         />

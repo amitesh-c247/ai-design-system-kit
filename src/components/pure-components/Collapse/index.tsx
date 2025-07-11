@@ -8,7 +8,7 @@ import classnames from "classnames";
 
 import styles from "./styles.module.scss";
 
-interface CollapseProps {
+interface CollapseProps extends AntdCollapseProps {
   className?: string;
 }
 

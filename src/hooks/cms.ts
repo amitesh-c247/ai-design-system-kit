@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { cmsService } from "@/services/cms";
-import { Page } from "@/types/cms";
+import { CMSPage } from "@/types/cms";
 
 // ============================================================================
 // CMS QUERY KEYS
@@ -58,7 +58,7 @@ export function useUpdatePageMutation() {
       data,
     }: {
       id: string;
-      data: Partial<Omit<Page, "id">>;
+      data: Partial<Omit<CMSPage, "id">>;
     }) => cmsService.updatePage(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CMS_QUERY_KEYS.PAGES] });

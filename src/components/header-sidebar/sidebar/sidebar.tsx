@@ -98,7 +98,7 @@ const Sidebar = () => {
       if (
         isMobile &&
         sidebarRef.current &&
-        !sidebarRef.current.contains(event.target)
+        !sidebarRef.current.contains(event.target as Node)
       ) {
         setIsMobileMenuOpen(false);
       }

@@ -2,6 +2,23 @@ import { api } from "@/utils/api";
 import type { User } from "@/types/auth";
 
 // ============================================================================
+// TYPES
+// ============================================================================
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface UserCreateRequest {
+  make: string;
+  short_code: string;
+  status: "ACTIVE" | "DISABLED";
+}
+
+// ============================================================================
 // ENDPOINTS
 // ============================================================================
 const BASE_PATH = "makes";
@@ -15,14 +32,14 @@ export const userService = {
     page: number,
     limit: number,
     search: string = ""
-  ): Promise<User[]> {
+  ): Promise<PaginatedResponse<User>> {
     // Example: /users?page=1&limit=10&search=foo
     const params = new URLSearchParams({
       page: String(page),
       limit: String(limit),
       ...(search ? { search } : {}),
     });
-    const res = await api.get<User[]>(
+    const res = await api.get<PaginatedResponse<User>>(
       `${ENDPOINTS.USERS}?${params.toString()}`
     );
     return res.data;
@@ -31,13 +48,13 @@ export const userService = {
     const res = await api.get<User>(ENDPOINTS.USER_BY_ID(id));
     return res.data;
   },
-  async createUser(data: Omit<User, "id">): Promise<User> {
+  async createUser(data: UserCreateRequest): Promise<User> {
     const res = await api.post<User>(ENDPOINTS.USERS, data);
     return res.data;
   },
   async updateUser(
     id: number,
-    data: Partial<Omit<User, "id">>
+    data: Partial<UserCreateRequest>
   ): Promise<User | undefined> {
     const res = await api.put<User>(ENDPOINTS.USER_BY_ID(id), data);
     return res.data;

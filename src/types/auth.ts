@@ -1,4 +1,4 @@
-import { BaseEntity, ChangeLog } from './index';
+import { BaseEntity, ChangeLog } from "./index";
 
 // =============================================================================
 // AUTH TYPES
@@ -35,6 +35,10 @@ export interface User extends BaseEntity {
   firstName: string;
   lastName: string;
   displayName: string;
+  // snake_case versions for API compatibility
+  display_name?: string;
+  first_name?: string;
+  last_name?: string;
   dialCode?: string;
   countryCode?: string;
   mobileNumber?: string;
@@ -108,4 +112,4 @@ export interface SessionInfo {
   expiresAt: string;
   ipAddress?: string;
   userAgent?: string;
-} 
+}

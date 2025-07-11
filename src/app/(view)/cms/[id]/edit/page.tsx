@@ -3,11 +3,51 @@
 import React, { useEffect, useState } from "react";
 import CmsForm from "@/components/cms/CmsForm";
 import type { CmsFormValues } from "@/components/cms/CmsForm";
-import { cmsService, type Page } from "@/services/cms";
+import { cmsService, type CMSPage } from "@/services/cms";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import { Toast, ToastContainer } from "react-bootstrap";
+
+// Helper function to convert EditorJS format to HTML
+const convertEditorJSToHTML = (editorJSData: any): string => {
+  if (
+    !editorJSData ||
+    !editorJSData.blocks ||
+    !Array.isArray(editorJSData.blocks)
+  ) {
+    return "";
+  }
+
+  return editorJSData.blocks
+    .map((block: any) => {
+      switch (block.type) {
+        case "paragraph":
+          return `<p>${block.data.text || ""}</p>`;
+        case "header":
+          const level = block.data.level || 1;
+          return `<h${level}>${block.data.text || ""}</h${level}>`;
+        case "list":
+          const listType = block.data.style === "ordered" ? "ol" : "ul";
+          const items = block.data.items || [];
+          const listItems = items
+            .map((item: string) => `<li>${item}</li>`)
+            .join("");
+          return `<${listType}>${listItems}</${listType}>`;
+        case "quote":
+          return `<blockquote><p>${block.data.text || ""}</p></blockquote>`;
+        case "image":
+          return `<img src="${block.data.url || ""}" alt="${
+            block.data.caption || ""
+          }" />`;
+        case "code":
+          return `<pre><code>${block.data.code || ""}</code></pre>`;
+        default:
+          return `<p>${block.data.text || ""}</p>`;
+      }
+    })
+    .join("");
+};
 
 export default function CmsEditPage() {
   const t = useTranslations("cms");
@@ -15,7 +55,7 @@ export default function CmsEditPage() {
   const params = useParams();
   const slug = typeof params?.id === "string" ? params.id : undefined;
 
-  const [page, setPage] = useState<Page | null>(null);
+  const [page, setPage] = useState<CMSPage | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -68,12 +108,12 @@ export default function CmsEditPage() {
             : ("draft" as const),
         meta_title: "",
         meta_description: "",
-        is_agreement: formData.is_agreement,
-        open_in_new_tab: formData.open_in_new_tab,
-        content_type: formData.content_type,
+        isAgreement: Boolean(formData.is_agreement),
+        openInNewTab: Boolean(formData.open_in_new_tab),
+        contentType: formData.content_type,
       };
 
-      await cmsService.updatePage(page.id, pageData);
+      await cmsService.updatePage(String(page.id), pageData);
       setToast({
         show: true,
         message: t("messages.cmsUpdated"),
@@ -125,12 +165,18 @@ export default function CmsEditPage() {
     );
 
   // Convert page data to form format
-  // Parse content if it's a JSON string (for EditorJS)
+  // Parse content if it's a JSON string (for backward compatibility with EditorJS)
   let parsedContent = page.content;
   try {
     // Check if content is a JSON string and parse it
     if (typeof page.content === "string" && page.content.startsWith("{")) {
-      parsedContent = JSON.parse(page.content);
+      const parsed = JSON.parse(page.content);
+      // If it's EditorJS format, convert to HTML
+      if (parsed && parsed.blocks && Array.isArray(parsed.blocks)) {
+        parsedContent = convertEditorJSToHTML(parsed);
+      } else {
+        parsedContent = parsed;
+      }
     }
   } catch (e) {
     console.warn("Failed to parse content as JSON, using as string:", e);
@@ -140,9 +186,9 @@ export default function CmsEditPage() {
     title: page.title,
     content: parsedContent,
     status: page.status === "published" ? "PUBLISHED" : "DRAFT",
-    is_agreement: page.is_agreement ? 1 : 0,
-    open_in_new_tab: page.open_in_new_tab ? 1 : 0,
-    content_type: page.content_type || "TEXT",
+    is_agreement: page.isAgreement ? 1 : 0,
+    open_in_new_tab: page.openInNewTab ? 1 : 0,
+    content_type: page.contentType === "LINK" ? "LINK" : "TEXT",
     slug: page.slug,
   };
 

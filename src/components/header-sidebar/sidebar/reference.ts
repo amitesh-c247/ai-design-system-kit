@@ -9,7 +9,7 @@ import {
   AVAILABLE_DATA_TYPES,
   FILTER_OPERATORS,
   TEMPLATE_TYPES,
-} from "../constants";
+} from "@/constants";
 
 type AscDesc = "asc" | "desc" | "ASC" | "DESC";
 export type SorterString<Fields extends string> =

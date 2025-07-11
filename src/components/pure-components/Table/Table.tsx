@@ -1,25 +1,17 @@
 import React from "react";
 import { Table as BootstrapTable, Pagination, Spinner } from "react-bootstrap";
 import type {
-  TableColumn,
-  TableProps as CentralizedTableProps,
+  UITableColumn,
+  UITableProps as CentralizedTableProps,
 } from "@/types/ui";
 import TableSkeleton from "./TableSkeleton";
 import PrevArrowIcon from "@public/IconComponent/PrevArrowIcon";
 import NextArrowIcon from "@public/IconComponent/NextArrowIcon";
 import Button from "@/components/pure-components/Button";
 
-// Keep existing Column interface for backward compatibility
-export interface Column {
-  dataIndex: string;
-  title: string;
-  key?: string;
-  render?: (text: any, record: any) => React.ReactNode;
-}
-
 // Enhanced interface using centralized types
 export interface TableProps {
-  columns: Column[];
+  columns: UITableColumn<any>[];
   dataSource: any[];
   rowKey: string;
   className?: string;
@@ -151,11 +143,19 @@ const Table: React.FC<TableProps> = ({
             <>
               {dataSource.map((record) => (
                 <tr key={record[rowKey]}>
-                  {columns.map((column) => (
+                  {columns.map((column, columnIndex) => (
                     <td key={`${record[rowKey]}-${column.dataIndex}`}>
                       {column.render
-                        ? column.render(record[column.dataIndex], record)
-                        : record[column.dataIndex]}
+                        ? column.render(
+                            column.dataIndex
+                              ? record[column.dataIndex]
+                              : undefined,
+                            record,
+                            columnIndex
+                          )
+                        : column.dataIndex
+                        ? record[column.dataIndex]
+                        : undefined}
                     </td>
                   ))}
                 </tr>

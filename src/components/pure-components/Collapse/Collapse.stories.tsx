@@ -1,14 +1,11 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import Collapse from './index';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import Collapse from "./index";
 
 const meta: Meta<typeof Collapse> = {
-  title: 'Common/Collapse',
+  title: "Common/Collapse",
   component: Collapse,
-  tags: ['autodocs'],
-  argTypes: {
-    defaultActiveKey: { control: 'text' },
-  },
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -48,7 +45,7 @@ export const DefaultOpen: Story = {
 // Multiple Open
 export const MultipleOpen: Story = {
   render: () => (
-    <Collapse defaultActiveKey={['1', '2']}>
+    <Collapse defaultActiveKey={["1", "2"]}>
       <Collapse.Panel key="1" header="Section 1">
         Content for section 1
       </Collapse.Panel>
@@ -59,7 +56,7 @@ export const MultipleOpen: Story = {
   ),
 };
 
-// Bordered Style  
+// Bordered Style
 export const Bordered: Story = {
   render: () => (
     <Collapse bordered>
@@ -85,4 +82,4 @@ export const WithDisabledPanel: Story = {
       </Collapse.Panel>
     </Collapse>
   ),
-}; 
+};

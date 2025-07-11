@@ -7,6 +7,11 @@ export interface Faq {
   description: string;
 }
 
+export interface FaqCreateRequest {
+  title: string;
+  description: string;
+}
+
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
@@ -25,13 +30,13 @@ export const faqService = {
     const res = await mockApiClient.get<Faq>(ENDPOINTS.FAQ_BY_ID(id));
     return res.data;
   },
-  async createFaq(data: Omit<Faq, "id">): Promise<Faq> {
+  async createFaq(data: FaqCreateRequest): Promise<Faq> {
     const res = await mockApiClient.post<Faq>(ENDPOINTS.FAQS, data);
     return res.data;
   },
   async updateFaq(
     id: string,
-    data: Partial<Omit<Faq, "id">>
+    data: Partial<FaqCreateRequest>
   ): Promise<Faq | undefined> {
     const res = await mockApiClient.put<Faq>(ENDPOINTS.FAQ_BY_ID(id), data);
     return res.data;

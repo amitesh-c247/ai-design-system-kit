@@ -1,10 +1,10 @@
-import { BaseEntity, TemplateTypes, Tag } from './index';
+import { BaseEntity, TemplateTypes, Tag } from "./index";
 
 // =============================================================================
 // CMS TYPES
 // =============================================================================
 
-export interface Page extends BaseEntity {
+export interface CMSPage extends BaseEntity {
   title: string;
   content: string;
   slug: string;
@@ -27,14 +27,19 @@ export interface Page extends BaseEntity {
   publishedAt?: string;
   scheduledAt?: string;
   parentId?: string;
-  children?: Page[];
+  children?: CMSPage[];
   order?: number;
   isHomepage?: boolean;
   customFields?: Record<string, any>;
 }
 
-export type PageStatus = 'published' | 'draft' | 'archived' | 'scheduled' | 'pending';
-export type ContentType = 'TEXT' | 'LINK' | 'HTML' | 'MARKDOWN' | 'RICH_TEXT';
+export type PageStatus =
+  | "published"
+  | "draft"
+  | "archived"
+  | "scheduled"
+  | "pending";
+export type ContentType = "TEXT" | "LINK" | "HTML" | "MARKDOWN" | "RICH_TEXT";
 
 export interface PageRevision extends BaseEntity {
   pageId: string;
@@ -59,7 +64,15 @@ export interface PageTemplate extends BaseEntity {
 export interface TemplateField {
   name: string;
   label: string;
-  type: 'text' | 'textarea' | 'rich_text' | 'image' | 'select' | 'checkbox' | 'date' | 'number';
+  type:
+    | "text"
+    | "textarea"
+    | "rich_text"
+    | "image"
+    | "select"
+    | "checkbox"
+    | "date"
+    | "number";
   required?: boolean;
   defaultValue?: any;
   placeholder?: string;
@@ -92,26 +105,26 @@ export interface Media extends BaseEntity {
 export interface MenuGroup extends BaseEntity {
   name: string;
   location: MenuLocation;
-  items: MenuItem[];
+  items: CMSMenuItem[];
   isActive: boolean;
 }
 
-export type MenuLocation = 'header' | 'footer' | 'sidebar' | 'mobile';
+export type MenuLocation = "header" | "footer" | "sidebar" | "mobile";
 
-export interface MenuItem extends BaseEntity {
+export interface CMSMenuItem extends BaseEntity {
   label: string;
   url?: string;
   pageId?: string;
   target: LinkTarget;
   order: number;
   parentId?: string;
-  children?: MenuItem[];
+  children?: CMSMenuItem[];
   isActive: boolean;
   cssClass?: string;
   icon?: string;
 }
 
-export type LinkTarget = '_self' | '_blank' | '_parent' | '_top';
+export type LinkTarget = "_self" | "_blank" | "_parent" | "_top";
 
 export interface Widget extends BaseEntity {
   name: string;
@@ -126,19 +139,32 @@ export interface Widget extends BaseEntity {
   excludePages?: string[]; // Page IDs where widget should NOT appear
 }
 
-export type WidgetType = 'text' | 'html' | 'image' | 'form' | 'recent_posts' | 'menu' | 'custom';
-export type WidgetPosition = 'header' | 'footer' | 'sidebar_left' | 'sidebar_right' | 'before_content' | 'after_content';
+export type WidgetType =
+  | "text"
+  | "html"
+  | "image"
+  | "form"
+  | "recent_posts"
+  | "menu"
+  | "custom";
+export type WidgetPosition =
+  | "header"
+  | "footer"
+  | "sidebar_left"
+  | "sidebar_right"
+  | "before_content"
+  | "after_content";
 
 export interface Form extends BaseEntity {
   title: string;
   description?: string;
-  fields: FormField[];
+  fields: CMSFormField[];
   settings: FormSettings;
   submissions?: FormSubmission[];
   isActive: boolean;
 }
 
-export interface FormField {
+export interface CMSFormField {
   id: string;
   name: string;
   label: string;
@@ -157,25 +183,25 @@ export interface FormField {
   };
   options?: Array<{ label: string; value: string }>;
   order: number;
-  width?: 'full' | 'half' | 'third' | 'quarter';
+  width?: "full" | "half" | "third" | "quarter";
 }
 
-export type FormFieldType = 
-  | 'text' 
-  | 'textarea' 
-  | 'email' 
-  | 'password' 
-  | 'number' 
-  | 'tel' 
-  | 'url' 
-  | 'date' 
-  | 'time' 
-  | 'datetime' 
-  | 'select' 
-  | 'radio' 
-  | 'checkbox' 
-  | 'file' 
-  | 'hidden';
+export type FormFieldType =
+  | "text"
+  | "textarea"
+  | "email"
+  | "password"
+  | "number"
+  | "tel"
+  | "url"
+  | "date"
+  | "time"
+  | "datetime"
+  | "select"
+  | "radio"
+  | "checkbox"
+  | "file"
+  | "hidden";
 
 export interface FormSettings {
   submitButtonText: string;
@@ -192,7 +218,7 @@ export interface FormSettings {
   allowAnonymous: boolean;
   captcha: {
     enabled: boolean;
-    type?: 'recaptcha' | 'hcaptcha';
+    type?: "recaptcha" | "hcaptcha";
   };
 }
 
@@ -202,7 +228,7 @@ export interface FormSubmission extends BaseEntity {
   ipAddress?: string;
   userAgent?: string;
   submittedBy?: number; // User ID
-  status: 'pending' | 'processed' | 'spam';
+  status: "pending" | "processed" | "spam";
 }
 
 export interface Category extends BaseEntity {
@@ -234,7 +260,7 @@ export interface Comment extends BaseEntity {
   userId?: number;
 }
 
-export type CommentStatus = 'pending' | 'approved' | 'spam' | 'trash';
+export type CommentStatus = "pending" | "approved" | "spam" | "trash";
 
 // CMS-specific API request/response types
 export interface PageCreateRequest {
@@ -266,4 +292,4 @@ export interface PageSearchParams {
   createdBefore?: string;
   publishedAfter?: string;
   publishedBefore?: string;
-} 
+}

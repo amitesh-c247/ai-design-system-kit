@@ -9,6 +9,46 @@ import { useTranslations } from "next-intl";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import { Toast, ToastContainer } from "react-bootstrap";
 
+// Helper function to convert EditorJS format to HTML
+const convertEditorJSToHTML = (editorJSData: any): string => {
+  if (
+    !editorJSData ||
+    !editorJSData.blocks ||
+    !Array.isArray(editorJSData.blocks)
+  ) {
+    return "";
+  }
+
+  return editorJSData.blocks
+    .map((block: any) => {
+      switch (block.type) {
+        case "paragraph":
+          return `<p>${block.data.text || ""}</p>`;
+        case "header":
+          const level = block.data.level || 1;
+          return `<h${level}>${block.data.text || ""}</h${level}>`;
+        case "list":
+          const listType = block.data.style === "ordered" ? "ol" : "ul";
+          const items = block.data.items || [];
+          const listItems = items
+            .map((item: string) => `<li>${item}</li>`)
+            .join("");
+          return `<${listType}>${listItems}</${listType}>`;
+        case "quote":
+          return `<blockquote><p>${block.data.text || ""}</p></blockquote>`;
+        case "image":
+          return `<img src="${block.data.url || ""}" alt="${
+            block.data.caption || ""
+          }" />`;
+        case "code":
+          return `<pre><code>${block.data.code || ""}</code></pre>`;
+        default:
+          return `<p>${block.data.text || ""}</p>`;
+      }
+    })
+    .join("");
+};
+
 export default function CmsAddPage() {
   const t = useTranslations("cms");
   const router = useRouter();
@@ -31,7 +71,7 @@ export default function CmsAddPage() {
           setLoading(true);
           const page = await cmsService.getPage(id);
           if (page) {
-            // Parse content if it's a JSON string (for EditorJS)
+            // Parse content if it's a JSON string (for backward compatibility with EditorJS)
             let parsedContent = page.content;
             try {
               // Check if content is a JSON string and parse it
@@ -39,7 +79,13 @@ export default function CmsAddPage() {
                 typeof page.content === "string" &&
                 page.content.startsWith("{")
               ) {
-                parsedContent = JSON.parse(page.content);
+                const parsed = JSON.parse(page.content);
+                // If it's EditorJS format, convert to HTML
+                if (parsed && parsed.blocks && Array.isArray(parsed.blocks)) {
+                  parsedContent = convertEditorJSToHTML(parsed);
+                } else {
+                  parsedContent = parsed;
+                }
               }
             } catch (e) {
               console.warn(
@@ -52,9 +98,9 @@ export default function CmsAddPage() {
               title: page.title,
               content: parsedContent,
               status: page.status === "published" ? "PUBLISHED" : "DRAFT",
-              is_agreement: page.is_agreement || 0,
-              open_in_new_tab: page.open_in_new_tab || 0,
-              content_type: page.content_type || "TEXT",
+              is_agreement: page.isAgreement ? 1 : 0,
+              open_in_new_tab: page.openInNewTab ? 1 : 0,
+              content_type: page.contentType === "LINK" ? "LINK" : "TEXT",
               slug: page.slug,
             });
           }
@@ -91,11 +137,11 @@ export default function CmsAddPage() {
           data.status === "PUBLISHED"
             ? ("published" as const)
             : ("draft" as const),
-        meta_title: "",
-        meta_description: "",
-        is_agreement: data.is_agreement,
-        open_in_new_tab: data.open_in_new_tab,
-        content_type: data.content_type,
+        metaTitle: "",
+        metaDescription: "",
+        isAgreement: Boolean(data.is_agreement),
+        openInNewTab: Boolean(data.open_in_new_tab),
+        contentType: data.content_type,
       };
 
       if (id && defaultValues) {

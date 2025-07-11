@@ -17,6 +17,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   title,
   placement = "top",
   children,
+  onToggle,
   ...rest
 }) => {
   const [show, setShow] = useState(false);
@@ -28,13 +29,13 @@ const Tooltip: React.FC<TooltipProps> = ({
     ? cloneElement(children, {
         onMouseEnter: (e: React.MouseEvent) => {
           handleMouseEnter();
-          children.props.onMouseEnter?.(e);
+          (children as React.ReactElement).props.onMouseEnter?.(e);
         },
         onMouseLeave: (e: React.MouseEvent) => {
           handleMouseLeave();
-          children.props.onMouseLeave?.(e);
+          (children as React.ReactElement).props.onMouseLeave?.(e);
         },
-      })
+      } as any)
     : children;
 
   return (
@@ -46,7 +47,6 @@ const Tooltip: React.FC<TooltipProps> = ({
         </RbTooltip>
       }
       show={show}
-      {...rest}
     >
       {childWithHandlers}
     </OverlayTrigger>

@@ -10,7 +10,7 @@ import { Toast, ToastContainer } from "react-bootstrap";
 import { usePagesQuery, useDeletePageMutation } from "@/hooks/cms";
 import { useStandardPagination } from "@/hooks/usePagination";
 
-import type { Page } from "@/types/cms";
+import type { CMSPage } from "@/types/cms";
 import { Pencil, Trash2, Search } from "lucide-react";
 import styles from "./styles.module.scss";
 
@@ -41,7 +41,7 @@ const CmsPagesComponent: React.FC = () => {
   });
 
   // Sort pages by creation date (newest first)
-  const sortedPages = [...pages].sort((a: Page, b: Page) => {
+  const sortedPages = [...pages].sort((a: CMSPage, b: CMSPage) => {
     if (!a.createdAt) return 1;
     if (!b.createdAt) return -1;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -51,7 +51,7 @@ const CmsPagesComponent: React.FC = () => {
     router.push("/cms/add");
   };
 
-  const handleEdit = (page: Page) => {
+  const handleEdit = (page: CMSPage) => {
     router.push(`/cms/${page.id}/edit`);
   };
 
@@ -91,18 +91,21 @@ const CmsPagesComponent: React.FC = () => {
   // Table columns
   const columns = [
     {
+      key: "title",
       title: "Title",
       dataIndex: "title",
     },
     {
+      key: "slug",
       title: "Slug",
       dataIndex: "slug",
       render: (slug: string) => <code>/{slug}</code>,
     },
     {
+      key: "status",
       title: "Status",
       dataIndex: "status",
-      render: (status: Page["status"]) => (
+      render: (status: CMSPage["status"]) => (
         <span
           className={`badge bg-${
             status === "published"
@@ -117,6 +120,7 @@ const CmsPagesComponent: React.FC = () => {
       ),
     },
     {
+      key: "createdAt",
       title: "Created",
       dataIndex: "createdAt",
       render: (createdAt: string) => {
@@ -130,9 +134,10 @@ const CmsPagesComponent: React.FC = () => {
       },
     },
     {
+      key: "actions",
       title: "Actions",
       dataIndex: "id",
-      render: (_: any, record: Page) => (
+      render: (_: any, record: CMSPage) => (
         <div style={{ display: "flex", gap: 8 }}>
           <button
             style={{

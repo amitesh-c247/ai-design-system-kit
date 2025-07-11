@@ -90,7 +90,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   const ButtonContainer = isButtonMode ? Stack : Fragment;
 
   const handleScroll = (e: React.UIEvent<HTMLSelectElement>) => {
-    const target = e.target;
+    const target = e.target as HTMLSelectElement;
     if (
       target.scrollTop + target.offsetHeight === target.scrollHeight &&
       options.length < (totalElements || 0) &&
@@ -108,7 +108,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   const rawInputElementProps = showFilterButton && {
     getRawInputElement: () =>
       getRawInputElementProps(
-        firstValueLabel,
+        (firstValueLabel ?? "").toString(),
         filterLabel,
         selectedCount,
         value

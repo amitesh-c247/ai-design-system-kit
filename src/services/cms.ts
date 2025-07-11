@@ -1,5 +1,5 @@
 import { mockApiClient } from "@/utils/mockapi";
-import type { Page } from "@/types/cms";
+import type { CMSPage } from "@/types/cms";
 
 // ============================================================================
 // ENDPOINTS
@@ -15,37 +15,44 @@ const ENDPOINTS = {
     `${BASE_PATH}?search=${encodeURIComponent(query)}`,
 };
 
+export type { CMSPage };
+
 export const cmsService = {
   // Get all pages
-  async getPages(): Promise<Page[]> {
-    const res = await mockApiClient.get<Page[]>(ENDPOINTS.PAGE);
+  async getPages(): Promise<CMSPage[]> {
+    const res = await mockApiClient.get<CMSPage[]>(ENDPOINTS.PAGE);
     return res.data;
   },
 
   // Get single page by ID
-  async getPage(id: string): Promise<Page | undefined> {
-    const res = await mockApiClient.get<Page>(ENDPOINTS.PAGE_BY_ID(id));
+  async getPage(id: string): Promise<CMSPage | undefined> {
+    const res = await mockApiClient.get<CMSPage>(ENDPOINTS.PAGE_BY_ID(id));
     return res.data;
   },
 
   // Get page by slug (useful for frontend)
-  async getPageBySlug(slug: string): Promise<Page | undefined> {
-    const res = await mockApiClient.get<Page[]>(ENDPOINTS.PAGE_BY_SLUG(slug));
+  async getPageBySlug(slug: string): Promise<CMSPage | undefined> {
+    const res = await mockApiClient.get<CMSPage[]>(
+      ENDPOINTS.PAGE_BY_SLUG(slug)
+    );
     return res.data[0]; // MockAPI returns array for filtered results
   },
 
   // Create new page
-  async createPage(data: Omit<Page, "id">): Promise<Page> {
-    const res = await mockApiClient.post<Page>(ENDPOINTS.PAGE, data);
+  async createPage(data: Omit<CMSPage, "id">): Promise<CMSPage> {
+    const res = await mockApiClient.post<CMSPage>(ENDPOINTS.PAGE, data);
     return res.data;
   },
 
   // Update existing page
   async updatePage(
     id: string,
-    data: Partial<Omit<Page, "id">>
-  ): Promise<Page | undefined> {
-    const res = await mockApiClient.put<Page>(ENDPOINTS.PAGE_BY_ID(id), data);
+    data: Partial<Omit<CMSPage, "id">>
+  ): Promise<CMSPage | undefined> {
+    const res = await mockApiClient.put<CMSPage>(
+      ENDPOINTS.PAGE_BY_ID(id),
+      data
+    );
     return res.data;
   },
 
@@ -56,16 +63,18 @@ export const cmsService = {
   },
 
   // Get pages by status (published, draft, archived)
-  async getPagesByStatus(status: Page["status"]): Promise<Page[]> {
-    const res = await mockApiClient.get<Page[]>(
+  async getPagesByStatus(status: CMSPage["status"]): Promise<CMSPage[]> {
+    const res = await mockApiClient.get<CMSPage[]>(
       ENDPOINTS.PAGE_BY_STATUS(status)
     );
     return res.data;
   },
 
   // Search pages by title or content
-  async searchPages(query: string): Promise<Page[]> {
-    const res = await mockApiClient.get<Page[]>(ENDPOINTS.PAGE_SEARCH(query));
+  async searchPages(query: string): Promise<CMSPage[]> {
+    const res = await mockApiClient.get<CMSPage[]>(
+      ENDPOINTS.PAGE_SEARCH(query)
+    );
     return res.data;
   },
 };

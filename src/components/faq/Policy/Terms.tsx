@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Accordion from "../Accordion";
+import Accordion from "@/components/pure-components/Accordion";
 import { faqService, Faq } from "@/services/faq";
-import FaqSkeleton from "../Accordion/FaqSkeleton";
-import Banner from "../Banner/Banner";
+import FaqSkeleton from "../Faq/FaqSkeleton";
+import Banner from "../../pure-components/Banner/Banner";
 
 const Terms = () => {
   const [faqs, setFaqs] = useState<Faq[]>([]);
