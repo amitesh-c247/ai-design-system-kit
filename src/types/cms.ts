@@ -186,7 +186,7 @@ export interface CMSFormField {
   width?: "full" | "half" | "third" | "quarter";
 }
 
-export type FormFieldType =
+export type FormFieldType = 
   | "text"
   | "textarea"
   | "email"
@@ -292,4 +292,4 @@ export interface PageSearchParams {
   createdBefore?: string;
   publishedAfter?: string;
   publishedBefore?: string;
-}
+} 

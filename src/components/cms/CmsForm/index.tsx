@@ -205,32 +205,32 @@ const CmsForm: React.FC<CmsFormProps> = ({
 
     // Handle EditorJS format for backward compatibility
     if (typeof data === "object" && data.blocks && Array.isArray(data.blocks)) {
-      return data.blocks.some((block: any) => {
-        if (!block || !block.data) return false;
+    return data.blocks.some((block: any) => {
+      if (!block || !block.data) return false;
 
-        switch (block.type) {
-          case "paragraph":
-            return block.data.text && block.data.text.trim() !== "";
-          case "header":
-            return block.data.text && block.data.text.trim() !== "";
-          case "list":
-            return (
-              block.data.items &&
-              Array.isArray(block.data.items) &&
+      switch (block.type) {
+        case "paragraph":
+          return block.data.text && block.data.text.trim() !== "";
+        case "header":
+          return block.data.text && block.data.text.trim() !== "";
+        case "list":
+          return (
+            block.data.items &&
+            Array.isArray(block.data.items) &&
               block.data.items.some(
                 (item: string) => item && item.trim() !== ""
               )
-            );
-          case "quote":
-            return block.data.text && block.data.text.trim() !== "";
-          case "image":
-            return block.data.url && block.data.url.trim() !== "";
-          case "code":
-            return block.data.code && block.data.code.trim() !== "";
-          default:
-            return true; // For unknown block types, assume they have content
-        }
-      });
+          );
+        case "quote":
+          return block.data.text && block.data.text.trim() !== "";
+        case "image":
+          return block.data.url && block.data.url.trim() !== "";
+        case "code":
+          return block.data.code && block.data.code.trim() !== "";
+        default:
+          return true; // For unknown block types, assume they have content
+      }
+    });
     }
 
     return false;
