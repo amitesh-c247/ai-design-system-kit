@@ -8,9 +8,6 @@ import LogoIcon from "@/assets/images/logo-icon.svg";
 import {
   LayoutDashboard,
   Users,
-  Settings,
-  BarChart2,
-  HelpCircle,
   ChevronLeft,
   ChevronRight,
   Menu,
@@ -41,12 +38,6 @@ const menuItems: MenuItem[] = [
     path: "/users",
   },
   {
-    id: "reports",
-    label: "Reports",
-    icon: <BarChart2 size={20} />,
-    path: "/reports",
-  },
-  {
     id: "cms",
     label: "CMS",
     icon: <Book size={20} />,
@@ -57,18 +48,6 @@ const menuItems: MenuItem[] = [
     label: "Documents",
     icon: <FileText size={20} />,
     path: "/documents",
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    icon: <Settings size={20} />,
-    path: "/settings",
-  },
-  {
-    id: "support",
-    label: "Support",
-    icon: <HelpCircle size={20} />,
-    path: "/support",
   },
   {
     id: "faq",
