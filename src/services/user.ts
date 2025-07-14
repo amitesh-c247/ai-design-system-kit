@@ -21,9 +21,10 @@ export interface UserCreateRequest {
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
-const BASE_PATH = "makes";
+const BASE_PATH = "vehicle/make";
 const ENDPOINTS = {
-  USERS: BASE_PATH,
+  USERS: `${BASE_PATH}s`,
+  ADD_UPDATE: BASE_PATH,
   USER_BY_ID: (id: number) => `${BASE_PATH}/${id}`,
 };
 
@@ -49,7 +50,8 @@ export const userService = {
     return res.data;
   },
   async createUser(data: UserCreateRequest): Promise<User> {
-    const res = await api.post<User>(ENDPOINTS.USERS, data);
+    console.log("ENDPOINTS.ADD_UPDATE  => ", ENDPOINTS.ADD_UPDATE);
+    const res = await api.post<User>(ENDPOINTS.ADD_UPDATE, data);
     return res.data;
   },
   async updateUser(

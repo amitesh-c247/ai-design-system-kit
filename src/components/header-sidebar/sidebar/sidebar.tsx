@@ -16,6 +16,7 @@ import {
   Menu,
   Book,
   MessageCircle,
+  FileText,
 } from "lucide-react";
 import styles from "./styles.module.scss";
 
@@ -50,6 +51,12 @@ const menuItems: MenuItem[] = [
     label: "CMS",
     icon: <Book size={20} />,
     path: "/cms",
+  },
+  {
+    id: "documents",
+    label: "Documents",
+    icon: <FileText size={20} />,
+    path: "/documents",
   },
   {
     id: "settings",

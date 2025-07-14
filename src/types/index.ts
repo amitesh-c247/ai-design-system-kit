@@ -2,7 +2,7 @@ import {
   AVAILABLE_DATA_TYPES,
   FILTER_OPERATORS,
   TEMPLATE_TYPES,
-} from '../constants';
+} from "../constants";
 
 // =============================================================================
 // UTILITY TYPES
@@ -37,7 +37,7 @@ export type ArrayElement<T> = T extends (infer U)[] ? U : never;
 // SORTING & ORDERING
 // =============================================================================
 
-export type SortDirection = 'asc' | 'desc' | 'ASC' | 'DESC';
+export type SortDirection = "asc" | "desc" | "ASC" | "DESC";
 
 export type SorterString<Fields extends string> =
   | `${Fields}`
@@ -172,7 +172,8 @@ export interface State extends ChangeLog {
 // FILTERING & SEARCH
 // =============================================================================
 
-export type FilterOperator = (typeof FILTER_OPERATORS)[keyof typeof FILTER_OPERATORS];
+export type FilterOperator =
+  (typeof FILTER_OPERATORS)[keyof typeof FILTER_OPERATORS];
 
 export interface QueryFilter {
   member: string;
@@ -193,7 +194,7 @@ export interface SearchFilter {
 }
 
 interface CommonQueryParams {
-  order?: Record<string, 'ASC' | 'DESC'>;
+  order?: Record<string, "ASC" | "DESC">;
   filters?: QueryFilter[];
   limit?: number;
   offset?: number;
@@ -300,7 +301,7 @@ export interface FormField<T = any> {
 
 export interface FormConfig {
   fields: FormField[];
-  layout?: 'vertical' | 'horizontal' | 'inline';
+  layout?: "vertical" | "horizontal" | "inline";
   submitLabel?: string;
   resetLabel?: string;
   showReset?: boolean;
@@ -322,7 +323,7 @@ export interface BaseComponentProps {
   className?: string;
   style?: React.CSSProperties;
   id?: string;
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 export interface LoadingProps {
@@ -335,11 +336,11 @@ export interface DisabledProps {
 }
 
 export interface SizeProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 }
 
 export interface VariantProps {
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+  variant?: "primary" | "secondary" | "success" | "warning" | "danger" | "info";
 }
 
 export interface ClickableProps {
@@ -356,25 +357,30 @@ export interface TableColumn<T = any> {
   title: string;
   dataIndex?: string;
   width?: number | string;
-  fixed?: 'left' | 'right';
+  fixed?: "left" | "right";
   sortable?: boolean;
   filterable?: boolean;
   render?: (value: any, record: T, index: number) => React.ReactNode;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
 }
 
 export interface TableProps<T = any> {
   columns: TableColumn<T>[];
   data: T[];
   loading?: boolean;
-  pagination?: false | {
-    current: number;
-    pageSize: number;
-    total: number;
-    onChange: (page: number, pageSize: number) => void;
-  };
+  pagination?:
+    | false
+    | {
+        current: number;
+        pageSize: number;
+        total: number;
+        onChange: (page: number, pageSize: number) => void;
+      };
   rowKey?: string | ((record: T) => string);
-  onRow?: (record: T, index: number) => React.HTMLAttributes<HTMLTableRowElement>;
+  onRow?: (
+    record: T,
+    index: number
+  ) => React.HTMLAttributes<HTMLTableRowElement>;
   expandable?: {
     expandedRowRender: (record: T) => React.ReactNode;
     expandRowByClick?: boolean;
@@ -439,7 +445,7 @@ export interface ImageInfo extends FileInfo {
 // =============================================================================
 
 export interface AlertProps {
-  type: 'success' | 'error' | 'warning' | 'info';
+  type: "success" | "error" | "warning" | "info";
   title?: string;
   message: string;
   dismissible?: boolean;
@@ -447,18 +453,18 @@ export interface AlertProps {
   actions?: Array<{
     label: string;
     onClick: () => void;
-    variant?: VariantProps['variant'];
+    variant?: VariantProps["variant"];
   }>;
 }
 
 export interface NotificationConfig {
   id?: string;
-  type: AlertProps['type'];
+  type: AlertProps["type"];
   title?: string;
   message: string;
   duration?: number;
   persist?: boolean;
-  actions?: AlertProps['actions'];
+  actions?: AlertProps["actions"];
 }
 
 // =============================================================================
@@ -532,4 +538,11 @@ export interface KeyValuePair<T = string> {
 }
 
 // Re-export for convenience
-export { AVAILABLE_DATA_TYPES, FILTER_OPERATORS, TEMPLATE_TYPES } from '../constants'; 
+export {
+  AVAILABLE_DATA_TYPES,
+  FILTER_OPERATORS,
+  TEMPLATE_TYPES,
+} from "../constants";
+
+// Document types
+export * from "./documents";
