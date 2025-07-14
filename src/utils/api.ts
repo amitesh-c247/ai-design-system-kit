@@ -127,7 +127,6 @@ export const api = {
       headers,
       body: JSON.stringify(body),
     });
-
     if (!response.ok) {
       return handleApiError(response);
     }
