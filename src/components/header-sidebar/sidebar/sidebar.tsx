@@ -10,10 +10,12 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Menu,
   Book,
   MessageCircle,
   FileText,
+  Upload,
 } from "lucide-react";
 import styles from "./styles.module.scss";
 
@@ -21,7 +23,8 @@ interface MenuItem {
   id: string;
   label: string;
   icon: React.ReactNode;
-  path: string;
+  path?: string;
+  children?: MenuItem[];
 }
 
 const menuItems: MenuItem[] = [
@@ -50,6 +53,25 @@ const menuItems: MenuItem[] = [
     path: "/documents",
   },
   {
+    id: "bulk-import",
+    label: "Bulk Import",
+    icon: <Upload size={20} />,
+    children: [
+      {
+        id: "bulk-import-faq",
+        label: "FAQ",
+        icon: <MessageCircle size={16} />,
+        path: "/bulk-import/faq",
+      },
+      {
+        id: "bulk-import-user",
+        label: "User",
+        icon: <Users size={16} />,
+        path: "/bulk-import/users",
+      },
+    ],
+  },
+  {
     id: "faq",
     label: "FAQ",
     icon: <MessageCircle size={20} />,
@@ -61,6 +83,7 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openAccordions, setOpenAccordions] = useState<string[]>([]);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -94,12 +117,29 @@ const Sidebar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile]);
 
+  // Keep accordion open if we're on a bulk import route
+  useEffect(() => {
+    if (pathname.startsWith("/bulk-import")) {
+      setOpenAccordions((prev) =>
+        prev.includes("bulk-import") ? prev : [...prev, "bulk-import"]
+      );
+    }
+  }, [pathname]);
+
   const toggleSidebar = () => {
     if (isMobile) {
       setIsMobileMenuOpen(!isMobileMenuOpen);
     } else {
       setIsCollapsed(!isCollapsed);
     }
+  };
+
+  const toggleAccordion = (itemId: string) => {
+    setOpenAccordions((prev) =>
+      prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId]
+    );
   };
 
   return (
@@ -149,18 +189,59 @@ const Sidebar = () => {
         {/* Navigation Menu */}
         <nav className={styles.nav}>
           {menuItems.map((item) => (
-            <Link
-              key={item.id}
-              href={item.path}
-              className={`${styles.navItem} ${
-                pathname === item.path ? styles.active : ""
-              }`}
-            >
-              <span className={styles.icon}>{item.icon}</span>
-              {!isCollapsed && (
-                <span className={styles.label}>{item.label}</span>
+            <div key={item.id}>
+              {item.children ? (
+                // Accordion Item
+                <div className={styles.accordionItem}>
+                  <button
+                    className={`${styles.navItem} ${styles.accordionHeader}`}
+                    onClick={() => toggleAccordion(item.id)}
+                  >
+                    <span className={styles.icon}>{item.icon}</span>
+                    {!isCollapsed && (
+                      <>
+                        <span className={styles.label}>{item.label}</span>
+                        <ChevronDown
+                          size={16}
+                          className={`${styles.chevron} ${
+                            openAccordions.includes(item.id) ? styles.open : ""
+                          }`}
+                        />
+                      </>
+                    )}
+                  </button>
+                  {!isCollapsed && openAccordions.includes(item.id) && (
+                    <div className={styles.accordionContent}>
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.id}
+                          href={child.path!}
+                          className={`${styles.navItem} ${styles.subItem} ${
+                            pathname === child.path ? styles.active : ""
+                          }`}
+                        >
+                          <span className={styles.icon}>{child.icon}</span>
+                          <span className={styles.label}>{child.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // Regular Item
+                <Link
+                  href={item.path!}
+                  className={`${styles.navItem} ${
+                    pathname === item.path ? styles.active : ""
+                  }`}
+                >
+                  <span className={styles.icon}>{item.icon}</span>
+                  {!isCollapsed && (
+                    <span className={styles.label}>{item.label}</span>
+                  )}
+                </Link>
               )}
-            </Link>
+            </div>
           ))}
         </nav>
       </aside>

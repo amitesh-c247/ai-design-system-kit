@@ -1,7 +1,6 @@
 import { mockApiClient } from "@/utils/mockapi";
 
 export interface Faq {
-  status: "ACTIVE" | "DISABLED";
   id: string;
   title: string;
   description: string;
@@ -15,7 +14,7 @@ export interface FaqCreateRequest {
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
-const BASE_PATH = "faq";
+const BASE_PATH = "/faq";
 const ENDPOINTS = {
   FAQS: BASE_PATH,
   FAQ_BY_ID: (id: string) => `${BASE_PATH}/${id}`,

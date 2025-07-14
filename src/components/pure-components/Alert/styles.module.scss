@@ -53,6 +53,12 @@
   color: var(--bs-primary);
 }
 
+.colorError {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
 .loader {
   animation: spin 1s linear infinite;
 }

@@ -137,3 +137,54 @@ $transition-duration: 0.3s;
     z-index: -1;
   }
 }
+
+// Accordion Styles
+.accordionItem {
+  margin-bottom: 0.25rem;
+}
+
+.accordionHeader {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  
+  &:hover {
+    background-color: var(--muted);
+  }
+}
+
+.chevron {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+  
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.accordionContent {
+  margin-left: 1rem;
+  border-left: 2px solid var(--muted);
+  padding-left: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.subItem {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  
+  .icon {
+    min-width: 20px;
+  }
+  
+  &:hover {
+    background-color: var(--muted);
+  }
+  
+  &.active {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+}

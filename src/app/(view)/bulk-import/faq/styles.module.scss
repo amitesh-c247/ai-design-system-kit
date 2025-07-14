@@ -1,0 +1,405 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.templateCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+}
+
+.templateContent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  
+  .templateIcon {
+    color: var(--primary-color);
+    flex-shrink: 0;
+  }
+  
+  div {
+    flex: 1;
+    
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.downloadBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.uploadCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+}
+
+.uploadContent {
+  display: flex;
+  justify-content: center;
+}
+
+.uploadArea {
+  text-align: center;
+  padding: 40px 20px;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  background: #f8f9fa;
+  min-width: 400px;
+  
+  .uploadIcon {
+    color: #007bff;
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: #6c757d;
+    margin-bottom: 24px;
+  }
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  border: none;
+  font-size: 14px;
+  
+  &:hover {
+    background: #0056b3;
+  }
+}
+
+.fileInfo {
+  margin-top: 16px;
+  padding: 16px;
+  background: #e9ecef;
+  border-radius: 8px;
+  
+  p {
+    margin-bottom: 12px;
+    color: #212529;
+    font-weight: 500;
+  }
+}
+
+.validateBtn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  
+  &:hover {
+    background: #218838;
+  }
+  
+  &:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+}
+
+.errorCard {
+  border: 1px solid #dc3545;
+  border-radius: 12px;
+  padding: 24px;
+  background: #f8d7da;
+}
+
+.errorAlert {
+  margin-bottom: 20px;
+  
+  .alertContent {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    
+    svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: #dc3545;
+    }
+  }
+  
+  h4 {
+    font-weight: 600;
+    color: #dc3545;
+    margin-bottom: 4px;
+  }
+  
+  p {
+    color: #721c24;
+  }
+}
+
+.errorTable {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dc3545;
+  
+  th {
+    background: #f5c6cb;
+    color: #721c24;
+    font-weight: 600;
+  }
+  
+  td {
+    color: #212529;
+    
+    &:nth-child(3) {
+      color: #dc3545;
+      font-weight: 500;
+    }
+  }
+}
+
+.successCard {
+  border: 1px solid var(--success-border);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--success-background);
+}
+
+.successAlert {
+  .alertContent {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
+    svg {
+      flex-shrink: 0;
+      color: var(--success-color);
+    }
+    
+    div {
+      flex: 1;
+      
+      h4 {
+        font-weight: 600;
+        color: var(--success-color);
+        margin-bottom: 4px;
+      }
+      
+      p {
+        color: var(--success-text);
+      }
+    }
+    
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+      
+      &:hover {
+        background: #0056b3;
+      }
+    }
+  }
+}
+
+.resultCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+  
+  h4 {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+}
+
+.previewContent {
+  max-height: 70vh;
+  overflow-y: auto;
+  
+  p {
+    margin-bottom: 20px;
+    color: #6c757d;
+    font-size: 14px;
+  }
+}
+
+.previewTable {
+  margin-bottom: 24px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  
+  th {
+    background: #f8f9fa;
+    color: #212529;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  td {
+    color: #212529;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  tr:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+.previewActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid #dee2e6;
+  background: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.importBtn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 120px;
+  
+  &:hover {
+    background: #218838;
+  }
+  
+  &:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .templateContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .uploadArea {
+    min-width: auto;
+    padding: 24px 16px;
+  }
+  
+  .previewActions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .templateCard,
+  .uploadCard,
+  .resultCard {
+    background: var(--dark-background-secondary);
+    border-color: var(--dark-border-color);
+  }
+  
+  .uploadArea {
+    background: var(--dark-background-primary);
+    border-color: var(--dark-border-color);
+  }
+  
+  .fileInfo {
+    background: var(--dark-background-tertiary);
+  }
+  
+  .errorTable {
+    background: var(--dark-background-primary);
+  }
+  
+  .previewTable th {
+    background: var(--dark-background-tertiary);
+  }
+} 

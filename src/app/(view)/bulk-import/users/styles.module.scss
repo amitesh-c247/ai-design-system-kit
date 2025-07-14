@@ -1,0 +1,120 @@
+.container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: #6c757d;
+    font-size: 1rem;
+  }
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+  
+  &:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.comingSoonCard {
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 40px;
+  background: white;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.comingSoonContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.icon {
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.comingSoonCard h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.comingSoonCard p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.features {
+  text-align: left;
+  width: 100%;
+  
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 12px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      position: relative;
+      padding-left: 20px;
+      color: #6c757d;
+      margin-bottom: 8px;
+      
+      &:before {
+        content: "•";
+        color: #28a745;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .comingSoonCard {
+    padding: 24px;
+  }
+} 
