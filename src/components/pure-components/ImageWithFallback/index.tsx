@@ -1,18 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Image, { ImageProps, StaticImageData } from 'next/image';
-import styles from './styles.module.scss';
-
-interface ImageWithFallbackProps extends Omit<ImageProps, 'src'> {
-  src: string | StaticImageData;
-  fallback?: string | StaticImageData;
-  className?: string;
-  showLoadingState?: boolean;
-}
+import { useEffect, useState } from "react";
+import Image, { ImageProps, StaticImageData } from "next/image";
+import type { ImageWithFallbackProps } from "./types";
+import styles from "./styles.module.scss";
 
 const ImageWithFallback = ({
-  fallback='',
+  fallback = "",
   alt,
   src,
   className,
@@ -32,13 +26,15 @@ const ImageWithFallback = ({
   };
 
   return (
-    <div className={`${styles.imageWrapper} ${className || ''}`}>
+    <div className={`${styles.imageWrapper} ${className || ""}`}>
       <Image
         alt={alt}
         onError={() => setError(true)}
         onLoad={handleLoad}
         src={error ? fallback : src}
-        className={`${styles.fadeIn} ${isLoading && showLoadingState ? styles.loading : ''}`}
+        className={`${styles.fadeIn} ${
+          isLoading && showLoadingState ? styles.loading : ""
+        }`}
         {...props}
         unoptimized
       />
@@ -46,4 +42,4 @@ const ImageWithFallback = ({
   );
 };
 
-export default ImageWithFallback; 
+export default ImageWithFallback;

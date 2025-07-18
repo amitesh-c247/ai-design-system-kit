@@ -1,3 +1,4 @@
+import axios, { AxiosInstance } from 'axios';
 import {
   Document,
   DocumentUploadRequest,
@@ -5,6 +6,14 @@ import {
   DocumentUploadResponse,
   DocumentDeleteResponse,
 } from "@/types/documents";
+
+// Create axios instance for documents
+const documentsAxios: AxiosInstance = axios.create({
+  baseURL: "/api/documents",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 class DocumentService {
   private baseUrl = "/api/documents"; // Local API endpoint
@@ -24,19 +33,8 @@ class DocumentService {
         params.append("search", search);
       }
 
-      const response = await fetch(`${this.baseUrl}?${params}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch documents");
-      }
-
-      const data = await response.json();
-      return data;
+      const response = await documentsAxios.get(`?${params}`);
+      return response.data;
     } catch (error) {
       console.error("Error fetching documents:", error);
       throw error;
@@ -51,17 +49,13 @@ class DocumentService {
       formData.append("file", request.file);
       formData.append("description", request.description || "");
 
-      const response = await fetch(this.baseUrl, {
-        method: "POST",
-        body: formData,
+      const response = await documentsAxios.post("", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to upload document");
-      }
-
-      const result = await response.json();
-      return result;
+      return response.data;
     } catch (error) {
       console.error("Error uploading document:", error);
       throw error;
@@ -70,19 +64,8 @@ class DocumentService {
 
   async deleteDocument(documentId: string): Promise<DocumentDeleteResponse> {
     try {
-      const response = await fetch(`${this.baseUrl}/${documentId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete document");
-      }
-
-      const result = await response.json();
-      return result;
+      const response = await documentsAxios.delete(`/${documentId}`);
+      return response.data;
     } catch (error) {
       console.error("Error deleting document:", error);
       throw error;
@@ -91,16 +74,12 @@ class DocumentService {
 
   async downloadDocument(documentId: string): Promise<void> {
     try {
-      const response = await fetch(`${this.baseUrl}/${documentId}`, {
-        method: "GET",
+      const response = await documentsAxios.get(`/${documentId}`, {
+        responseType: 'blob',
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to download document");
-      }
-
       // Get filename from Content-Disposition header
-      const contentDisposition = response.headers.get("Content-Disposition");
+      const contentDisposition = response.headers['content-disposition'];
       let filename = `document_${documentId}`;
 
       if (contentDisposition) {
@@ -110,8 +89,7 @@ class DocumentService {
         }
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(response.data);
       const a = window.document.createElement("a");
       a.href = url;
       a.download = filename;

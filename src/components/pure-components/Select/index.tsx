@@ -1,16 +1,8 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import classnames from "classnames";
+import type { SelectProps } from "./types";
 import styles from "./styles.module.scss";
-
-interface SelectProps {
-  className?: string;
-  options?: Array<{ value: string; label: string; disabled?: boolean }>;
-  optionGroups?: Array<{
-    label: string;
-    options: Array<{ value: string; label: string; disabled?: boolean }>;
-  }>;
-}
 
 const Select: React.FC<React.PropsWithChildren<SelectProps>> = ({
   className,

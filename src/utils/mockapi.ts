@@ -1,130 +1,129 @@
-import { cookieService } from './cookieService';
-import type { ApiResponse, ApiError } from '@/types';
+import axios, { AxiosInstance, AxiosError } from "axios";
+import { cookieService } from "./cookieService";
+import type { ApiResponse, ApiError } from "@/types";
 
 // Shared MockAPI configuration
-const MOCKAPI_BASE_URL = process.env.NEXT_PUBLIC_MOCKAPI_BASE_URL || 'https://6853a9cea2a37a1d6f495380.mockapi.io/api/v1';
+const MOCKAPI_BASE_URL =
+  process.env.NEXT_PUBLIC_MOCKAPI_BASE_URL ||
+  "https://6853a9cea2a37a1d6f495380.mockapi.io/api/v1";
 
-// Helper to handle API errors
-const handleApiError = async (response: Response): Promise<never> => {
-  const error = await response.json().catch(() => ({}));
-  throw {
-    message: error.message || 'An error occurred',
-    code: error.code,
-    status: response.status,
-  } as ApiError;
-};
+// Create axios instance for MockAPI
+const mockApiAxios: AxiosInstance = axios.create({
+  baseURL: MOCKAPI_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
 
 // Helper to get auth token
 const getAuthToken = (): string | null => {
-  const authData = cookieService.get<{ token: { token: string, expire: string } }>('auth_token');
+  const authData = cookieService.get<{
+    token: { token: string; expire: string };
+  }>("auth_token");
   return authData?.token?.token || null;
 };
 
+// Request interceptor to add auth token
+mockApiAxios.interceptors.request.use(
+  (config) => {
+    const token = getAuthToken();
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor to handle errors
+mockApiAxios.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    // Transform axios error to ApiError
+    const apiError: ApiError = {
+      message:
+        (error.response?.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : null) ||
+        error.message ||
+        "An error occurred",
+      code:
+        (error.response?.data &&
+        typeof error.response.data === "object" &&
+        "code" in error.response.data
+          ? String(error.response.data.code)
+          : null) || error.code,
+      status: error.response?.status || 500,
+    };
+
+    return Promise.reject(apiError);
+  }
+);
+
 // Shared MockAPI client
 export const mockApiClient = {
-  get: async <T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${MOCKAPI_BASE_URL}${endpoint}`, {
-      ...options,
-      method: 'GET',
-      headers,
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+  get: async <T>(
+    endpoint: string,
+    options: any = {}
+  ): Promise<ApiResponse<T>> => {
+    try {
+      const response = await mockApiAxios.get(endpoint, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
-  post: async <T>(endpoint: string, body: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${MOCKAPI_BASE_URL}${endpoint}`, {
-      ...options,
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+  post: async <T>(
+    endpoint: string,
+    body: unknown,
+    options: any = {}
+  ): Promise<ApiResponse<T>> => {
+    try {
+      const response = await mockApiAxios.post(endpoint, body, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
-  put: async <T>(endpoint: string, body: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${MOCKAPI_BASE_URL}${endpoint}`, {
-      ...options,
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+  put: async <T>(
+    endpoint: string,
+    body: unknown,
+    options: any = {}
+  ): Promise<ApiResponse<T>> => {
+    try {
+      const response = await mockApiAxios.put(endpoint, body, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
-  delete: async <T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${MOCKAPI_BASE_URL}${endpoint}`, {
-      ...options,
-      method: 'DELETE',
-      headers,
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+  delete: async <T>(
+    endpoint: string,
+    options: any = {}
+  ): Promise<ApiResponse<T>> => {
+    try {
+      const response = await mockApiAxios.delete(endpoint, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
-}; 
+};

@@ -1,18 +1,8 @@
 import React from "react";
 import { Dropdown } from "react-bootstrap";
 import classnames from "classnames";
+import type { MenuItemProps, MenuProps } from "./types";
 import styles from "./styles.module.scss";
-
-export interface MenuItemProps {
-  onClick?: () => void;
-  active?: boolean;
-  disabled?: boolean;
-  className?: string;
-}
-
-export interface MenuProps {
-  className?: string;
-}
 
 const MenuItem: React.FC<React.PropsWithChildren<MenuItemProps>> = ({
   children,

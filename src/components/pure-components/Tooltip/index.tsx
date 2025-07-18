@@ -5,13 +5,7 @@ import {
   OverlayTriggerProps,
   TooltipProps as RbTooltipProps,
 } from "react-bootstrap";
-
-export interface TooltipProps
-  extends Omit<RbTooltipProps, "children" | "title"> {
-  title: React.ReactNode;
-  placement?: OverlayTriggerProps["placement"];
-  children: React.ReactElement<any>;
-}
+import type { TooltipProps } from "./types";
 
 const Tooltip: React.FC<TooltipProps> = ({
   title,

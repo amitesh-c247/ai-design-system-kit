@@ -1,3 +1,4 @@
+import axios, { AxiosInstance, AxiosError } from "axios";
 import { cookieService } from "./cookieService";
 import type { ApiResponse, ApiError } from "@/types";
 
@@ -24,37 +25,14 @@ export const clearUnauthorizedHandler = () => {
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_REST_API_ENDPOINT || "https://localhost:3000/api";
 
-// Helper to handle API errors
-const handleApiError = async (response: Response): Promise<never> => {
-  const error = await response.json().catch(() => ({}));
-
-  // Handle 401 Unauthorized - clear auth and trigger redirect
-  if (response.status === 401) {
-    console.warn(
-      "401 Unauthorized response received, clearing auth tokens and redirecting to login"
-    );
-
-    // Clear auth tokens immediately
-    removeAuthToken();
-
-    // Call the unauthorized handler if set (for redirect to login)
-    if (onUnauthorized) {
-      try {
-        onUnauthorized();
-      } catch (handlerError) {
-        console.error("Error in unauthorized handler:", handlerError);
-      }
-    } else {
-      console.warn("No unauthorized handler set, unable to redirect to login");
-    }
-  }
-
-  throw {
-    message: error.message || "An error occurred",
-    code: error.code,
-    status: response.status,
-  } as ApiError;
-};
+// Create axios instance
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
 
 // Helper to get auth token
 const getAuthToken = (): string | null => {
@@ -76,132 +54,136 @@ const removeAuthToken = (): void => {
   cookieService.remove("user_data");
 };
 
+// Request interceptor to add auth token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getAuthToken();
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor to handle errors
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    // Handle 401 Unauthorized - clear auth and trigger redirect
+    if (error.response?.status === 401) {
+      console.warn(
+        "401 Unauthorized response received, clearing auth tokens and redirecting to login"
+      );
+
+      // Clear auth tokens immediately
+      removeAuthToken();
+
+      // Call the unauthorized handler if set (for redirect to login)
+      if (onUnauthorized) {
+        try {
+          onUnauthorized();
+        } catch (handlerError) {
+          console.error("Error in unauthorized handler:", handlerError);
+        }
+      } else {
+        console.warn(
+          "No unauthorized handler set, unable to redirect to login"
+        );
+      }
+    }
+
+    // Transform axios error to ApiError
+    const apiError: ApiError = {
+      message:
+        (error.response?.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : null) ||
+        error.message ||
+        "An error occurred",
+      code:
+        (error.response?.data &&
+        typeof error.response.data === "object" &&
+        "code" in error.response.data
+          ? String(error.response.data.code)
+          : null) || error.code,
+      status: error.response?.status || 500,
+    };
+
+    return Promise.reject(apiError);
+  }
+);
+
 // Base API handler
 export const api = {
   // GET request
   get: async <T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: any = {}
   ): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-
-    const headers = {
-      "Content-Type": "application/json",
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      method: "GET",
-      headers,
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+    try {
+      const response = await axiosInstance.get(endpoint, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
   // POST request
   post: async <T>(
     endpoint: string,
     body: unknown,
-    options: RequestInit = {}
+    options: any = {}
   ): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-
-    const headers = {
-      "Content-Type": "application/json",
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      method: "POST",
-      headers,
-      body: JSON.stringify(body),
-    });
-    if (!response.ok) {
-      return handleApiError(response);
+    try {
+      const response = await axiosInstance.post(endpoint, body, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
   // PUT request
   put: async <T>(
     endpoint: string,
     body: unknown,
-    options: RequestInit = {}
+    options: any = {}
   ): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    const headers = {
-      "Content-Type": "application/json",
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      method: "PUT",
-      headers,
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+    try {
+      const response = await axiosInstance.put(endpoint, body, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 
   // DELETE request
   delete: async <T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: any = {}
   ): Promise<ApiResponse<T>> => {
-    const token = getAuthToken();
-    const headers = {
-      "Content-Type": "application/json",
-      ...(token && { Authorization: token }),
-      ...options.headers,
-    };
-
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      method: "DELETE",
-      headers,
-    });
-
-    if (!response.ok) {
-      return handleApiError(response);
+    try {
+      const response = await axiosInstance.delete(endpoint, options);
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-    };
   },
 };
 
-// Auth token management
-export const authToken = {
-  get: getAuthToken,
-  set: setAuthToken,
-  remove: removeAuthToken,
-};
+// Export axios instance for direct use if needed
+export { axiosInstance };

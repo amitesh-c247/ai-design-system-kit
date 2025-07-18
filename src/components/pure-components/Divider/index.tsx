@@ -1,15 +1,8 @@
-import React from 'react';
-import { Container } from 'react-bootstrap';
-import classnames from 'classnames';
-
-import styles from './styles.module.scss';
-
-export interface DividerProps {
-  className?: string;
-  noMargin?: boolean;
-  vertical?: boolean;
-  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
-}
+import React from "react";
+import { Container } from "react-bootstrap";
+import classnames from "classnames";
+import type { DividerProps } from "./types";
+import styles from "./styles.module.scss";
 
 const Divider: React.FC<DividerProps> = ({
   className,
@@ -26,9 +19,9 @@ const Divider: React.FC<DividerProps> = ({
         {
           [styles.separatorVertical]: vertical,
           [styles.noMargin]: noMargin,
-          [styles[variant || '']]: variant,
+          [styles[variant || ""]]: variant,
         },
-        className,
+        className
       )}
       {...props}
     >

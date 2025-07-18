@@ -1,11 +1,5 @@
 import React from "react";
-
-interface IconProps {
-  size?: number;
-  color?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { IconProps } from "./types";
 
 export const ChevronDown: React.FC<IconProps> = ({
   size = 16,

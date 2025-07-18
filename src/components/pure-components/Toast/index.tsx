@@ -1,23 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Toast as BootstrapToast, ToastContainer } from "react-bootstrap";
+import type { ToastProps } from "./types";
 import styles from "./styles.module.scss";
-
-export interface ToastProps {
-  show?: boolean;
-  title?: string;
-  message?: string;
-  variant?: "success" | "error" | "warning" | "info";
-  onClose?: () => void;
-  autoHide?: boolean;
-  delay?: number;
-  position?:
-    | "top-end"
-    | "top-start"
-    | "bottom-end"
-    | "bottom-start"
-    | "top-center"
-    | "bottom-center";
-}
 
 const Toast: React.FC<ToastProps> = ({
   show = false,

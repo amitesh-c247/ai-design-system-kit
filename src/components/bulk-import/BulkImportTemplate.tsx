@@ -160,6 +160,18 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
     { title: "Value", dataIndex: "value", key: "value" },
   ];
 
+  // Add this derived array for Table row keys
+  const validationErrorsWithId = validationErrors.map((err) => ({
+    ...err,
+    id: `${err.row}-${err.field}`,
+  }));
+
+  // Add this derived array for preview Table row keys
+  const validDataWithId = validData.map((item, index) => ({
+    ...item,
+    id: `preview-${index}`,
+  }));
+
   return (
     <>
       <div className={styles.content}>
@@ -241,9 +253,8 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
             <div className={styles.tableContainer}>
               <Table
                 columns={errorColumns}
-                dataSource={validationErrors}
-                rowKey={(record) => `${record.row}-${record.field}`}
-                pagination={false}
+                dataSource={validationErrorsWithId}
+                rowKey="id"
               />
             </div>
           </Card>
@@ -312,7 +323,7 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
             )}
 
             {importResult.success > 0 && (
-              <Alert variant="success" className={styles.successAlert}>
+              <Alert type="success" className={styles.successAlert}>
                 Successfully imported {importResult.success} record(s)!
               </Alert>
             )}
@@ -321,7 +332,12 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
       </div>
 
       {/* Preview Modal */}
-      <Modal show={showPreview} onClose={() => setShowPreview(false)} size="lg">
+      <Modal
+        show={showPreview}
+        onClose={() => setShowPreview(false)}
+        size="lg"
+        title="Preview Import Data"
+      >
         <div className={styles.modalHeader}>
           <h2>Preview Import Data</h2>
           <button
@@ -336,9 +352,8 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
           <div className={styles.previewTableContainer}>
             <Table
               columns={config.columns}
-              dataSource={validData}
-              rowKey={(record, index) => `preview-${index}`}
-              pagination={false}
+              dataSource={validDataWithId}
+              rowKey="id"
             />
           </div>
         </div>

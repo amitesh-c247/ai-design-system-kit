@@ -3,6 +3,11 @@
 ## Code Style
 - **Indentation**: 2 spaces
 - **Quotes**: Single quotes for strings
+# TypeScript Coding Standards
+
+## Code Style
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes for strings
 - **Semicolons**: Always required
 - **Trailing commas**: Use in objects and arrays
 - **Line length**: 80 characters max
@@ -13,6 +18,23 @@
 - **Types**: Use for unions, intersections, and complex types
 - **Generics**: Use for reusable components and functions
 - **Never use `any`**: Use `unknown` or proper typing instead
+
+**Interface vs Type: When to Use Each**
+
+- **Use `interface`** for object shapes, data models, and component/class props—especially if you want to extend or implement them later.
+- **Use `type`** for unions, intersections, utility types, mapped types, primitives, tuples, and function signatures.
+
+| Use Case                        | `interface` | `type` |
+|----------------------------------|:----------:|:------:|
+| Object shapes                    |     ✔️      |   ✔️    |
+| Class implementation             |     ✔️      |        |
+| Extending (inheritance)          |     ✔️      |   ✔️    |
+| Declaration merging              |     ✔️      |        |
+| Unions/intersections             |            |   ✔️    |
+| Primitives, tuples, functions    |            |   ✔️    |
+| Utility/mapped types             |            |   ✔️    |
+
+**Default:** Use `interface` for objects and props, `type` for everything else.
 
 ## Import/Export Standards
 - **Absolute imports**: Use `@/` prefix for src directory

@@ -2,18 +2,8 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import classnames from "classnames";
 import NextLink from "next/link";
+import type { LinkProps } from "./types";
 import styles from "./styles.module.scss";
-
-export interface LinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
-  href: string;
-  variant?: "tertiary" | "standalone" | "inline" | "inlineIcon" | "button";
-  emphasized?: boolean;
-  icon?: React.ReactElement;
-  iconPosition?: "start" | "end";
-  openExternalLinkInNewTab?: boolean;
-  isDisabled?: boolean;
-}
 
 const isUrl = (path: string): boolean => {
   return path.startsWith("http://") || path.startsWith("https://");

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Dropdown as BootstrapDropdown, ButtonGroup } from 'react-bootstrap';
-import classnames from 'classnames';
-import { ChevronDown, ChevronUp } from '../Icons';
-import styles from './styles.module.scss';
+import React, { useState } from "react";
+import { Dropdown as BootstrapDropdown, ButtonGroup } from "react-bootstrap";
+import classnames from "classnames";
+import { ChevronDown, ChevronUp } from "../Icons";
+import styles from "./styles.module.scss";
 
-export type DropdownSize = 'default' | 'large';
+export type DropdownSize = "default" | "large";
 
 export interface DropdownProps {
   /** The size of the dropdown button */
@@ -16,49 +16,64 @@ export interface DropdownProps {
   /** Props to pass to the button component */
   buttonProps?: React.ComponentProps<typeof ButtonGroup>;
   /** Props to pass to the dropdown component */
-  dropdownProps?: Omit<React.ComponentProps<typeof BootstrapDropdown>, 'size' | 'children'>;
+  dropdownProps?: Omit<
+    React.ComponentProps<typeof BootstrapDropdown>,
+    "size" | "children"
+  >;
   /** Whether to hide the menu icon */
   noMenuIcon?: boolean;
   /** The trigger event for the dropdown */
-  trigger?: ('click' | 'hover' | 'contextMenu')[];
+  trigger?: ("click" | "hover" | "contextMenu")[];
   /** The content of the dropdown button */
   children?: React.ReactNode;
 }
 
-const getMenuIcon = (dropdownOpen: boolean, iconSize: number): React.ReactElement<SVGAElement> =>
-  dropdownOpen ? <ChevronUp size={iconSize} /> : <ChevronDown size={iconSize} />;
+const getMenuIcon = (
+  dropdownOpen: boolean,
+  iconSize: number
+): React.ReactElement<SVGAElement> =>
+  dropdownOpen ? (
+    <ChevronUp size={iconSize} />
+  ) : (
+    <ChevronDown size={iconSize} />
+  );
 
 const Dropdown: React.FC<DropdownProps> = ({
-  size = 'default',
+  size = "default",
   icon,
   dropdownRender,
   children,
   buttonProps,
   dropdownProps,
   noMenuIcon,
-  trigger = ['click'],
+  trigger = ["click"],
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const featherIconSize = size === 'default' ? 16 : 24;
-  const isLabelChildren = typeof children === 'string';
+  const featherIconSize = size === "default" ? 16 : 24;
+  const isLabelChildren = typeof children === "string";
 
-  const CustomToggle = React.forwardRef<HTMLButtonElement, { onClick?: (e: React.MouseEvent) => void }>(
-    ({ onClick }, ref) => (
-      <button
-        ref={ref}
-        onClick={onClick}
-        className={classnames(styles.dropdownToggle, {
-          [styles.block]: buttonProps?.block,
-        })}
-      >
-        {icon && <span className="me-2">{icon}</span>}
-        {children}
-        {!noMenuIcon && <span className="ms-2">{getMenuIcon(isDropdownOpen, featherIconSize)}</span>}
-      </button>
-    ),
-  );
+  const CustomToggle = React.forwardRef<
+    HTMLButtonElement,
+    { onClick?: (e: React.MouseEvent) => void }
+  >(({ onClick }, ref) => (
+    <button
+      ref={ref}
+      onClick={onClick}
+      className={classnames(styles.dropdownToggle, {
+        [styles.block]: buttonProps?.block,
+      })}
+    >
+      {icon && <span className="me-2">{icon}</span>}
+      {children}
+      {!noMenuIcon && (
+        <span className="ms-2">
+          {getMenuIcon(isDropdownOpen, featherIconSize)}
+        </span>
+      )}
+    </button>
+  ));
 
-  CustomToggle.displayName = 'CustomToggle';
+  CustomToggle.displayName = "CustomToggle";
 
   if (noMenuIcon) {
     return (
@@ -71,7 +86,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           {dropdownRender(
             <div className={styles.dropdownContent}>
               {dropdownProps?.children}
-            </div>,
+            </div>
           )}
         </BootstrapDropdown.Menu>
       </BootstrapDropdown>
@@ -92,17 +107,14 @@ const Dropdown: React.FC<DropdownProps> = ({
         onToggle={(isOpen) => setIsDropdownOpen(isOpen)}
         {...dropdownProps}
       >
-        <BootstrapDropdown.Toggle
-          split
-          className={styles.dropdownToggle}
-        >
+        <BootstrapDropdown.Toggle split className={styles.dropdownToggle}>
           {getMenuIcon(isDropdownOpen, featherIconSize)}
         </BootstrapDropdown.Toggle>
         <BootstrapDropdown.Menu className={styles.dropdownMenu}>
           {dropdownRender(
             <div className={styles.dropdownContent}>
               {dropdownProps?.children}
-            </div>,
+            </div>
           )}
         </BootstrapDropdown.Menu>
       </BootstrapDropdown>

@@ -78,19 +78,18 @@ const MyForm = () => {
 ### With File Upload Handler
 
 ```tsx
+import axios from 'axios';
+
 const handleFileUpload = async (files: File[]) => {
   const formData = new FormData();
   files.forEach(file => formData.append('files', file));
   
   try {
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
+    const response = await axios.post('/api/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
-    
-    if (!response.ok) {
-      throw new Error('Upload failed');
-    }
     
     console.log('Files uploaded successfully');
   } catch (error) {

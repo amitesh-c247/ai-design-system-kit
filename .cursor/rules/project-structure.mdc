@@ -3,6 +3,11 @@
 This is a Next.js 15 React admin dashboard project with TypeScript. The main entry point is [src/app/layout.tsx](mdc:src/app/layout.tsx), which uses the app router structure.
 
 ## Key Directories
+# Project Structure Guide
+
+This is a Next.js 15 React admin dashboard project with TypeScript. The main entry point is [src/app/layout.tsx](mdc:src/app/layout.tsx), which uses the app router structure.
+
+## Key Directories
 - **src/app/**: Next.js app router pages and layouts
 - **src/components/**: Reusable UI components organized by feature
 - **src/hooks/**: Custom React hooks for business logic
@@ -11,6 +16,32 @@ This is a Next.js 15 React admin dashboard project with TypeScript. The main ent
 - **src/constants/**: Application constants and configuration
 - **src/locales/**: Internationalization files using next-intl
 - **src/assets/**: Static assets like images and icons
+
+## Custom Types & Interfaces Organization
+- **Centralized types**: Place all shared types and interfaces in `src/types/`, subdivided by domain if needed (e.g. `auth.ts`, `ui.ts`, `cms.ts`).
+- **Component/feature types**: If a type/interface is only used by a single component or feature, define it in a `types.ts` file within that folder. If it becomes shared, move it to `src/types/`.
+- **Naming**: Use `PascalCase` for interfaces/types. Suffix props interfaces with `Props` (e.g. `UserCardProps`).
+- **Imports**: Always import types/interfaces from the central types directory or local `types.ts`, not from implementation files.
+- **No implementation in types files**: Types/interfaces files should only contain type definitions, not functions or classes.
+
+**Example:**
+```
+src/
+  types/
+    auth.ts
+    ui.ts
+    cms.ts
+    index.ts
+  components/
+    UserCard/
+      UserCard.tsx
+      types.ts   // (for component-specific types)
+```
+
+**Why?**
+- Discoverability: Developers can easily find and reuse types.
+- Maintainability: Changes to types/interfaces are centralized.
+- Scalability: As your app grows, type management remains organized.
 
 ## Technology Stack
 - **Framework**: Next.js 15 with App Router

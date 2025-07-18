@@ -40,9 +40,10 @@ export const FileUploadExample: React.FC = () => {
     console.log("Uploading files:", files);
 
     // Here you would typically upload to your server
+    // import axios from 'axios';
     // const formData = new FormData();
     // files.forEach(file => formData.append('files', file));
-    // await fetch('/api/upload', { method: 'POST', body: formData });
+    // await axios.post('/api/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
     alert("Files uploaded successfully!");

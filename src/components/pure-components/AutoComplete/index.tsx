@@ -3,22 +3,7 @@ import { Form, InputGroup, Dropdown } from "react-bootstrap";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import highlightText from "@/utils/highlight";
-
-export interface AutoCompleteOption {
-  key?: string | number;
-  value?: string | JSX.Element;
-}
-
-interface AutoCompleteProps {
-  queryFn: (options: unknown) => UseQueryResult<{ content: any[] }>;
-  value?: AutoCompleteOption;
-  onChange?: (items: AutoCompleteOption) => void;
-  additionalFilters?: Record<string, unknown>;
-  placeholder?: string;
-  footer?: React.ReactNode;
-  onSearch?: (value: string) => void;
-  className?: string;
-}
+import type { AutoCompleteOption, AutoCompleteProps } from "./types";
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
   queryFn,

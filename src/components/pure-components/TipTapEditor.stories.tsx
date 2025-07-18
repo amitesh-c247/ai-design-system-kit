@@ -38,17 +38,12 @@ const meta: Meta<typeof TipTapEditor> = {
       control: "text",
       description: "Placeholder text shown when editor is empty",
     },
-    minHeight: {
-      control: "number",
-      description: "Minimum height of the editor in pixels",
-    },
   },
   args: {
     name: "content-editor",
     isInvalid: false,
     feedback: "",
     placeholder: "Start writing your content...",
-    minHeight: 200,
   },
 };
 
@@ -159,7 +154,6 @@ export const WithCustomHeight: Story = {
   render: (args) => <InteractiveTipTapEditor {...args} />,
   args: {
     name: "custom-height-editor",
-    minHeight: 400,
     defaultValue: `
       <h1>Large Editor Example</h1>
       <p>This editor has a custom minimum height of 400px, providing more space for content creation.</p>
@@ -217,7 +211,6 @@ export const MultipleEditors: Story = {
             name="editor-1"
             defaultValue={editor1Content}
             onChange={setEditor1Content}
-            minHeight={150}
           />
         </div>
         <div>
@@ -226,11 +219,9 @@ export const MultipleEditors: Story = {
             name="editor-2"
             defaultValue={editor2Content}
             onChange={setEditor2Content}
-            minHeight={150}
           />
         </div>
       </div>
     );
   },
 };
- 
