@@ -29,7 +29,7 @@ const Dashboard = () => {
   return (
     <div className={`${styles.dashboardContainer}`}>
       <div className={styles.header}>
-        <h1>{t("welcome", { name: user.data.display_name || "User" })}</h1>
+        <h1>{t("welcome", { name: user.name || "User" })}</h1>
       </div>
       <div className={styles.content}>
         <div className={styles.card}>
@@ -38,16 +38,16 @@ const Dashboard = () => {
           <div className={styles.userInfo}>
             <h3>{t("yourInformation")}</h3>
             <p>
-              {t("email")}: {user.data.email}
+              {t("email")}: {user.email}
             </p>
-            {user.data.first_name && (
+            {user.first_name && (
               <p>
-                {t("firstName")}: {user.data.first_name}
+                {t("firstName")}: {user.first_name}
               </p>
             )}
-            {user.data.last_name && (
+            {user.last_name && (
               <p>
-                {t("lastName")}: {user.data.last_name}
+                {t("lastName")}: {user.last_name}
               </p>
             )}
           </div>

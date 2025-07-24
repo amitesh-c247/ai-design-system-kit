@@ -8,6 +8,7 @@ import TableSkeleton from "./TableSkeleton";
 import PrevArrowIcon from "@public/IconComponent/PrevArrowIcon";
 import NextArrowIcon from "@public/IconComponent/NextArrowIcon";
 import Button from "@/components/pure-components/Button";
+import { useTranslations } from "next-intl";
 
 // Enhanced interface using centralized types
 export interface TableProps {
@@ -43,6 +44,7 @@ const Table: React.FC<TableProps> = ({
   pagination,
   loading = false,
 }) => {
+  const t = useTranslations("users");
   const renderPagination = () => {
     if (!pagination) return null;
 
@@ -139,6 +141,15 @@ const Table: React.FC<TableProps> = ({
         <tbody>
           {loading && dataSource.length === 0 ? (
             <TableSkeleton columns={columns.length} rows={8} />
+          ) : dataSource.length === 0 ? (
+            <tr>
+              <td
+                colSpan={columns.length}
+                className="text-center text-muted py-4"
+              >
+                {t("noData")}
+              </td>
+            </tr>
           ) : (
             <>
               {dataSource.map((record) => (

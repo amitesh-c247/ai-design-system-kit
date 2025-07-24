@@ -31,7 +31,7 @@ const axiosInstance: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 // Helper to get auth token
@@ -39,7 +39,8 @@ const getAuthToken = (): string | null => {
   const authData = cookieService.get<{
     token: { token: string; expire: string };
   }>("auth_token");
-  return authData?.token?.token || null;
+  console.log("authData  ", authData);
+  return authData?.token || null;
 };
 
 // Helper to set auth token
@@ -58,8 +59,9 @@ const removeAuthToken = (): void => {
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
+    console.log("loek  ", token);
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.authorization = `Bearer ${token}`;
     }
     return config;
   },

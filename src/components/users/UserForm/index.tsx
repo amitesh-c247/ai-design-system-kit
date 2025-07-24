@@ -5,13 +5,13 @@ import Input from "@/components/pure-components/Form/Input";
 import { useTranslations } from "next-intl";
 
 export interface UserFormValues {
-  make: string;
-  short_code: string;
-  status: "ACTIVE" | "DISABLED";
+  name: string;
+  email: string;
+  status: number;
 }
 
 interface UserFormProps {
-  defaultValues?: UserFormValues;
+  defaultValues?: Partial<UserFormValues>;
   onSubmit: SubmitHandler<UserFormValues>;
   onCancel?: () => void;
 }
@@ -28,38 +28,41 @@ const UserForm: React.FC<UserFormProps> = ({
     formState: { errors, isSubmitting },
   } = useForm<UserFormValues>({
     defaultValues: defaultValues || {
-      make: "",
-      short_code: "",
-      status: "ACTIVE",
+      name: "",
+      email: "",
+      status: 0,
     },
   });
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group className="mb-3">
-        <Form.Label>{t("make")}</Form.Label>
+        <Form.Label>{t("name")}</Form.Label>
         <Input
-          {...register("make", { required: t("form.makeRequired") })}
-          isInvalid={!!errors.make}
-          feedback={errors.make?.message}
+          {...register("name", { required: t("form.nameRequired") })}
+          isInvalid={!!errors.name}
+          feedback={errors.name?.message}
         />
       </Form.Group>
       <Form.Group className="mb-3">
-        <Form.Label>{t("short_code")}</Form.Label>
+        <Form.Label>{t("email")}</Form.Label>
         <Input
-          {...register("short_code", { required: t("form.shortCodeRequired") })}
-          isInvalid={!!errors.short_code}
-          feedback={errors.short_code?.message}
+          {...register("email", { required: t("form.emailRequired") })}
+          isInvalid={!!errors.email}
+          feedback={errors.email?.message}
         />
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>{t("status")}</Form.Label>
         <Form.Select
-          {...register("status", { required: t("form.statusRequired") })}
+          {...register("status", {
+            required: t("form.statusRequired"),
+            valueAsNumber: true,
+          })}
           isInvalid={!!errors.status}
         >
-          <option value="ACTIVE">{t("statusOptions.active")}</option>
-          <option value="DISABLED">{t("statusOptions.inactive")}</option>
+          <option value={0}>{t("statusOptions.active")}</option>
+          <option value={1}>{t("statusOptions.inactive")}</option>
         </Form.Select>
         {errors.status && (
           <div className="invalid-feedback d-block">

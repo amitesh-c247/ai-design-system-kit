@@ -13,7 +13,7 @@ const mockApiAxios: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 // Helper to get auth token

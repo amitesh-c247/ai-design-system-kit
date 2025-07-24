@@ -21,9 +21,8 @@ export interface UserCreateRequest {
 // ============================================================================
 // ENDPOINTS
 // ============================================================================
-const BASE_PATH = "vehicle/make";
+const BASE_PATH = "user";
 const ENDPOINTS = {
-  USERS: `${BASE_PATH}s`,
   ADD_UPDATE: BASE_PATH,
   USER_BY_ID: (id: number) => `${BASE_PATH}/${id}`,
 };
@@ -41,9 +40,9 @@ export const userService = {
       ...(search ? { search } : {}),
     });
     const res = await api.get<PaginatedResponse<User>>(
-      `${ENDPOINTS.USERS}?${params.toString()}`
+      `${BASE_PATH}?${params.toString()}`
     );
-    return res.data;
+    return res.data.data;
   },
   async getUser(id: number): Promise<User | undefined> {
     const res = await api.get<User>(ENDPOINTS.USER_BY_ID(id));

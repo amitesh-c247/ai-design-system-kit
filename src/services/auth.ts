@@ -7,9 +7,9 @@ import { ApiError } from "@/types";
 // ENDPOINTS
 // ============================================================================
 const ENDPOINTS = {
-  LOGIN: "login",
-  LOGOUT: "logout",
-  ME: "me",
+  LOGIN: "auth/login",
+  LOGOUT: "auth/logout",
+  ME: "auth/me",
   USERS: "/users",
 };
 
@@ -22,8 +22,8 @@ export const authService = {
         ENDPOINTS.LOGIN,
         credentials
       );
-      const { user, token } = response.data;
-
+      const { user, token } = response.data.data;
+      console.log(response, user, "token  ", token);
       // Store token in cookies
       cookieService.set(
         "auth_token",
@@ -76,7 +76,7 @@ export const authService = {
       }
 
       const response = await api.get<AuthResponse["user"]>(ENDPOINTS.ME);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.error("Get current user error:", error);
 

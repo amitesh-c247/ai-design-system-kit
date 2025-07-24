@@ -9,97 +9,83 @@ import {
 } from "@/components/bulk-import";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 
-interface VehicleMakeImportData {
-  make: string;
-  short_code: string;
-  status: "ACTIVE" | "DISABLED";
+interface UserImportData {
+  name: string;
+  email: string;
+  status: number; // 0 = Active, 1 = Inactive
+  createdAt?: string;
+  updatedAt?: string;
+  id?: string;
 }
 
 const BulkImportUsersPage = () => {
   const createUserMutation = useCreateUserMutation();
 
-  const validateVehicleMakeData = (
+  const validateUserData = (
     data: any[]
-  ): { errors: ValidationError[]; valid: VehicleMakeImportData[] } => {
+  ): { errors: ValidationError[]; valid: UserImportData[] } => {
     const errors: ValidationError[] = [];
-    const valid: VehicleMakeImportData[] = [];
+    const valid: UserImportData[] = [];
 
     data.forEach((row, index) => {
-      const rowNumber = index + 2; // +2 because Excel rows start at 1 and we have headers
-      const validRow: Partial<VehicleMakeImportData> = {};
+      const rowNumber = index + 2;
+      const validRow: Partial<UserImportData> = {};
 
-      // Validate make
       if (
-        !row.make ||
-        typeof row.make !== "string" ||
-        row.make.trim().length === 0
+        !row.name ||
+        typeof row.name !== "string" ||
+        row.name.trim().length === 0
       ) {
         errors.push({
           row: rowNumber,
-          field: "make",
-          message: "Make is required and must be a non-empty string",
-          value: row.make,
-        });
-      } else if (row.make.trim().length < 2) {
-        errors.push({
-          row: rowNumber,
-          field: "make",
-          message: "Make must be at least 2 characters long",
-          value: row.make,
+          field: "name",
+          message: "Name is required",
+          value: row.name,
         });
       } else {
-        validRow.make = row.make.trim();
+        validRow.name = row.name.trim();
       }
 
-      // Validate short_code
       if (
-        !row.short_code ||
-        typeof row.short_code !== "string" ||
-        row.short_code.trim().length === 0
+        !row.email ||
+        typeof row.email !== "string" ||
+        !/^[^@]+@[^@]+\.[^@]+$/.test(row.email)
       ) {
         errors.push({
           row: rowNumber,
-          field: "short_code",
-          message: "Short code is required and must be a non-empty string",
-          value: row.short_code,
-        });
-      } else if (
-        row.short_code.trim().length < 2 ||
-        row.short_code.trim().length > 10
-      ) {
-        errors.push({
-          row: rowNumber,
-          field: "short_code",
-          message: "Short code must be between 2 and 10 characters",
-          value: row.short_code,
+          field: "email",
+          message: "Valid email is required",
+          value: row.email,
         });
       } else {
-        validRow.short_code = row.short_code.trim().toUpperCase();
+        validRow.email = row.email.trim();
       }
 
-      // Validate status
-      if (!row.status || !["ACTIVE", "DISABLED"].includes(row.status)) {
+      if (row.status !== 0 && row.status !== 1) {
         errors.push({
           row: rowNumber,
           field: "status",
-          message: 'Status must be either "ACTIVE" or "DISABLED"',
+          message: "Status must be 0 (Active) or 1 (Inactive)",
           value: row.status,
         });
       } else {
-        validRow.status = row.status as "ACTIVE" | "DISABLED";
+        validRow.status = Number(row.status);
       }
 
-      // If all fields are valid, add to valid data
-      if (validRow.make && validRow.short_code && validRow.status) {
-        valid.push(validRow as VehicleMakeImportData);
+      if (
+        validRow.name &&
+        validRow.email &&
+        typeof validRow.status === "number"
+      ) {
+        valid.push(validRow as UserImportData);
       }
     });
 
     return { errors, valid };
   };
 
-  const importVehicleMakeData = async (
-    data: VehicleMakeImportData[]
+  const importUserData = async (
+    data: UserImportData[]
   ): Promise<ImportResult> => {
     const results: ImportResult = {
       success: 0,
@@ -124,37 +110,41 @@ const BulkImportUsersPage = () => {
     return results;
   };
 
-  const config: BulkImportConfig<VehicleMakeImportData> = {
+  const config: BulkImportConfig<UserImportData> = {
     templateData: [
-      {
-        make: "Toyota",
-        short_code: "TYT",
-        status: "ACTIVE",
-      },
-      {
-        make: "Honda",
-        short_code: "HND",
-        status: "ACTIVE",
-      },
-      {
-        make: "Ford",
-        short_code: "FRD",
-        status: "DISABLED",
-      },
+      { name: "Strong Man", email: "user4@yopmail.com", status: 0 },
+      { name: "Jane Doe", email: "jane@example.com", status: 1 },
     ],
-    templateFileName: "vehicle_makes_template.xlsx",
+    templateFileName: "users_template.xlsx",
     acceptedFileTypes: ".xlsx,.xls,.csv",
     columns: [
-      { title: "Make", dataIndex: "make", key: "make" },
-      { title: "Short Code", dataIndex: "short_code", key: "short_code" },
-      { title: "Status", dataIndex: "status", key: "status" },
+      { title: "Name", dataIndex: "name", key: "name" },
+      { title: "Email", dataIndex: "email", key: "email" },
+      {
+        title: "Status",
+        dataIndex: "status",
+        key: "status",
+        render: (status: number) => (status === 0 ? "Active" : "Inactive"),
+      },
+      {
+        title: "Created At",
+        dataIndex: "createdAt",
+        key: "createdAt",
+        render: (date: string) => (date ? date : "-"),
+      },
+      {
+        title: "Updated At",
+        dataIndex: "updatedAt",
+        key: "updatedAt",
+        render: (date: string) => (date ? date : "-"),
+      },
     ],
-    validateData: validateVehicleMakeData,
-    importData: importVehicleMakeData,
+    validateData: validateUserData,
+    importData: importUserData,
   };
 
   return (
-    <CardWrapper title="Bulk Import Vehicle Makes">
+    <CardWrapper title="Bulk Import Users">
       <BulkImportTemplate config={config} />
     </CardWrapper>
   );

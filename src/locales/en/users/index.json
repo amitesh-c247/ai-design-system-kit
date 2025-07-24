@@ -2,12 +2,14 @@
   "title": "User Management",
   "createUser": "Create User",
   "searchPlaceholder": "Search users...",
-  "make": "Make",
-  "short_code": "Short Code",
+  "name": "Name",
+  "email": "Email",
   "status": "Status",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
   "statusOptions": {
     "active": "Active",
-    "inactive": "Disabled"
+    "inactive": "Inactive"
   },
   "role": "Role",
   "actions": "Actions",
@@ -15,7 +17,9 @@
   "edit": "Edit",
   "delete": "Delete",
   "noUsers": "No users found",
+  "noData": "No data found",
   "confirmDelete": "Are you sure you want to delete this user?",
+  "confirmText": "Are you sure you want to proceed?",
   "userDetails": "User Details",
   "save": "Save",
   "update": "Update",
@@ -27,8 +31,8 @@
     "user": "User"
   },
   "form": {
-    "makeRequired": "Make is required",
-    "shortCodeRequired": "Short code is required",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
     "statusRequired": "Status is required"
   },
   "messages": {

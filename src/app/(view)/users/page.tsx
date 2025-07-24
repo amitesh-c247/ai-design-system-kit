@@ -19,17 +19,27 @@ import { Trash2, Pencil, Search } from "lucide-react";
 import { handleDeleteAction } from "@/utils/deleteHandler";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import ActionButton from "@/components/pure-components/ActionButton";
+import { formatDate } from "@/utils/formatDate";
 
-type User = UserFormValues & { id: number };
+// Update User type to match new user object
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  status: number;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export default function UsersPage() {
   const t = useTranslations("users");
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState<{
-    make: string;
-    short_code: string;
-    status: "ACTIVE" | "DISABLED";
-  }>({ make: "", short_code: "", status: "ACTIVE" });
+  // Remove make/short_code, use new user fields
+  const [form, setForm] = useState<Partial<User>>({
+    name: "",
+    email: "",
+    status: 0,
+  });
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -53,7 +63,9 @@ export default function UsersPage() {
     pagination.search
   );
 
-  const users = data?.data || [];
+  console.log("data  => ", data);
+
+  const users = data?.users || [];
   const total = data?.total || 0;
   const { mutateAsync: createUser } = useCreateUserMutation();
   const { mutateAsync: deleteUser } = useDeleteUserMutation();
@@ -63,15 +75,33 @@ export default function UsersPage() {
   const handleDelete = (id: number) =>
     handleDeleteAction({
       id,
-      mutation: (id: string | number) => deleteUser(Number(id)),
+      mutation: (id: string | number) => deleteUser(id),
       t,
       setToast,
     });
 
   const columns: UITableColumn<User>[] = [
-    { key: "make", title: t("make"), dataIndex: "make" },
-    { key: "short_code", title: t("short_code"), dataIndex: "short_code" },
-    { key: "status", title: t("status"), dataIndex: "status" },
+    { key: "name", title: t("name"), dataIndex: "name" },
+    { key: "email", title: t("email"), dataIndex: "email" },
+    {
+      key: "status",
+      title: t("status"),
+      dataIndex: "status",
+      render: (status: number) =>
+        status === 0 ? t("statusOptions.active") : t("statusOptions.inactive"),
+    },
+    {
+      key: "createdAt",
+      title: t("createdAt"),
+      dataIndex: "createdAt",
+      render: (date: string) => formatDate(date, "YYYY-MM-DD HH:mm"),
+    },
+    {
+      key: "updatedAt",
+      title: t("updatedAt"),
+      dataIndex: "updatedAt",
+      render: (date: string) => formatDate(date, "YYYY-MM-DD HH:mm"),
+    },
     {
       key: "actions",
       title: t("actions"),
@@ -86,11 +116,11 @@ export default function UsersPage() {
             className={`text-white ${styles.actionLink}`}
             tooltip={t("edit")}
             onClick={() => {
-              setEditId(record.id);
+              setEditId(record.id as any);
               setForm({
-                make: record.make,
-                short_code: record.short_code,
-                status: record.status as "ACTIVE" | "DISABLED",
+                name: record.name,
+                email: record.email,
+                status: record.status,
               });
               setShowModal(true);
             }}
@@ -109,8 +139,9 @@ export default function UsersPage() {
     },
   ];
 
+  // Update handleOpenModal to use new fields
   const handleOpenModal = () => {
-    setForm({ make: "", short_code: "", status: "ACTIVE" });
+    setForm({ name: "", email: "", status: 0 });
     setEditId(null);
     setShowModal(true);
   };
@@ -119,7 +150,8 @@ export default function UsersPage() {
     setShowModal(false);
   };
 
-  const handleFormSubmit = async (data: UserFormValues) => {
+  // Update handleFormSubmit to use new fields
+  const handleFormSubmit = async (data: any) => {
     try {
       if (editId) {
         await updateUser({ id: editId, data });
