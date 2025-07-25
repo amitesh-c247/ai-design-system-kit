@@ -19,12 +19,8 @@
       }
     ],
     "paths": {
-<<<<<<< HEAD
-      "@/*": ["./src/*"]
-=======
       "@/*": ["./src/*"],
-      "@public/*": ["./public/*"],
->>>>>>> master
+      "@public/*": ["./public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
