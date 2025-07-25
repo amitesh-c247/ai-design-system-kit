@@ -1,0 +1,60 @@
+{
+  "pagesTitle": "Pages Management",
+  "addPage": "Add Page",
+  "editPage": "Edit Page",
+  "searchPlaceholder": "Search pages...",
+  "createNewCms": "Create a New Page",
+  "editCms": "Edit Page",
+  "createCms": "Create Page",
+  "title": "Title",
+  "pageTitle": "Page Name/Title",
+  "slug": "Slug",
+  "content": "Content",
+  "contentType": "Page Type",
+  "status": "Status",
+  "metaTitle": "Meta Title",
+  "metaDescription": "Meta Description",
+  "save": "Save",
+  "saving": "Saving...",
+  "update": "Update",
+  "cancel": "Cancel",
+  "published": "Published",
+  "draft": "Draft",
+  "archived": "Archived",
+  "actions": "Actions",
+  "edit": "Edit",
+  "delete": "Delete",
+  "confirmDelete": "Are you sure you want to delete this page?",
+  "isAgreement": "Use this page as an agreement page?",
+  "openInNewTab": "Launch this page in a new browser tab?",
+  "lastModified": "Last Modified",
+  "contentTypeOptions": {
+    "text": "Text",
+    "link": "Link"
+  },
+  "statusOptions": {
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "form": {
+    "titleRequired": "Page title is required.",
+    "contentRequired": "Content is required.",
+    "statusRequired": "Status is required.",
+    "contentTypeRequired": "Content type is required."
+  },
+  "messages": {
+    "cmsCreated": "Page created successfully!",
+    "cmsUpdated": "Page updated successfully!",
+    "cmsDeleted": "Page deleted successfully!",
+    "error": "An error occurred.",
+    "pageCreated": "Page created successfully",
+    "pageUpdated": "Page updated successfully",
+    "pageDeleted": "Page deleted successfully",
+    "errorSaving": "Failed to save page",
+    "errorDeleting": "Failed to delete page",
+    "errorLoading": "Failed to load pages"
+  },
+  "loading": "Loading pages...",
+  "noPages": "No pages found",
+  "urlPreview": "URL Preview"
+} 

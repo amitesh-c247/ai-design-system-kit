@@ -1,0 +1,238 @@
+.loginContainer {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--surface-dark);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.cardContent {
+  padding: 3rem;
+}
+
+.logoContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+  img {
+    height: 48px;
+    width: auto;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  display: block;
+  font-weight: 500;
+  color: var(--bs-gray-700);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.input {
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1.25rem;
+  font-size: 1rem;
+  border: 2px solid var(--bs-gray-200);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  &:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+  }
+  &::placeholder {
+    color: var(--bs-gray-400);
+  }
+}
+
+.formFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--bs-gray-600);
+  font-size: 0.95rem;
+  input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.375rem;
+    border: 2px solid var(--bs-gray-300);
+    cursor: pointer;
+    &:checked {
+      background-color: var(--bs-primary);
+      border-color: var(--bs-primary);
+    }
+  }
+}
+
+.forgotPassword {
+  color: var(--bs-primary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  &:hover {
+    color: var(--bs-primary);
+    text-decoration: underline;
+  }
+}
+
+.submitButton {
+  width: 100%;
+  height: 3.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--bs-gray-1000);
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--bs-gray-200);
+  }
+  span {
+    padding: 0 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.signupText {
+  text-align: center;
+  color: var(--bs-gray-600);
+  font-size: 0.95rem;
+  margin-top: 1.5rem;
+}
+
+.signupLink {
+  color: var(--bs-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  &:hover {
+    color: var(--bs-primary);
+    text-decoration: underline;
+  }
+}
+
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.errorMessage {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+:global(.dark) {
+  .loginContainer {
+    background: var(--bg-dark);
+  }
+  .loginCard {
+    background-color: var(--surface-dark);
+  }
+}
+
+@media (max-width: 640px) {
+  .loginContainer {
+    padding: 1rem;
+  }
+  .cardContent {
+    padding: 2rem;
+  }
+  .title {
+    font-size: 1.75rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .input {
+    height: 3rem;
+  }
+  .submitButton {
+    height: 3rem;
+  }
+}
+
+.passwordStrengthWeak {
+  color: #dc3545;
+}
+
+.passwordStrengthMedium {
+  color: #856404;
+}
+
+.passwordStrengthStrong {
+  color: #155724;
+}

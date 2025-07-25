@@ -1,0 +1,84 @@
+.switchGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.switchLabel {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 65px;
+  height: 26px;
+  padding: 0;
+  background: var(--secondary);
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  transition: background 0.2s;
+
+  .toggleText {
+    position: absolute;
+    top: 2px;
+    left: -8px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-foreground);
+    pointer-events: none;
+    z-index: 2;
+    text-shadow: 0 1px 2px #00000014;
+    transition: left 0.2s;
+  }
+
+  .slider {
+    position: absolute;
+    top: 2px;
+    right: 42px;
+    width: 22px;
+    height: 22px;
+    background: var(--white);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px #00000014;
+    transition: transform 0.2s;
+    z-index: 3;
+    border: 2px solid var(--border);
+  }
+
+  &.on {
+    background: var(--success);
+    .slider {
+      transform: translateX(40px);
+      border-color: var(--success);
+    }
+    .toggleText {
+      color: var(--white);
+    }
+    &:hover {
+      background: var(--success);
+    }
+  }
+
+  &.off {
+    background: var(--destructive);
+    .slider {
+      transform: translateX(0);
+      border-color: var(--destructive);
+    }
+    .toggleText {
+      color: var(--destructive-foreground);
+      left: 9px;
+    }
+    &:hover {
+      background: var(--destructive);
+    }
+  }
+}

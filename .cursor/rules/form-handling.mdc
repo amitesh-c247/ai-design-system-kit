@@ -1,0 +1,170 @@
+# Form Handling Patterns
+
+## Form Libraries
+- **React Hook Form**: Primary form library for state management
+- **Yup/Zod**: Schema validation libraries
+- **@hookform/resolvers**: Integration between React Hook Form and validation
+
+## Form Component Pattern
+```typescript
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Button } from '@/components/pure-components/Button';
+import { Input } from '@/components/pure-components/Form/Input';
+import styles from './UserForm.module.scss';
+
+// Validation schema
+const userSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(8, 'Password must be at least 8 characters'),
+});
+
+type UserFormData = yup.InferType<typeof userSchema>;
+
+interface UserFormProps {
+  onSubmit: (data: UserFormData) => void;
+  initialData?: Partial<UserFormData>;
+  isLoading?: boolean;
+}
+
+const UserForm: React.FC<UserFormProps> = ({
+  onSubmit,
+  initialData,
+  isLoading = false,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<UserFormData>({
+    resolver: yupResolver(userSchema),
+    defaultValues: initialData,
+  });
+
+  const onSubmitHandler = async (data: UserFormData) => {
+    try {
+      await onSubmit(data);
+      reset();
+    } catch (error) {
+      // Error handling
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmitHandler)} className={styles.form}>
+      <Input
+        label="Name"
+        {...register('name')}
+        error={errors.name?.message}
+        disabled={isLoading}
+      />
+      
+      <Input
+        label="Email"
+        type="email"
+        {...register('email')}
+        error={errors.email?.message}
+        disabled={isLoading}
+      />
+      
+      <Input
+        label="Password"
+        type="password"
+        {...register('password')}
+        error={errors.password?.message}
+        disabled={isLoading}
+      />
+      
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={isSubmitting || isLoading}
+        loading={isSubmitting}
+      >
+        {isSubmitting ? 'Saving...' : 'Save User'}
+      </Button>
+    </form>
+  );
+};
+
+export default UserForm;
+```
+
+## Validation Patterns
+
+### Yup Schema Example
+```typescript
+import * as yup from 'yup';
+
+export const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
+});
+
+export const userProfileSchema = yup.object({
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  phone: yup.string().matches(/^\+?[\d\s-]+$/, 'Invalid phone number'),
+  avatar: yup.mixed().test('fileSize', 'File too large', (value) => {
+    if (!value) return true;
+    return value.size <= 5000000; // 5MB
+  }),
+});
+```
+
+### Zod Schema Example
+```typescript
+import { z } from 'zod';
+
+export const userSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email'),
+  age: z.number().min(18, 'Must be at least 18 years old'),
+  website: z.string().url('Invalid URL').optional(),
+});
+
+export type UserFormData = z.infer<typeof userSchema>;
+```
+
+## Form Hook Pattern
+```typescript
+// src/hooks/useUserForm.ts
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema, UserFormData } from '@/constants/validation';
+
+export const useUserForm = (initialData?: Partial<UserFormData>) => {
+  return useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: initialData,
+    mode: 'onBlur', // Validate on blur
+  });
+};
+```
+
+## Error Handling
+- **Field-level errors**: Display errors below each field
+- **Form-level errors**: Show general form errors at the top
+- **Server errors**: Handle API validation errors
+- **Loading states**: Disable form during submission
+
+## Accessibility
+- **Labels**: Always provide proper labels for form fields
+- **Error announcements**: Use ARIA live regions for error messages
+- **Focus management**: Maintain proper focus order
+- **Keyboard navigation**: Ensure all form elements are keyboard accessible
+description:
+globs:
+alwaysApply: false
+---

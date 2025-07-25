@@ -1,0 +1,166 @@
+# Internationalization Standards
+
+## i18n Stack
+- **next-intl**: Primary internationalization library
+- **React Intl**: Additional React-specific i18n utilities
+- **Locale files**: JSON-based translation files
+
+## Locale File Structure
+Organize translations by feature in `src/locales/en/`:
+
+```
+src/locales/
+├── en/
+│   ├── common.json          # Common UI elements
+│   ├── auth.json           # Authentication messages
+│   ├── dashboard.json      # Dashboard-specific text
+│   ├── forms.json          # Form validation messages
+│   ├── errors.json         # Error messages
+│   └── navigation.json     # Navigation labels
+├── es/
+│   └── [same structure]
+└── fr/
+    └── [same structure]
+```
+
+## Translation File Pattern
+```json
+// src/locales/en/common.json
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "loading": "Loading..."
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "messages": {
+    "welcome": "Welcome, {name}!",
+    "itemsCount": "{count, plural, =0 {No items} one {# item} other {# items}}",
+    "lastUpdated": "Last updated: {date, date, long}"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Must be no more than {max} characters"
+  }
+}
+```
+
+## Component Usage Pattern
+```typescript
+import { useTranslations } from 'next-intl';
+import { Button } from '@/components/pure-components/Button';
+
+const MyComponent: React.FC = () => {
+  const t = useTranslations('common');
+
+  return (
+    <div>
+      <h1>{t('messages.welcome', { name: 'John' })}</h1>
+      <Button variant="primary">
+        {t('buttons.save')}
+      </Button>
+      <p>{t('messages.itemsCount', { count: 5 })}</p>
+    </div>
+  );
+};
+```
+
+## Form Validation with i18n
+```typescript
+import { useTranslations } from 'next-intl';
+import * as yup from 'yup';
+
+const useValidationSchema = () => {
+  const t = useTranslations('validation');
+
+  return yup.object({
+    name: yup
+      .string()
+      .required(t('required'))
+      .min(2, t('minLength', { min: 2 }))
+      .max(50, t('maxLength', { max: 50 })),
+    email: yup
+      .string()
+      .required(t('required'))
+      .email(t('email')),
+    password: yup
+      .string()
+      .required(t('required'))
+      .min(8, t('minLength', { min: 8 })),
+  });
+};
+```
+
+## Date and Number Formatting
+```typescript
+import { useTranslations, useFormatter } from 'next-intl';
+
+const DateComponent: React.FC = () => {
+  const t = useTranslations('common');
+  const format = useFormatter();
+
+  const date = new Date();
+  const number = 1234.56;
+
+  return (
+    <div>
+      <p>{format.dateTime(date, { dateStyle: 'long' })}</p>
+      <p>{format.number(number, { style: 'currency', currency: 'USD' })}</p>
+      <p>{t('messages.lastUpdated', { date })}</p>
+    </div>
+  );
+};
+```
+
+## Next.js Configuration
+```typescript
+// next.config.js
+const withNextIntl = require('next-intl/plugin')();
+
+module.exports = withNextIntl({
+  // Other Next.js config
+});
+```
+
+```typescript
+// middleware.ts
+import createMiddleware from 'next-intl/middleware';
+
+export default createMiddleware({
+  locales: ['en', 'es', 'fr'],
+  defaultLocale: 'en',
+});
+
+export const config = {
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
+};
+```
+
+## Best Practices
+- **Namespace organization**: Group related translations by feature
+- **Key naming**: Use dot notation for hierarchical keys
+- **Pluralization**: Use ICU message format for plural rules
+- **Interpolation**: Use named parameters for dynamic values
+- **Fallbacks**: Provide fallback translations for missing keys
+- **Context**: Include context comments for translators
+- **Testing**: Test translations with different locales
+
+## Accessibility
+- **Language attributes**: Set proper `lang` attributes
+- **Direction**: Support RTL languages when needed
+- **Screen readers**: Ensure translated content is properly announced
+- **Cultural considerations**: Adapt content for different cultures
+description:
+globs:
+alwaysApply: false
+---

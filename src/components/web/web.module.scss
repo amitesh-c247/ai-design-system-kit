@@ -1,0 +1,32 @@
+.web-header__logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.web-header__logo-icon {
+  font-size: 2rem;
+}
+
+.web-header__logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.web-footer__links {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.web-footer__link {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  &:hover {
+    text-decoration: underline;
+  }
+}

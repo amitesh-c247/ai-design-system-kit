@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 
 export default function Home() {
@@ -100,4 +101,28 @@ export default function Home() {
       </footer>
     </div>
   );
+=======
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
+import LoadingSpinner from "@/components/pure-components/LoadingSpinner";
+
+export default function Home() {
+  const router = useRouter();
+  const { isAuthenticated, isLoadingUser } = useAuth();
+
+  useEffect(() => {
+    if (!isLoadingUser) {
+      if (isAuthenticated) {
+        router.replace("/dashboard");
+      } else {
+        router.replace("/login");
+      }
+    }
+  }, [isAuthenticated, isLoadingUser, router]);
+
+  return <LoadingSpinner fullScreen />;
+>>>>>>> master
 }

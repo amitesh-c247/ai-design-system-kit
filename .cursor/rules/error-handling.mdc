@@ -1,0 +1,544 @@
+# Error Handling Standards
+
+## Error Handling Architecture
+- **Global Error Handler**: Centralized API error handling in the base API client
+- **Error Boundaries**: React error boundaries for component-level error handling
+- **Toast Notifications**: User-friendly error messages using React Bootstrap Toast
+- **Validation Errors**: Structured validation error handling for forms and imports
+
+## API Error Handling
+Implement consistent error handling in the API client:
+
+```typescript
+// src/utils/api.ts - Global error handling
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { cookieService } from './cookieService';
+
+interface ApiError extends Error {
+  status?: number;
+  code?: string;
+  details?: unknown;
+}
+
+class ApiClient {
+  private instance: AxiosInstance;
+  private unauthorizedHandler: (() => void) | null = null;
+
+  constructor() {
+    this.instance = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '/api',
+      timeout: 10000,
+    });
+
+    this.setupInterceptors();
+  }
+
+  private setupInterceptors() {
+    // Request interceptor for auth
+    this.instance.interceptors.request.use((config) => {
+      const token = this.getAuthToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
+    // Response interceptor for error handling
+    this.instance.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        this.handleError(error);
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  private handleError(error: AxiosError) {
+    const apiError: ApiError = new Error(error.message);
+    apiError.status = error.response?.status;
+    apiError.code = error.code;
+    apiError.details = error.response?.data;
+
+    // Handle specific error types
+    if (error.response?.status === 401) {
+      this.handleUnauthorized();
+    } else if (error.response?.status === 403) {
+      this.handleForbidden();
+    } else if (error.response?.status >= 500) {
+      this.handleServerError(apiError);
+    }
+
+    // Log error for debugging
+    console.error('API Error:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      message: error.message,
+      data: error.response?.data,
+    });
+  }
+
+  private handleUnauthorized() {
+    // Clear auth data
+    cookieService.remove('auth_token');
+    cookieService.remove('user_data');
+    
+    // Call unauthorized handler if set
+    if (this.unauthorizedHandler) {
+      this.unauthorizedHandler();
+    }
+  }
+
+  private handleForbidden() {
+    // Handle permission denied
+    console.warn('Access forbidden - insufficient permissions');
+  }
+
+  private handleServerError(error: ApiError) {
+    // Handle server errors
+    console.error('Server error:', error);
+  }
+
+  setUnauthorizedHandler(handler: () => void) {
+    this.unauthorizedHandler = handler;
+  }
+
+  clearUnauthorizedHandler() {
+    this.unauthorizedHandler = null;
+  }
+}
+
+export const api = new ApiClient();
+```
+
+## React Error Boundaries
+Implement error boundaries for component-level error handling:
+
+```typescript
+// src/components/common/ErrorBoundary.tsx
+import React, { Component, ReactNode } from 'react';
+import { Alert, Button } from 'react-bootstrap';
+import styles from './ErrorBoundary.module.scss';
+
+interface Props {
+  children: ReactNode;
+  fallback?: React.ComponentType<{ error: Error; resetError: () => void }>;
+  onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+}
+
+interface State {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+    
+    // Call custom error handler if provided
+    this.props.onError?.(error, errorInfo);
+
+    // Log to error reporting service in production
+    if (process.env.NODE_ENV === 'production') {
+      // logErrorToService(error, errorInfo);
+    }
+  }
+
+  resetError = () => {
+    this.setState({ hasError: false, error: null });
+  };
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) {
+        const FallbackComponent = this.props.fallback;
+        return <FallbackComponent error={this.state.error!} resetError={this.resetError} />;
+      }
+
+      return <DefaultErrorFallback error={this.state.error!} resetError={this.resetError} />;
+    }
+
+    return this.props.children;
+  }
+}
+
+// Default error fallback component
+const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> = ({
+  error,
+  resetError,
+}) => (
+  <div className={styles.errorFallback}>
+    <Alert variant="danger">
+      <Alert.Heading>Something went wrong</Alert.Heading>
+      <p>An unexpected error occurred. Please try again or contact support if the problem persists.</p>
+      <details className={styles.errorDetails}>
+        <summary>Error details</summary>
+        <pre>{error.message}</pre>
+      </details>
+      <hr />
+      <Button variant="outline-danger" onClick={resetError}>
+        Try again
+      </Button>
+    </Alert>
+  </div>
+);
+
+export default ErrorBoundary;
+```
+
+## Toast Notification System
+Implement consistent toast notifications for user feedback:
+
+```typescript
+// src/hooks/useToast.ts
+import { useState, useCallback } from 'react';
+
+interface ToastState {
+  show: boolean;
+  message: string;
+  variant: 'success' | 'danger' | 'warning' | 'info';
+}
+
+export const useToast = () => {
+  const [toast, setToast] = useState<ToastState>({
+    show: false,
+    message: '',
+    variant: 'success',
+  });
+
+  const showToast = useCallback((
+    message: string,
+    variant: ToastState['variant'] = 'success'
+  ) => {
+    setToast({ show: true, message, variant });
+  }, []);
+
+  const hideToast = useCallback(() => {
+    setToast(prev => ({ ...prev, show: false }));
+  }, []);
+
+  const showSuccess = useCallback((message: string) => {
+    showToast(message, 'success');
+  }, [showToast]);
+
+  const showError = useCallback((message: string) => {
+    showToast(message, 'danger');
+  }, [showToast]);
+
+  const showWarning = useCallback((message: string) => {
+    showToast(message, 'warning');
+  }, [showToast]);
+
+  const showInfo = useCallback((message: string) => {
+    showToast(message, 'info');
+  }, [showToast]);
+
+  return {
+    toast,
+    showToast,
+    hideToast,
+    showSuccess,
+    showError,
+    showWarning,
+    showInfo,
+  };
+};
+
+// Toast Container Component
+import { Toast, ToastContainer } from 'react-bootstrap';
+
+interface ToastNotificationProps {
+  show: boolean;
+  message: string;
+  variant: 'success' | 'danger' | 'warning' | 'info';
+  onClose: () => void;
+  delay?: number;
+}
+
+export const ToastNotification: React.FC<ToastNotificationProps> = ({
+  show,
+  message,
+  variant,
+  onClose,
+  delay = 5000,
+}) => (
+  <ToastContainer position="top-end" className="p-3">
+    <Toast show={show} onClose={onClose} delay={delay} autohide bg={variant}>
+      <Toast.Header>
+        <strong className="me-auto">
+          {variant === 'success' && 'Success'}
+          {variant === 'danger' && 'Error'}
+          {variant === 'warning' && 'Warning'}
+          {variant === 'info' && 'Information'}
+        </strong>
+      </Toast.Header>
+      <Toast.Body className={variant === 'danger' ? 'text-white' : ''}>
+        {message}
+      </Toast.Body>
+    </Toast>
+  </ToastContainer>
+);
+```
+
+## Form Validation Error Handling
+Handle form validation errors consistently:
+
+```typescript
+// Form error handling with React Hook Form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const userSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+});
+
+const UserForm: React.FC = () => {
+  const { showError, showSuccess } = useToast();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm({
+    resolver: yupResolver(userSchema),
+  });
+
+  const onSubmit = async (data: any) => {
+    try {
+      await userService.createUser(data);
+      showSuccess('User created successfully');
+    } catch (error) {
+      if (error instanceof ApiError) {
+        // Handle API validation errors
+        if (error.status === 422 && error.details) {
+          const validationErrors = error.details as Record<string, string[]>;
+          Object.entries(validationErrors).forEach(([field, messages]) => {
+            setError(field as any, { message: messages[0] });
+          });
+        } else {
+          showError(error.message || 'Failed to create user');
+        }
+      } else {
+        showError('An unexpected error occurred');
+      }
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-3">
+        <label>Name</label>
+        <input
+          {...register('name')}
+          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+        />
+        {errors.name && (
+          <div className="invalid-feedback">{errors.name.message}</div>
+        )}
+      </div>
+      
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Creating...' : 'Create User'}
+      </button>
+    </form>
+  );
+};
+```
+
+## Import Validation Error Handling
+Handle bulk import validation errors:
+
+```typescript
+// Bulk import error handling
+interface ValidationError {
+  row: number;
+  field: string;
+  message: string;
+  value: unknown;
+}
+
+interface ImportResult {
+  success: number;
+  failed: number;
+  errors: Array<{ row: number; error: string }>;
+}
+
+const BulkImportComponent = () => {
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+
+  const validateData = (data: any[]): { errors: ValidationError[]; valid: any[] } => {
+    const errors: ValidationError[] = [];
+    const valid: any[] = [];
+
+    data.forEach((row, index) => {
+      const rowNumber = index + 2; // Account for header row
+
+      // Validate each field
+      if (!row.name) {
+        errors.push({
+          row: rowNumber,
+          field: 'name',
+          message: 'Name is required',
+          value: row.name,
+        });
+      }
+
+      if (!row.email || !/^[^@]+@[^@]+\.[^@]+$/.test(row.email)) {
+        errors.push({
+          row: rowNumber,
+          field: 'email',
+          message: 'Valid email is required',
+          value: row.email,
+        });
+      }
+
+      // Add to valid array if no errors for this row
+      const rowErrors = errors.filter(e => e.row === rowNumber);
+      if (rowErrors.length === 0) {
+        valid.push(row);
+      }
+    });
+
+    return { errors, valid };
+  };
+
+  // Error display components
+  const ValidationErrorsTable = () => (
+    <Table>
+      <thead>
+        <tr>
+          <th>Row</th>
+          <th>Field</th>
+          <th>Error</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {validationErrors.map((error, index) => (
+          <tr key={index}>
+            <td>{error.row}</td>
+            <td>{error.field}</td>
+            <td>{error.message}</td>
+            <td>{String(error.value)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+
+  return (
+    <div>
+      {validationErrors.length > 0 && (
+        <Alert variant="danger">
+          <Alert.Heading>Validation Errors ({validationErrors.length})</Alert.Heading>
+          <p>Please fix the following errors before importing:</p>
+          <ValidationErrorsTable />
+        </Alert>
+      )}
+      
+      {importResult && (
+        <Alert variant={importResult.failed > 0 ? 'warning' : 'success'}>
+          <p>Import completed: {importResult.success} successful, {importResult.failed} failed</p>
+          {importResult.errors.length > 0 && (
+            <details>
+              <summary>Error details</summary>
+              <ul>
+                {importResult.errors.map((error, index) => (
+                  <li key={index}>Row {error.row}: {error.error}</li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </Alert>
+      )}
+    </div>
+  );
+};
+```
+
+## Auth Error Handling
+Handle authentication errors properly:
+
+```typescript
+// Auth hook with proper error handling
+export const useAuth = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  // Set up global 401 handler
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      // Clear all auth-related queries
+      queryClient.removeQueries({ queryKey: ['user'] });
+      queryClient.clear();
+      
+      // Redirect to login
+      router.replace('/login');
+    };
+
+    api.setUnauthorizedHandler(handleUnauthorized);
+
+    return () => {
+      api.clearUnauthorizedHandler();
+    };
+  }, [router, queryClient]);
+
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    error: userError,
+  } = useQuery({
+    queryKey: ['user'],
+    queryFn: authService.getCurrentUser,
+    retry: (failureCount, error: any) => {
+      // Don't retry on 401 errors
+      if (error?.status === 401) {
+        return false;
+      }
+      return failureCount < 1;
+    },
+    staleTime: 1000 * 60 * 5,
+    enabled: authService.isAuthenticated(),
+  });
+
+  // Handle 401 errors from user query
+  useEffect(() => {
+    if (userError && (userError as any)?.status === 401) {
+      queryClient.removeQueries({ queryKey: ['user'] });
+    }
+  }, [userError, queryClient]);
+
+  return {
+    user,
+    isLoadingUser,
+    isAuthenticated: authService.isAuthenticated(),
+    userError,
+  };
+};
+```
+
+## Best Practices
+- **Centralized Handling**: Use global error interceptors for API errors
+- **User-Friendly Messages**: Provide clear, actionable error messages
+- **Error Logging**: Log errors for debugging and monitoring
+- **Graceful Degradation**: Handle errors without breaking the entire application
+- **Recovery Mechanisms**: Provide ways for users to recover from errors
+- **Accessibility**: Ensure error messages are accessible to screen readers
+- **Validation**: Implement both client-side and server-side validation
+- **Security**: Don't expose sensitive information in error messages
+description:
+globs:
+alwaysApply: false
+---

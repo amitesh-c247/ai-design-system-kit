@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -11,6 +12,23 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+=======
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import { FlatCompat } from "@eslint/eslintrc";
+import storybook from "eslint-plugin-storybook";
+
+const compat = new FlatCompat();
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals"),
+  {
+    files: ["next.config.js"],
+    rules: {
+      "@typescript-eslint/no-var-requires": "off"
+    }
+  },
+  ...storybook.configs["flat/recommended"]
+>>>>>>> master
 ];
 
 export default eslintConfig;

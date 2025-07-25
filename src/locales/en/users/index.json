@@ -1,0 +1,44 @@
+{
+  "title": "User Management",
+  "createUser": "Create User",
+  "searchPlaceholder": "Search users...",
+  "name": "Name",
+  "email": "Email",
+  "status": "Status",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "statusOptions": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "role": "Role",
+  "actions": "Actions",
+  "view": "View",
+  "edit": "Edit",
+  "delete": "Delete",
+  "noUsers": "No users found",
+  "noData": "No data found",
+  "confirmDelete": "Are you sure you want to delete this user?",
+  "confirmText": "Are you sure you want to proceed?",
+  "userDetails": "User Details",
+  "save": "Save",
+  "update": "Update",
+  "cancel": "Cancel",
+  "createNewUser": "Create New User",
+  "editUser": "Edit User",
+  "roles": {
+    "admin": "Admin",
+    "user": "User"
+  },
+  "form": {
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "statusRequired": "Status is required"
+  },
+  "messages": {
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "error": "An error occurred. Please try again."
+  }
+}

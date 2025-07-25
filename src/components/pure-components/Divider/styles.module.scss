@@ -1,0 +1,220 @@
+@use '../../../../assets/scss/variables' as *;
+
+.divider {
+  padding: 0;
+  margin: $spacer 0;
+  border: 0;
+
+  &.noMargin {
+    margin: 0;
+  }
+
+  &.primary {
+    border-color: $primary;
+  }
+
+  &.secondary {
+    border-color: $secondary;
+  }
+
+  &.success {
+    border-color: $success;
+  }
+
+  &.danger {
+    border-color: $danger;
+  }
+
+  &.warning {
+    border-color: $warning;
+  }
+
+  &.info {
+    border-color: $info;
+  }
+
+  &.light {
+    border-color: $light;
+  }
+
+  &.dark {
+    border-color: $dark;
+  }
+
+  &.small {
+    border-width: 1px;
+  }
+
+  &.medium {
+    border-width: 2px;
+  }
+
+  &.large {
+    border-width: 3px;
+  }
+
+  &.solid {
+    border-style: solid;
+  }
+
+  &.dashed {
+    border-style: dashed;
+  }
+
+  &.dotted {
+    border-style: dotted;
+  }
+
+  &.horizontal {
+    border-top-width: 1px;
+    width: 100%;
+  }
+
+  &.vertical {
+    border-left-width: 1px;
+    height: 100%;
+    display: inline-block;
+  }
+
+  &.withText {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: currentColor;
+    }
+
+    &::before {
+      margin-right: 0.5rem;
+    }
+
+    &::after {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &.primaryText {
+    color: $primary;
+    border-color: $primary;
+  }
+
+  &.secondaryText {
+    color: $secondary;
+    border-color: $secondary;
+  }
+
+  &.successText {
+    color: $success;
+    border-color: $success;
+  }
+
+  &.dangerText {
+    color: $danger;
+    border-color: $danger;
+  }
+
+  &.warningText {
+    color: $warning;
+    border-color: $warning;
+  }
+
+  &.infoText {
+    color: $info;
+    border-color: $info;
+  }
+
+  &.lightText {
+    color: $light;
+    border-color: $light;
+  }
+
+  &.darkText {
+    color: $dark;
+    border-color: $dark;
+  }
+
+  &.grayText {
+    color: $gray-700;
+    border-color: $gray-700;
+  }
+}
+
+.hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid $gray-300;
+  opacity: 1;
+}
+
+// Variants
+.primary {
+  .hr {
+    border-color: $primary;
+  }
+}
+
+.secondary {
+  .hr {
+    border-color: $secondary;
+  }
+}
+
+.success {
+  .hr {
+    border-color: $success;
+  }
+}
+
+.danger {
+  .hr {
+    border-color: $danger;
+  }
+}
+
+.warning {
+  .hr {
+    border-color: $warning;
+  }
+}
+
+.info {
+  .hr {
+    border-color: $info;
+  }
+}
+
+.light {
+  .hr {
+    border-color: $gray-200;
+  }
+}
+
+.dark {
+  .hr {
+    border-color: $gray-700;
+  }
+}
+
+.vertical {
+  composes: divider;
+  height: 100%;
+  width: 1px;
+  margin: 0 $spacer;
+}
+
+.solid {
+  border-top: 1px solid currentColor;
+}
+
+.dashed {
+  border-top: 1px dashed currentColor;
+}
+
+.dotted {
+  border-top: 1px dotted currentColor;
+} 

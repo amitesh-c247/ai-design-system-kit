@@ -1,0 +1,86 @@
+@use '../../../../assets/scss/variables' as *;
+
+.checkboxGroup {
+  margin-bottom: $form-group-margin-bottom;
+
+  &.inline {
+    display: inline-flex;
+    margin-right: $spacer;
+    margin-bottom: 0;
+  }
+}
+
+.checkbox {
+  :global {
+    .form-check-input {
+      width: $form-check-input-width;
+      height: $form-check-input-width;
+      margin-top: $form-check-input-margin-y;
+      margin-left: -$form-check-input-width;
+      background-color: $form-check-input-bg;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border: $form-check-input-border;
+      appearance: none;
+      print-color-adjust: exact;
+      transition: background-position $form-check-transition;
+
+      &:checked {
+        background-color: $form-check-input-checked-bg-color;
+        border-color: $form-check-input-checked-border-color;
+
+        &[type="checkbox"] {
+          background-image: escape-svg($form-check-input-checked-bg-image);
+        }
+      }
+
+      &:focus {
+        border-color: $form-check-input-focus-border;
+        outline: 0;
+        box-shadow: $form-check-input-focus-box-shadow;
+      }
+
+      &:disabled {
+        pointer-events: none;
+        filter: none;
+        opacity: $form-check-input-disabled-opacity;
+      }
+
+      &[type="checkbox"] {
+        border-radius: $form-check-input-border-radius;
+      }
+    }
+
+    .form-check-label {
+      color: $form-check-label-color;
+      cursor: $form-check-label-cursor;
+      padding-left: $form-check-padding-start;
+      margin-bottom: 0;
+      font-size: $form-check-label-font-size;
+      font-weight: $form-check-label-font-weight;
+      user-select: none;
+    }
+
+    .form-check-input.is-valid ~ .form-check-label {
+      color: $form-check-label-color;
+    }
+
+    .form-check-input.is-invalid ~ .form-check-label {
+      color: $form-check-label-color;
+    }
+
+    .invalid-feedback {
+      display: none;
+      width: 100%;
+      margin-top: $form-feedback-margin-top;
+      font-size: $form-feedback-font-size;
+      font-style: $form-feedback-font-style;
+      color: $form-feedback-invalid-color;
+    }
+
+    .form-check-input.is-invalid ~ .invalid-feedback {
+      display: block;
+    }
+  }
+} 

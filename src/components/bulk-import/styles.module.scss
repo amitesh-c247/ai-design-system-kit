@@ -1,0 +1,421 @@
+// Container removed - CardWrapper handles the container styling
+
+.header {
+  margin-bottom: 32px;
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+  }
+}
+
+// Removed backLink styles as it's no longer needed
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.templateCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+}
+
+.templateContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.templateInfo {
+  flex: 1;
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+.cardHeader {
+  margin-bottom: 20px;
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+}
+
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #6c757d !important;
+  color: white !important;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: #5a6268 !important;
+    transform: translateY(-1px);
+  }
+}
+
+.uploadCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+}
+
+.uploadArea {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover, &.dragActive {
+    border-color: var(--primary-color);
+    background: var(--background-hover);
+  }
+  
+  svg {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  display: inline-block;
+  background: #007bff !important;
+  color: white !important;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #0056b3 !important;
+    transform: translateY(-1px);
+  }
+}
+
+.fileInfo {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--background-hover);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  
+  p {
+    margin: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+}
+
+.errorCard {
+  border: 1px solid #dc3545;
+  border-radius: 12px;
+  padding: 24px;
+  background: #f8d7da;
+}
+
+.errorTitle {
+  color: #dc3545 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tableContainer {
+  margin-top: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dc3545;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.previewCard {
+  border: 1px solid #28a745;
+  border-radius: 12px;
+  padding: 24px;
+  background: #d4edda;
+}
+
+.successTitle {
+  color: #28a745 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.previewButton {
+  background: #007bff !important;
+  color: white !important;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #0056b3 !important;
+    transform: translateY(-1px);
+  }
+}
+
+.importButton {
+  background: #28a745 !important;
+  color: white !important;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #218838 !important;
+    transform: translateY(-1px);
+  }
+  
+  &:disabled {
+    background: #6c757d !important;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.resultCard {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--background-secondary);
+}
+
+.resultStats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.successStat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.errorStat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.errorDetails {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8d7da;
+  border-radius: 8px;
+  border-left: 4px solid #dc3545;
+  
+  h3 {
+    color: #dc3545;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    color: #721c24;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+  }
+}
+
+.successAlert {
+  margin-top: 16px;
+  
+  &.colorError {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+  }
+}
+
+// Modal styles
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--background-hover);
+    color: var(--text-primary);
+  }
+}
+
+.modalContent {
+  padding: 24px;
+  max-height: 70vh;
+  overflow-y: auto;
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+}
+
+.previewTableContainer {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid var(--border-color);
+  background: var(--background-secondary);
+  
+  button {
+    min-width: 100px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .templateCard, .uploadCard, .errorCard, .previewCard, .resultCard {
+    padding: 16px;
+  }
+  
+  .templateContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .downloadButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .uploadArea {
+    padding: 32px 16px;
+  }
+  
+  .actionButtons {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+  
+  .modalContent {
+    padding: 16px;
+  }
+  
+  .modalHeader, .modalFooter {
+    padding: 16px;
+  }
+  
+  .modalFooter {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+} 

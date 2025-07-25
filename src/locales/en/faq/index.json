@@ -1,0 +1,22 @@
+{
+  "title": "Title",
+  "description": "Description",
+  "addFaq": "Add FAQ",
+  "edit": "Edit",
+  "editFaq": "Edit FAQ",
+  "save": "Save",
+  "update": "Update",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "confirmDelete": "Are you sure?",
+  "confirmText": "Do you realy want to delete this FAQ",
+  "faqTitle": "Frequently Asked Questions",
+  "messages": {
+    "faqCreated": "FAQ created successfully!",
+    "faqUpdated": "FAQ updated successfully!",
+    "faqDeleted": "FAQ deleted successfully!",
+    "errorSaving": "Failed to save FAQ",
+    "errorDeleting": "Failed to delete FAQ",
+    "errorLoading": "Failed to load FAQs"
+  }
+}

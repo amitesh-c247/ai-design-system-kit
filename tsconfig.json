@@ -19,7 +19,12 @@
       }
     ],
     "paths": {
+<<<<<<< HEAD
       "@/*": ["./src/*"]
+=======
+      "@/*": ["./src/*"],
+      "@public/*": ["./public/*"],
+>>>>>>> master
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

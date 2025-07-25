@@ -1,0 +1,48 @@
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 200px;
+}
+
+.labelWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  overflow: hidden;
+
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.arrowIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+
+  .filterButton:hover & {
+    transform: translateY(1px);
+  }
+} 

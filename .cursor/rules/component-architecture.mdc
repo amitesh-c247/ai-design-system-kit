@@ -1,0 +1,257 @@
+# Component Architecture Guidelines
+
+## Component Organization
+- **Pure components**: Place in `src/components/pure-components/` for reusable UI components
+- **Auth components**: Place in `src/components/auth/` for authentication-related components
+- **Layout components**: Place in `src/components/header-sidebar/` for layout structure
+- **Feature components**: Create feature-specific folders (e.g., `cms/`, `documents/`, `users/`)
+- **Bulk import components**: Place in `src/components/bulk-import/` for data import functionality
+
+## Component Structure Pattern
+Each component should follow this structure:
+1. **Imports**: React, Next.js, libraries, internal components, types, styles
+2. **Types/Interfaces**: Props interface and local types
+3. **Component**: Main component function with proper TypeScript
+4. **Helper functions**: Utility functions and handlers
+5. **Export**: Default export with named exports for types if needed
+
+## Pure Components Structure
+Pure components should be completely reusable and self-contained:
+
+```typescript
+// src/components/pure-components/Table/Table.tsx
+import React from 'react';
+import { Table as BootstrapTable } from 'react-bootstrap';
+import type { UITableColumn, UITableProps } from '@/types/ui';
+import styles from './Table.module.scss';
+
+const Table = <T,>({ columns, data, loading = false }: UITableProps<T>) => {
+  if (loading) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
+
+  return (
+    <BootstrapTable responsive className={styles.table}>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column.key} style={{ width: column.width }}>
+              {column.title}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((record, index) => (
+          <tr key={`row-${index}`}>
+            {columns.map((column) => (
+              <td key={`${index}-${column.key}`}>
+                {column.render
+                  ? column.render(record[column.dataIndex || column.key], record, index)
+                  : record[column.dataIndex || column.key]
+                }
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </BootstrapTable>
+  );
+};
+
+export default Table;
+```
+
+## Bulk Import Component Pattern
+For data import functionality, use the template pattern:
+
+```typescript
+// src/components/bulk-import/BulkImportTemplate.tsx
+interface BulkImportConfig<T> {
+  templateData: T[];
+  templateFileName: string;
+  acceptedFileTypes: string;
+  columns: BulkImportColumn[];
+  validateData: (data: any[]) => { errors: ValidationError[]; valid: T[] };
+  importData: (data: T[]) => Promise<ImportResult>;
+}
+
+const BulkImportTemplate = <T,>({ config }: { config: BulkImportConfig<T> }) => {
+  const [validData, setValidData] = useState<T[]>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+  
+  const handleImport = async () => {
+    if (validData.length === 0) return;
+    
+    const result = await config.importData(validData);
+    // Handle result
+  };
+
+  return (
+    <div className={styles.bulkImport}>
+      {/* File upload, validation, and import UI */}
+    </div>
+  );
+};
+```
+
+## Feature Component Pattern
+Feature-specific components handle business logic and data:
+
+```typescript
+// src/app/(view)/users/page.tsx
+const UsersPage: React.FC = () => {
+  const t = useTranslations('users');
+  const { data, isLoading } = useUsersQuery(pagination.page, pagination.pageSize, pagination.search);
+  const { mutateAsync: deleteUser } = useDeleteUserMutation();
+
+  // Safe data access with proper typing
+  const users = data?.data || [];
+  const total = data?.total || 0;
+
+  const handleDelete = (id: number) =>
+    handleDeleteAction({
+      id,
+      mutation: (id: string | number) => deleteUser(typeof id === 'string' ? parseInt(id) : id),
+      t,
+      setToast,
+    });
+
+  const columns: UITableColumn<User>[] = [
+    { key: "name", title: t("name"), dataIndex: "name" },
+    { key: "email", title: t("email"), dataIndex: "email" },
+    {
+      key: "actions",
+      title: t("actions"),
+      render: (_, record) => (
+        <ActionButton
+          icon={<Trash2 width={16} />}
+          onClick={() => handleDelete(Number(record.id))}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <CardWrapper title={t("userManagement")}>
+      <Table columns={columns} data={users} loading={isLoading} />
+    </CardWrapper>
+  );
+};
+```
+
+## Styling Guidelines
+- **SCSS Modules**: Use `.module.scss` for component-scoped styles
+- **CSS Variables**: Use for theming and consistent values
+- **Responsive Design**: Mobile-first approach with Bootstrap breakpoints
+- **Accessibility**: Include proper ARIA attributes and semantic HTML
+
+## Component Categories
+
+### Layout Components
+- **Header**: Top navigation with user menu, handles nested user data
+- **Sidebar**: Main navigation with collapsible design and menu items
+- **Page Layout**: Wrapper for page content with proper routing
+
+### Pure UI Components
+- **Button**: Multiple variants with loading states
+- **Card/CardWrapper**: Content containers with consistent styling
+- **Form Elements**: Input, Select, Checkbox with validation support
+- **Data Display**: Table with generic typing, Typography, Tags
+- **Feedback**: Alert, Toast, Modal, LoadingSpinner
+- **FileUpload**: Drag-and-drop with validation
+- **AutoComplete**: Search with query function support
+
+### Authentication Components
+- **Login/Signup**: Form-based authentication with validation
+- **Password Reset**: Forgot/reset password flows
+- **Profile**: User profile management with nested user data handling
+
+### Business Logic Components
+- **CMS Pages**: Content management with CRUD operations
+- **Document Management**: File upload and management
+- **User Management**: User CRUD with proper data transformation
+- **Bulk Import**: Generic template for data import with validation
+
+## Props Interface Pattern
+```typescript
+export interface ComponentNameProps {
+  // Required props
+  title: string;
+  data: User[];
+  
+  // Optional props with defaults
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  loading?: boolean;
+  
+  // Event handlers with proper types
+  onClick?: (event: React.MouseEvent) => void;
+  onChange?: (value: string) => void;
+  onDelete?: (id: number) => void;
+  
+  // Data transformation
+  transform?: (data: any) => any;
+  
+  // Styling
+  className?: string;
+  
+  // Content
+  children?: React.ReactNode;
+}
+```
+
+## Data Handling Patterns
+- **Safe data access**: Always check for nested data existence
+- **Type transformations**: Create transformation functions for API data
+- **Loading states**: Handle loading, error, and success states
+- **Optimistic updates**: Use TanStack Query for cache management
+
+## Error Boundaries
+Implement error boundaries for robust error handling:
+
+```typescript
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ComponentType<{ error: Error }>;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, { hasError: boolean; error: Error | null }> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      const FallbackComponent = this.props.fallback || DefaultErrorFallback;
+      return <FallbackComponent error={this.state.error!} />;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+## Accessibility Requirements
+- **Semantic HTML**: Use proper HTML elements (table, button, nav, etc.)
+- **ARIA attributes**: Add appropriate aria-* attributes
+- **Keyboard navigation**: Ensure tab order and keyboard shortcuts
+- **Screen readers**: Provide proper labels and descriptions
+- **Color contrast**: Meet WCAG guidelines
+- **Focus management**: Handle focus properly in modals and forms
+
+## Performance Considerations
+- **Code splitting**: Use dynamic imports for large components
+- **Memoization**: Use React.memo for expensive components
+- **Virtual scrolling**: For large data sets
+- **Image optimization**: Use Next.js Image component
+- **Bundle analysis**: Regular bundle size monitoring

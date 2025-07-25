@@ -1,0 +1,29 @@
+{
+  "welcome": "Welcome, {name}!",
+  "overview": "Dashboard Overview",
+  "info": "Welcome to your dashboard. This is where you can manage your account and view important information.",
+  "yourInformation": "Your Information",
+  "email": "Email",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "welcomeGroup": {
+    "title": "Welcome to your Dashboard",
+    "subtitle": "Here's an overview of your information"
+  },
+  "stats": {
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Users",
+    "totalRevenue": "Total Revenue",
+    "growth": "Growth"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "noActivity": "No recent activity"
+  }
+} 

@@ -1,0 +1,106 @@
+@use '../../../../assets/scss/variables' as *;
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+
+  &.inline {
+    display: inline-flex;
+    margin-bottom: 0;
+  }
+}
+
+.alertMessage {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.alertDescription {
+  font-size: 0.875rem;
+  color: var(--bs-gray-700);
+}
+
+.alertIcon {
+  margin-right: $spacer;
+  margin-top: 0.25rem;
+}
+
+.alertCloseIcon {
+  margin-left: $spacer;
+  color: $gray-500;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $gray-700;
+  }
+}
+
+.colorGrey {
+  background-color: var(--bs-gray-100);
+  border-color: var(--bs-gray-200);
+  color: var(--bs-gray-700);
+}
+
+.colorBlue {
+  background-color: var(--bs-primary-bg-subtle);
+  border-color: var(--bs-primary-border-subtle);
+  color: var(--bs-primary);
+}
+
+.colorError {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.divider {
+  opacity: 0.5;
+}
+
+.actionButton {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+} 

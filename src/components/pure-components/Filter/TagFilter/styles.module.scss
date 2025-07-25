@@ -1,0 +1,58 @@
+.tagFilter {
+  min-width: 280px;
+  max-width: 400px;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: var(--bs-white);
+  border: 1px solid var(--bs-gray-300);
+
+  &:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+
+  option {
+    padding: 8px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bs-gray-100);
+    }
+
+    &:checked {
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
+    }
+  }
+}
+
+.searchWrapper {
+  padding: 8px;
+  border-bottom: 1px solid var(--bs-gray-200);
+
+  .form-control {
+    padding: 8px 12px;
+    border: 1px solid var(--bs-gray-300);
+    border-radius: 4px;
+
+    &:focus {
+      border-color: var(--bs-primary);
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+  }
+}
+
+.buttonWrapper {
+  padding: 8px;
+  border-top: 1px solid var(--bs-gray-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dropdownLoader {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+} 
