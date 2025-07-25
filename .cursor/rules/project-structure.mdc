@@ -2,61 +2,258 @@
 
 This is a Next.js 15 React admin dashboard project with TypeScript. The main entry point is [src/app/layout.tsx](mdc:src/app/layout.tsx), which uses the app router structure.
 
-## Key Directories
-# Project Structure Guide
-
-This is a Next.js 15 React admin dashboard project with TypeScript. The main entry point is [src/app/layout.tsx](mdc:src/app/layout.tsx), which uses the app router structure.
-
-## Key Directories
-- **src/app/**: Next.js app router pages and layouts
-- **src/components/**: Reusable UI components organized by feature
-- **src/hooks/**: Custom React hooks for business logic
-- **src/services/**: API service layer for backend communication
-- **src/utils/**: Utility functions and helpers
-- **src/constants/**: Application constants and configuration
-- **src/locales/**: Internationalization files using next-intl
-- **src/assets/**: Static assets like images and icons
-
-## Custom Types & Interfaces Organization
-- **Centralized types**: Place all shared types and interfaces in `src/types/`, subdivided by domain if needed (e.g. `auth.ts`, `ui.ts`, `cms.ts`).
-- **Component/feature types**: If a type/interface is only used by a single component or feature, define it in a `types.ts` file within that folder. If it becomes shared, move it to `src/types/`.
-- **Naming**: Use `PascalCase` for interfaces/types. Suffix props interfaces with `Props` (e.g. `UserCardProps`).
-- **Imports**: Always import types/interfaces from the central types directory or local `types.ts`, not from implementation files.
-- **No implementation in types files**: Types/interfaces files should only contain type definitions, not functions or classes.
-
-**Example:**
+## Directory Structure Overview
 ```
 src/
-  types/
-    auth.ts
-    ui.ts
-    cms.ts
-    index.ts
-  components/
-    UserCard/
-      UserCard.tsx
-      types.ts   // (for component-specific types)
+├── app/                     # Next.js App Router
+│   ├── (auth)/             # Auth route group
+│   │   ├── login/
+│   │   ├── signup/
+│   │   ├── forgot-password/
+│   │   └── reset-password/
+│   ├── (view)/             # Main app route group
+│   │   ├── dashboard/
+│   │   ├── users/
+│   │   ├── cms/
+│   │   ├── documents/
+│   │   ├── faq/
+│   │   ├── profile/
+│   │   └── bulk-import/
+│   │       ├── users/
+│   │       └── faq/
+│   ├── (web)/              # Public web pages
+│   │   └── terms/
+│   ├── api/                # API routes
+│   │   └── documents/
+│   ├── globals.css
+│   └── layout.tsx
+├── components/             # React components
+│   ├── pure-components/    # Reusable UI components
+│   │   ├── Button/
+│   │   ├── Table/
+│   │   ├── Form/
+│   │   ├── Card/
+│   │   ├── FileUpload/
+│   │   ├── AutoComplete/
+│   │   ├── LoadingSpinner/
+│   │   └── [40+ other components]
+│   ├── auth/              # Authentication components
+│   │   ├── login/
+│   │   ├── signup/
+│   │   ├── forgot-password/
+│   │   └── reset-password/
+│   ├── header-sidebar/    # Layout components
+│   │   ├── header/
+│   │   └── sidebar/
+│   ├── bulk-import/       # Data import components
+│   │   └── BulkImportTemplate.tsx
+│   ├── cms/               # Content management
+│   ├── documents/         # Document management
+│   ├── users/             # User management
+│   ├── faq/               # FAQ components
+│   ├── profile/           # User profile
+│   ├── web/               # Public web components
+│   └── Icons/             # Icon components
+├── hooks/                 # Custom React hooks
+│   ├── auth.ts           # Authentication hooks
+│   ├── user.ts           # User management hooks
+│   ├── cms.ts            # CMS hooks
+│   ├── documents.ts      # Document hooks
+│   ├── faq.ts            # FAQ hooks
+│   ├── usePagination.ts  # Pagination utilities
+│   └── assets.ts         # Asset management
+├── services/             # API service layer
+│   ├── auth.ts          # Authentication API
+│   ├── user.ts          # User management API
+│   ├── cms.ts           # CMS API
+│   ├── documents.ts     # Document API
+│   └── faq.ts           # FAQ API
+├── types/               # TypeScript definitions
+│   ├── auth.ts         # Authentication types
+│   ├── ui.ts           # UI component types
+│   ├── cms.ts          # CMS types
+│   ├── documents.ts    # Document types
+│   ├── all.ts          # Global types
+│   └── index.ts        # Type exports
+├── utils/              # Utility functions
+│   ├── api.ts         # API client
+│   ├── cookieService.ts # Cookie management
+│   ├── deleteHandler.ts # Delete action handler
+│   ├── highlight.ts    # Text highlighting
+│   ├── mockApiClient.ts # Mock API client
+│   └── swal.ts        # Sweet Alert utilities
+├── constants/          # Application constants
+│   ├── index.ts       # General constants
+│   ├── regex.ts       # Regular expressions
+│   └── validation.ts  # Validation schemas
+├── locales/           # Internationalization
+│   ├── en/           # English translations
+│   │   ├── common.json
+│   │   ├── auth.json
+│   │   ├── dashboard.json
+│   │   ├── users.json
+│   │   ├── cms.json
+│   │   └── faq.json
+│   └── index.ts
+├── assets/           # Static assets
+│   └── images/
+│       └── logo-icon.svg
+└── stories/          # Storybook documentation
+    └── [component stories]
 ```
 
-**Why?**
-- Discoverability: Developers can easily find and reuse types.
-- Maintainability: Changes to types/interfaces are centralized.
-- Scalability: As your app grows, type management remains organized.
+## Key Directories Explained
 
-## Technology Stack
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript (strict mode)
-- **UI Libraries**: React Bootstrap, Ant Design, Radix UI
-- **State Management**: TanStack Query for server state
-- **Styling**: SCSS modules with Bootstrap
+### App Router Structure (`src/app/`)
+- **Route Groups**: Use parentheses for route organization without affecting URL
+  - `(auth)`: Authentication pages with shared layout
+  - `(view)`: Main application pages with dashboard layout
+  - `(web)`: Public-facing pages with different layout
+- **API Routes**: Next.js API endpoints in `api/` folder
+- **Nested Routes**: Feature-specific pages in their own folders
+
+### Component Organization (`src/components/`)
+- **Pure Components**: Completely reusable UI components with no business logic
+  - Generic, configurable components
+  - Storybook documentation
+  - SCSS modules for styling
+  - TypeScript interfaces for props
+- **Feature Components**: Business logic and feature-specific components
+  - Organized by domain (auth, cms, users, etc.)
+  - Use pure components for UI rendering
+  - Handle data fetching and state management
+
+### Hooks Pattern (`src/hooks/`)
+- **TanStack Query**: Server state management with caching
+- **Custom Business Logic**: Feature-specific hooks
+- **Reusable Utilities**: Pagination, form handling, etc.
+
+```typescript
+// Hook structure example
+export const useUsersQuery = (page: number, limit: number, search: string) => {
+  return useQuery({
+    queryKey: ['users', page, limit, search],
+    queryFn: () => userService.getUsers(page, limit, search),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+```
+
+### Service Layer (`src/services/`)
+- **API Communication**: Centralized API calls
+- **Data Transformation**: Handle API response formats
+- **Error Handling**: Consistent error management
+
+```typescript
+// Service structure example
+export const userService = {
+  getUsers: async (page: number, limit: number, search: string = "") => {
+    const res = await api.get<PaginatedResponse<User>>(`user?${params}`);
+    return res.data;
+  },
+  // ... other methods
+};
+```
+
+## Custom Types & Interfaces Organization
+- **Centralized Types**: Place shared types in `src/types/` by domain
+- **Component-Specific Types**: Local `types.ts` files for component-only types
+- **API Response Types**: Handle nested response structures consistently
+- **Import Strategy**: Always import from central types, not implementation files
+
+```typescript
+// src/types/auth.ts - Nested response structure
+export interface AuthResponse {
+  user: {
+    success: boolean;
+    data: User;
+  };
+  token: string;
+  refreshToken?: string;
+}
+
+// src/types/ui.ts - Generic UI types
+export interface UITableColumn<T = any> {
+  key: string;
+  title: string;
+  dataIndex?: string;
+  render?: (value: any, record: T, index: number) => React.ReactNode;
+}
+```
+
+## Data Flow Patterns
+
+### Page → Hook → Service → API
+```typescript
+// 1. Page component
+const UsersPage = () => {
+  const { data, isLoading } = useUsersQuery(page, limit, search);
+  const users = data?.data || []; // Handle nested response
+  // ...
+};
+
+// 2. Custom hook
+const useUsersQuery = (page, limit, search) => {
+  return useQuery({
+    queryKey: ['users', page, limit, search],
+    queryFn: () => userService.getUsers(page, limit, search),
+  });
+};
+
+// 3. Service layer
+const userService = {
+  getUsers: async (page, limit, search) => {
+    const res = await api.get<PaginatedResponse<User>>(`user?${params}`);
+    return res.data; // Return consistent format
+  },
+};
+```
+
+### Bulk Import Flow
+```typescript
+// 1. Import data validation
+const validateData = (data: any[]): { errors: ValidationError[]; valid: T[] } => {
+  // Validation logic
+};
+
+// 2. Data transformation
+const transformData = (importData: ImportType): ApiType => {
+  // Transform import format to API format
+};
+
+// 3. Bulk processing
+const importData = async (data: T[]): Promise<ImportResult> => {
+  // Process each item with error handling
+};
+```
+
+## Technology Stack Integration
+- **Framework**: Next.js 15 with App Router for routing and SSR
+- **Language**: TypeScript in strict mode for type safety
+- **UI Libraries**: React Bootstrap + custom SCSS modules
+- **State Management**: TanStack Query for server state, React state for UI
+- **Styling**: SCSS modules with CSS variables for theming
 - **Forms**: React Hook Form with Yup/Zod validation
-- **Internationalization**: next-intl
-- **Testing**: Storybook, Vitest, Playwright
+- **Internationalization**: next-intl with JSON translation files
+- **Testing**: Storybook for component docs, Vitest for unit tests
 
 ## Path Aliases
 - `@/*` maps to `src/*` for absolute imports
 - Always use absolute imports from `@/` instead of relative paths
-description:
-globs:
-alwaysApply: false
----
+- Consistent import organization in all files
+
+## File Naming Conventions
+- **Components**: PascalCase (e.g., `UserManagement.tsx`)
+- **Hooks**: camelCase with `use` prefix (e.g., `useUserQuery.ts`)
+- **Services**: camelCase (e.g., `userService.ts`)
+- **Types**: camelCase (e.g., `auth.ts`, `ui.ts`)
+- **Styles**: kebab-case with `.module.scss` (e.g., `user-card.module.scss`)
+- **Pages**: kebab-case for folders, `page.tsx` for files
+
+## Scalability Patterns
+- **Feature Modules**: Group related components, hooks, and types
+- **Shared Components**: Keep pure components truly reusable
+- **Type Safety**: Maintain strict TypeScript throughout
+- **API Consistency**: Standardize response handling patterns
+- **Code Splitting**: Use dynamic imports for large features
+- **Documentation**: Maintain Storybook for component library

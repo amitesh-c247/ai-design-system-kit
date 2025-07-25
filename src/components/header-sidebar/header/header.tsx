@@ -62,15 +62,15 @@ const Header = () => {
               <div className={styles.avatar}>
                 <User size={24} />
               </div>
-              <span className={styles.userName}>{user?.name || "User"}</span>
+              <span className={styles.userName}>{user?.data?.displayName || `${user?.data?.firstName || ''} ${user?.data?.lastName || ''}`.trim() || "User"}</span>
             </button>
 
             {isDropdownOpen && (
               <div className={styles.dropdown}>
                 <div className={styles.dropdownHeader}>
                   <div className={styles.userInfo}>
-                    <span className={styles.name}>{user?.name || "User"}</span>
-                    <span className={styles.email}>{user?.email}</span>
+                    <span className={styles.name}>{user?.data?.displayName || `${user?.data?.firstName || ''} ${user?.data?.lastName || ''}`.trim() || "User"}</span>
+                    <span className={styles.email}>{user?.data?.email}</span>
                   </div>
                 </div>
                 <div className={styles.dropdownDivider} />

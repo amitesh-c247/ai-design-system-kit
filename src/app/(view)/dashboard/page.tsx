@@ -22,14 +22,16 @@ const Dashboard = () => {
     return <LoadingSpinner fullScreen />;
   }
 
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated || !user || !user.data) {
     return null;
   }
+
+  const userData = user.data;
 
   return (
     <div className={`${styles.dashboardContainer}`}>
       <div className={styles.header}>
-        <h1>{t("welcome", { name: user.name || "User" })}</h1>
+        <h1>{t("welcome", { name: userData.displayName || `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || "User" })}</h1>
       </div>
       <div className={styles.content}>
         <div className={styles.card}>
@@ -38,16 +40,16 @@ const Dashboard = () => {
           <div className={styles.userInfo}>
             <h3>{t("yourInformation")}</h3>
             <p>
-              {t("email")}: {user.email}
+              {t("email")}: {userData.email}
             </p>
-            {user.first_name && (
+            {userData.first_name && (
               <p>
-                {t("firstName")}: {user.first_name}
+                {t("firstName")}: {userData.first_name}
               </p>
             )}
-            {user.last_name && (
+            {userData.last_name && (
               <p>
-                {t("lastName")}: {user.last_name}
+                {t("lastName")}: {userData.last_name}
               </p>
             )}
           </div>

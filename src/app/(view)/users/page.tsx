@@ -65,7 +65,7 @@ export default function UsersPage() {
 
   console.log("data  => ", data);
 
-  const users = data?.users || [];
+  const users = data?.data || [];
   const total = data?.total || 0;
   const { mutateAsync: createUser } = useCreateUserMutation();
   const { mutateAsync: deleteUser } = useDeleteUserMutation();
@@ -75,7 +75,7 @@ export default function UsersPage() {
   const handleDelete = (id: number) =>
     handleDeleteAction({
       id,
-      mutation: (id: string | number) => deleteUser(id),
+      mutation: (id: string | number) => deleteUser(typeof id === 'string' ? parseInt(id) : id),
       t,
       setToast,
     });
@@ -132,7 +132,7 @@ export default function UsersPage() {
             size="sm"
             className={`text-white ${styles.actionLink}`}
             tooltip={t("delete")}
-            onClick={() => handleDelete(record.id)}
+            onClick={() => handleDelete(Number(record.id))}
           />
         </div>
       ),
