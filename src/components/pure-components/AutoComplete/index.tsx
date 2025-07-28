@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState, useRef } from "react";
 import { Form, InputGroup, Dropdown } from "react-bootstrap";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -46,7 +45,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     const stringValue =
       typeof option.value === "string"
         ? option.value
-        : entities.find((item: any) => item.id === option.key)?.name;
+        : entities.find((item) => item.id === option.key)?.name;
 
     onChange?.({ key: option.key, value: stringValue });
     setSearchValue("");

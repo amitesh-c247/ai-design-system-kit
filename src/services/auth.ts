@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import { cookieService } from "@/utils/cookieService";
-import type { LoginCredentials, AuthResponse, User } from "@/types/auth";
+import type { LoginCredentials, AuthResponse } from "@/types/auth";
 import { ApiError } from "@/types";
 
 // ============================================================================
@@ -22,7 +22,7 @@ export const authService = {
         ENDPOINTS.LOGIN,
         credentials
       );
-      const { user, token } = response.data;
+      const { user, token } = response.data.data;
       console.log(response, user, "token  ", token);
       // Store token in cookies
       cookieService.set(
@@ -39,7 +39,7 @@ export const authService = {
       // Store user data in cookies
       cookieService.set(
         "user_data",
-        user,
+        { user },
         {
           expires: 7, // 7 days
           path: "/",
@@ -75,8 +75,8 @@ export const authService = {
         throw new Error("No token found");
       }
 
-      const response = await api.get<{ success: boolean; data: User }>(ENDPOINTS.ME);
-      return response.data;
+      const response = await api.get<AuthResponse["user"]>(ENDPOINTS.ME);
+      return response.data.data;
     } catch (error) {
       console.error("Get current user error:", error);
 

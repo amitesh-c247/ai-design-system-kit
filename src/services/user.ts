@@ -42,7 +42,7 @@ export const userService = {
     const res = await api.get<PaginatedResponse<User>>(
       `${BASE_PATH}?${params.toString()}`
     );
-    return res.data;
+    return res.data.data;
   },
   async getUser(id: number): Promise<User | undefined> {
     const res = await api.get<User>(ENDPOINTS.USER_BY_ID(id));

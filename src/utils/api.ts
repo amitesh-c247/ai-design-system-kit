@@ -40,7 +40,7 @@ const getAuthToken = (): string | null => {
     token: { token: string; expire: string };
   }>("auth_token");
   console.log("authData  ", authData);
-  return authData?.token?.token || null;
+  return authData?.token || null;
 };
 
 // Helper to set auth token

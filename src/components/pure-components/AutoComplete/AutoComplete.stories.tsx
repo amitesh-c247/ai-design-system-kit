@@ -26,11 +26,6 @@ const mockData = [
   { id: 10, name: 'Lemon' },
 ];
 
-const mockOptions = mockData.map(item => ({
-  label: item.name,
-  value: item.name.toLowerCase()
-}));
-
 const mockQueryFn = (options: any) => {
   return useQuery({
     queryKey: ['search', options],

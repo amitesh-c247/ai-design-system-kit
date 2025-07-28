@@ -2,7 +2,7 @@
 
 ## Service Layer Architecture
 - **Services**: Place in `src/services/` for API calls
-- **Hooks**: Place in `src/hooks/` for React state management with TanStack Query
+- **Hooks**: Place in `src/hooks/` for React state management
 - **Utils**: Place in `src/utils/api.ts` for base API client
 
 ## Base API Client
@@ -11,243 +11,112 @@ Use the centralized API client from [src/utils/api.ts](mdc:src/utils/api.ts) for
 ```typescript
 import { api } from '@/utils/api';
 
-// GET request with proper typing
-const data = await api.get<ResponseType>('/users/me');
+// GET request
+const data = await api.get<UserData>('/users/me');
 
-// POST request with nested response handling
-const response = await api.post<{ success: boolean; data: User }>('/users', userData);
+// POST request
+const response = await api.post<CreateUserResponse>('/users', userData);
 
 // PUT request
-const updated = await api.put<{ success: boolean; data: User }>('/users/123', updates);
+const updated = await api.put<UpdateUserResponse>('/users/123', updates);
 
 // DELETE request
 await api.delete('/users/123');
-```
-
-## Response Structure Patterns
-The API uses nested response structures. Handle both patterns consistently:
-
-```typescript
-// Pattern 1: Direct data response
-interface DirectResponse<T> {
-  data: T;
-}
-
-// Pattern 2: Nested success response
-interface NestedResponse<T> {
-  success: boolean;
-  data: T;
-}
-
-// Pattern 3: Paginated response
-interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
 ```
 
 ## Service Pattern
 ```typescript
 // src/services/userService.ts
 import { api } from '@/utils/api';
-import type { User } from '@/types/auth';
 
-export interface UserCreateRequest {
-  make: string;        // Maps to user name
-  short_code: string;  // Maps to user email
-  status: "ACTIVE" | "DISABLED";
+export interface User {
+  id: number;
+  name: string;
+  email: string;
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+export interface CreateUserData {
+  name: string;
+  email: string;
 }
 
 export const userService = {
-  // Get paginated users
-  getUsers: async (
-    page: number,
-    limit: number,
-    search: string = ""
-  ): Promise<PaginatedResponse<User>> => {
-    const params = new URLSearchParams({
-      page: String(page),
-      limit: String(limit),
-      ...(search ? { search } : {}),
-    });
-    const res = await api.get<PaginatedResponse<User>>(
-      `user?${params.toString()}`
-    );
-    return res.data; // Return the response directly
+  // Get all users
+  getUsers: async (): Promise<User[]> => {
+    const response = await api.get<User[]>('/users');
+    return response.data;
   },
 
   // Get single user
-  getUser: async (id: number): Promise<User | undefined> => {
-    const res = await api.get<User>(`user/${id}`);
-    return res.data;
+  getUser: async (id: number): Promise<User> => {
+    const response = await api.get<User>(`/users/${id}`);
+    return response.data;
   },
 
-  // Create user with data transformation
-  createUser: async (data: UserCreateRequest): Promise<User> => {
-    const res = await api.post<User>("user", data);
-    return res.data;
+  // Create user
+  createUser: async (data: CreateUserData): Promise<User> => {
+    const response = await api.post<User>('/users', data);
+    return response.data;
   },
 
   // Update user
-  updateUser: async (
-    id: number,
-    data: Partial<UserCreateRequest>
-  ): Promise<User | undefined> => {
-    const res = await api.put<User>(`user/${id}`, data);
-    return res.data;
+  updateUser: async (id: number, data: Partial<CreateUserData>): Promise<User> => {
+    const response = await api.put<User>(`/users/${id}`, data);
+    return response.data;
   },
 
   // Delete user
-  deleteUser: async (id: number): Promise<boolean> => {
-    await api.delete(`user/${id}`);
-    return true;
+  deleteUser: async (id: number): Promise<void> => {
+    await api.delete(`/users/${id}`);
   },
 };
 ```
 
 ## Hook Pattern with TanStack Query
 ```typescript
-// src/hooks/user.ts
+// src/hooks/useUsers.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { userService, UserCreateRequest } from '@/services/user';
-import type { User } from '@/types/auth';
+import { userService, User, CreateUserData } from '@/services/userService';
 
-// Query Keys
-const USER_QUERY_KEYS = {
-  USERS: 'users',
-  USER: (id: number) => ['users', id],
-} as const;
-
-// Get users with pagination
-export const useUsersQuery = (
-  page: number,
-  limit: number,
-  search: string = ""
-) => {
+export const useUsers = () => {
   return useQuery({
-    queryKey: [USER_QUERY_KEYS.USERS, page, limit, search],
-    queryFn: () => userService.getUsers(page, limit, search),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    queryKey: ['users'],
+    queryFn: userService.getUsers,
   });
 };
 
-// Create user mutation
-export const useCreateUserMutation = () => {
+export const useUser = (id: number) => {
+  return useQuery({
+    queryKey: ['users', id],
+    queryFn: () => userService.getUser(id),
+    enabled: !!id,
+  });
+};
+
+export const useCreateUser = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (data: UserCreateRequest) => userService.createUser(data),
+    mutationFn: userService.createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
-};
-
-// Delete user mutation
-export const useDeleteUserMutation = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: (id: number) => userService.deleteUser(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEYS.USERS] });
-    },
-  });
-};
-```
-
-## Data Transformation Patterns
-When importing or transforming data between different formats:
-
-```typescript
-// Example: Bulk import data transformation
-interface UserImportData {
-  name: string;
-  email: string;
-  status: number; // 0 = Active, 1 = Inactive
-}
-
-// Transform import data to API format
-const transformUserImportData = (importData: UserImportData): UserCreateRequest => ({
-  make: importData.name,
-  short_code: importData.email,
-  status: importData.status === 0 ? "ACTIVE" : "DISABLED"
-});
-
-// Use in bulk import
-const importUserData = async (data: UserImportData[]): Promise<ImportResult> => {
-  const results: ImportResult = { success: 0, failed: 0, errors: [] };
-
-  for (let i = 0; i < data.length; i++) {
-    try {
-      const userCreateData = transformUserImportData(data[i]);
-      await createUserMutation.mutateAsync(userCreateData);
-      results.success++;
-    } catch (error) {
-      results.failed++;
-      results.errors.push({
-        row: i + 2,
-        error: error instanceof Error ? error.message : "Unknown error",
-      });
-    }
-  }
-
-  return results;
-};
-```
-
-## Authentication API Patterns
-Handle nested auth responses properly:
-
-```typescript
-// Auth service with nested response structure
-export const authService = {
-  // Login returns nested user data
-  login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>("auth/login", credentials);
-    const { user, token } = response.data;
-    
-    // Store user data (nested structure)
-    cookieService.set("user_data", user, { expires: 7 });
-    return response.data;
-  },
-
-  // getCurrentUser returns nested structure
-  getCurrentUser: async (): Promise<AuthResponse["user"]> => {
-    const response = await api.get<{ success: boolean; data: User }>("auth/me");
-    return response.data; // Returns { success: boolean; data: User }
-  },
 };
 ```
 
 ## Error Handling
 - **Global error handler**: Use centralized error handling in API client
-- **Toast notifications**: Show user-friendly error messages using React Bootstrap Toast
+- **Toast notifications**: Show user-friendly error messages
 - **Loading states**: Handle loading and error states in components
 - **Retry logic**: Implement retry mechanisms for failed requests
-- **Type-safe errors**: Use proper error types for better debugging
 
 ## Authentication
-- **Token management**: Use cookie service for auth tokens with proper structure
+- **Token management**: Use cookie service for auth tokens
 - **Automatic headers**: API client adds auth headers automatically
 - **Token refresh**: Handle token expiration gracefully
 - **Protected routes**: Implement route protection middleware
-- **Nested user data**: Handle auth responses with nested user structure
-
-## Best Practices
-- **Response consistency**: Always handle both direct and nested response patterns
-- **Data transformation**: Create transformation functions for data mapping
-- **Query invalidation**: Properly invalidate queries after mutations
-- **Type safety**: Use proper TypeScript types for all API responses
-- **Error boundaries**: Implement error boundaries for API error handling
+description:
+globs:
+alwaysApply: false
+---

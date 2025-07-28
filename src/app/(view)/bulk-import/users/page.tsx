@@ -95,14 +95,7 @@ const BulkImportUsersPage = () => {
 
     for (let i = 0; i < data.length; i++) {
       try {
-        // Map UserImportData to UserCreateRequest format
-        const userCreateData = {
-          make: data[i].name,
-          short_code: data[i].email,
-          status: data[i].status === 0 ? "ACTIVE" : "DISABLED" as "ACTIVE" | "DISABLED"
-        };
-        
-        await createUserMutation.mutateAsync(userCreateData);
+        await createUserMutation.mutateAsync(data[i]);
         results.success++;
       } catch (error) {
         results.failed++;
@@ -127,7 +120,24 @@ const BulkImportUsersPage = () => {
     columns: [
       { title: "Name", dataIndex: "name", key: "name" },
       { title: "Email", dataIndex: "email", key: "email" },
-      { title: "Status", dataIndex: "status", key: "status" },
+      {
+        title: "Status",
+        dataIndex: "status",
+        key: "status",
+        render: (status: number) => (status === 0 ? "Active" : "Inactive"),
+      },
+      {
+        title: "Created At",
+        dataIndex: "createdAt",
+        key: "createdAt",
+        render: (date: string) => (date ? date : "-"),
+      },
+      {
+        title: "Updated At",
+        dataIndex: "updatedAt",
+        key: "updatedAt",
+        render: (date: string) => (date ? date : "-"),
+      },
     ],
     validateData: validateUserData,
     importData: importUserData,

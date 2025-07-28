@@ -4,13 +4,10 @@ export interface AutoCompleteOption {
 }
 
 export interface AutoCompleteProps {
-  queryFn: (params: any) => any;
-  value?: any;
-  onChange?: (value: any) => void;
-  onSearch?: (value: string) => void;
-  additionalFilters?: Record<string, any>;
+  options: AutoCompleteOption[];
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
-  footer?: React.ReactNode;
   disabled?: boolean;
   className?: string;
 }
