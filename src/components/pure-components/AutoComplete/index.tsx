@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Form, InputGroup, Dropdown } from "react-bootstrap";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import highlightText from "@/utils/highlight";
+import highlightText from "@/types/utils/highlight";
 import type { AutoCompleteOption, AutoCompleteProps } from "./types";
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -20,12 +20,14 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data: { content: entities = [] } = {} } = queryFn({
-    page: 0,
-    searchValue,
-    size: 10,
-    ...additionalFilters,
-  });
+  const { data: { content: entities = [] } = {} } = queryFn
+    ? queryFn({
+        page: 0,
+        searchValue,
+        size: 10,
+        ...additionalFilters,
+      })
+    : { data: { content: [] } };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,7 +47,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     const stringValue =
       typeof option.value === "string"
         ? option.value
-        : entities.find((item) => item.id === option.key)?.name;
+        : entities.find((item: any) => item.id === option.key)?.name;
 
     onChange?.({ key: option.key, value: stringValue });
     setSearchValue("");
@@ -57,7 +59,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   }, [value]);
 
   const options = entities
-    .map((entity) => ({
+    .map((entity: any) => ({
       key: entity.id,
       value: highlightText(entity.name, searchValue ?? ""),
     }))
@@ -98,7 +100,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         className="w-100"
         style={{ maxHeight: "300px", overflowY: "auto" }}
       >
-        {options.map((option) => (
+        {options.map((option: AutoCompleteOption) => (
           <Dropdown.Item
             key={option.key}
             onClick={() => onSelect(option)}

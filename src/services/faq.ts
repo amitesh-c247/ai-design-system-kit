@@ -1,4 +1,4 @@
-import { mockApiClient } from "@/utils/mockapi";
+import { mockApiClient } from "@/types/utils/mockapi";
 
 export interface Faq {
   id: string;

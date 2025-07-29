@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { Form, Button, Stack, Spinner } from "react-bootstrap";
 import { FetchNextPageOptions } from "@tanstack/react-query";
 import { Search } from "@/components/Icons";
-import highlightText from "@/utils/highlight";
+import highlightText from "@/types/utils/highlight";
 import FilterButton from "../FilterButton";
 import styles from "./styles.module.scss";
 

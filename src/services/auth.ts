@@ -1,6 +1,6 @@
-import { api } from "@/utils/api";
-import { cookieService } from "@/utils/cookieService";
-import type { LoginCredentials, AuthResponse } from "@/types/auth";
+import { api } from "@/types/utils/api";
+import { cookieService } from "@/types/utils/cookieService";
+import type { LoginCredentials, AuthResponse, User } from "@/types/auth";
 import { ApiError } from "@/types";
 
 // ============================================================================
@@ -22,24 +22,12 @@ export const authService = {
         ENDPOINTS.LOGIN,
         credentials
       );
-      const { user, token } = response.data.data;
-      console.log(response, user, "token  ", token);
+      console.log("resposnee => ", response);
+      const { token } = response.data.data;
       // Store token in cookies
       cookieService.set(
         "auth_token",
         { token },
-        {
-          expires: 7, // 7 days
-          path: "/",
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
-        }
-      );
-
-      // Store user data in cookies
-      cookieService.set(
-        "user_data",
-        { user },
         {
           expires: 7, // 7 days
           path: "/",
@@ -67,15 +55,18 @@ export const authService = {
   },
 
   // Get current user
-  getCurrentUser: async (): Promise<AuthResponse["user"]> => {
+  getCurrentUser: async (): Promise<User> => {
     try {
       const token = cookieService.get<string>("auth_token");
+      console.log("token", token);
 
       if (!token) {
         throw new Error("No token found");
       }
+      const response = await api.get<{ success: boolean; data: User }>(
+        ENDPOINTS.ME
+      );
 
-      const response = await api.get<AuthResponse["user"]>(ENDPOINTS.ME);
       return response.data.data;
     } catch (error) {
       console.error("Get current user error:", error);
@@ -88,7 +79,7 @@ export const authService = {
       }
 
       // For other errors (network issues, etc.), try to get user data from cookie as fallback
-      const userData = cookieService.get<AuthResponse["user"]>("user_data");
+      const userData = cookieService.get<User>("user_data");
       if (userData) {
         return userData;
       }

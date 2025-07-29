@@ -16,10 +16,10 @@ import { useTranslations } from "next-intl";
 import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { Trash2, Pencil, Search } from "lucide-react";
-import { handleDeleteAction } from "@/utils/deleteHandler";
+import { handleDeleteAction } from "@/types/utils/deleteHandler";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import ActionButton from "@/components/pure-components/ActionButton";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/types/utils/formatDate";
 
 // Update User type to match new user object
 type User = {
@@ -63,8 +63,6 @@ export default function UsersPage() {
     pagination.search
   );
 
-  console.log("data  => ", data);
-
   const users = data?.users || [];
   const total = data?.total || 0;
   const { mutateAsync: createUser } = useCreateUserMutation();
@@ -72,7 +70,7 @@ export default function UsersPage() {
   const { mutateAsync: updateUser } = useUpdateUserMutation();
   const [editId, setEditId] = useState<number | null>(null);
 
-  const handleDelete = (id: number) =>
+  const handleDelete = (id: string) =>
     handleDeleteAction({
       id,
       mutation: (id: string | number) => deleteUser(id),

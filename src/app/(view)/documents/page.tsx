@@ -18,7 +18,7 @@ import { useDocuments } from "@/hooks/documents";
 import { documentService } from "@/services/documents";
 import DocumentUploadModal from "@/components/documents/DocumentUploadModal";
 import { Document } from "@/types/documents";
-import { confirmDialog } from "@/utils/swal";
+import { confirmDialog } from "@/types/utils/swal";
 import styles from "./styles.module.scss";
 
 const DocumentsPage = () => {

@@ -3,7 +3,10 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { authService } from "@/services/auth";
 import { LoginCredentials } from "@/types/auth";
-import { setUnauthorizedHandler, clearUnauthorizedHandler } from "@/utils/api";
+import {
+  setUnauthorizedHandler,
+  clearUnauthorizedHandler,
+} from "@/types/utils/api";
 
 // ============================================================================
 // AUTH QUERY KEYS

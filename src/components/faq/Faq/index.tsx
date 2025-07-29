@@ -7,7 +7,7 @@ import Input from "@/components/pure-components/Form/Input";
 import TextArea from "@/components/pure-components/Form/Input/TextArea";
 import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
 import { type Faq as FaqType } from "@/services/faq";
-import { handleDeleteAction } from "@/utils/deleteHandler";
+import { handleDeleteAction } from "@/types/utils/deleteHandler";
 import {
   useFaqsQuery,
   useCreateFaqMutation,

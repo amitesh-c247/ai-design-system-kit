@@ -1,21 +1,18 @@
-import { api } from "@/utils/api";
+import { api } from "@/types/utils/api";
 import type { User } from "@/types/auth";
 
 // ============================================================================
 // TYPES
 // ============================================================================
 export interface PaginatedResponse<T> {
-  data: T[];
   total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+  users: T[];
 }
 
 export interface UserCreateRequest {
-  make: string;
-  short_code: string;
-  status: "ACTIVE" | "DISABLED";
+  name: string;
+  email: string;
+  status: number; // 0 = Active, 1 = Inactive
 }
 
 // ============================================================================
@@ -24,7 +21,7 @@ export interface UserCreateRequest {
 const BASE_PATH = "user";
 const ENDPOINTS = {
   ADD_UPDATE: BASE_PATH,
-  USER_BY_ID: (id: number) => `${BASE_PATH}/${id}`,
+  USER_BY_ID: (id: number | string) => `${BASE_PATH}/${id}`,
 };
 
 export const userService = {
@@ -39,9 +36,11 @@ export const userService = {
       limit: String(limit),
       ...(search ? { search } : {}),
     });
-    const res = await api.get<PaginatedResponse<User>>(
-      `${BASE_PATH}?${params.toString()}`
-    );
+    const res = await api.get<{
+      success: boolean;
+      message: string;
+      data: PaginatedResponse<User>;
+    }>(`${BASE_PATH}?${params.toString()}`);
     return res.data.data;
   },
   async getUser(id: number): Promise<User | undefined> {
@@ -60,7 +59,7 @@ export const userService = {
     const res = await api.put<User>(ENDPOINTS.USER_BY_ID(id), data);
     return res.data;
   },
-  async deleteUser(id: number): Promise<boolean> {
+  async deleteUser(id: string | number): Promise<boolean> {
     await api.delete<null>(ENDPOINTS.USER_BY_ID(id));
     return true;
   },
