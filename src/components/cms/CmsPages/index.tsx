@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Table from "@/components/pure-components/Table";
 import CardWrapper from "@/components/pure-components/CardWrapper";
-import { handleDeleteAction } from "@/utils/deleteHandler";
+import { handleDeleteAction } from "@/types/utils/deleteHandler";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { usePagesQuery, useDeletePageMutation } from "@/hooks/cms";
 import { useStandardPagination } from "@/hooks/usePagination";

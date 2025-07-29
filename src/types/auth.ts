@@ -32,6 +32,7 @@ export interface ChangePasswordCredentials {
 export interface User extends BaseEntity {
   id: number;
   email: string;
+  name: string;
   firstName: string;
   lastName: string;
   displayName: string;
@@ -65,13 +66,13 @@ export interface Permission extends BaseEntity {
 }
 
 export interface AuthResponse {
-  user: {
-    success: boolean;
-    data: User;
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    role: number;
+    isTwoAuthEnabled: boolean;
   };
-  token: string;
-  refreshToken?: string;
-  expiresIn?: number;
 }
 
 export interface AuthState {

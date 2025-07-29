@@ -37,10 +37,9 @@ const axiosInstance: AxiosInstance = axios.create({
 // Helper to get auth token
 const getAuthToken = (): string | null => {
   const authData = cookieService.get<{
-    token: { token: string; expire: string };
+    token: string;
   }>("auth_token");
-  console.log("authData  ", authData);
-  return authData?.token?.token || null;
+  return authData?.token || null;
 };
 
 // Helper to set auth token

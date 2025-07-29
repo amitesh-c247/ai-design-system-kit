@@ -27,6 +27,7 @@ export interface BulkImportColumn {
   title: string;
   dataIndex: string;
   key: string;
+  render?: (value: any, record?: any, index?: number) => React.ReactNode;
 }
 
 export interface BulkImportConfig<T> {

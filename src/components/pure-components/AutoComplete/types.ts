@@ -1,16 +1,20 @@
+import { UseQueryResult } from "@tanstack/react-query";
+
 export interface AutoCompleteOption {
-  label: string;
+  key: string | number;
+  label?: string;
   value: string;
 }
 
 export interface AutoCompleteProps {
-  queryFn: (params: any) => any;
-  value?: any;
-  onChange?: (value: any) => void;
+  queryFn?: (options: any) => UseQueryResult<any>;
+  options?: AutoCompleteOption[];
+  value?: { key: string | number; value: string };
+  onChange?: (value: { key: string | number; value: string }) => void;
   onSearch?: (value: string) => void;
   additionalFilters?: Record<string, any>;
   placeholder?: string;
-  footer?: React.ReactNode;
   disabled?: boolean;
   className?: string;
+  footer?: React.ReactNode;
 }

@@ -3,9 +3,14 @@
 ## Code Style
 - **Indentation**: 2 spaces
 - **Quotes**: Single quotes for strings
+# TypeScript Coding Standards
+
+## Code Style
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes for strings
 - **Semicolons**: Always required
 - **Trailing commas**: Use in objects and arrays
-- **Line length**: 80 characters max (flexible for complex types)
+- **Line length**: 80 characters max
 
 ## TypeScript Best Practices
 - **Strict mode**: Always enabled in [tsconfig.json](mdc:tsconfig.json)
@@ -13,7 +18,6 @@
 - **Types**: Use for unions, intersections, and complex types
 - **Generics**: Use for reusable components and functions
 - **Never use `any`**: Use `unknown` or proper typing instead
-- **Type suppression**: Use `// @ts-nocheck` sparingly, only for complex legacy components
 
 **Interface vs Type: When to Use Each**
 
@@ -32,61 +36,6 @@
 
 **Default:** Use `interface` for objects and props, `type` for everything else.
 
-## API Response Type Patterns
-
-### Nested Response Structure
-Handle APIs with nested success/data structure:
-
-```typescript
-// Base nested response type
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-}
-
-// Auth response with nested user
-interface AuthResponse {
-  user: {
-    success: boolean;
-    data: User;
-  };
-  token: string;
-  refreshToken?: string;
-  expiresIn?: number;
-}
-
-// Paginated response
-interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-```
-
-### Proper User Data Access
-When working with nested user data:
-
-```typescript
-// Component handling nested user structure
-const Dashboard: React.FC = () => {
-  const { user } = useAuth(); // Returns { success: boolean; data: User }
-  
-  // Safe access to nested user data
-  if (!user || !user.data) {
-    return <LoadingSpinner />;
-  }
-
-  const userData = user.data;
-  const displayName = userData.displayName || 
-    `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 
-    "User";
-
-  return <h1>Welcome, {displayName}!</h1>;
-};
-```
-
 ## Import/Export Standards
 - **Absolute imports**: Use `@/` prefix for src directory
 - **Named exports**: Prefer named exports over default exports
@@ -98,220 +47,45 @@ const Dashboard: React.FC = () => {
   5. Types and interfaces
   6. Styles
 
-```typescript
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { Button } from 'react-bootstrap';
-import { User, Trash2 } from 'lucide-react';
-
-import CardWrapper from '@/components/pure-components/CardWrapper';
-import { useAuth } from '@/hooks/auth';
-import { handleDeleteAction } from '@/utils/deleteHandler';
-import { VALIDATION_MESSAGES } from '@/constants';
-
-import type { User } from '@/types/auth';
-import type { ComponentProps } from '@/types/ui';
-
-import styles from './Component.module.scss';
-```
-
 ## Component Patterns
-
-### Props Interface with Proper Event Handling
-```typescript
-export interface ComponentNameProps {
-  // Required props
-  title: string;
-  
-  // Optional props with defaults
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
-  
-  // Event handlers with proper types
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  onChange?: (value: string) => void;
-  onDelete?: (id: number | string) => void;
-  
-  // Data props
-  data?: User[];
-  loading?: boolean;
-  
-  // Styling
-  className?: string;
-  
-  // Content
-  children?: React.ReactNode;
-}
-```
-
-### Data Transformation Functions
-```typescript
-// Type-safe data transformation
-type TransformFunction<TInput, TOutput> = (input: TInput) => TOutput;
-
-const transformUserImportData: TransformFunction<UserImportData, UserCreateRequest> = (
-  importData
-) => ({
-  make: importData.name,
-  short_code: importData.email,
-  status: importData.status === 0 ? "ACTIVE" : "DISABLED"
-});
-
-// Generic transformation utility
-const transformList = <TInput, TOutput>(
-  items: TInput[],
-  transform: TransformFunction<TInput, TOutput>
-): TOutput[] => items.map(transform);
-```
-
-## Form and Validation Types
-```typescript
-// Form data with validation
-interface UserFormData {
-  name: string;
-  email: string;
-  status: number;
-}
-
-// Validation error structure
-interface ValidationError {
-  row: number;
-  field: string;
-  message: string;
-  value: unknown;
-}
-
-// Import result interface
-interface ImportResult {
-  success: number;
-  failed: number;
-  errors: Array<{ row: number; error: string }>;
-}
-```
-
-## Hook Return Types
-```typescript
-// Custom hook with proper return type
-interface UseAuthReturn {
-  user: AuthResponse["user"] | null;
-  isLoadingUser: boolean;
-  isAuthenticated: boolean;
-  login: (credentials: LoginCredentials) => void;
-  logout: () => void;
-  isLoggingIn: boolean;
-  isLoggingOut: boolean;
-  loginError: Error | null;
-  userError: Error | null;
-}
-
-export const useAuth = (): UseAuthReturn => {
-  // Implementation
-};
-```
-
-## Table and UI Component Types
-```typescript
-// Table column definition
-interface UITableColumn<T = any> {
-  key: string;
-  title: string;
-  dataIndex?: string;
-  width?: number | string;
-  fixed?: "left" | "right";
-  sortable?: boolean;
-  filterable?: boolean;
-  render?: (value: any, record: T, index: number) => React.ReactNode;
-  align?: "left" | "center" | "right";
-}
-
-// Generic table props
-interface UITableProps<T = any> {
-  columns: UITableColumn<T>[];
-  data: T[];
-  loading?: boolean;
-  pagination?: {
-    current: number;
-    pageSize: number;
-    total: number;
-    onChange: (page: number, pageSize: number) => void;
-  };
-}
-```
-
-## Error Handling Types
-```typescript
-// API error structure
-interface ApiError extends Error {
-  status?: number;
-  code?: string;
-  details?: unknown;
-}
-
-// Component error boundary
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-}
-```
+- **Props interface**: Always define with `ComponentNameProps`
+- **Default props**: Provide sensible defaults
+- **Children prop**: Use `React.ReactNode` type
+- **Event handlers**: Use proper event types from React
 
 ## Example Component Structure
 ```typescript
 import React from 'react';
-import { Button as BootstrapButton } from 'react-bootstrap';
-import { Loader2 } from 'lucide-react';
-import styles from './Button.module.scss';
+import { ComponentName as BootstrapComponent } from 'react-bootstrap';
+import styles from './ComponentName.module.scss';
 
-export interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  loading?: boolean;
-  disabled?: boolean;
+export interface ComponentNameProps {
+  variant?: 'primary' | 'secondary';
   children?: React.ReactNode;
   className?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const ComponentName: React.FC<ComponentNameProps> = ({
   variant = 'primary',
-  size = 'md',
-  loading = false,
-  disabled = false,
   children,
   className = '',
   onClick,
 }) => {
-  const isDisabled = disabled || loading;
-
   return (
-    <BootstrapButton
+    <BootstrapComponent
       variant={variant}
-      size={size}
-      disabled={isDisabled}
-      className={`${styles.button} ${className}`}
+      className={`${styles.componentName} ${className}`}
       onClick={onClick}
     >
-      {loading && <Loader2 className={styles.spinner} size={16} />}
       {children}
-    </BootstrapButton>
+    </BootstrapComponent>
   );
 };
 
-export default Button;
+export default ComponentName;
 ```
-
-## Migration and Compatibility
-- **Gradual typing**: Migrate from `any` to proper types incrementally
-- **Type assertions**: Use sparingly and with caution
-- **Legacy components**: Use `// @ts-nocheck` for complex legacy components
-- **Type guards**: Implement proper type guards for runtime checks
-
-```typescript
-// Type guard example
-const isUser = (obj: unknown): obj is User => {
-  return typeof obj === 'object' && 
-         obj !== null && 
-         'id' in obj && 
-         'email' in obj;
-};
-```
+description:
+globs:
+alwaysApply: false
+---

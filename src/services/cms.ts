@@ -1,4 +1,4 @@
-import { mockApiClient } from "@/utils/mockapi";
+import { mockApiClient } from "@/types/utils/mockapi";
 import type { CMSPage } from "@/types/cms";
 
 // ============================================================================
