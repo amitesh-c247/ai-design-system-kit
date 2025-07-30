@@ -83,7 +83,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 0;
+  margin: 1rem 0 2rem;
 }
 
 .rememberMe {
@@ -173,8 +173,10 @@
 
 .passwordToggleBtn {
   position: absolute;
-  right: 12px;
-  top: 12px;
+  height: 100%;
+  width: 30px;
+  right: 0px;
+  top: 0px;
   background: none;
   border: none;
   padding: 0;

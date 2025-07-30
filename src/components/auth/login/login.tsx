@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
 import Input from "@/components/pure-components/Form/Input";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/pure-components/LoadingSpinner";
 import { EMAIL_REGEX } from "@/constants/regex";
 import { useTranslations } from "next-intl";
+import { Eye, EyeOff } from "@/components/pure-components/Icons";
 
 type LoginFormInputs = {
   email: string;
@@ -24,6 +25,8 @@ const Login = () => {
     useAuth();
   const router = useRouter();
   const t = useTranslations("auth.login");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -102,9 +105,10 @@ const Login = () => {
 
             <FormGroup>
               <FormLabel>{t("password.label")}</FormLabel>
+              <div className={styles.passwordInputWrapper}>
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password", {
                   required: t("password.required"),
                 })}
@@ -113,6 +117,18 @@ const Login = () => {
                 isInvalid={!!errors.password}
                 feedback={errors.password?.message}
               />
+              <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((v) => !v)}
+                  className={`${styles.passwordToggleBtn} ${
+                    showPassword ? styles.hidePassword : styles.showPassword
+                  }`}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+                </div>
             </FormGroup>
 
             <div className={styles.formFooter}>
@@ -129,7 +145,7 @@ const Login = () => {
                 {t("forgotPassword")}
               </a>
             </div>
-
+            <FormGroup>
             <Button
               variant="primary"
               type="submit"
@@ -138,8 +154,8 @@ const Login = () => {
             >
               {isLoggingIn ? t("submitting") : t("submit")}
             </Button>
+            </FormGroup>
           </Form>
-
           <p className={styles.signupText}>
             Don&apos;t have an account?{" "}
             <a href="/signup" className={styles.signupLink}>
