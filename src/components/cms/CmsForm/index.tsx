@@ -10,11 +10,11 @@ import {
 import dynamic from "next/dynamic";
 
 import { Controller } from "react-hook-form";
-import type { EditorJSData } from "@/components/pure-components/EditorJS";
+import TipTapEditor from "@/components/pure-components/TipTapEditor";
 
 export interface CmsFormValues {
   title: string;
-  content: any; // Can be string (for LINK) or EditorJSData (for TEXT)
+  content: any; // Can be string (for LINK) or HTML string (for TEXT)
   status: "PUBLISHED" | "DRAFT";
   is_agreement: 0 | 1;
   open_in_new_tab: 0 | 1;
@@ -29,88 +29,56 @@ interface CmsFormProps {
   isLoading?: boolean;
 }
 
-// EditorJS component loaded dynamically for better performance
-const EditorJS = dynamic(
-  () => import("@/components/pure-components/EditorJS"),
+const TipTap = dynamic(
+  () => import("@/components/pure-components/TipTapEditor"),
   {
     ssr: false,
   }
 );
 
-// Helper function to check if EditorJS data has meaningful content
-const hasEditorJSContent = (
-  data: EditorJSData | string | null | undefined
-): boolean => {
-  if (!data) return false;
-
-  // Handle string content (for LINK type or legacy data)
-  if (typeof data === "string") {
-    return data.trim() !== "";
+// Helper function to convert EditorJS format to HTML
+const convertEditorJSToHTML = (editorJSData: any): string => {
+  if (
+    !editorJSData ||
+    !editorJSData.blocks ||
+    !Array.isArray(editorJSData.blocks)
+  ) {
+    return "";
   }
 
-  // Handle EditorJS format
-  if (typeof data === "object" && data.blocks && Array.isArray(data.blocks)) {
-    return data.blocks.some((block: any) => {
-      if (!block || !block.data) return false;
-
+  return editorJSData.blocks
+    .map((block: any) => {
       switch (block.type) {
         case "paragraph":
-          return block.data.text && block.data.text.trim() !== "";
+          return `<p>${block.data.text || ""}</p>`;
         case "header":
-          return block.data.text && block.data.text.trim() !== "";
+          const level = block.data.level || 1;
+          return `<h${level}>${block.data.text || ""}</h${level}>`;
         case "list":
-          return (
-            block.data.items &&
-            Array.isArray(block.data.items) &&
-            block.data.items.some((item: string) => item && item.trim() !== "")
-          );
-        case "checklist":
-          return (
-            block.data.items &&
-            Array.isArray(block.data.items) &&
-            block.data.items.some(
-              (item: any) => item.text && item.text.trim() !== ""
-            )
-          );
+          const listType = block.data.style === "ordered" ? "ol" : "ul";
+          const items = block.data.items || [];
+          const listItems = items
+            .map((item: string) => `<li>${item}</li>`)
+            .join("");
+          return `<${listType}>${listItems}</${listType}>`;
         case "quote":
-          return block.data.text && block.data.text.trim() !== "";
-        case "warning":
-          return (
-            (block.data.title && block.data.title.trim() !== "") ||
-            (block.data.message && block.data.message.trim() !== "")
-          );
-        case "code":
-          return block.data.code && block.data.code.trim() !== "";
-        case "delimiter":
-          return true; // Delimiter is content by itself
+          return `<blockquote><p>${block.data.text || ""}</p></blockquote>`;
         case "image":
-          return block.data.url && block.data.url.trim() !== "";
-        case "embed":
-          return block.data.source && block.data.source.trim() !== "";
-        case "table":
-          return (
-            block.data.content &&
-            Array.isArray(block.data.content) &&
-            block.data.content.some((row: string[]) =>
-              row.some((cell: string) => cell && cell.trim() !== "")
-            )
-          );
+          return `<img src="${block.data.url || ""}" alt="${
+            block.data.caption || ""
+          }" />`;
+        case "code":
+          return `<pre><code>${block.data.code || ""}</code></pre>`;
         default:
-          return true; // For unknown block types, assume they have content
+          return `<p>${block.data.text || ""}</p>`;
       }
-    });
-  }
-
-  return false;
+    })
+    .join("");
 };
 
 const initialValues: Partial<CmsFormValues> = {
   title: "",
-  content: {
-    time: Date.now(),
-    blocks: [],
-    version: "2.28.2",
-  },
+  content: "",
   status: undefined,
   is_agreement: 0,
   open_in_new_tab: 0,
@@ -135,49 +103,30 @@ const CmsForm: React.FC<CmsFormProps> = ({
     clearErrors,
     trigger,
   } = useForm<CmsFormValues>({
-    defaultValues: defaultValues || initialValues,
+    defaultValues: initialValues,
   });
 
   useEffect(() => {
     if (defaultValues) {
       setFormValues<CmsFormValues>(defaultValues, initialValues, setValue);
 
-      // If content_type is TEXT and content is available, ensure it's properly formatted for EditorJS
+      // If content_type is TEXT and content is available, ensure it's properly formatted for TipTap
       if (defaultValues.content_type === "TEXT" && defaultValues.content) {
         let contentValue = defaultValues.content;
 
-        // If it's a string, try to parse it as JSON (for EditorJS format)
+        // If it's a string, try to parse it as JSON (for backward compatibility with EditorJS)
         if (typeof contentValue === "string") {
           try {
             const parsed = JSON.parse(contentValue);
-            // If it's EditorJS format, use it directly
+            // If it's EditorJS format, convert to HTML
             if (parsed && parsed.blocks && Array.isArray(parsed.blocks)) {
-              contentValue = parsed;
+              contentValue = convertEditorJSToHTML(parsed);
             } else {
-              // Convert plain text to EditorJS format
-              contentValue = {
-                time: Date.now(),
-                blocks: [
-                  {
-                    type: "paragraph",
-                    data: { text: parsed || contentValue },
-                  },
-                ],
-                version: "2.28.2",
-              };
+              contentValue = parsed;
             }
           } catch (e) {
-            // If parsing fails, treat as plain text and convert to EditorJS format
-            contentValue = {
-              time: Date.now(),
-              blocks: [
-                {
-                  type: "paragraph",
-                  data: { text: contentValue },
-                },
-              ],
-              version: "2.28.2",
-            };
+            // If parsing fails, treat as plain text
+            contentValue = contentValue;
           }
         }
 
@@ -198,55 +147,23 @@ const CmsForm: React.FC<CmsFormProps> = ({
 
       if (contentType === "TEXT") {
         const content = defaultValues?.content;
-        let parsedData = content || "";
+        let parsedText = content || "";
 
-        // Handle EditorJS format
+        // Handle EditorJS format for backward compatibility
         if (content && isValidJsonString(content)) {
           try {
             const parsed = JSON.parse(content);
             if (parsed && parsed.blocks && Array.isArray(parsed.blocks)) {
-              parsedData = parsed;
+              parsedText = convertEditorJSToHTML(parsed);
             } else {
-              // Convert plain text to EditorJS format
-              parsedData = {
-                time: Date.now(),
-                blocks: [
-                  {
-                    type: "paragraph",
-                    data: { text: parsed },
-                  },
-                ],
-                version: "2.28.2",
-              };
+              parsedText = parsed;
             }
           } catch (e) {
-            // Convert plain text to EditorJS format
-            parsedData = {
-              time: Date.now(),
-              blocks: [
-                {
-                  type: "paragraph",
-                  data: { text: content },
-                },
-              ],
-              version: "2.28.2",
-            };
+            parsedText = content;
           }
-        } else if (typeof content === "string" && content.trim()) {
-          // Convert plain text to EditorJS format
-          parsedData = {
-            time: Date.now(),
-            blocks: [
-              {
-                type: "paragraph",
-                data: { text: content },
-              },
-            ],
-            version: "2.28.2",
-          };
         }
 
-        setValue("content", parsedData);
+        setValue("content", parsedText);
       } else if (contentType === "LINK") {
         setValue("content", (defaultValues?.content as string) || "");
       }
@@ -278,10 +195,54 @@ const CmsForm: React.FC<CmsFormProps> = ({
     }
   };
 
-  // Handle content change for EditorJS
-  const handleEditorJSChange = (data: EditorJSData) => {
+  // Check if TipTap content has meaningful data
+  const hasTipTapContent = (data: any): boolean => {
+    if (!data) return false;
+
+    // Handle string content (HTML)
+    if (typeof data === "string") {
+      // Remove HTML tags and check if there's actual text content
+      const textContent = data.replace(/<[^>]*>/g, "").trim();
+      return textContent !== "";
+    }
+
+    // Handle EditorJS format for backward compatibility
+    if (typeof data === "object" && data.blocks && Array.isArray(data.blocks)) {
+      return data.blocks.some((block: any) => {
+        if (!block || !block.data) return false;
+
+        switch (block.type) {
+          case "paragraph":
+            return block.data.text && block.data.text.trim() !== "";
+          case "header":
+            return block.data.text && block.data.text.trim() !== "";
+          case "list":
+            return (
+              block.data.items &&
+              Array.isArray(block.data.items) &&
+              block.data.items.some(
+                (item: string) => item && item.trim() !== ""
+              )
+            );
+          case "quote":
+            return block.data.text && block.data.text.trim() !== "";
+          case "image":
+            return block.data.url && block.data.url.trim() !== "";
+          case "code":
+            return block.data.code && block.data.code.trim() !== "";
+          default:
+            return true; // For unknown block types, assume they have content
+        }
+      });
+    }
+
+    return false;
+  };
+
+  // Handle content change for TipTap
+  const handleTipTapChange = (data: any) => {
     // Clear errors when user has valid content
-    if (hasEditorJSContent(data) && errors.content) {
+    if (hasTipTapContent(data) && errors.content) {
       clearErrors("content");
     }
   };
@@ -344,21 +305,20 @@ const CmsForm: React.FC<CmsFormProps> = ({
                   );
                 }
 
-                // For TEXT (EditorJS) content
-                return hasEditorJSContent(value) || t("form.contentRequired");
+                // For TEXT (TipTap) content
+                return hasTipTapContent(value) || t("form.contentRequired");
               },
             }}
             render={({ field, fieldState }) => (
-              <EditorJS
-                data={field.value || undefined}
-                onChange={(data: EditorJSData) => {
-                  field.onChange(data);
-                  handleEditorJSChange(data);
-                }}
-                placeholder="Type / for commands"
+              <TipTapEditor
+                name="content"
+                defaultValue={field.value || ""}
                 isInvalid={!!fieldState.error}
-                error={fieldState.error?.message}
-                minHeight={300}
+                feedback={fieldState.error?.message}
+                onChange={(data) => {
+                  field.onChange(data);
+                  handleTipTapChange(data);
+                }}
               />
             )}
           />
