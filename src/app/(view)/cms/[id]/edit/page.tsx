@@ -98,13 +98,11 @@ export default function CmsEditPage() {
 
   if (loading)
     return (
-      <CardWrapper title={t("editCms")}>
         <div className="d-flex justify-content-center p-4">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      </CardWrapper>
     );
 
   if (error)
@@ -190,7 +188,7 @@ export default function CmsEditPage() {
   };
 
   return (
-    <CardWrapper title={t("editCms")}>
+    <>
       <CmsForm
         onSubmit={handleFormSubmit}
         defaultValues={defaultValues}
@@ -216,6 +214,6 @@ export default function CmsEditPage() {
           </Toast.Body>
         </Toast>
       </ToastContainer>
-    </CardWrapper>
+    </>
   );
 }

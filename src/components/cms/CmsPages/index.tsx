@@ -12,7 +12,6 @@ import { useStandardPagination } from "@/hooks/usePagination";
 
 import type { CMSPage } from "@/types/cms";
 import { Pencil, Trash2, Search } from "lucide-react";
-import styles from "./styles.module.scss";
 
 const CmsPagesComponent: React.FC = () => {
   const tCommon = useTranslations("common");

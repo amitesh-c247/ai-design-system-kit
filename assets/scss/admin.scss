@@ -31,13 +31,15 @@ textarea.form-control {
 }
 
 .btn {
-  padding: 12px;
+  padding: 10px;
 
   &:focus {
     box-shadow: none !important;
   }
 }
-
+.min-width-100 {
+  min-width: 100px;
+}
 form {
   .form-control.is-invalid,
   .was-validated .form-control:invalid {

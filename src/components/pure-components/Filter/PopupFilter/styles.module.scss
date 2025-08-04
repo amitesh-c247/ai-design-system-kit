@@ -17,6 +17,7 @@
 
   &::-webkit-scrollbar {
     width: 6px;
+    background-color: var(--white);
   }
 
   &::-webkit-scrollbar-track {
@@ -38,4 +39,4 @@
   border-top: 1px solid var(--bs-gray-200);
   padding-top: 16px;
   margin-top: 16px;
-} 
+}
