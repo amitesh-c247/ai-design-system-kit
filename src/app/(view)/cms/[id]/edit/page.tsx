@@ -3,51 +3,12 @@
 import React, { useEffect, useState } from "react";
 import CmsForm from "@/components/cms/CmsForm";
 import type { CmsFormValues } from "@/components/cms/CmsForm";
+import type { EditorJSData } from "@/components/pure-components/EditorJS";
 import { cmsService, type CMSPage } from "@/services/cms";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import { Toast, ToastContainer } from "react-bootstrap";
-
-// Helper function to convert EditorJS format to HTML
-const convertEditorJSToHTML = (editorJSData: any): string => {
-  if (
-    !editorJSData ||
-    !editorJSData.blocks ||
-    !Array.isArray(editorJSData.blocks)
-  ) {
-    return "";
-  }
-
-  return editorJSData.blocks
-    .map((block: any) => {
-      switch (block.type) {
-        case "paragraph":
-          return `<p>${block.data.text || ""}</p>`;
-        case "header":
-          const level = block.data.level || 1;
-          return `<h${level}>${block.data.text || ""}</h${level}>`;
-        case "list":
-          const listType = block.data.style === "ordered" ? "ol" : "ul";
-          const items = block.data.items || [];
-          const listItems = items
-            .map((item: string) => `<li>${item}</li>`)
-            .join("");
-          return `<${listType}>${listItems}</${listType}>`;
-        case "quote":
-          return `<blockquote><p>${block.data.text || ""}</p></blockquote>`;
-        case "image":
-          return `<img src="${block.data.url || ""}" alt="${
-            block.data.caption || ""
-          }" />`;
-        case "code":
-          return `<pre><code>${block.data.code || ""}</code></pre>`;
-        default:
-          return `<p>${block.data.text || ""}</p>`;
-      }
-    })
-    .join("");
-};
 
 export default function CmsEditPage() {
   const t = useTranslations("cms");
@@ -137,13 +98,11 @@ export default function CmsEditPage() {
 
   if (loading)
     return (
-      <CardWrapper title={t("editCms")}>
         <div className="d-flex justify-content-center p-4">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      </CardWrapper>
     );
 
   if (error)
@@ -165,21 +124,57 @@ export default function CmsEditPage() {
     );
 
   // Convert page data to form format
-  // Parse content if it's a JSON string (for backward compatibility with EditorJS)
-  let parsedContent = page.content;
+  // Parse content if it's a JSON string (EditorJS format)
+  let parsedContent: EditorJSData | string = page.content;
   try {
     // Check if content is a JSON string and parse it
     if (typeof page.content === "string" && page.content.startsWith("{")) {
       const parsed = JSON.parse(page.content);
-      // If it's EditorJS format, convert to HTML
+      // If it's EditorJS format, use it directly
       if (parsed && parsed.blocks && Array.isArray(parsed.blocks)) {
-        parsedContent = convertEditorJSToHTML(parsed);
-      } else {
         parsedContent = parsed;
+      } else {
+        // Convert plain text to EditorJS format
+        parsedContent = {
+          time: Date.now(),
+          blocks: [
+            {
+              type: "paragraph",
+              data: { text: parsed || page.content },
+            },
+          ],
+          version: "2.28.2",
+        };
       }
+    } else if (typeof page.content === "string" && page.content.trim()) {
+      // Convert plain text to EditorJS format
+      parsedContent = {
+        time: Date.now(),
+        blocks: [
+          {
+            type: "paragraph",
+            data: { text: page.content },
+          },
+        ],
+        version: "2.28.2",
+      };
     }
   } catch (e) {
-    console.warn("Failed to parse content as JSON, using as string:", e);
+    console.warn(
+      "Failed to parse content as JSON, converting to EditorJS format:",
+      e
+    );
+    // Convert plain text to EditorJS format as fallback
+    parsedContent = {
+      time: Date.now(),
+      blocks: [
+        {
+          type: "paragraph",
+          data: { text: page.content || "" },
+        },
+      ],
+      version: "2.28.2",
+    };
   }
 
   const defaultValues: Partial<CmsFormValues> = {
@@ -193,7 +188,7 @@ export default function CmsEditPage() {
   };
 
   return (
-    <CardWrapper title={t("editCms")}>
+    <>
       <CmsForm
         onSubmit={handleFormSubmit}
         defaultValues={defaultValues}
@@ -219,6 +214,6 @@ export default function CmsEditPage() {
           </Toast.Body>
         </Toast>
       </ToastContainer>
-    </CardWrapper>
+    </>
   );
 }

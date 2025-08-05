@@ -1,4 +1,5 @@
-# Next.js 15 Admin Theme
+
+# Next.js 15 Admin Dashboard Theme
 
 A modern, scalable admin dashboard template built with [Next.js 15](https://nextjs.org/), [React-Bootstrap](https://react-bootstrap.netlify.app/), TypeScript, and SCSS Modules. This project uses the App Router and a modular folder structure for maintainability and extensibility.
 

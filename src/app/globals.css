@@ -20,7 +20,7 @@
     --input: #e5e7eb;
     --ring: #171717;
     --radius: 0.5rem;
-    --bg-dark: #f1f5f9;
+    --bg-dark: #f9f9f9;
     --surface-dark: #ffffff;
     --light-gray: #f2f4f6;
     --success: #22c55e;
@@ -400,13 +400,13 @@ body {
     .tiptap-toolbar .d-flex {
         flex-wrap: wrap;
     }
-    
+
     .tiptap-toolbar .btn {
         margin: 1px;
         padding: 0.25rem 0.5rem;
         font-size: 0.8rem;
     }
-    
+
     .tiptap-font-controls select {
         min-width: 80px;
         font-size: 0.8rem;
@@ -446,4 +446,3 @@ body {
     z-index: 1000;
     margin-bottom: 0.25rem;
 }
-

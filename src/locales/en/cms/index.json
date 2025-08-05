@@ -10,6 +10,7 @@
   "pageTitle": "Page Name/Title",
   "slug": "Slug",
   "content": "Content",
+  "contentPlaceholder": "Start writing your content...",
   "contentType": "Page Type",
   "status": "Status",
   "metaTitle": "Meta Title",
