@@ -2,27 +2,15 @@
 
 ## Form Libraries
 - **React Hook Form**: Primary form library for state management
-- **Yup/Zod**: Schema validation libraries
 - **@hookform/resolvers**: Integration between React Hook Form and validation
 
 ## Form Component Pattern
 ```typescript
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Button } from '@/components/pure-components/Button';
 import { Input } from '@/components/pure-components/Form/Input';
 import styles from './UserForm.module.scss';
-
-// Validation schema
-const userSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(8, 'Password must be at least 8 characters'),
-});
-
-type UserFormData = yup.InferType<typeof userSchema>;
 
 interface UserFormProps {
   onSubmit: (data: UserFormData) => void;
@@ -41,7 +29,6 @@ const UserForm: React.FC<UserFormProps> = ({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<UserFormData>({
-    resolver: yupResolver(userSchema),
     defaultValues: initialData,
   });
 
@@ -94,59 +81,14 @@ const UserForm: React.FC<UserFormProps> = ({
 export default UserForm;
 ```
 
-## Validation Patterns
-
-### Yup Schema Example
-```typescript
-import * as yup from 'yup';
-
-export const loginSchema = yup.object({
-  email: yup
-    .string()
-    .email('Please enter a valid email')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Password is required'),
-});
-
-export const userProfileSchema = yup.object({
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  phone: yup.string().matches(/^\+?[\d\s-]+$/, 'Invalid phone number'),
-  avatar: yup.mixed().test('fileSize', 'File too large', (value) => {
-    if (!value) return true;
-    return value.size <= 5000000; // 5MB
-  }),
-});
-```
-
-### Zod Schema Example
-```typescript
-import { z } from 'zod';
-
-export const userSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email'),
-  age: z.number().min(18, 'Must be at least 18 years old'),
-  website: z.string().url('Invalid URL').optional(),
-});
-
-export type UserFormData = z.infer<typeof userSchema>;
-```
-
 ## Form Hook Pattern
 ```typescript
 // src/hooks/useUserForm.ts
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema, UserFormData } from '@/constants/validation';
 
 export const useUserForm = (initialData?: Partial<UserFormData>) => {
   return useForm<UserFormData>({
-    resolver: zodResolver(userSchema),
     defaultValues: initialData,
     mode: 'onBlur', // Validate on blur
   });
