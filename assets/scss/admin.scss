@@ -159,23 +159,23 @@ form {
   min-height: calc(100vh - 260px);
 }
 
-.btn-primary {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  &:active,
-  &:hover,
-  &:focus,
-  &:focus-visible {
-    background-color: var(--primary-foreground) !important;
-    border-color: var(--primary-foreground) !important;
-  }
+// .btn-primary {
+//   background-color: var(--primary);
+//   border-color: var(--primary);
+//   &:active,
+//   &:hover,
+//   &:focus,
+//   &:focus-visible {
+//     background-color: var(--primary-foreground) !important;
+//     border-color: var(--primary-foreground) !important;
+//   }
 
-  &:disabled,
-  &.disabled {
-    background-color: var(--primary);
-    border-color: var(--primary);
-  }
-}
+//   &:disabled,
+//   &.disabled {
+//     background-color: var(--primary);
+//     border-color: var(--primary);
+//   }
+// }
 
 .btn-outline-primary {
   background-color: transparent;
