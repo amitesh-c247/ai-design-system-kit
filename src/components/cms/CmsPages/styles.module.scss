@@ -1,47 +1,46 @@
-@use '../../../../assets/scss/variables' as *;
-
+@use "@/assets/scss/variables.scss" as *;
 .cmsContainer {
   .statusBadge {
     font-size: $font-size-sm;
     font-weight: $font-weight-normal;
-    padding: 0.25rem 0.5rem;
+    padding: $spacer * 0.25 $spacer * 0.5;
     border-radius: $border-radius-sm;
-    
+
     &.published {
       background-color: $success;
-      color: $white;
+      color: $light;
     }
-    
+
     &.draft {
       background-color: $warning;
-      color: $black;
+      color: $dark;
     }
-    
+
     &.archived {
       background-color: $secondary;
-      color: $white;
+      color: $light;
     }
   }
-  
+
   .slugCode {
     font-family: monospace;
     background-color: $gray-100;
-    padding: 0.125rem 0.25rem;
+    padding: $spacer * 0.125 $spacer * 0.25;
     border-radius: $border-radius-sm;
     font-size: $font-size-sm;
     color: $gray-800;
   }
-  
+
   .actionButtons {
     display: flex;
     gap: $spacer * 0.25;
-    
+
     .btn {
       font-size: $font-size-sm;
-      padding: 0.25rem 0.5rem;
+      padding: $spacer * 0.25 $spacer * 0.5;
     }
   }
-  
+
   .loadingContainer {
     display: flex;
     justify-content: center;
@@ -49,56 +48,121 @@
     padding: $spacer * 2;
     min-height: 200px;
   }
-  
+
   .errorAlert {
     margin-bottom: $spacer;
     border-radius: $border-radius;
+    background-color: $danger;
+    color: $light;
+    padding: $spacer;
   }
-  
+
   .modalForm {
     .formRow {
       margin-bottom: $spacer;
     }
-    
+
     .formGroup {
       margin-bottom: $spacer;
     }
-    
+
     .formLabel {
       font-weight: $font-weight-bold;
       margin-bottom: $spacer * 0.25;
+      color: $body-color;
     }
-    
+
     .formControl {
       border-radius: $border-radius;
       border: 1px solid $gray-400;
-      
+      background-color: $light;
+      color: $body-color;
+
       &:focus {
         border-color: $primary;
         box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+        outline: none;
+      }
+
+      &:disabled {
+        background-color: $gray-200;
+        opacity: 0.65;
+        cursor: not-allowed;
       }
     }
-    
+
     .formText {
       font-size: $font-size-sm;
       color: $gray-600;
       margin-top: $spacer * 0.25;
     }
-    
+
     .urlPreview {
       font-family: monospace;
       background-color: $gray-100;
-      padding: 0.25rem 0.5rem;
+      padding: $spacer * 0.25 $spacer * 0.5;
       border-radius: $border-radius-sm;
       font-size: $font-size-sm;
       color: $gray-700;
     }
   }
-  
+
   .toastContainer {
     position: fixed;
-    top: 1rem;
-    right: 1rem;
+    top: $spacer;
+    right: $spacer;
     z-index: 1050;
   }
-} 
+}
+
+// ---------------------------
+// Dark mode
+// ---------------------------
+.dark {
+  .cmsContainer {
+    .statusBadge {
+      &.published,
+      &.archived {
+        color: $dark;
+      }
+      &.draft {
+        color: $light;
+      }
+    }
+
+    .slugCode,
+    .modalForm .urlPreview {
+      background-color: $dark-body-bg;
+      color: $light;
+    }
+
+    .modalForm .formControl {
+      background-color: $dark;
+      border-color: $secondary;
+      color: $light;
+
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+      }
+    }
+
+    .modalForm .formLabel,
+    .modalForm .formText {
+      color: $light;
+    }
+
+    .errorAlert {
+      background-color: darken($danger, 10%);
+      color: $light;
+    }
+
+    .actionButtons .btn {
+      color: $light;
+    }
+
+    .loadingContainer {
+      background-color: $dark;
+    }
+  }
+}

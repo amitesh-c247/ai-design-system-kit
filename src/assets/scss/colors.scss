@@ -1,0 +1,14 @@
+@include generate-color-utilities($theme-colors);
+
+// Dark theme overrides
+[data-bs-theme="dark"], .dark {
+  --bs-body-color: #{$dark-body-color};
+  --bs-body-bg: #{$dark-body-bg};
+  --bs-text-color: #{map-get($dark-theme-colors, text)};
+  --bs-border-color: #{map-get($dark-theme-colors, border)};
+  @each $name, $value in $dark-theme-colors {
+    --bs-#{$name}: #{$value};
+    --bs-btn-#{$name}-bg: #{$value};
+    --bs-btn-#{$name}-color: #{map-get($dark-theme-colors, text)};
+  }
+}

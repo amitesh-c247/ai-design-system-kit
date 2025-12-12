@@ -1,0 +1,88 @@
+// Flexbox mixins
+@mixin flex-center($direction: row, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}
+
+@mixin flex-between($direction: row, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap;
+}
+
+@mixin flex-start($direction: row, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: start;
+  gap: $gap;
+}
+
+@mixin flex-end($direction: row, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: end;
+  gap: $gap;
+}
+
+// Size mixin
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// src/assets/scss/mixins.scss
+
+// Form control colors mixin
+@mixin form-control-colors($bg, $color, $border, $focus-border, $focus-color) {
+  background-color: $bg !important;
+  color: $color !important;
+  border-color: $border !important;
+
+  &:focus {
+    border-color: $focus-border !important;
+    color: $focus-color !important;
+    box-shadow: 0 0 0 0.25rem rgba($focus-border, 0.25);
+  }
+}
+
+// Color utility generator
+@mixin generate-color-utilities($colors-map) {
+  @each $name, $value in $colors-map {
+    .text-#{$name} { color: #{$value} !important; }
+    .bg-#{$name} { background-color: #{$value} !important; }
+    .border-#{$name} { border-color: #{$value} !important; }
+  }
+}
+
+// Typography utility generator
+@mixin generate-typography($sizes-map, $weights-map) {
+  @each $name, $size in $sizes-map { .fs-#{$name} { font-size: $size !important; } }
+  @each $name, $weight in $weights-map { .fw-#{$name} { font-weight: $weight !important; } }
+}
+
+// Border radius utility generator
+@mixin generate-border-radius($radii-map) {
+  @each $name, $radius in $radii-map { .rounded-#{$name} { border-radius: $radius !important; } }
+}
+
+// Spacing utility generator
+@mixin generate-spacing($spacers-map, $breakpoints: ()) {
+  @each $key, $value in $spacers-map {
+    .m-#{$key} { margin: $value !important; }
+    .p-#{$key} { padding: $value !important; }
+
+    @each $bp-name, $bp-value in $breakpoints {
+      @media (min-width: $bp-value) {
+        .m-#{$bp-name}-#{$key} { margin: $value !important; }
+        .p-#{$bp-name}-#{$key} { padding: $value !important; }
+      }
+    }
+  }
+}

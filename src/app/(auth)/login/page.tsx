@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import LoginForm from '@/components/auth/login/login';
-import styles from './styles.module.scss';
 
 export const metadata: Metadata = {
   title: 'Login | Admin Dashboard',

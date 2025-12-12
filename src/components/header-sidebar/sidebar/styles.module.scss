@@ -1,27 +1,33 @@
+@use "@/assets/scss/variables.scss" as *;
+
 // Variables
 $sidebar-width: 260px;
 $sidebar-collapsed-width: 80px;
 $mobile-breakpoint: 768px;
 $transition-duration: 0.3s;
+
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: $sidebar-width;
-  background-color: var(--surface-dark);
-  border-right: 1px solid var(--border);
+  background-color: $light;
+  border-right: 1px solid $border-color;
   transition: width $transition-duration ease;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1rem;
+  padding: map-get($spacers, 3) map-get($spacers, 2);
+
   &.collapsed {
     width: $sidebar-collapsed-width;
   }
+
   @media (max-width: $mobile-breakpoint) {
     transform: translateX(-100%);
     width: $sidebar-width;
+
     &.mobileOpen {
       transform: translateX(0);
     }
@@ -31,40 +37,44 @@ $transition-duration: 0.3s;
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
-  margin-bottom: 2rem;
+  gap: map-get($spacers, 1.5);
+  padding: map-get($spacers, 1);
+  margin-bottom: map-get($spacers, 4);
+
   h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--foreground);
+    font-size: map-get($font-sizes, xxl);
+    font-weight: map-get($font-weights, medium);
+    color: $body-color;
     white-space: nowrap;
   }
+
   span {
-    font-size: 1rem;
-    color: var(--muted-foreground);
+    font-size: map-get($font-sizes, md);
+    color: $secondary;
     white-space: nowrap;
   }
 }
 
 .toggleButton {
   position: absolute;
-  top: 1.5rem;
+  top: map-get($spacers, 3);
   right: -12px;
   width: 24px;
   height: 24px;
-  background-color: var(--surface-dark);
-  border: 1px solid var(--border);
+  background-color: $dark;
+  border: 1px solid $border-color;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--foreground);
+  color: $body-color;
   transition: background-color 0.2s;
+
   &:hover {
-    background-color: var(--muted);
+    background-color: $secondary;
   }
+
   @media (max-width: $mobile-breakpoint) {
     display: none;
   }
@@ -73,26 +83,28 @@ $transition-duration: 0.3s;
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: map-get($spacers, 1);
   flex: 1;
 }
 
 .navItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  color: var(--foreground);
+  gap: map-get($spacers, 1);
+  padding: map-get($spacers, 2) map-get($spacers, 2);
+  border-radius: map-get($border-radii, lg);
+  color: $body-color;
   text-decoration: none;
   transition: background-color 0.2s;
   white-space: nowrap;
+
   &:hover {
-    background-color: var(--muted);
+    background-color: $secondary;
   }
+
   &.active {
-    background-color: var(--primary);
-    color: var(--white);
+    background-color: $primary;
+    color: $light;
   }
 }
 
@@ -104,21 +116,22 @@ $transition-duration: 0.3s;
 }
 
 .label {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: map-get($font-sizes, sm);
+  font-weight: map-get($font-weights, medium);
 }
 
 .mobileMenuButton {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: map-get($spacers, 2);
+  left: map-get($spacers, 2);
   z-index: 1001;
   background: none;
   border: none;
-  color: var(--foreground);
+  color: $body-color;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: map-get($spacers, 1);
   display: none;
+
   @media (max-width: $mobile-breakpoint) {
     display: block;
   }
@@ -140,7 +153,7 @@ $transition-duration: 0.3s;
 
 // Accordion Styles
 .accordionItem {
-  margin-bottom: 0.25rem;
+  margin-bottom: map-get($spacers, 1);
 }
 
 .accordionHeader {
@@ -149,42 +162,42 @@ $transition-duration: 0.3s;
   border: none;
   cursor: pointer;
   position: relative;
-  
+
   &:hover {
-    background-color: var(--muted);
+    background-color: $secondary;
   }
 }
 
 .chevron {
   margin-left: auto;
   transition: transform 0.2s ease;
-  
+
   &.open {
     transform: rotate(180deg);
   }
 }
 
 .accordionContent {
-  margin-left: 1rem;
-  border-left: 2px solid var(--muted);
-  padding-left: 0.5rem;
-  margin-top: 0.25rem;
+  margin-left: map-get($spacers, 2);
+  border-left: 2px solid $secondary;
+  padding-left: map-get($spacers, 1);
+  margin-top: map-get($spacers, 1);
 }
 
 .subItem {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8rem;
-  
+  padding: map-get($spacers, 1) map-get($spacers, 1.5);
+  font-size: map-get($font-sizes, xs);
+
   .icon {
     min-width: 20px;
   }
-  
+
   &:hover {
-    background-color: var(--muted);
+    background-color: $secondary;
   }
-  
+
   &.active {
-    background-color: var(--primary);
-    color: var(--white);
+    background-color: $primary;
+    color: $light;
   }
 }

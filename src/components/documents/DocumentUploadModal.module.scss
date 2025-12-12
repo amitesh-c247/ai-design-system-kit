@@ -1,3 +1,5 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -9,339 +11,331 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: $spacer;
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
+  background: $light;
+  border-radius: $border-radius;
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
   overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    
+    padding: $spacer * 1.5;
+    border-bottom: 1px solid $gray-300;
+
     h3 {
       margin: 0;
       font-size: 1.25rem;
-      font-weight: 600;
-      color: #111827;
+      font-weight: $font-weight-semibold;
+      color: $body-color;
     }
-    
+
     .closeButton {
       background: none;
       border: none;
-      padding: 0.5rem;
-      border-radius: 6px;
+      padding: $spacer * 0.5;
+      border-radius: $border-radius-sm;
       cursor: pointer;
-      color: #6b7280;
+      color: $gray-600;
       transition: all 0.2s ease;
-      
+
       &:hover:not(:disabled) {
-        background-color: #f3f4f6;
-        color: #374151;
+        background-color: $gray-100;
+        color: $body-color;
       }
-      
+
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
       }
     }
   }
-  
+
   .content {
-    padding: 1.5rem;
-    
+    padding: $spacer * 1.5;
+
     .dropZone {
-      border: 2px dashed #d1d5db;
-      border-radius: 8px;
-      padding: 2rem;
+      border: 2px dashed $gray-300;
+      border-radius: $border-radius;
+      padding: $spacer * 2;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
-      margin-bottom: 1.5rem;
-      
+      margin-bottom: $spacer * 1.5;
+
       &:hover {
-        border-color: #3b82f6;
-        background-color: #f8fafc;
+        border-color: $primary;
+        background-color: $light;
       }
-      
+
       &.dragActive {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
+        border-color: $primary;
+        background-color: lighten($primary, 40%);
       }
-      
+
       &.hasFile {
-        border-color: #10b981;
-        background-color: #f0fdf4;
+        border-color: $success;
+        background-color: lighten($success, 40%);
       }
-      
+
       .hiddenInput {
         display: none;
       }
-      
+
       .dropZoneContent {
         .uploadIcon {
-          color: #6b7280;
-          margin-bottom: 1rem;
+          color: $gray-600;
+          margin-bottom: $spacer;
         }
-        
+
         .dropText {
-          font-size: 1rem;
-          color: #374151;
-          margin-bottom: 0.5rem;
-          font-weight: 500;
+          font-size: $font-size-base;
+          color: $body-color;
+          margin-bottom: $spacer * 0.5;
+          font-weight: $font-weight-medium;
         }
-        
+
         .supportedTypes {
-          font-size: 0.875rem;
-          color: #6b7280;
-          margin-bottom: 0.25rem;
+          font-size: $font-size-sm;
+          color: $gray-600;
+          margin-bottom: $spacer * 0.25;
         }
-        
+
         .maxSize {
-          font-size: 0.75rem;
-          color: #9ca3af;
+          font-size: $font-size-xs;
+          color: $gray-400;
         }
       }
-      
+
       .selectedFile {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        
+        gap: $spacer;
+
         .fileIcon {
-          color: #3b82f6;
+          color: $primary;
           flex-shrink: 0;
         }
-        
+
         .fileInfo {
           text-align: left;
-          
+
           .fileName {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #111827;
-            margin-bottom: 0.25rem;
+            font-size: $font-size-base;
+            font-weight: $font-weight-medium;
+            color: $body-color;
+            margin-bottom: $spacer * 0.25;
           }
-          
+
           .fileSize {
-            font-size: 0.875rem;
-            color: #6b7280;
+            font-size: $font-size-sm;
+            color: $gray-600;
           }
         }
       }
     }
-    
+
     .descriptionSection {
-      margin-bottom: 1.5rem;
-      
+      margin-bottom: $spacer * 1.5;
+
       .label {
         display: block;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #374151;
-        margin-bottom: 0.5rem;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        color: $body-color;
+        margin-bottom: $spacer * 0.5;
       }
-      
+
       .textarea {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 0.875rem;
+        padding: $spacer * 0.75;
+        border: 1px solid $gray-300;
+        border-radius: $border-radius;
+        font-size: $font-size-sm;
         resize: vertical;
         min-height: 80px;
         transition: border-color 0.2s ease;
-        
+        color: $body-color;
+        background-color: $light;
+
         &:focus {
           outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          border-color: $primary;
+          box-shadow: 0 0 0 3px rgba($primary, 0.1);
         }
-        
+
         &::placeholder {
-          color: #9ca3af;
+          color: $gray-400;
         }
-        
+
         &:disabled {
-          background-color: #f9fafb;
+          background-color: $gray-100;
           cursor: not-allowed;
         }
       }
     }
-    
+
     .progressSection {
-      margin-bottom: 1.5rem;
-      
+      margin-bottom: $spacer * 1.5;
+
       .progressBar {
         width: 100%;
         height: 8px;
-        background-color: #e5e7eb;
+        background-color: $gray-300;
         border-radius: 4px;
         overflow: hidden;
-        margin-bottom: 0.5rem;
-        
+        margin-bottom: $spacer * 0.5;
+
         .progressFill {
           height: 100%;
-          background-color: #3b82f6;
+          background-color: $primary;
           transition: width 0.3s ease;
         }
       }
-      
+
       .progressText {
-        font-size: 0.875rem;
-        color: #6b7280;
+        font-size: $font-size-sm;
+        color: $gray-600;
         text-align: center;
       }
     }
-    
+
     .errorMessage {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      background-color: #fef2f2;
-      border: 1px solid #fecaca;
-      border-radius: 6px;
-      color: #dc2626;
-      font-size: 0.875rem;
-      margin-bottom: 1.5rem;
+      gap: $spacer * 0.5;
+      padding: $spacer * 0.75;
+      background-color: $danger;
+      border: 1px solid darken($danger, 10%);
+      border-radius: $border-radius-sm;
+      color: $light;
+      font-size: $font-size-sm;
+      margin-bottom: $spacer * 1.5;
     }
   }
-  
+
   .footer {
     display: flex;
     justify-content: flex-end;
-    gap: 0.75rem;
-    padding: 1.5rem;
-    border-top: 1px solid #e5e7eb;
-    background-color: #f9fafb;
+    gap: $spacer * 0.75;
+    padding: $spacer * 1.5;
+    border-top: 1px solid $gray-300;
+    background-color: lighten($light, 5%);
+
+    button {
+      min-width: 100px;
+    }
   }
 }
 
 // Dark mode support
-@media (prefers-color-scheme: dark) {
+.dark {
   .modal {
-    background: #1f2937;
-    
+    background: $dark;
     .header {
-      border-bottom-color: #374151;
-      
+      border-bottom-color: $gray-600;
       h3 {
-        color: #f9fafb;
+        color: $light;
       }
-      
       .closeButton {
-        color: #9ca3af;
-        
+        color: $gray-400;
         &:hover:not(:disabled) {
-          background-color: #374151;
-          color: #d1d5db;
+          background-color: $gray-600;
+          color: $light;
         }
       }
     }
-    
+
     .content {
       .dropZone {
-        border-color: #4b5563;
-        
+        border-color: $gray-600;
+        background-color: $dark;
         &:hover {
-          border-color: #3b82f6;
-          background-color: #1e293b;
+          border-color: $primary;
+          background-color: darken($dark, 5%);
         }
-        
         &.dragActive {
-          background-color: #1e3a8a;
+          background-color: darken($primary, 40%);
         }
-        
         &.hasFile {
-          border-color: #10b981;
-          background-color: #064e3b;
+          border-color: $success;
+          background-color: darken($success, 30%);
         }
-        
+
         .dropZoneContent {
           .uploadIcon {
-            color: #9ca3af;
+            color: $gray-400;
           }
-          
           .dropText {
-            color: #d1d5db;
+            color: $light;
           }
-          
           .supportedTypes {
-            color: #9ca3af;
+            color: $gray-400;
           }
-          
           .maxSize {
-            color: #6b7280;
+            color: $gray-500;
           }
         }
-        
+
         .selectedFile {
           .fileInfo {
             .fileName {
-              color: #f9fafb;
+              color: $light;
             }
-            
             .fileSize {
-              color: #9ca3af;
+              color: $gray-400;
             }
           }
         }
       }
-      
+
       .descriptionSection {
         .label {
-          color: #d1d5db;
+          color: $light;
         }
-        
         .textarea {
-          background-color: #374151;
-          border-color: #4b5563;
-          color: #f9fafb;
-          
+          background-color: $gray-700;
+          border-color: $gray-600;
+          color: $light;
           &:focus {
-            border-color: #3b82f6;
+            border-color: $primary;
           }
-          
           &::placeholder {
-            color: #6b7280;
+            color: $gray-500;
           }
-          
           &:disabled {
-            background-color: #1f2937;
+            background-color: $gray-800;
           }
         }
       }
-      
+
       .progressSection {
         .progressBar {
-          background-color: #374151;
+          background-color: $gray-600;
         }
-        
         .progressText {
-          color: #9ca3af;
+          color: $gray-400;
         }
       }
-      
+
       .errorMessage {
-        background-color: #450a0a;
-        border-color: #dc2626;
-        color: #fca5a5;
+        background-color: darken($danger, 20%);
+        border-color: $danger;
+        color: $light;
       }
     }
-    
+
     .footer {
-      border-top-color: #374151;
-      background-color: #111827;
+      border-top-color: $gray-600;
+      background-color: $gray-800;
     }
   }
 }
@@ -349,41 +343,31 @@
 // Mobile responsiveness
 @media (max-width: 640px) {
   .modalOverlay {
-    padding: 0.5rem;
+    padding: $spacer * 0.5;
   }
-  
   .modal {
     max-width: 100%;
-    
     .header {
-      padding: 1rem;
-      
+      padding: $spacer;
       h3 {
         font-size: 1.125rem;
       }
     }
-    
     .content {
-      padding: 1rem;
-      
+      padding: $spacer;
       .dropZone {
-        padding: 1.5rem;
-        
-        .dropZoneContent {
-          .dropText {
-            font-size: 0.875rem;
-          }
+        padding: $spacer * 1.5;
+        .dropZoneContent .dropText {
+          font-size: $font-size-sm;
         }
       }
     }
-    
     .footer {
-      padding: 1rem;
+      padding: $spacer;
       flex-direction: column;
-      
       button {
         width: 100%;
       }
     }
   }
-} 
+}

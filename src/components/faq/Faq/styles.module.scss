@@ -1,16 +1,56 @@
-.faq-bootstrap-container {
+@use "@/assets/scss/variables.scss" as *;
+.faq-container {
   max-width: 700px;
   margin: 0 auto;
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
-  border-radius: 16px;
+  background: $light; // Use your light theme variable
+  color: $body-color; // Use your body text color
+  border-radius: $border-radius-lg;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: $spacer * 2;
 }
 
 .faqList {
   background: transparent;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .faqItem {
   background: transparent;
+  border-bottom: 1px solid $gray-300;
+  padding: $spacer;
+  transition: background-color 0.2s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.active {
+    background-color: lighten($primary, 45%);
+  }
+
+  .faqQuestion {
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    color: $body-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  .faqAnswer {
+    margin-top: $spacer * 0.5;
+    font-size: $font-size-sm;
+    color: $gray-700;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
 }

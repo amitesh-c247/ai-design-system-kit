@@ -1,3 +1,9 @@
+@use "@/assets/scss/variables.scss" as *;
+
+// ---------------------------
+// Link Styles
+// ---------------------------
+
 .link {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
@@ -6,45 +12,46 @@
   gap: 0.5rem;
 
   &.tertiary {
-    color: var(--bs-primary);
-    font-weight: 500;
+    color: $primary;
+    font-weight: map-get($font-weights, medium);
 
     &:hover {
-      color: var(--bs-primary-hover);
+      color: map-get($theme-colors, info);
       text-decoration: underline;
     }
   }
 
   &.standalone {
-    color: var(--bs-primary);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: var(--bs-border-radius);
-    background-color: var(--bs-primary-bg-subtle);
+    color: $primary;
+    font-weight: map-get($font-weights, medium);
+    padding: map-get($spacers, 2) map-get($spacers, 4);
+    border-radius: map-get($border-radii, sm);
+    background-color: map-get($theme-colors, primary);
+    opacity: 0.1;
 
     &:hover {
-      color: var(--bs-primary-hover);
-      background-color: var(--bs-primary-bg-subtle-hover);
+      color: $primary;
+      background-color: map-get($theme-colors, info);
       text-decoration: none;
     }
   }
 
   &.inline {
-    color: var(--bs-body-color);
-    font-weight: normal;
+    color: $body-color;
+    font-weight: map-get($font-weights, normal);
 
     &:hover {
-      color: var(--bs-primary);
+      color: $primary;
       text-decoration: underline;
     }
   }
 
   &.inlineIcon {
-    color: var(--bs-primary);
-    font-weight: normal;
+    color: $primary;
+    font-weight: map-get($font-weights, normal);
 
     &:hover {
-      color: var(--bs-primary-hover);
+      color: map-get($theme-colors, info);
       text-decoration: none;
     }
   }
@@ -53,31 +60,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem;
-    font-weight: 500;
+    padding: map-get($spacers, 2) map-get($spacers, 4);
+    font-weight: map-get($font-weights, medium);
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    // border: 1px solid transparent;
-    border-radius: var(--bs-border-radius);
+    border-radius: map-get($border-radii, sm);
     transition: all 0.2s ease-in-out;
-    background-color: var(--bs-primary);
-    color: var(--bs-white);
+    background-color: $primary;
+    color: $light;
 
     &:hover {
-      background-color: var(--bs-primary-hover);
-      color: var(--bs-white);
+      background-color: map-get($theme-colors, info);
+      color: $light;
       text-decoration: none;
     }
 
     &:focus {
       outline: 0;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
     }
 
     &:active {
-      background-color: var(--bs-primary-active);
+      background-color: map-get($theme-colors, dark);
     }
 
     &.disabled {
@@ -90,5 +96,33 @@
     opacity: 0.65;
     pointer-events: none;
     cursor: not-allowed;
+  }
+}
+
+// ---------------------------
+// Dark Mode
+// ---------------------------
+
+.dark {
+  .link {
+    &.tertiary,
+    &.inline,
+    &.inlineIcon {
+      color: $light;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    &.standalone,
+    &.button {
+      color: $light;
+      background-color: $primary;
+
+      &:hover {
+        background-color: $info;
+      }
+    }
   }
 }

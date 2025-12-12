@@ -1,0 +1,23 @@
+// 1. Variables
+@use "./variables.scss" as *;
+
+// 2. Bootstrap functions/mixins/variables/core
+@import "./bootstrap-custom.scss";
+
+// 3. Mixins
+@import "./mixins.scss";
+
+// 4. Globals (body, placeholders, etc.)
+@import "./global.scss";
+
+// 5. Colors and utilities
+@import "./colors.scss";
+
+// 6. Admin specific styles
+@import "./admin.scss";
+
+// 7. Generate utilities
+@include generate-color-utilities($theme-colors);
+@include generate-typography($font-sizes, $font-weights);
+@include generate-border-radius($border-radii);
+@include generate-spacing($spacers, $breakpoints);
