@@ -3,8 +3,8 @@
 .faq-container {
   max-width: 700px;
   margin: 0 auto;
-  background: var(--bs-body-bg); // uses current theme background
-  color: var(--bs-body-color); // uses current theme text
+  background: var(--bs-body-bg); // auto-switch with theme
+  color: var(--bs-body-color); // auto-switch with theme text
   border-radius: map-get($border-radii, lg);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   padding: map-get($spacers, 2);
@@ -28,7 +28,10 @@
   }
 
   &.active {
-    background-color: rgba(var(--bs-primary-rgb, 0,0,0), 0.15); // lightened primary in theme
+    background-color: rgba(
+      var(--bs-primary-rgb, 0, 0, 0),
+      0.15
+    ); // lightened primary color
   }
 
   .faqQuestion {
@@ -47,7 +50,7 @@
   .faqAnswer {
     margin-top: map-get($spacers, 0.5);
     font-size: map-get($font-sizes, sm);
-    color: var(--bs-gray-700, #374151);
+    color: var(--bs-gray-700); // uses theme gray
     display: none;
 
     &.show {

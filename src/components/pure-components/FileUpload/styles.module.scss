@@ -1,3 +1,6 @@
+@use "@/assets/scss/variables" as *;
+
+// File upload container
 .fileUpload {
   width: 100%;
 }
@@ -5,28 +8,29 @@
 .uploadContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: map-get($spacers, 3);
 }
 
 .label {
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 4px;
+  font-weight: map-get($font-weights, medium);
+  color: var(--bs-text);
+  margin-bottom: map-get($spacers, 0.5);
 }
 
 .required {
-  color: #e74c3c;
-  margin-left: 2px;
+  color: var(--danger);
+  margin-left: map-get($spacers, 0.25);
 }
 
+// Drop zone
 .dropZone {
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
-  padding: 32px 16px;
+  border: 2px dashed var(--border);
+  border-radius: map-get($border-radii, lg);
+  padding: map-get($spacers, 8) map-get($spacers, 2);
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  background-color: #f9fafb;
+  background-color: var(--body-bg);
   position: relative;
   min-height: 120px;
   display: flex;
@@ -34,23 +38,23 @@
   justify-content: center;
 
   &:hover {
-    border-color: #3b82f6;
-    background-color: #f0f9ff;
+    border-color: var(--primary);
+    background-color: var(--gray-light-1);
   }
 
   &:focus-within {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb, 59, 130, 246), 0.25);
   }
 
   &.disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background-color: #f3f4f6;
+    background-color: var(--gray-light-2);
 
     &:hover {
-      border-color: #d1d5db;
-      background-color: #f3f4f6;
+      border-color: var(--border);
+      background-color: var(--gray-light-2);
     }
   }
 }
@@ -65,48 +69,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: map-get($spacers, 2);
 }
 
 .uploadIcon {
   font-size: 32px;
-  margin-bottom: 8px;
+  margin-bottom: map-get($spacers, 2);
 }
 
 .dropText {
-  color: #6b7280;
+  color: var(--gray-dark-2);
   margin: 0;
 }
 
 .fileTypes,
 .fileSize {
-  color: #9ca3af;
+  color: var(--gray-dark-1);
   margin: 0;
-  font-size: 12px;
+  font-size: map-get($font-sizes, xs);
 }
 
+// Selected files container
 .selectedFiles {
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 12px;
-  background-color: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: map-get($border-radii, md);
+  padding: map-get($spacers, 3);
+  background-color: var(--light);
 }
 
 .filesTitle {
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 8px;
+  font-weight: map-get($font-weights, medium);
+  color: var(--text);
+  margin-bottom: map-get($spacers, 2);
 }
 
+// File item
 .fileItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  margin-bottom: 8px;
+  padding: map-get($spacers, 2) map-get($spacers, 3);
+  background-color: var(--light);
+  border: 1px solid var(--border);
+  border-radius: map-get($border-radii, sm);
+  margin-bottom: map-get($spacers, 2);
 
   &:last-child {
     margin-bottom: 0;
@@ -116,37 +122,36 @@
 .fileInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: map-get($spacers, 0.25);
   flex: 1;
   min-width: 0;
 }
 
 .fileName {
-  color: #111827;
-  font-weight: 500;
+  color: var(--body-color);
+  font-weight: map-get($font-weights, medium);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
 }
 
+// Remove button
 .removeButton {
+  @include flex-center();
   min-width: 24px;
   height: 24px;
   padding: 0;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
+  color: var(--gray-dark-1);
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f3f4f6;
-    color: #e74c3c;
+    background-color: var(--gray-light-1);
+    color: var(--danger);
   }
 
   &:disabled {
@@ -155,20 +160,21 @@
   }
 }
 
+// Upload section & button
 .uploadSection {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: map-get($spacers, 2);
 }
 
 .uploadButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  font-weight: 500;
-  border-radius: 6px;
+  gap: map-get($spacers, 2);
+  padding: map-get($spacers, 3) map-get($spacers, 6);
+  font-weight: map-get($font-weights, medium);
+  border-radius: map-get($border-radii, md);
   transition: all 0.2s ease;
   border: none;
   cursor: pointer;
@@ -179,30 +185,32 @@
   }
 }
 
+// Progress bar
 .progressBar {
   width: 100%;
   height: 4px;
-  background-color: #e5e7eb;
+  background-color: var(--border);
   border-radius: 2px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background-color: #3b82f6;
+  background-color: var(--primary);
   transition: width 0.3s ease;
 }
 
+// Error text
 .error {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-top: 4px;
+  color: var(--danger);
+  font-size: map-get($font-sizes, xs);
+  margin-top: map-get($spacers, 0.5);
 }
 
-// Responsive design
+// Responsive
 @media (max-width: 768px) {
   .dropZone {
-    padding: 24px 12px;
+    padding: map-get($spacers, 6) map-get($spacers, 1);
     min-height: 100px;
   }
 
@@ -211,179 +219,14 @@
   }
 
   .dropText {
-    font-size: 14px;
+    font-size: map-get($font-sizes, sm);
   }
 
   .fileItem {
-    padding: 6px 8px;
+    padding: map-get($spacers, 1.5) map-get($spacers, 2);
   }
 
   .uploadButton {
-    padding: 10px 20px;
+    padding: map-get($spacers, 2.5) map-get($spacers, 5);
   }
 }
-
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .label {
-    color: #e5e7eb;
-  }
-
-  .dropZone {
-    border-color: #4b5563;
-    background-color: #1f2937;
-
-    &:hover {
-      border-color: #3b82f6;
-      background-color: #1e3a8a;
-    }
-  }
-
-  .dropText {
-    color: #9ca3af;
-  }
-
-  .fileTypes,
-  .fileSize {
-    color: #6b7280;
-  }
-
-  .selectedFiles {
-    border-color: #4b5563;
-    background-color: #1f2937;
-  }
-
-  .filesTitle {
-    color: #e5e7eb;
-  }
-
-  .fileItem {
-    background-color: #374151;
-    border-color: #4b5563;
-  }
-
-  .fileName {
-    color: #e5e7eb;
-  }
-
-  .removeButton {
-    color: #9ca3af;
-
-    &:hover {
-      background-color: #4b5563;
-      color: #ef4444;
-    }
-  }
-
-  .progressBar {
-    background-color: #4b5563;
-  }
-}
-
-// Example component styles
-.exampleContainer {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-.exampleTitle {
-  margin-bottom: 16px;
-  color: #111827;
-}
-
-.exampleDescription {
-  margin-bottom: 32px;
-  color: #6b7280;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.formSection {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #f9fafb;
-}
-
-.sectionTitle {
-  margin-bottom: 16px;
-  color: #374151;
-}
-
-.formActions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-start;
-  margin-top: 24px;
-}
-
-.submitButton,
-.resetButton {
-  min-width: 120px;
-}
-
-.codeExample {
-  margin-top: 48px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.codeTitle {
-  padding: 16px 20px;
-  margin: 0;
-  background-color: #f3f4f6;
-  border-bottom: 1px solid #e5e7eb;
-  color: #374151;
-}
-
-.codeBlock {
-  padding: 20px;
-  margin: 0;
-  background-color: #1f2937;
-  color: #e5e7eb;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  overflow-x: auto;
-  white-space: pre-wrap;
-}
-
-// Dark mode for example
-@media (prefers-color-scheme: dark) {
-  .exampleTitle {
-    color: #e5e7eb;
-  }
-
-  .exampleDescription {
-    color: #9ca3af;
-  }
-
-  .formSection {
-    border-color: #4b5563;
-    background-color: #1f2937;
-  }
-
-  .sectionTitle {
-    color: #e5e7eb;
-  }
-
-  .codeExample {
-    border-color: #4b5563;
-  }
-
-  .codeTitle {
-    background-color: #374151;
-    border-bottom-color: #4b5563;
-    color: #e5e7eb;
-  }
-
-  .codeBlock {
-    background-color: #111827;
-  }
-} 

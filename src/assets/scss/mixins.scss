@@ -55,34 +55,61 @@
 // Color utility generator
 @mixin generate-color-utilities($colors-map) {
   @each $name, $value in $colors-map {
-    .text-#{$name} { color: #{$value} !important; }
-    .bg-#{$name} { background-color: #{$value} !important; }
-    .border-#{$name} { border-color: #{$value} !important; }
+    .text-#{$name} {
+      color: #{$value} !important;
+    }
+    .bg-#{$name} {
+      background-color: #{$value} !important;
+    }
+    .border-#{$name} {
+      border-color: #{$value} !important;
+    }
   }
 }
 
 // Typography utility generator
 @mixin generate-typography($sizes-map, $weights-map) {
-  @each $name, $size in $sizes-map { .fs-#{$name} { font-size: $size !important; } }
-  @each $name, $weight in $weights-map { .fw-#{$name} { font-weight: $weight !important; } }
+  @each $name, $size in $sizes-map {
+    .fs-#{$name} {
+      font-size: $size !important;
+    }
+  }
+  @each $name, $weight in $weights-map {
+    .fw-#{$name} {
+      font-weight: $weight !important;
+    }
+  }
 }
 
 // Border radius utility generator
 @mixin generate-border-radius($radii-map) {
-  @each $name, $radius in $radii-map { .rounded-#{$name} { border-radius: $radius !important; } }
+  @each $name, $radius in $radii-map {
+    .rounded-#{$name} {
+      border-radius: $radius !important;
+    }
+  }
 }
 
 // Spacing utility generator
 @mixin generate-spacing($spacers-map, $breakpoints: ()) {
   @each $key, $value in $spacers-map {
-    .m-#{$key} { margin: $value !important; }
-    .p-#{$key} { padding: $value !important; }
+    .m-#{$key} {
+      margin: $value !important;
+    }
+    .p-#{$key} {
+      padding: $value !important;
+    }
 
     @each $bp-name, $bp-value in $breakpoints {
       @media (min-width: $bp-value) {
-        .m-#{$bp-name}-#{$key} { margin: $value !important; }
-        .p-#{$bp-name}-#{$key} { padding: $value !important; }
+        .m-#{$bp-name}-#{$key} {
+          margin: $value !important;
+        }
+        .p-#{$bp-name}-#{$key} {
+          padding: $value !important;
+        }
       }
     }
   }
 }
+

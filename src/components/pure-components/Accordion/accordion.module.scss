@@ -1,3 +1,5 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .faq-accordion-root {
   display: flex;
   flex-direction: column;
@@ -7,22 +9,22 @@
 
 .faq-accordion-item {
   border-radius: map-get($border-radii, lg);
-  background: var(--bs-light);
+  background: var(--bs-light); // theme-aware background
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.2s, background 0.2s, border 0.2s;
-  border: 1px solid var(--bs-border-color);
+  border: 1px solid var(--bs-border-color); // theme-aware border
   overflow: hidden;
   position: relative;
-}
 
-.faq-accordion-item.open {
-  background: var(--bs-secondary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--bs-border-color);
-}
+  &.open {
+    background: var(--bs-secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--bs-border-color);
+  }
 
-.faq-accordion-item.highlight {
-  border: 1px solid var(--bs-border-color);
+  &.highlight {
+    border: 1px solid var(--bs-border-color);
+  }
 }
 
 .faq-accordion-title {
@@ -30,8 +32,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bs-light);
-  color: var(--bs-body-color);
+  background: var(--bs-light); // auto-switch with theme
+  color: var(--bs-body-color); // auto-switch with theme text
   border: none;
   outline: none;
   font-size: map-get($font-sizes, md);
@@ -51,7 +53,7 @@
 
 .faq-accordion-desc {
   padding: map-get($spacers, 3);
-  color: var(--bs-body-color);
+  color: var(--bs-body-color); // auto-switch with theme
   line-height: 1.6;
 }
 

@@ -106,7 +106,7 @@ $spacer: map-get($spacers, 1);
   top: 100%;
   right: 0;
   margin-top: ($spacer / 2);
-  background-color: var(--bs-dark);
+  background-color: var(--bs-body-bg);
   border: 1px solid var(--bs-border-color);
   border-radius: map-get($border-radii, sm);
   box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1),
