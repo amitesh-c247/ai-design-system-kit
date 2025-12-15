@@ -3,13 +3,16 @@
 // Define a usable spacer
 $spacer: map-get($spacers, 1);
 
+/* =====================================================
+   Header
+===================================================== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $spacer ( $spacer * 2 ); // wrap in parentheses for math
-  background-color: $body-bg;
-  border-bottom: 1px solid $border-color;
+  padding: $spacer ($spacer * 2);
+  background-color: var(--bs-body-bg);
+  border-bottom: 1px solid var(--bs-border-color);
   height: 64px;
   position: sticky;
   top: 0;
@@ -27,23 +30,29 @@ $spacer: map-get($spacers, 1);
   margin-left: auto;
 }
 
+/* =====================================================
+   Theme Toggle
+===================================================== */
 .themeToggle {
   background: none;
   border: none;
-  padding: ( $spacer / 2 ); // wrap in parentheses
+  padding: ($spacer / 2);
   cursor: pointer;
-  color: $body-color;
+  color: var(--bs-body-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: $secondary;
+    background-color: var(--bs-secondary);
   }
 }
 
+/* =====================================================
+   User Section
+===================================================== */
 .userSection {
   position: relative;
 }
@@ -51,17 +60,17 @@ $spacer: map-get($spacers, 1);
 .userButton {
   display: flex;
   align-items: center;
-  gap: ( $spacer * 0.75 );
+  gap: ($spacer * 0.75);
   background: none;
   border: none;
-  padding: ( $spacer / 2 );
+  padding: ($spacer / 2);
   cursor: pointer;
-  color: $body-color;
+  color: var(--bs-body-color);
   border-radius: map-get($border-radii, sm);
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: $secondary;
+    background-color: var(--bs-secondary);
   }
 }
 
@@ -69,11 +78,11 @@ $spacer: map-get($spacers, 1);
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: $secondary;
+  background-color: var(--bs-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $secondary;
+  color: var(--bs-secondary);
 
   img {
     width: 100%;
@@ -86,62 +95,67 @@ $spacer: map-get($spacers, 1);
 .userName {
   font-size: map-get($font-sizes, sm);
   font-weight: map-get($font-weights, medium);
+  color: var(--bs-body-color);
 }
 
+/* =====================================================
+   Dropdown
+===================================================== */
 .dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: ( $spacer / 2 );
-  background-color: $dark;
-  border: 1px solid $border-color;
+  margin-top: ($spacer / 2);
+  background-color: var(--bs-dark);
+  border: 1px solid var(--bs-border-color);
   border-radius: map-get($border-radii, sm);
-  box-shadow: 0 4px 6px -1 rgba(0,0,0,0.1), 0 2px 4px -2 rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1),
+              0 2px 4px -2 rgba(0, 0, 0, 0.1);
   min-width: 200px;
   overflow: hidden;
   animation: slideDown 0.2s ease-out;
 }
 
 .dropdownHeader {
-  padding: ( $spacer / 2 ) $spacer;
+  padding: ($spacer / 2) $spacer;
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
-  gap: ( $spacer / 4 );
+  gap: ($spacer / 4);
 
   .name {
     font-weight: map-get($font-weights, medium);
-    color: $body-color;
+    color: var(--bs-body-color);
   }
 
   .email {
     font-size: map-get($font-sizes, sm);
-    color: $body-color;
+    color: var(--bs-body-color);
   }
 }
 
 .dropdownDivider {
   height: 1px;
-  background-color: $border-color;
-  margin: ( $spacer / 2 ) 0;
+  background-color: var(--bs-border-color);
+  margin: ($spacer / 2) 0;
 }
 
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: ( $spacer * 0.75 );
+  gap: ($spacer * 0.75);
   width: 100%;
-  padding: ( $spacer * 0.75 ) $spacer;
+  padding: ($spacer * 0.75) $spacer;
   background: none;
   border: none;
   cursor: pointer;
-  color: $body-color;
-  transition: background-color 0.2s;
+  color: var(--bs-body-color);
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: $secondary;
+    background-color: var(--bs-secondary);
   }
 
   span {
@@ -149,6 +163,9 @@ $spacer: map-get($spacers, 1);
   }
 }
 
+/* =====================================================
+   Animations
+===================================================== */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -160,14 +177,18 @@ $spacer: map-get($spacers, 1);
   }
 }
 
-// Responsive styles
+/* =====================================================
+   Responsive
+===================================================== */
 @media (max-width: 768px) {
   .header {
     padding: $spacer;
   }
+
   .userName {
     display: none;
   }
+
   .dropdown {
     right: -$spacer;
   }

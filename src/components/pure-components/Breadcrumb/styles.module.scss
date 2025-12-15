@@ -1,3 +1,5 @@
+@use "@/assets/scss/variables" as *;
+
 .breadcrumbs {
   margin-bottom: 1rem;
   padding: 0;
@@ -11,11 +13,13 @@
     }
 
     .breadcrumb-item {
-      font-size: 0.875rem;
-      
+      font-size: map-get($font-sizes, sm); // 0.875rem
+      color: var(--bs-gray-600);
+
       & + .breadcrumb-item::before {
         content: "/";
-        color: var(--bs-gray-600);
+        color: var(--bs-gray-500); // slightly lighter for separator
+        margin: 0 0.25rem;
       }
 
       a {
@@ -24,13 +28,13 @@
         transition: color 0.2s ease;
 
         &:hover {
-          color: var(--bs-primary);
+          color: var(--bs-primary); // theme-aware primary color
           text-decoration: underline;
         }
       }
 
       &.active {
-        color: var(--bs-gray-800);
+        color: var(--bs-body-color); // uses current theme text color
       }
     }
   }
@@ -39,4 +43,4 @@
 .breadcrumbItem {
   display: flex;
   align-items: center;
-} 
+}
