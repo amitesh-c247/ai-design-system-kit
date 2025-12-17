@@ -41,10 +41,6 @@
   }
 }
 
-/* ===============================
-   Alert Variants (theme-safe)
-================================ */
-
 .colorGrey {
   background-color: var(--bs-light);
   border-color: var(--bs-border);
@@ -69,8 +65,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Misc */

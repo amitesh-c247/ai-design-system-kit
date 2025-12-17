@@ -2,8 +2,9 @@
 
 .divider {
   padding: 0;
-  margin: var(--bs-spacer, 1rem) 0;
+  margin: map-get($spacers, 3) 0;
   border: 0;
+  color: currentColor;
 
   &.noMargin {
     margin: 0;
@@ -35,13 +36,13 @@
   }
 
   &.small {
-    border-width: 1px;
+    border-width: map-get($border-widths, 1);
   }
   &.medium {
-    border-width: 2px;
+    border-width: map-get($border-widths, 2);
   }
   &.large {
-    border-width: 3px;
+    border-width: map-get($border-widths, 3);
   }
 
   &.solid {
@@ -55,14 +56,14 @@
   }
 
   &.horizontal {
-    border-top-width: 1px;
     width: 100%;
+    border-top-width: map-get($border-widths, 1);
   }
 
   &.vertical {
-    border-left-width: 1px;
-    height: 100%;
     display: inline-block;
+    height: 100%;
+    border-left-width: map-get($border-widths, 1);
   }
 
   &.withText {
@@ -74,64 +75,55 @@
     &::after {
       content: "";
       flex: 1;
-      height: 1px;
-      background: currentColor;
+      height: map-get($border-widths, 1);
+      background-color: currentColor;
     }
 
     &::before {
-      margin-right: 0.5rem;
+      margin-right: map-get($spacers, 2);
     }
+
     &::after {
-      margin-left: 0.5rem;
+      margin-left: map-get($spacers, 2);
     }
   }
 
   &.primaryText {
     color: var(--bs-primary);
-    border-color: var(--bs-primary);
   }
   &.secondaryText {
     color: var(--bs-secondary);
-    border-color: var(--bs-secondary);
   }
   &.successText {
     color: var(--bs-success);
-    border-color: var(--bs-success);
   }
   &.dangerText {
     color: var(--bs-danger);
-    border-color: var(--bs-danger);
   }
   &.warningText {
     color: var(--bs-warning);
-    border-color: var(--bs-warning);
   }
   &.infoText {
     color: var(--bs-info);
-    border-color: var(--bs-info);
   }
   &.lightText {
     color: var(--bs-light);
-    border-color: var(--bs-light);
   }
   &.darkText {
     color: var(--bs-dark);
-    border-color: var(--bs-dark);
   }
   &.grayText {
     color: var(--bs-gray-700);
-    border-color: var(--bs-gray-700);
   }
 }
 
 .hr {
   margin: 0;
   border: 0;
-  border-top: 1px solid var(--bs-border-color);
+  border-top: map-get($border-widths, 1) solid var(--bs-border-color);
   opacity: 1;
 }
 
-// Variants
 .primary .hr {
   border-color: var(--bs-primary);
 }
@@ -160,16 +152,16 @@
 .vertical {
   composes: divider;
   height: 100%;
-  width: 1px;
-  margin: 0 var(--bs-spacer, 1rem);
+  width: map-get($border-widths, 1);
+  margin: 0 map-get($spacers, 3);
 }
 
 .solid {
-  border-top: 1px solid currentColor;
+  border-top: map-get($border-widths, 1) solid currentColor;
 }
 .dashed {
-  border-top: 1px dashed currentColor;
+  border-top: map-get($border-widths, 1) dashed currentColor;
 }
 .dotted {
-  border-top: 1px dotted currentColor;
+  border-top: map-get($border-widths, 1) dotted currentColor;
 }

@@ -1,6 +1,8 @@
+@use "@/assets/scss/variables" as *;
+
 .space {
   display: inline-flex;
-  gap: var(--bs-gap, 0.5rem);
+  gap: map-get($spacers, 2);
 
   > svg {
     vertical-align: middle;
@@ -22,4 +24,4 @@
   svg {
     vertical-align: middle;
   }
-} 
+}

@@ -1,8 +1,12 @@
+@use "@/assets/scss/variables" as *;
+
 .tabs {
   .nav-link {
-    padding: 0 var(--bs-nav-link-padding-x, 1rem);
+    padding-left: map-get($spacers, 4);
+    padding-right: map-get($spacers, 4);
   }
+
   .tab-content {
-    padding-top: var(--bs-spacer, 1rem);
+    padding-top: map-get($spacers, 4);
   }
-} 
+}

@@ -1,14 +1,16 @@
+@use "@/assets/scss/variables" as *;
+
 .select {
-  border-radius: var(--bs-border-radius) !important;
-  box-shadow: var(--bs-box-shadow-sm) !important;
-  
+  border-radius: map-get($border-radii, sm) !important;
+  box-shadow: map-get($box-shadows, sm) !important;
+
   &:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    border-color: $primary;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25) !important;
   }
-  
+
   &:disabled {
-    background-color: var(--bs-gray-200);
+    background-color: map-get($theme-colors, light);
     opacity: 0.65;
   }
-} 
+}

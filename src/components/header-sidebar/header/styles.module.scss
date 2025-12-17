@@ -3,9 +3,6 @@
 // Define a usable spacer
 $spacer: map-get($spacers, 1);
 
-/* =====================================================
-   Header
-===================================================== */
 .header {
   display: flex;
   justify-content: space-between;
@@ -30,9 +27,6 @@ $spacer: map-get($spacers, 1);
   margin-left: auto;
 }
 
-/* =====================================================
-   Theme Toggle
-===================================================== */
 .themeToggle {
   background: none;
   border: none;
@@ -50,9 +44,6 @@ $spacer: map-get($spacers, 1);
   }
 }
 
-/* =====================================================
-   User Section
-===================================================== */
 .userSection {
   position: relative;
 }
@@ -98,9 +89,6 @@ $spacer: map-get($spacers, 1);
   color: var(--bs-body-color);
 }
 
-/* =====================================================
-   Dropdown
-===================================================== */
 .dropdown {
   position: absolute;
   top: 100%;
@@ -109,8 +97,7 @@ $spacer: map-get($spacers, 1);
   background-color: var(--bs-body-bg);
   border: 1px solid var(--bs-border-color);
   border-radius: map-get($border-radii, sm);
-  box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1),
-              0 2px 4px -2 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1), 0 2px 4px -2 rgba(0, 0, 0, 0.1);
   min-width: 200px;
   overflow: hidden;
   animation: slideDown 0.2s ease-out;
@@ -163,9 +150,6 @@ $spacer: map-get($spacers, 1);
   }
 }
 
-/* =====================================================
-   Animations
-===================================================== */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -177,9 +161,6 @@ $spacer: map-get($spacers, 1);
   }
 }
 
-/* =====================================================
-   Responsive
-===================================================== */
 @media (max-width: 768px) {
   .header {
     padding: $spacer;

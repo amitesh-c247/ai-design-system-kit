@@ -1,9 +1,5 @@
 @use "@/assets/scss/variables.scss" as *;
 
-// ---------------------------
-// Link Styles
-// ---------------------------
-
 .link {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
@@ -98,10 +94,6 @@
     cursor: not-allowed;
   }
 }
-
-// ---------------------------
-// Dark Mode
-// ---------------------------
 
 .dark {
   .link {

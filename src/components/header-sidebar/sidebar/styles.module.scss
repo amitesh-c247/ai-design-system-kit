@@ -6,9 +6,6 @@ $sidebar-collapsed-width: 80px;
 $mobile-breakpoint: 768px;
 $transition-duration: 0.3s;
 
-/* =====================================================
-   Sidebar
-===================================================== */
 .sidebar {
   position: fixed;
   top: 0;
@@ -27,11 +24,10 @@ $transition-duration: 0.3s;
 
   &.collapsed {
     width: $sidebar-collapsed-width;
-  .navItem {
-    padding: map-get($spacers, 1);
-    justify-content: center;
-  }
-
+    .navItem {
+      padding: map-get($spacers, 1);
+      justify-content: center;
+    }
   }
 
   @media (max-width: $mobile-breakpoint) {
@@ -44,9 +40,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Logo
-===================================================== */
 .logo {
   display: flex;
   align-items: center;
@@ -68,9 +61,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Toggle Button
-===================================================== */
 .toggleButton {
   position: absolute;
   top: map-get($spacers, 3);
@@ -100,9 +90,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Navigation
-===================================================== */
 .nav {
   display: flex;
   flex-direction: column;
@@ -165,9 +152,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Mobile Overlay
-===================================================== */
 @media (max-width: $mobile-breakpoint) {
   .sidebar.mobileOpen::before {
     content: "";
@@ -178,9 +162,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Accordion
-===================================================== */
 .accordionItem {
   margin-bottom: map-get($spacers, 1);
 }
@@ -213,9 +194,6 @@ $transition-duration: 0.3s;
   margin-top: map-get($spacers, 1);
 }
 
-/* =====================================================
-   Sub Items
-===================================================== */
 .subItem {
   padding: map-get($spacers, 1) map-get($spacers, 1.5);
   font-size: map-get($font-sizes, xs);

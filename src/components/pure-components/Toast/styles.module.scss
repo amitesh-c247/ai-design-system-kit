@@ -1,5 +1,7 @@
+@use "@/assets/scss/variables" as *;
+
 .toast {
-  border-radius: var(--bs-border-radius, 12px);
-  background-color: var(--bs-gray-100, #f8f9fa);
-  color: var(--bs-gray-800, #212529);
-} 
+  border-radius: map-get($border-radii, lg);
+  background-color: map-get($theme-colors, light);
+  color: map-get($grays, 800);
+}

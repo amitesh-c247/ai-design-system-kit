@@ -5,41 +5,39 @@
   border-radius: map-get($border-radii, md);
   background-color: var(--bs-body-bg);
 
-  :global {
-    .ant-collapse-item {
-      border-bottom: 1px solid var(--bs-border-color);
+  .ant-collapse-item {
+    border-bottom: 1px solid var(--bs-border-color);
 
-      &:last-child {
-        border-bottom: none;
-        border-radius: 0 0 map-get($border-radii, md) map-get($border-radii, md);
-      }
-
-      &:first-child {
-        border-radius: map-get($border-radii, md) map-get($border-radii, md) 0 0;
-      }
+    &:last-child {
+      border-bottom: none;
+      border-radius: 0 0 map-get($border-radii, md) map-get($border-radii, md);
     }
 
-    .ant-collapse-header {
-      padding: map-get($spacers, 2);
-      background-color: var(--bs-gray-100);
-      border: none;
-      font-weight: map-get($font-weights, normal);
-      color: var(--bs-body-color);
-
-      &:hover {
-        background-color: var(--bs-gray-200);
-      }
+    &:first-child {
+      border-radius: map-get($border-radii, md) map-get($border-radii, md) 0 0;
     }
+  }
 
-    .ant-collapse-content {
-      border-top: 1px solid var(--bs-border-color);
-      background-color: var(--bs-body-bg);
-    }
+  .ant-collapse-header {
+    padding: map-get($spacers, 2);
+    background-color: var(--bs-gray-100);
+    border: none;
+    font-weight: map-get($font-weights, normal);
+    color: var(--bs-body-color);
 
-    .ant-collapse-content-box {
-      padding: map-get($spacers, 2);
-      color: var(--bs-body-color);
+    &:hover {
+      background-color: var(--bs-gray-200);
     }
+  }
+
+  .ant-collapse-content {
+    border-top: 1px solid var(--bs-border-color);
+    background-color: var(--bs-body-bg);
+  }
+
+  .ant-collapse-content-box {
+    padding: map-get($spacers, 2);
+    color: var(--bs-body-color);
   }
 }
 

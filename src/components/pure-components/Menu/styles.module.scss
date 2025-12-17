@@ -1,45 +1,43 @@
+@use "@/assets/scss/variables" as *;
+
 .menu {
-  background-color: var(--bs-body-bg);
-  border: 1px solid var(--bs-border-color);
-  border-radius: var(--bs-border-radius);
-  box-shadow: var(--bs-box-shadow);
-  padding: 0.5rem 0;
+  background-color: $body-bg;
+  border: 1px solid $border-color;
+  border-radius: map-get($border-radii, md);
+  box-shadow: map-get($shadows, md);
+  padding: map-get($spacers, 2) 0;
   min-width: 10rem;
-  z-index: 1000;
+  z-index: map-get($z-indexes, dropdown);
 
   .menuItem {
     display: block;
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: map-get($spacers, 2) map-get($spacers, 3);
     clear: both;
-    font-weight: 400;
-    color: var(--bs-body-color);
+    font-weight: map-get($font-weights, normal);
+    color: $body-color;
     text-align: inherit;
     text-decoration: none;
     white-space: nowrap;
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all map-get($transitions, fast) ease-in-out;
 
-    &:hover {
-      color: var(--bs-body-color);
-      background-color: var(--bs-primary-bg-subtle);
-    }
-
+    &:hover,
     &:focus {
-      color: var(--bs-body-color);
-      background-color: var(--bs-primary-bg-subtle);
-      outline: 0;
+      color: $body-color;
+      background-color: $primary-bg-subtle;
+      outline: none;
     }
 
     &.active {
-      color: var(--bs-primary);
-      background-color: var(--bs-primary-bg-subtle);
+      color: $primary;
+      background-color: $primary-bg-subtle;
     }
 
     &.disabled {
-      color: var(--bs-secondary-color);
+      color: $secondary;
       pointer-events: none;
       background-color: transparent;
       opacity: 0.65;
@@ -48,8 +46,8 @@
 
   .divider {
     height: 0;
-    margin: 0.5rem 0;
+    margin: map-get($spacers, 2) 0;
     overflow: hidden;
-    border-top: 1px solid var(--bs-border-color);
+    border-top: 1px solid $border-color;
   }
-} 
+}

@@ -1,33 +1,36 @@
+@use "@/assets/scss/variables" as *;
+
 .stateFilter {
   min-width: 200px;
   max-width: 400px;
-  padding: 8px;
-  border-radius: 4px;
-  background-color: var(--bs-white);
-  border: 1px solid var(--bs-gray-300);
+  padding: map-get($spacers, 2); // 8px
+  border-radius: map-get($border-radii, sm); // 4px
+  background-color: $white;
+  border: 1px solid $gray-300;
 
   &:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    border-color: $primary;
+   box-shadow: 0 0 0 0.25rem rgba(0,0,0, 0.25);
+    outline: none;
   }
 
   option {
-    padding: 8px 12px;
+    padding: map-get($spacers, 2) map-get($spacers, 3); // 8px 12px
     cursor: pointer;
 
     &:hover {
-      background-color: var(--bs-gray-100);
+      background-color: $gray-100;
     }
 
     &:checked {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
+      background-color: $primary;
+      color: $white;
     }
 
     &[value=""] {
-      font-weight: 500;
-      border-bottom: 1px solid var(--bs-gray-200);
-      margin-bottom: 4px;
+      font-weight: map-get($font-weights, medium);
+      border-bottom: 1px solid $gray-200;
+      margin-bottom: map-get($spacers, 1); // 4px
     }
   }
-} 
+}

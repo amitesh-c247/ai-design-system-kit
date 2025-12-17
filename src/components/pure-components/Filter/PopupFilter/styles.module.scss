@@ -1,42 +1,39 @@
-.popover {
-  min-width: 280px;
-  max-width: 400px;
-  border: 1px solid var(--bs-gray-300);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+@use "@/assets/scss/variables" as *;
 
-  :global(.popover-body) {
-    padding: 16px;
+.popover {
+  min-width: map-get($spacers, 35); // 280px
+  max-width: map-get($spacers, 50); // 400px
+  border: 1px solid $gray-300;
+  border-radius: map-get($border-radii, md); // 8px
+  box-shadow: 0 map-get($spacers, 1) map-get($spacers, 3) rgba(0, 0, 0, 0.1);
+  .popover-body {
+    padding: map-get($spacers, 4); // 16px
   }
 }
 
 .content {
-  margin-bottom: 16px;
-  max-height: 400px;
+  margin-bottom: map-get($spacers, 4); // 16px
+  max-height: map-get($spacers, 50); // 400px
   overflow-y: auto;
-
   &::-webkit-scrollbar {
     width: 6px;
-    background-color: var(--white);
+    background-color: $white;
   }
-
   &::-webkit-scrollbar-track {
-    background: var(--bs-gray-100);
-    border-radius: 3px;
+    background: $gray-100;
+    border-radius: map-get($border-radii, sm); // 3px
   }
-
   &::-webkit-scrollbar-thumb {
-    background: var(--bs-gray-400);
-    border-radius: 3px;
-
+    background: $gray-400;
+    border-radius: map-get($border-radii, sm); // 3px
     &:hover {
-      background: var(--bs-gray-1000);
+      background: $gray-900; // replaced --bs-gray-1000
     }
   }
 }
 
 .footer {
-  border-top: 1px solid var(--bs-gray-200);
-  padding-top: 16px;
-  margin-top: 16px;
+  border-top: 1px solid $gray-200;
+  padding-top: map-get($spacers, 4); // 16px
+  margin-top: map-get($spacers, 4); // 16px
 }

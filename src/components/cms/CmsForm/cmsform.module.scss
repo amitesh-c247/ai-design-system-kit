@@ -1,7 +1,10 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .cmsForm {
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: map-get($spacers, 6); // 4rem equivalent
+  padding-right: map-get($spacers, 6); // 4rem equivalent
 }
+
 .editorSection {
   margin: 0 -8px;
 }

@@ -1,23 +1,22 @@
+@use "@/assets/scss/variables" as *;
+
 .spinnerContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: map-get($spacers, 3);
 
   &.fullScreen {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 9999;
   }
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 3px solid var(--bs-gray-200);
   border-top-color: var(--bs-primary);
   border-radius: 50%;
@@ -28,4 +27,4 @@
   to {
     transform: rotate(360deg);
   }
-} 
+}

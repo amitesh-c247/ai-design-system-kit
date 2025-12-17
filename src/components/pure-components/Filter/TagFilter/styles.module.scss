@@ -1,58 +1,62 @@
+@use "@/assets/scss/variables" as *;
+
 .tagFilter {
   min-width: 280px;
   max-width: 400px;
-  padding: 8px;
-  border-radius: 4px;
-  background-color: var(--bs-white);
-  border: 1px solid var(--bs-gray-300);
+  padding: map-get($spacers, 2); // 8px
+  border-radius: map-get($border-radii, sm); // 4px
+  background-color: $white;
+  border: 1px solid $gray-300;
 
   &:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    border-color: $primary;
+    box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+    outline: none;
   }
 
   option {
-    padding: 8px 12px;
+    padding: map-get($spacers, 2) map-get($spacers, 3); // 8px 12px
     cursor: pointer;
 
     &:hover {
-      background-color: var(--bs-gray-100);
+      background-color: $gray-100;
     }
 
     &:checked {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
+      background-color: $primary;
+      color: $white;
     }
   }
 }
 
 .searchWrapper {
-  padding: 8px;
-  border-bottom: 1px solid var(--bs-gray-200);
+  padding: map-get($spacers, 2);
+  border-bottom: 1px solid $gray-200;
 
   .form-control {
-    padding: 8px 12px;
-    border: 1px solid var(--bs-gray-300);
-    border-radius: 4px;
+    padding: map-get($spacers, 2) map-get($spacers, 3);
+    border: 1px solid $gray-300;
+    border-radius: map-get($border-radii, sm);
 
     &:focus {
-      border-color: var(--bs-primary);
-      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+      border-color: $primary;
+      box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+      outline: none;
     }
   }
 }
 
 .buttonWrapper {
-  padding: 8px;
-  border-top: 1px solid var(--bs-gray-200);
+  padding: map-get($spacers, 2);
+  border-top: 1px solid $gray-200;
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: map-get($spacers, 2);
 }
 
 .dropdownLoader {
   position: absolute;
-  right: 8px;
+  right: map-get($spacers, 2);
   top: 50%;
   transform: translateY(-50%);
-} 
+}

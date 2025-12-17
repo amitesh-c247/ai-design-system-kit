@@ -13,14 +13,11 @@
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
   }
-
-  :global {
-    .card-body {
-      min-height: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+  .card-body {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 }
