@@ -183,7 +183,7 @@ const Sidebar = () => {
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
         >
-          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          {isCollapsed ? <ChevronRight size={20} color="var(--bs-light)"/> : <ChevronLeft size={20} color="var(--bs-light)" />}
         </button>
 
         {/* Navigation Menu */}

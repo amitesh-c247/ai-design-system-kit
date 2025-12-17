@@ -1,50 +1,71 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: map-get($spacers, 4);
+
   h1 {
-    font-size: 1.875rem;
-    font-weight: 600;
+    font-size: map-get($font-sizes, xxl);
+    font-weight: map-get($font-weights, bold);
+    color: var(--bs-body-color);
   }
 }
 
 .content {
   display: grid;
-  gap: 1.5rem;
+  gap: map-get($spacers, 3);
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .card {
-  background-color: var(--surface-dark);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+
+  border-radius: map-get($border-radii, lg);
+  padding: map-get($spacers, 3);
+  border: 1px solid var(--bs-border);
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
   h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--foreground);
-    margin-bottom: 1rem;
+    font-size: map-get($font-sizes, lg);
+    font-weight: map-get($font-weights, medium);
+    color: var(--bs-body-color);
+    margin-bottom: map-get($spacers, 2);
   }
+
   p {
-    color: #4b5563;
+    color: color-mix(
+      in srgb,
+      var(--bs-body-color) 80%,
+      transparent
+    );
     line-height: 1.5;
   }
 }
 
 .userInfo {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+  margin-top: map-get($spacers, 4);
+  padding-top: map-get($spacers, 3);
+  border-top: 1px solid var(--bs-border);
+
   h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--foreground);
-    margin-bottom: 1rem;
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, medium);
+    color: var(--bs-body-color);
+    margin-bottom: map-get($spacers, 2);
   }
+
   p {
-    margin-bottom: 0.5rem;
-    color: #4b5563;
+    margin-bottom: map-get($spacers, 1);
+    color: color-mix(
+      in srgb,
+      var(--bs-body-color) 75%,
+      transparent
+    );
+
     &:last-child {
       margin-bottom: 0;
     }

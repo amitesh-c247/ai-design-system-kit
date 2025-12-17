@@ -1,10 +1,18 @@
+@use "@/assets/scss/variables.scss" as *;
+
+// Define a usable spacer
+$spacer: map-get($spacers, 1);
+
+/* =====================================================
+   Header
+===================================================== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--surface-dark);
-  border-bottom: 1px solid var(--border);
+  padding: $spacer ($spacer * 2);
+  background-color: var(--bs-body-bg);
+  border-bottom: 1px solid var(--bs-border-color);
   height: 64px;
   position: sticky;
   top: 0;
@@ -18,26 +26,33 @@
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: $spacer;
   margin-left: auto;
 }
 
+/* =====================================================
+   Theme Toggle
+===================================================== */
 .themeToggle {
   background: none;
   border: none;
-  padding: 0.5rem;
+  padding: ($spacer / 2);
   cursor: pointer;
-  color: var(--foreground);
+  color: var(--bs-body-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
+
   &:hover {
-    background-color: var(--muted);
+    background-color: var(--bs-secondary);
   }
 }
 
+/* =====================================================
+   User Section
+===================================================== */
 .userSection {
   position: relative;
 }
@@ -45,16 +60,17 @@
 .userButton {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ($spacer * 0.75);
   background: none;
   border: none;
-  padding: 0.5rem;
+  padding: ($spacer / 2);
   cursor: pointer;
-  color: var(--foreground);
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
+  color: var(--bs-body-color);
+  border-radius: map-get($border-radii, sm);
+  transition: background-color 0.2s ease;
+
   &:hover {
-    background-color: var(--muted);
+    background-color: var(--bs-secondary);
   }
 }
 
@@ -62,11 +78,12 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: var(--muted);
+  background-color: var(--bs-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--muted-foreground);
+  color: var(--bs-secondary);
+
   img {
     width: 100%;
     height: 100%;
@@ -76,67 +93,79 @@
 }
 
 .userName {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: map-get($font-sizes, sm);
+  font-weight: map-get($font-weights, medium);
+  color: var(--bs-body-color);
 }
 
+/* =====================================================
+   Dropdown
+===================================================== */
 .dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 0.5rem;
-  background-color: var(--surface-dark);
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  margin-top: ($spacer / 2);
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: map-get($border-radii, sm);
+  box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1),
+              0 2px 4px -2 rgba(0, 0, 0, 0.1);
   min-width: 200px;
   overflow: hidden;
   animation: slideDown 0.2s ease-out;
 }
 
 .dropdownHeader {
-  padding: 0.5rem 1rem;
+  padding: ($spacer / 2) $spacer;
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ($spacer / 4);
+
   .name {
-    font-weight: 500;
-    color: var(--foreground);
+    font-weight: map-get($font-weights, medium);
+    color: var(--bs-body-color);
   }
+
   .email {
-    font-size: 0.875rem;
-    color: var(--foreground);
+    font-size: map-get($font-sizes, sm);
+    color: var(--bs-body-color);
   }
 }
 
 .dropdownDivider {
   height: 1px;
-  background-color: var(--border);
-  margin: 0.5rem 0;
+  background-color: var(--bs-border-color);
+  margin: ($spacer / 2) 0;
 }
 
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ($spacer * 0.75);
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: ($spacer * 0.75) $spacer;
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--foreground);
-  transition: background-color 0.2s;
+  color: var(--bs-body-color);
+  transition: background-color 0.2s ease;
+
   &:hover {
-    background-color: var(--muted);
+    background-color: var(--bs-secondary);
   }
+
   span {
-    font-size: 0.875rem;
+    font-size: map-get($font-sizes, sm);
   }
 }
 
+/* =====================================================
+   Animations
+===================================================== */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -148,15 +177,19 @@
   }
 }
 
-// Responsive styles
+/* =====================================================
+   Responsive
+===================================================== */
 @media (max-width: 768px) {
   .header {
-    padding: 1rem;
+    padding: $spacer;
   }
+
   .userName {
     display: none;
   }
+
   .dropdown {
-    right: -1rem;
+    right: -$spacer;
   }
 }

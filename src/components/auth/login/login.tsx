@@ -149,8 +149,8 @@ const Login = () => {
             <Button
               variant="primary"
               type="submit"
-              className={styles.submitButton}
-              disabled={isLoggingIn}
+              // className={styles.submitButton}
+              // disabled={isLoggingIn}
             >
               {isLoggingIn ? t("submitting") : t("submit")}
             </Button>

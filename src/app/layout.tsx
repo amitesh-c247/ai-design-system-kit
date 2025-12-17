@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Providers } from "./providers";
 import { NextIntlClientProvider } from "next-intl";
 import { messages } from "@/locales";
-import "./globals.css";
-import "../../assets/scss/admin.scss";
 import { cookies } from "next/headers";
 import type { PropsWithChildren } from "react";
 

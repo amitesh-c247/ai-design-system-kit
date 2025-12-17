@@ -1,16 +1,60 @@
-.faq-bootstrap-container {
+@use "@/assets/scss/variables.scss" as *;
+
+.faq-container {
   max-width: 700px;
   margin: 0 auto;
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
-  border-radius: 16px;
+  background: var(--bs-body-bg); // auto-switch with theme
+  color: var(--bs-body-color); // auto-switch with theme text
+  border-radius: map-get($border-radii, lg);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: map-get($spacers, 2);
 }
 
 .faqList {
   background: transparent;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .faqItem {
   background: transparent;
+  border-bottom: 1px solid var(--bs-border-color);
+  padding: map-get($spacers, 1);
+  transition: background-color 0.2s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.active {
+    background-color: rgba(
+      var(--bs-primary-rgb, 0, 0, 0),
+      0.15
+    ); // lightened primary color
+  }
+
+  .faqQuestion {
+    font-weight: map-get($font-weights, medium);
+    cursor: pointer;
+    color: var(--bs-body-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:hover {
+      color: var(--bs-primary);
+    }
+  }
+
+  .faqAnswer {
+    margin-top: map-get($spacers, 0.5);
+    font-size: map-get($font-sizes, sm);
+    color: var(--bs-gray-700); // uses theme gray
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
 }

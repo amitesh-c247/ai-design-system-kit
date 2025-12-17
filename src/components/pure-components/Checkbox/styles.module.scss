@@ -1,86 +1,90 @@
-@use '../../../../assets/scss/variables' as *;
+@use "@/assets/scss/variables" as *;
 
-.checkboxGroup {
-  margin-bottom: $form-group-margin-bottom;
+.cmsContainer {
+  .statusBadge {
+    font-size: map-get($font-sizes, sm);
+    font-weight: map-get($font-weights, normal);
+    padding: map-get($spacers, 1) map-get($spacers, 2);
+    border-radius: map-get($border-radii, sm);
 
-  &.inline {
-    display: inline-flex;
-    margin-right: $spacer;
-    margin-bottom: 0;
+    &.published {
+      background-color: var(--bs-success);
+      color: var(--bs-light);
+    }
+
+    &.draft {
+      background-color: var(--bs-warning);
+      color: var(--bs-dark);
+    }
+
+    &.archived {
+      background-color: var(--bs-secondary);
+      color: var(--bs-light);
+    }
+  }
+
+  .slugCode {
+    font-family: monospace;
+    background-color: var(--bs-light);
+    padding: map-get($spacers, 0.25) map-get($spacers, 0.5);
+    border-radius: map-get($border-radii, sm);
+    font-size: map-get($font-sizes, sm);
+    color: var(--bs-dark);
+  }
+
+  .modalForm {
+    .formLabel {
+      color: var(--bs-text);
+    }
+
+    .formControl {
+      background-color: var(--bs-input-bg);
+      border: 1px solid var(--bs-input-border-color);
+      color: var(--bs-input-color);
+
+      &:focus {
+        border-color: var(--bs-input-focus-border-color);
+        box-shadow: 0 0 0 0.2rem rgba(var(--bs-input-focus-color), 0.25);
+      }
+    }
+
+    .urlPreview {
+      background-color: var(--bs-light);
+      color: var(--bs-dark);
+    }
+  }
+
+  .errorAlert {
+    background-color: var(--bs-danger);
+    color: var(--bs-light);
+  }
+
+  .toastContainer {
+    position: fixed;
+    top: map-get($spacers, 2);
+    right: map-get($spacers, 2);
+    z-index: 1050;
   }
 }
-
 .checkbox {
   :global {
     .form-check-input {
-      width: $form-check-input-width;
-      height: $form-check-input-width;
-      margin-top: $form-check-input-margin-y;
-      margin-left: -$form-check-input-width;
-      background-color: $form-check-input-bg;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      border: $form-check-input-border;
-      appearance: none;
-      print-color-adjust: exact;
-      transition: background-position $form-check-transition;
+      background-color: var(--bs-form-check-bg);
+      border-color: var(--bs-form-check-input-border-color);
 
       &:checked {
-        background-color: $form-check-input-checked-bg-color;
-        border-color: $form-check-input-checked-border-color;
-
-        &[type="checkbox"] {
-          background-image: escape-svg($form-check-input-checked-bg-image);
-        }
+        background-color: var(--bs-form-check-input-checked-bg);
+        border-color: var(--bs-form-check-input-checked-border-color);
       }
 
       &:focus {
-        border-color: $form-check-input-focus-border;
-        outline: 0;
-        box-shadow: $form-check-input-focus-box-shadow;
-      }
-
-      &:disabled {
-        pointer-events: none;
-        filter: none;
-        opacity: $form-check-input-disabled-opacity;
-      }
-
-      &[type="checkbox"] {
-        border-radius: $form-check-input-border-radius;
+        border-color: var(--bs-form-check-input-focus-border);
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-form-check-input-focus-shadow-rgb), 0.25);
       }
     }
 
     .form-check-label {
-      color: $form-check-label-color;
-      cursor: $form-check-label-cursor;
-      padding-left: $form-check-padding-start;
-      margin-bottom: 0;
-      font-size: $form-check-label-font-size;
-      font-weight: $form-check-label-font-weight;
-      user-select: none;
-    }
-
-    .form-check-input.is-valid ~ .form-check-label {
-      color: $form-check-label-color;
-    }
-
-    .form-check-input.is-invalid ~ .form-check-label {
-      color: $form-check-label-color;
-    }
-
-    .invalid-feedback {
-      display: none;
-      width: 100%;
-      margin-top: $form-feedback-margin-top;
-      font-size: $form-feedback-font-size;
-      font-style: $form-feedback-font-style;
-      color: $form-feedback-invalid-color;
-    }
-
-    .form-check-input.is-invalid ~ .invalid-feedback {
-      display: block;
+      color: var(--bs-text);
     }
   }
-} 
+}

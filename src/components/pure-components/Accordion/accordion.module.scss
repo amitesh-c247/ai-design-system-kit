@@ -1,3 +1,5 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .faq-accordion-root {
   display: flex;
   flex-direction: column;
@@ -6,25 +8,23 @@
 }
 
 .faq-accordion-item {
-  border-radius: 8px;
-  background: var(--background);
+  border-radius: map-get($border-radii, lg);
+  background: var(--bs-light); // theme-aware background
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.2s, background 0.2s, border 0.2s;
-  border: none;
+  border: 1px solid var(--bs-border-color); // theme-aware border
   overflow: hidden;
   position: relative;
-  min-width: none;
-  border: 1px solid var(--border)
-}
 
-.faq-accordion-item.open {
-  background: var(--secondary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--border);
-}
+  &.open {
+    background: var(--bs-secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--bs-border-color);
+  }
 
-.faq-accordion-item.highlight {
-  border: 1px solid var(--border);
+  &.highlight {
+    border: 1px solid var(--bs-border-color);
+  }
 }
 
 .faq-accordion-title {
@@ -32,34 +32,35 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--card-title);
-  color: var(--color-title-light);
+  background: var(--bs-light); // auto-switch with theme
+  color: var(--bs-body-color); // auto-switch with theme text
   border: none;
   outline: none;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 8px 24px;
+  font-size: map-get($font-sizes, md);
+  font-weight: map-get($font-weights, medium);
+  padding: map-get($spacers, 2) map-get($spacers, 3);
   cursor: pointer;
+
   &.active {
-    background: var(--border);
-    color: var(--ring);
+    background: var(--bs-border-color);
+    color: var(--bs-primary);
   }
+
   .faq-accordion-icon {
     font-size: 1.25rem;
   }
 }
 
-
 .faq-accordion-desc {
-  padding: 1.5rem 1.5rem;
-  color: var(--color-description-light);
+  padding: map-get($spacers, 3);
+  color: var(--bs-body-color); // auto-switch with theme
   line-height: 1.6;
 }
 
 @media (max-width: 600px) {
   .faq-accordion-title,
   .faq-accordion-desc {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: map-get($spacers, 2);
+    padding-right: map-get($spacers, 2);
   }
 }

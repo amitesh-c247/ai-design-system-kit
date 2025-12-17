@@ -127,7 +127,7 @@
   margin: 20px 0;
   padding: 16px 20px;
   border-left: 4px solid var(--border);
-  background: var(--surface-dark);
+  background: $dark;
   border-radius: 0 8px 8px 0;
 }
 :global(.cdx-input) {
@@ -263,24 +263,24 @@
 }
 
 :global(.dark) :global(.ce-popover__container) {
-  background: var(--surface-dark);
+  background: $dark;
   border: 0 !important;
   :global(.ce-popover-item) {
     color: var(--white);
   }
   :global(.ce-popover-item):hover {
-    background-color: var(--bg-dark);
+    background-color: $dark;
   }
   :global(.ce-popover__search) {
-    background-color: var(--bg-dark);
-    border-color: var(--bg-dark);
+    background-color: $dark;
+    border-color: $dark;
   }
   :global(.ce-inline-tool) svg {
     color: var(--white);
   }
 }
 :global(.ce-block--selected) :global(.ce-block__content) {
-  background-color: var(--surface-dark);
+  background-color: $dark;
   border-radius: 4px;
 }
 /* Toolbar styling */

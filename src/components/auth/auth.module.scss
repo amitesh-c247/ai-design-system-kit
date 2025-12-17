@@ -1,33 +1,40 @@
+@use "@/assets/scss/variables.scss" as *;
+// ---------------------------
+// Login Page Styles
+// ---------------------------
+
 .loginContainer {
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
+  padding: map-get($spacers, 4);
+  background: linear-gradient(135deg, $body-bg 0%, $secondary 100%);
 }
 
 .loginCard {
   width: 100%;
   max-width: 480px;
-  background-color: var(--surface-dark);
-  border-radius: 1.5rem;
+  background-color: $body-bg;
+  border-radius: map-get($border-radii, lg);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: transform 0.3s ease;
+
   &:hover {
     transform: translateY(-5px);
   }
 }
 
 .cardContent {
-  padding: 3rem;
+  padding: map-get($spacers, 6);
 }
 
 .logoContainer {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: map-get($spacers, 4);
+
   img {
     height: 48px;
     width: auto;
@@ -35,30 +42,30 @@
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--foreground);
-  margin-bottom: 0.75rem;
+  font-size: map-get($font-sizes, xl);
+  font-weight: map-get($font-weights, bold);
+  color: $body-color;
+  margin-bottom: map-get($spacers, 1.5);
   text-align: center;
   letter-spacing: -0.5px;
 }
 
 .subtitle {
-  font-size: 1.125rem;
-  color: var(--muted-foreground);
-  margin-bottom: 2.5rem;
+  font-size: map-get($font-sizes, md);
+  color: $body-color;
+  margin-bottom: map-get($spacers, 5);
   text-align: center;
 }
 
 .formGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: map-get($spacers, 3);
 }
 
 .formLabel {
   display: block;
-  font-weight: 500;
-  color: var(--bs-gray-700);
-  margin-bottom: 0.75rem;
+  font-weight: map-get($font-weights, medium);
+  color: $body-color;
+  margin-bottom: map-get($spacers, 1.5);
   font-size: 0.95rem;
 }
 
@@ -66,16 +73,19 @@
   width: 100%;
   height: 3.5rem;
   padding: 0 1.25rem;
-  font-size: 1rem;
-  border: 2px solid var(--bs-gray-200);
-  border-radius: 0.75rem;
+  font-size: map-get($font-sizes, md);
+  border: 2px solid $border-color;
+  border-radius: map-get($border-radii, md);
   transition: all 0.2s ease;
+
   &:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+    border-color: $primary;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.1);
   }
+
   &::placeholder {
-    color: var(--bs-gray-400);
+    color: $body-color;
+    opacity: 0.6;
   }
 }
 
@@ -83,36 +93,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0 2rem;
+  margin: map-get($spacers, 2) 0 map-get($spacers, 4);
 }
 
 .rememberMe {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--bs-gray-600);
-  font-size: 0.95rem;
+  color: $body-color;
+
   input[type="checkbox"] {
     width: 1.25rem;
     height: 1.25rem;
-    border-radius: 0.375rem;
-    border: 2px solid var(--bs-gray-300);
+    border-radius: map-get($border-radii, sm);
+    border: 2px solid $border-color;
     cursor: pointer;
+
     &:checked {
-      background-color: var(--bs-primary);
-      border-color: var(--bs-primary);
+      background-color: $primary;
+      border-color: $primary;
     }
   }
 }
 
 .forgotPassword {
-  color: var(--bs-primary);
+  color: $primary;
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: map-get($font-weights, medium);
   transition: all 0.2s ease;
+
   &:hover {
-    color: var(--bs-primary);
     text-decoration: underline;
   }
 }
@@ -120,12 +131,19 @@
 .submitButton {
   width: 100%;
   height: 3.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  border-radius: 0.75rem;
+  font-size: map-get($font-sizes, lg);
+  font-weight: map-get($font-weights, semi-bold);
+  border-radius: map-get($border-radii, md);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  background-color: $primary;
+  color: $light;
+
+  &:hover {
+    background-color: $info;
+  }
+
   &:active {
     transform: translateY(0);
   }
@@ -135,14 +153,16 @@
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 2rem 0;
-  color: var(--bs-gray-1000);
+  margin: map-get($spacers, 5) 0;
+  color: $body-color;
+
   &::before,
   &::after {
     content: "";
     flex: 1;
-    border-bottom: 1px solid var(--bs-gray-200);
+    border-bottom: 1px solid $border-color;
   }
+
   span {
     padding: 0 1rem;
     font-size: 0.875rem;
@@ -151,18 +171,18 @@
 
 .signupText {
   text-align: center;
-  color: var(--bs-gray-600);
+  color: $body-color;
   font-size: 0.95rem;
-  margin-top: 1.5rem;
+  margin-top: map-get($spacers, 3);
 }
 
 .signupLink {
-  color: var(--bs-primary);
+  color: $primary;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: map-get($font-weights, medium);
   transition: all 0.2s ease;
+
   &:hover {
-    color: var(--bs-primary);
     text-decoration: underline;
   }
 }
@@ -175,43 +195,67 @@
   position: absolute;
   height: 50px;
   width: 30px;
-  right: 0px;
-  top: 0px;
+  right: 0;
+  top: 0;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  color: #888;
+  color: $secondary;
   display: flex;
   align-items: center;
 }
 
 .errorMessage {
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
+  background-color: $danger;
+  border: 1px solid $danger;
+  color: $light;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
+  border-radius: map-get($border-radii, sm);
+  margin-bottom: map-get($spacers, 3);
   font-size: 0.875rem;
   text-align: center;
 }
 
-:global(.dark) {
-  .loginContainer {
-    background: var(--bg-dark);
-  }
-  .loginCard {
-    background-color: var(--surface-dark);
-  }
-}
+// ---------------------------
+// Dark Mode
+// ---------------------------
 
+// :global(.dark) {
+//   .loginContainer {
+//     background: $dark-body-bg;
+//   }
+//   .loginCard {
+//     background-color: $dark;
+//   }
+//   .title,
+//   .subtitle,
+//   .formLabel,
+//   .rememberMe,
+//   .divider,
+//   .signupText {
+//     color: $light;
+//   }
+//   .input {
+//     background-color: $dark;
+//     color: $light;
+//     border-color: $secondary;
+//   }
+//   .submitButton {
+//     background-color: $primary;
+//     color: $light;
+//   }
+// }
+
+// ---------------------------
+// Responsive
+// ---------------------------
 @media (max-width: 640px) {
   .loginContainer {
-    padding: 1rem;
+    padding: map-get($spacers, 2);
   }
   .cardContent {
-    padding: 2rem;
+    padding: map-get($spacers, 4);
   }
   .title {
     font-size: 1.75rem;
@@ -227,14 +271,15 @@
   }
 }
 
+// ---------------------------
+// Password Strength
+// ---------------------------
 .passwordStrengthWeak {
-  color: #dc3545;
+  color: $danger;
 }
-
 .passwordStrengthMedium {
-  color: #856404;
+  color: $warning;
 }
-
 .passwordStrengthStrong {
-  color: #155724;
+  color: $success;
 }

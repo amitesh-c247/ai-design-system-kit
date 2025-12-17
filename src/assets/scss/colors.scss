@@ -1,50 +1,8 @@
-$enable-css-variables: true;
+@include generate-color-utilities($theme-colors);
 
-$primary: #000000 !default;
-$secondary: #64748b !default;
-$success: #14ae5c !default;
-$info: #43acff !default;
-$warning: #ff9800 !default;
-$danger: #ea3535 !default;
-$light: #fffdfa !default;
-$dark: #0f172a !default;
-
-$body-color: #000 !default;
-$body-bg: #fff !default;
-$border-color: #e2e8f0 !default;
-
-$theme-colors: (
-  primary: $primary,
-  secondary: $secondary,
-  success: $success,
-  info: $info,
-  warning: $warning,
-  danger: $danger,
-  light: $light,
-  dark: $dark,
-  text: $body-color,
-  border: $border-color
-);
-
-$dark-theme-colors: (
-  primary: #fbbf24,
-  secondary: #94a3b8,
-  success: #22c55e,
-  info: #60a5fa,
-  warning: #fbbf24,
-  danger: #ef4444,
-  light: #1e293b,
-  dark: #0f172a,
-  text: #ffffff,
-  border: #fbbf24
-);
-
-$dark-body-color: #ffffff;
-$dark-body-bg: #0f172a;
-
-@import "bootstrap/scss/bootstrap";
-
-[data-bs-theme="dark"] {
+// Dark theme overrides
+[data-bs-theme="dark"],
+.dark {
   --bs-body-color: #{$dark-body-color};
   --bs-body-bg: #{$dark-body-bg};
   --bs-text-color: #{map-get($dark-theme-colors, text)};
@@ -78,6 +36,7 @@ $dark-body-bg: #0f172a;
   --bs-form-range-thumb-bg: #{map-get($dark-theme-colors, primary)};
   --bs-form-range-track-bg: #334155;
 
+  /* 🔥 AUTO-CONVERT ALL COLORS */
   @each $name, $value in $dark-theme-colors {
     --bs-#{$name}: #{$value};
     --bs-btn-#{$name}-bg: #{$value};
@@ -92,6 +51,9 @@ $dark-body-bg: #0f172a;
   }
 }
 
+/* =====================================================
+   Dark Theme Component Enforcement
+===================================================== */
 @each $name, $value in $dark-theme-colors {
   @if $name != text {
     [data-bs-theme="dark"] {
@@ -124,21 +86,21 @@ $dark-body-bg: #0f172a;
         color: var(--bs-text-#{$name}) !important;
       }
     }
+
+    /* Light theme enforcement */
+    [data-bs-theme="light"],
+    :root {
+      .bg-#{$name} {
+        background-color: #{map-get($theme-colors, $name)} !important;
+      }
+
+      .border-#{$name} {
+        border-color: #{map-get($theme-colors, $name)} !important;
+      }
+
+      .text-#{$name} {
+        color: #{map-get($theme-colors, $name)} !important;
+      }
+    }
   }
-}
-
-body {
-  color: var(--bs-text-color) !important;
-  background-color: var(--bs-body-bg) !important;
-}
-
-input::placeholder,
-textarea::placeholder,
-select::placeholder {
-  color: var(--bs-text-color) !important;
-  opacity: 1 !important;
-}
-
-.text-muted {
-  color: var(--bs-text-color) !important;
 }

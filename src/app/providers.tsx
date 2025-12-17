@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState, type ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useState, type ReactNode } from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css'
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
+import "../assets/scss/main.scss";
 
 interface ProvidersProps {
   children: ReactNode;
