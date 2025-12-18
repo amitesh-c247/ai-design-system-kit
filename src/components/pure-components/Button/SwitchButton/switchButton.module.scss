@@ -1,13 +1,18 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .switchGroup {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: map-get($spacers, 1);
 }
 
 .switchLabel {
-  font-weight: 600;
-  margin-right: 0.5rem;
+  font-size: map-get($font-sizes, sm);
+  font-weight: map-get($font-weights, bold);
+  color: var(--bs-body-color);
+  margin-right: map-get($spacers, 1);
 }
+
 
 .toggleSwitch {
   position: relative;
@@ -17,12 +22,14 @@
   width: 65px;
   height: 26px;
   padding: 0;
-  background: var(--secondary);
   border: none;
-  border-radius: 20px;
+  border-radius: map-get($border-radii, xl);
+  background-color: var(--bs-secondary);
+  cursor: pointer;
   outline: none;
   box-shadow: none;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
+
 
   .toggleText {
     position: absolute;
@@ -30,14 +37,16 @@
     left: -8px;
     width: 100%;
     text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--primary-foreground);
+    font-size: map-get($font-sizes, sm);
+    font-weight: map-get($font-weights, bold);
+    color: var(--bs-body-bg);
     pointer-events: none;
     z-index: 2;
-    text-shadow: 0 1px 2px #00000014;
-    transition: left 0.2s;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transition: left 0.2s ease, color 0.2s ease;
   }
+
+
 
   .slider {
     position: absolute;
@@ -45,40 +54,50 @@
     right: 42px;
     width: 22px;
     height: 22px;
-    background: var(--white);
-    border-radius: 50%;
-    box-shadow: 0 1px 3px #00000014;
-    transition: transform 0.2s;
+    background-color: var(--bs-light);
+    border-radius: map-get($border-radii, rounded);
+    border: 2px solid var(--bs-border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     z-index: 3;
-    border: 2px solid var(--border);
+    transition: transform 0.2s ease, border-color 0.2s ease;
   }
+
+
 
   &.on {
-    background: var(--success);
+    background-color: var(--bs-success);
+
     .slider {
       transform: translateX(40px);
-      border-color: var(--success);
+      border-color: var(--bs-success);
     }
+
     .toggleText {
-      color: var(--white);
+      color: var(--bs-light);
     }
+
     &:hover {
-      background: var(--success);
+      background-color: var(--bs-success);
     }
   }
 
+
+
   &.off {
-    background: var(--destructive);
+    background-color: var(--bs-danger);
+
     .slider {
       transform: translateX(0);
-      border-color: var(--destructive);
+      border-color: var(--bs-danger);
     }
+
     .toggleText {
-      color: var(--destructive-foreground);
       left: 9px;
+      color: var(--bs-light);
     }
+
     &:hover {
-      background: var(--destructive);
+      background-color: var(--bs-danger);
     }
   }
 }

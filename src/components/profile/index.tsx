@@ -5,7 +5,7 @@ import SwitchButton from "../pure-components/Button/SwitchButton/SwitchButton";
 import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff } from "@/components/pure-components/Icons";
-import commonStyles from "../../../assets/scss/admin.module.scss";
+import commonStyles from "@/assets/scss/admin.module.scss";
 
 const ProfilePage: React.FC = () => {
   const [editPassword, setEditPassword] = useState(true);
@@ -48,7 +48,7 @@ const ProfilePage: React.FC = () => {
                 </Button>
               </label>
               <Button
-                variant="outline-secondary"
+                variant="secondary"
                 onClick={() => setProfileImage(null)}
                 type="button"
               >
@@ -115,7 +115,7 @@ const ProfilePage: React.FC = () => {
                     defaultValue="password"
                   />
                   <Button
-                    variant="outline-secondary"
+                    variant="secondary"
                     onClick={() => setShowPassword((v) => !v)}
                     tabIndex={-1}
                     className={commonStyles.border}
@@ -135,7 +135,7 @@ const ProfilePage: React.FC = () => {
                     defaultValue="password"
                   />
                   <Button
-                    variant="outline-secondary"
+                    variant="secondary"
                     onClick={() => setShowConfirmPassword((v) => !v)}
                     tabIndex={-1}
                     className={commonStyles.border}

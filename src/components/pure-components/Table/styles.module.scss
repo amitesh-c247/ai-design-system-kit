@@ -1,54 +1,59 @@
+@use "@/assets/scss/variables" as *;
+
 .table {
   width: 100%;
-  margin-bottom: 1rem;
-  color: var(--bs-table-color, var(--bs-body-color));
-  background-color: var(--bs-table-bg, var(--bs-body-bg));
-  border-radius: var(--bs-border-radius);
+  margin-bottom: map-get($spacers, 3);
+  color: $body-color;
+  background-color: $body-bg;
+  border-radius: map-get($border-radii, sm);
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
 
   th,
   td {
-    padding: 0.75rem;
+    padding: map-get($spacers, 3);
     vertical-align: middle;
-    border-top: 1px solid var(--bs-table-border-color, #dee2e6);
+    border-top: 1px solid $border-color;
   }
 
   thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid var(--bs-table-border-color, #dee2e6);
-    background-color: var(--bs-table-head-bg, #f8f9fa);
-    color: var(--bs-table-head-color, #212529);
-    font-weight: 600;
+    border-bottom: 2px solid $border-color;
+    background-color: map-get($theme-colors, light);
+    color: $body-color;
+    font-weight: map-get($font-weights, semibold);
   }
 
   tbody tr {
-    transition: background-color 0.15s;
+    transition: background-color 0.15s ease-in-out;
   }
 
   tbody tr:hover {
-    background-color: var(--bs-table-hover-bg, #f1f3f5);
+    background-color: map-get($grays, 100);
   }
 
   &.table-bordered {
-    border: 1px solid var(--bs-table-border-color, #dee2e6);
+    border: 1px solid $border-color;
+
     th,
     td {
-      border: 1px solid var(--bs-table-border-color, #dee2e6);
+      border: 1px solid $border-color;
     }
   }
 
   &.table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--bs-table-striped-bg, #f9fafb);
+    background-color: map-get($grays, 50);
   }
 
   &.table-hover tbody tr:hover {
-    background-color: var(--bs-table-hover-bg, #f1f3f5);
+    background-color: map-get($grays, 100);
   }
 
-  &.table-sm th,
-  &.table-sm td {
-    padding: 0.3rem;
+  &.table-sm {
+    th,
+    td {
+      padding: map-get($spacers, 1);
+    }
   }
-} 
+}

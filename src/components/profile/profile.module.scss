@@ -1,3 +1,5 @@
+@use "@/assets/scss/variables.scss" as *;
+
 .profileImageSection {
   // Add spacing or layout if needed
   display: flex;
@@ -16,7 +18,7 @@
 }
 
 .profileUpload {
-  :global(.btn) {
+  .btn {
     padding: 10px 16px;
     background-color: var(--bs-primary); // theme-aware button
     color: var(--bs-light);

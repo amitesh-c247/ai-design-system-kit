@@ -1,4 +1,5 @@
-/* Simplified EditorJS Styles */
+@use "@/assets/scss/variables.scss" as *;
+
 .editorjsWrapper {
   position: relative;
   width: 100%;
@@ -9,73 +10,66 @@
   border: none;
   border-radius: 0;
   background-color: transparent;
-  padding-top: 20px;
+  padding-top: map-get($spacers, 4);
   min-height: 300px;
   transition: border-color 0.15s ease;
-}
 
-.editorjsHolder:focus-within {
-  outline: none;
-}
+  &:focus-within {
+    outline: none;
+  }
 
-.editorjsHolder.invalid {
-  border-left: 3px solid #ef4444;
-  padding-left: 17px;
-}
+  &.invalid {
+    border-left: 3px solid var(--bs-danger);
+    padding-left: calc(map-get($spacers, 4) - 3px);
+  }
 
+  &.error {
+    border-color: var(--bs-danger);
+    background-color: var(--bs-danger-bg-subtle);
+  }
+}
 .errorMessage {
-  color: #ef4444;
-  font-size: 14px;
-  margin-top: 8px;
+  color: var(--bs-danger);
+  font-size: map-get($font-sizes, sm);
+  margin-top: map-get($spacers, 2);
 }
 
 .loadingState {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 40px 20px;
-  color: #6b7280;
-  font-size: 14px;
+  gap: map-get($spacers, 3);
+  padding: map-get($spacers, 6) map-get($spacers, 4);
+  color: var(--bs-secondary-color);
+  font-size: map-get($font-sizes, sm);
 }
 
 .loadingSpinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #e5e7eb;
-  border-top: 2px solid #2563eb;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--bs-border-color);
+  border-top-color: var(--bs-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 .errorState {
-  padding: 40px 20px;
+  padding: map-get($spacers, 6) map-get($spacers, 4);
   text-align: center;
-  color: #ef4444;
+  color: var(--bs-danger);
 
   h4 {
-    margin: 0 0 16px 0;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 0 0 map-get($spacers, 4);
+    font-size: map-get($font-sizes, lg);
+    font-weight: map-get($font-weights, semi-bold);
   }
 
   p {
-    margin: 8px 0;
-    font-size: 14px;
+    margin: map-get($spacers, 2) 0;
+    font-size: map-get($font-sizes, sm);
   }
 }
 
-.editorjsHolder.error {
-  border-color: #ef4444;
-  background-color: #fef2f2;
-}
-
-/* Basic EditorJS Styling */
 .editorjsHolder :global(.codex-editor) {
   z-index: 1;
 }
@@ -86,271 +80,137 @@
 }
 
 .editorjsHolder :global(.ce-paragraph) {
-  padding: 4px 8px;
+  padding: map-get($spacers, 1) map-get($spacers, 2);
 }
 
 .editorjsHolder :global(.ce-header) {
-  font-weight: 700;
-  margin: 0;
-  padding: 0 8px;
+  font-weight: map-get($font-weights, bold);
+  padding: 0 map-get($spacers, 2);
   line-height: 1.2;
 }
 
 .editorjsHolder :global(.ce-header[data-level="1"]) {
-  font-size: 36px;
-  margin: 32px 0 16px 0;
+  font-size: 2.25rem;
+  margin: map-get($spacers, 6) 0 map-get($spacers, 4);
 }
 
 .editorjsHolder :global(.ce-header[data-level="2"]) {
-  font-size: 28px;
-  margin: 24px 0 12px 0;
+  font-size: 1.75rem;
+  margin: map-get($spacers, 5) 0 map-get($spacers, 3);
 }
 
 .editorjsHolder :global(.ce-header[data-level="3"]) {
-  font-size: 22px;
-  margin: 20px 0 8px 0;
+  font-size: 1.375rem;
+  margin: map-get($spacers, 4) 0 map-get($spacers, 2);
 }
 
-/* List styling */
 .editorjsHolder :global(.cdx-list) {
-  margin: 8px 0;
+  margin: map-get($spacers, 2) 0;
 }
 
 .editorjsHolder :global(.cdx-list__item) {
-  padding: 2px 0;
+  padding: map-get($spacers, 1) 0;
   line-height: 1.6;
-  color: #374151;
+  color: var(--bs-body-color);
 }
 
-/* Quote styling */
 .editorjsHolder :global(.cdx-quote) {
-  margin: 20px 0;
-  padding: 16px 20px;
-  border-left: 4px solid var(--border);
-  background: $dark;
-  border-radius: 0 8px 8px 0;
-}
-:global(.cdx-input) {
-  border: 0;
-  box-shadow: none;
+  margin: map-get($spacers, 5) 0;
+  padding: map-get($spacers, 4) map-get($spacers, 5);
+  border-left: 4px solid var(--bs-border-color);
+  background-color: var(--bs-secondary-bg);
+  border-radius: 0 map-get($border-radii, md) map-get($border-radii, md) 0;
 }
 
 .editorjsHolder :global(.cdx-quote__text) {
-  font-size: 18px;
+  font-size: map-get($font-sizes, lg);
   line-height: 1.6;
-  color: #374151;
+  color: var(--bs-body-color);
   font-style: italic;
-  margin: 0 0 8px 0;
 }
 
 .editorjsHolder :global(.cdx-quote__caption) {
-  color: #6b7280;
-  font-size: 14px;
-  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: map-get($font-sizes, sm);
   text-align: right;
 }
 
-/* Code styling */
 .editorjsHolder :global(.cdx-code) {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: map-get($border-radii, md);
+  padding: map-get($spacers, 4);
+  margin: map-get($spacers, 4) 0;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #1f2937;
+  font-size: map-get($font-sizes, sm);
+  color: var(--bs-body-color);
   overflow-x: auto;
 }
 
-.editorjsHolder :global(.cdx-code__textarea) {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  resize: none;
-  width: 100%;
-  min-height: 60px;
-}
-
-/* Checklist styling */
 .editorjsHolder :global(.cdx-checklist__item) {
   display: flex;
   align-items: flex-start;
-  margin: 4px 0;
+  margin: map-get($spacers, 1) 0;
   line-height: 1.6;
 }
 
 .editorjsHolder :global(.cdx-checklist__item-checkbox) {
-  width: 16px;
-  height: 16px;
-  margin: 2px 12px 0 0;
-  border: 2px solid #d1d5db;
-  border-radius: 4px;
-  background: #ffffff;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.125rem map-get($spacers, 3) 0 0;
+  border: 2px solid var(--bs-border-color);
+  border-radius: map-get($border-radii, sm);
+  background-color: var(--bs-body-bg);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .editorjsHolder :global(.cdx-checklist__item-checkbox:hover) {
-  border-color: #2563eb;
+  border-color: var(--bs-primary);
 }
 
 .editorjsHolder :global(.cdx-checklist__item-checkbox--checked) {
-  background: #2563eb;
-  border-color: #2563eb;
-}
-
-.editorjsHolder :global(.cdx-checklist__item-checkbox--checked::before) {
-  content: "✓";
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
 }
 
 .editorjsHolder :global(.cdx-checklist__item-text) {
-  color: #374151;
   flex: 1;
+  padding: map-get($spacers, 1) 0;
+  color: var(--bs-body-color);
   outline: none;
-  padding: 2px 0;
 }
 
-.editorjsHolder :global(.cdx-checklist__item--checked .cdx-checklist__item-text) {
+.editorjsHolder
+  :global(.cdx-checklist__item--checked .cdx-checklist__item-text) {
   text-decoration: line-through;
-  color: #9ca3af;
+  color: var(--bs-secondary-color);
 }
 
-/* Delimiter styling */
-.editorjsHolder :global(.ce-delimiter) {
-  margin: 32px 0;
-  text-align: center;
-}
-
-.editorjsHolder :global(.ce-delimiter::before) {
-  content: "* * *";
-  color: #9ca3af;
-  font-size: 18px;
-  letter-spacing: 8px;
-}
-
-/* Table styling */
-.editorjsHolder :global(.tc-table) {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.editorjsHolder :global(.tc-table__cell) {
-  border: 1px solid #e5e7eb;
-  padding: 12px;
-  vertical-align: top;
-}
-
-.editorjsHolder :global(.tc-table__cell--selected) {
-  background: #eff6ff;
-}
-
-:global(.dark) :global(.ce-popover__container) {
-  background: $dark;
-  border: 0 !important;
-  :global(.ce-popover-item) {
-    color: var(--white);
-  }
-  :global(.ce-popover-item):hover {
-    background-color: $dark;
-  }
-  :global(.ce-popover__search) {
-    background-color: $dark;
-    border-color: $dark;
-  }
-  :global(.ce-inline-tool) svg {
-    color: var(--white);
-  }
-}
-:global(.ce-block--selected) :global(.ce-block__content) {
-  background-color: $dark;
-  border-radius: 4px;
-}
-/* Toolbar styling */
-:global(.ce-toolbar__content) {
-  max-width: 100%;
-}
-.editorjsHolder :global(.ce-toolbar__plus) {
-  color: #9ca3af;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  // background: #ffffff;
-  // border: 1px solid #e5e7eb;
-  transition: all 0.15s ease;
-}
-
-.editorjsHolder :global(.ce-toolbar__plus:hover) {
-  color: var(--primary);
-  // border-color: #2563eb;
-  background-color: transparent;
-}
-
+.editorjsHolder :global(.ce-toolbar__plus),
 .editorjsHolder :global(.ce-toolbar__settings-btn) {
-  color: #9ca3af;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  // background: #ffffff;
-  // border: 1px solid #e5e7eb;
-  transition: all 0.15s ease;
-  margin: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--bs-secondary-color);
+  border-radius: map-get($border-radii, sm);
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--bs-primary);
+    background-color: transparent;
+  }
 }
 
-.editorjsHolder :global(.ce-toolbar__settings-btn:hover) {
-  color: var(--primary);
-  // border-color: #2563eb;
-  background-color: transparent;
-}
-
-/* Toolbox */
-.editorjsHolder :global(.ce-toolbox) {
-  // border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  // background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  // padding: 8px;
-  // display: none;
-}
-
-.editorjsHolder :global(.ce-toolbox__button) {
-  border-radius: 6px;
-  padding: 8px 12px;
-  transition: all 0.15s ease;
-  color: #374151;
-  border: none;
-  background: transparent;
-}
-
-.editorjsHolder :global(.ce-toolbox__button:hover) {
-  background: #f3f4f6;
-  color: #2563eb;
-}
-
-/* Remove any unwanted bullets or styling */
 .editorjsHolder :global(*) {
   list-style: none !important;
 }
 
-/* Placeholder styling */
 .editorjsHolder :global([data-placeholder]:empty::before) {
-  color: #9ca3af;
-  font-weight: 400;
+  color: var(--bs-secondary-color);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

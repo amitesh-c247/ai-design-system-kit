@@ -1,31 +1,35 @@
+@use "@/assets/scss/variables" as *;
+
 .web-header__logo-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: map-get($spacers, 2);
   text-decoration: none;
 }
 
 .web-header__logo-icon {
-  font-size: 2rem;
+  font-size: map-get($font-sizes, xl);
 }
 
 .web-header__logo-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 1px;
+  font-size: map-get($font-sizes, lg);
+  font-weight: map-get($font-weights, bold);
+  letter-spacing: 0.0625rem; // 1px → relative unit
 }
 
 .web-footer__links {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 0.3rem;
+  gap: map-get($spacers, 6);
+  margin-bottom: map-get($spacers, 1);
 }
 
 .web-footer__link {
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.2s;
+  font-size: map-get($font-sizes, md);
+  font-weight: map-get($font-weights, medium);
+  color: $body-color;
+  transition: color 0.2s ease;
+
   &:hover {
     text-decoration: underline;
   }

@@ -1,53 +1,53 @@
-.dropdown {
-  min-width: 280px;
-  max-width: 400px;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: var(--bs-white);
-  border: 1px solid var(--bs-gray-300);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+@use "@/assets/scss/variables" as *;
 
+.dropdown {
+  min-width: 280px; // or use map-get($spacers, 35) if defined
+  max-width: 400px; // or use map-get($spacers, 50)
+  padding: map-get($spacers, 4); // 16px
+  border-radius: map-get($border-radii, md); // 8px
+  background-color: $white;
+  border: 1px solid $gray-300;
+  box-shadow: 0 map-get($spacers, 1) map-get($spacers, 3) rgba(0, 0, 0, 0.1); // 0 4px 12px rgba(0,0,0,0.1)
+}
 .searchWrapper {
   .form-control {
-    padding: 8px 12px;
-    border: 1px solid var(--bs-gray-300);
-    border-radius: 4px;
-    font-size: 14px;
+    padding: map-get($spacers, 2) map-get($spacers, 3); // 8px 12px
+    border: 1px solid $gray-300;
+    border-radius: map-get($border-radii, sm); // 4px
+    font-size: map-get($font-sizes, sm); // 14px
     line-height: 1.5;
-
     &:focus {
-      border-color: var(--bs-primary);
-      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+      border-color: $primary;
+      box-shadow: 0 0 0 0.25rem rgba(0,0,0, 0.25);
+      outline: none;
     }
 
     &::placeholder {
-      color: var(--bs-gray-1000);
+      color: $gray-900; // replace --bs-gray-1000
     }
   }
 
   hr {
-    margin: 12px 0;
-    border-color: var(--bs-gray-200);
+    margin: map-get($spacers, 3) 0; // 12px 0
+    border-color: $gray-200;
     opacity: 0.5;
   }
 }
 
 .search {
   position: relative;
-  padding-left: 32px;
-
+  padding-left: map-get($spacers, 8); // 32px
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    left: 8px;
+    left: map-get($spacers, 2); // 8px
     top: 50%;
     transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
+    width: map-get($spacers, 4); // 16px
+    height: map-get($spacers, 4); // 16px
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.5;
   }
-} 
+}

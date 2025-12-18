@@ -6,19 +6,14 @@ $sidebar-collapsed-width: 80px;
 $mobile-breakpoint: 768px;
 $transition-duration: 0.3s;
 
-/* =====================================================
-   Sidebar
-===================================================== */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: $sidebar-width;
-
   background-color: var(--bs-body-bg);
   border-right: 1px solid var(--bs-border-color);
-
   transition: width $transition-duration ease;
   z-index: 1000;
   display: flex;
@@ -27,11 +22,10 @@ $transition-duration: 0.3s;
 
   &.collapsed {
     width: $sidebar-collapsed-width;
-  .navItem {
-    padding: map-get($spacers, 1);
-    justify-content: center;
-  }
-
+    .navItem {
+      padding: map-get($spacers, 1);
+      justify-content: center;
+    }
   }
 
   @media (max-width: $mobile-breakpoint) {
@@ -44,9 +38,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Logo
-===================================================== */
 .logo {
   display: flex;
   align-items: center;
@@ -63,30 +54,24 @@ $transition-duration: 0.3s;
 
   span {
     font-size: map-get($font-sizes, md);
-    color: var(--bs-secondary);
+    color: var(--bs-body-color);
     white-space: nowrap;
   }
 }
 
-/* =====================================================
-   Toggle Button
-===================================================== */
 .toggleButton {
   position: absolute;
   top: map-get($spacers, 3);
   right: -12px;
   width: 24px;
   height: 24px;
-
   background-color: var(--bs-dark);
   border: 1px solid var(--bs-border-color);
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   color: var(--bs-body-color);
   transition: background-color 0.2s ease;
 
@@ -100,9 +85,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Navigation
-===================================================== */
 .nav {
   display: flex;
   flex-direction: column;
@@ -123,7 +105,7 @@ $transition-duration: 0.3s;
 
   &:hover {
     background-color: var(--bs-secondary);
-    color: var(--bs-light);
+    color: var(--bs-body-color);
   }
 
   &.active {
@@ -143,10 +125,6 @@ $transition-duration: 0.3s;
   font-size: map-get($font-sizes, sm);
   font-weight: map-get($font-weights, medium);
 }
-
-/* =====================================================
-   Mobile Menu Button
-===================================================== */
 .mobileMenuButton {
   position: fixed;
   top: map-get($spacers, 2);
@@ -165,9 +143,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Mobile Overlay
-===================================================== */
 @media (max-width: $mobile-breakpoint) {
   .sidebar.mobileOpen::before {
     content: "";
@@ -178,9 +153,6 @@ $transition-duration: 0.3s;
   }
 }
 
-/* =====================================================
-   Accordion
-===================================================== */
 .accordionItem {
   margin-bottom: map-get($spacers, 1);
 }
@@ -213,9 +185,6 @@ $transition-duration: 0.3s;
   margin-top: map-get($spacers, 1);
 }
 
-/* =====================================================
-   Sub Items
-===================================================== */
 .subItem {
   padding: map-get($spacers, 1) map-get($spacers, 1.5);
   font-size: map-get($font-sizes, xs);
