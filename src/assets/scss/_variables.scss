@@ -7,8 +7,8 @@ $sidebar-collapsed-width: 80px !default;
 // ---------------------------
 // 1. Theme Colors
 // ---------------------------
-$primary: #000000 !default;
-$secondary: #64748b !default;
+$primary: #6e66ed !default;
+$secondary: #f3f4f6 !default;
 $success: #14ae5c !default;
 $info: #43acff !default;
 $warning: #ff9800 !default;
@@ -17,7 +17,7 @@ $light: #fffdfa !default;
 $dark: #0f172a !default;
 $body-color: #0f172a !default;
 $body-bg: #fff !default;
-$border-color: #e2e8f0 !default;
+$border-color: #e5e7eb!default;
 
 $theme-colors: (
   primary: $primary,
@@ -29,20 +29,20 @@ $theme-colors: (
   light: $light,
   dark: $dark,
   text: $body-color,
-  border: $border-color
+  border: $border-color,
 );
 
 $dark-theme-colors: (
-  primary: #ef4444,
+  primary: #6e66ed,
   secondary: #94a3b8,
   success: #22c55e,
   info: #60a5fa,
   warning: #fbbf24,
   danger: #ef4444,
-  light: #1e293b,
+  light: #ffffff,
   dark: #0f172a,
   text: #0f172a,
-  border: #fbbf24
+  border: #fbbf24,
 );
 
 $dark-body-color: #ffffff;
@@ -59,7 +59,7 @@ $spacers: (
   3: $global-spacing-unit * 3,
   4: $global-spacing-unit * 4,
   5: $global-spacing-unit * 6,
-  6: $global-spacing-unit * 8
+  6: $global-spacing-unit * 8,
 );
 
 // ---------------------------
@@ -71,14 +71,14 @@ $font-sizes: (
   md: 1rem,
   lg: 1.125rem,
   xl: 1.25rem,
-  xxl: 1.5rem
+  xxl: 1.5rem,
 );
 
 $font-weights: (
   light: 300,
   normal: 400,
   medium: 500,
-  bold: 700
+  bold: 700,
 );
 
 // ---------------------------
@@ -90,7 +90,7 @@ $border-radii: (
   md: 0.3rem,
   lg: 0.5rem,
   xl: 1rem,
-  rounded: 50%
+  rounded: 50%,
 );
 
 // ---------------------------
@@ -101,5 +101,5 @@ $breakpoints: (
   md: 768px,
   lg: 992px,
   xl: 1200px,
-  xxl: 1400px
+  xxl: 1400px,
 );

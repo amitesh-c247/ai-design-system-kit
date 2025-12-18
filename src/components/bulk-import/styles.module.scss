@@ -50,11 +50,11 @@
     font-size: map-get($font-sizes, xl);
     font-weight: map-get($font-weights, semibold);
     color: $body-color;
-    margin-bottom: map-get($spacers, 2);
+    margin-bottom: 0;
   }
 
   p {
-    color: $secondary;
+    color: $body-color;
     font-size: map-get($font-sizes, sm);
     margin: 0;
   }
@@ -75,7 +75,7 @@
   padding: map-get($spacers, 3) map-get($spacers, 6);
   border-radius: map-get($border-radii, md);
   font-weight: map-get($font-weights, medium);
-  color: $light;
+  color: $body-color;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -93,17 +93,15 @@
 }
 
 .downloadButton {
-  background-color: $secondary;
-
+  background-color: $primary;
   &:hover {
-    background-color: darken($secondary, 10%);
+    background-color: darken($secondary, 10%) !important;
   }
 }
 
 .uploadButton,
 .previewButton {
   background-color: $primary;
-
   &:hover {
     background-color: map-get($theme-colors, info);
   }
@@ -136,7 +134,7 @@
   }
 
   svg {
-    color: $secondary;
+    color: $body-color;
     margin-bottom: map-get($spacers, 4);
   }
 
@@ -147,7 +145,7 @@
   }
 
   p {
-    color: $secondary;
+    color: $body-color;
     margin-bottom: map-get($spacers, 4);
   }
 }
