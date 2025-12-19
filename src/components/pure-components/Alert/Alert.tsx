@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert as BootstrapAlert, Button } from 'react-bootstrap';
 import { X } from 'lucide-react';
-import styles from './styles.module.scss';
 
 export interface AlertLink {
   label: string;
@@ -86,24 +85,24 @@ const Alert: React.FC<AlertProps> = ({
       variant={type}
       onClose={closable ? handleClose : undefined}
       dismissible={closable}
-      className={`${styles.alert} ${className}`}
+      className={className}
     >
       {heading && <BootstrapAlert.Heading>{heading}</BootstrapAlert.Heading>}
-      <div className={styles.content}>
+      <div className="app-alert-content">
         {message}
         {links.length > 0 && (
-          <div className={styles.links}>
+          <div className="app-alert-links">
             {links.map((link, index) => (
               <React.Fragment key={link.to}>
                 <a
                   href={link.to}
                   target={link.openExternalLinkInNewTab ? '_blank' : undefined}
                   rel={link.openExternalLinkInNewTab ? 'noopener noreferrer' : undefined}
-                  className={styles.link}
+                  className="app-alert-link"
                 >
                   {link.label}
                 </a>
-                {index < links.length - 1 && <span className={styles.divider}>•</span>}
+                {index < links.length - 1 && <span className="app-alert-divider">•</span>}
               </React.Fragment>
             ))}
           </div>
@@ -112,7 +111,7 @@ const Alert: React.FC<AlertProps> = ({
           <Button
             variant={type === 'light' ? 'primary' : 'light'}
             size="sm"
-            className={styles.actionButton}
+            className="app-alert-action-button"
             onClick={action.onClick}
           >
             {action.label}

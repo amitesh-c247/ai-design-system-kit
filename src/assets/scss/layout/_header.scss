@@ -1,0 +1,30 @@
+// =====================================================
+// Header Layout Styles
+// =====================================================
+// Only styles that cannot be achieved with Bootstrap utilities
+
+.app-header {
+  // Additional header-specific styles if needed
+}
+
+.app-header-dropdown {
+  animation: app-slide-down 0.2s ease-out;
+}
+
+@keyframes app-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0.5rem !important;
+  }
+}
+

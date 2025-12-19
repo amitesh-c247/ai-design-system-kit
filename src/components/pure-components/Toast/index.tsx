@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Toast as BootstrapToast, ToastContainer } from "react-bootstrap";
 import type { ToastProps } from "./types";
-import styles from "./styles.module.scss";
 
 const Toast: React.FC<ToastProps> = ({
   show = false,

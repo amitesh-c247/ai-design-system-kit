@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 export interface EditorJSData {
   time?: number;
@@ -237,12 +237,12 @@ const EditorJSComponent: React.FC<EditorJSProps> = ({
 
   if (editorError) {
     return (
-      <div className={`${styles.editorjsWrapper} ${className}`}>
+      <div className={classNames("app-editorjs-wrapper", className)}>
         <div
-          className={`${styles.editorjsHolder} ${styles.error}`}
+          className={classNames("app-editorjs-holder", "error")}
           style={{ minHeight: `${minHeight}px` }}
         >
-          <div className={styles.errorState}>
+          <div className="app-editorjs-error-state">
             <h4>🚨 EditorJS Error</h4>
             <p>
               <strong>Error:</strong> {editorError}
@@ -255,18 +255,18 @@ const EditorJSComponent: React.FC<EditorJSProps> = ({
   }
 
   return (
-    <div className={`${styles.editorjsWrapper} ${className}`}>
+    <div className={classNames("app-editorjs-wrapper", className)}>
       <div
         ref={holderRef}
-        className={`${styles.editorjsHolder} ${
-          isInvalid ? styles.invalid : ""
-        }`}
+        className={classNames("app-editorjs-holder", {
+          invalid: isInvalid,
+        })}
         style={{ minHeight: `${minHeight}px` }}
       />
-      {error && <div className={styles.errorMessage}>{error}</div>}
+      {error && <div className="app-editorjs-error-message">{error}</div>}
       {!isReady && (
-        <div className={styles.loadingState}>
-          <div className={styles.loadingSpinner} />
+        <div className="app-editorjs-loading-state">
+          <div className="app-editorjs-loading-spinner" />
           <span>Loading EditorJS...</span>
         </div>
       )}

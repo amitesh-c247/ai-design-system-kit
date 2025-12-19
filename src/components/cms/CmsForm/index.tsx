@@ -11,7 +11,6 @@ import dynamic from 'next/dynamic'
 
 import { Controller } from 'react-hook-form'
 import type { EditorJSData } from '@/components/pure-components/EditorJS'
-import styles from './cmsform.module.scss'
 
 export interface CmsFormValues {
   title: string
@@ -288,7 +287,7 @@ const CmsForm: React.FC<CmsFormProps> = ({
   }
 
   return (
-    <div className={styles.cmsForm}>
+    <div className="px-5">
       <Form onSubmit={handleSubmit(handleSubmitWithStringContent)}>
         <Row>
           <Col md={6}>
@@ -340,7 +339,7 @@ const CmsForm: React.FC<CmsFormProps> = ({
             </Form.Group>
           </Col>
           <Col md={contentType === 'LINK' ? 6 : 12}>
-            <Form.Group className={`mb-3 ${styles.editorSection}`}>
+            <Form.Group className="mb-3 mx-n2">
               <Form.Label className="px-2">{t('content')}</Form.Label>
               {contentType === 'LINK' ? (
                 <Input

@@ -1,7 +1,6 @@
 import classnames from "classnames";
 import React, { forwardRef, Ref } from "react";
 import type { SpaceProps } from "./types";
-import styles from "./styles.module.scss";
 
 const Space = forwardRef<HTMLDivElement, React.PropsWithChildren<SpaceProps>>(
   (
@@ -26,9 +25,13 @@ const Space = forwardRef<HTMLDivElement, React.PropsWithChildren<SpaceProps>>(
 
     return (
       <div
-        className={classnames(styles.space, className, {
-          [styles.block]: block,
-        })}
+        className={classnames(
+          "d-flex",
+          {
+            "w-100": block,
+          },
+          className
+        )}
         style={{
           flexDirection,
           justifyContent: justify,

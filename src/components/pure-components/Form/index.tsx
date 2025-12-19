@@ -1,7 +1,6 @@
 import React, { createContext, useContext, HTMLAttributes } from "react";
 import { Form as BootstrapForm, Row, Col, Button } from "react-bootstrap";
 import classnames from "classnames";
-import styles from "./styles.module.scss";
 
 export const FORM_ITEM_SIZE = {
   sm: 4,
@@ -74,13 +73,11 @@ const Item: React.FC<FormItemProps> = ({
       xs={itemSpan}
       className={classnames(dense ? "mb-2" : "mb-3", className)}
     >
-      <BootstrapForm.Group
-        className={classnames(styles.formGroup, { [styles.dense]: dense })}
-      >
+      <BootstrapForm.Group className={dense ? "mb-2" : "mb-3"}>
         {label && (
-          <BootstrapForm.Label className={styles.formLabel}>
+          <BootstrapForm.Label className="fw-medium">
             {label}
-            {required && <span className={styles.required}>*</span>}
+            {required && <span className="text-danger ms-1">*</span>}
           </BootstrapForm.Label>
         )}
         {React.isValidElement(children) &&
@@ -99,8 +96,8 @@ const Item: React.FC<FormItemProps> = ({
         )}
         {help && (
           <BootstrapForm.Text
-            className={classnames(styles.formText, {
-              [styles.error]: validateStatus === "error",
+            className={classnames("fs-sm text-muted", {
+              "text-danger": validateStatus === "error",
             })}
           >
             {help}
@@ -140,7 +137,7 @@ const List: React.FC<FormListProps> = ({
   };
 
   return (
-    <div className={styles.formList}>
+    <div>
       {children(fields, { add, remove })}
       <Button
         variant="outline-primary"
@@ -165,7 +162,7 @@ export const Form: React.FC<React.PropsWithChildren<FormProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm className={styles.form} {...props}>
+    <BootstrapForm className="mb-2" {...props}>
       <Row>{children}</Row>
     </BootstrapForm>
   );
@@ -180,7 +177,7 @@ export const FormGroup: React.FC<React.PropsWithChildren<FormGroupProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm.Group className={styles.formGroup} {...props}>
+    <BootstrapForm.Group className="mb-3" {...props}>
       {children}
     </BootstrapForm.Group>
   );
@@ -195,7 +192,7 @@ export const FormLabel: React.FC<React.PropsWithChildren<FormLabelProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm.Label className={styles.formLabel} {...props}>
+    <BootstrapForm.Label className="fw-medium mb-1" {...props}>
       {children}
     </BootstrapForm.Label>
   );
@@ -214,7 +211,7 @@ export const FormControl: React.FC<FormControlProps> = ({
   return (
     <BootstrapForm.Control
       type={type}
-      className={styles.formControl}
+      className=""
       {...props}
     />
   );
@@ -230,7 +227,7 @@ export const FormSelect: React.FC<React.PropsWithChildren<FormSelectProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm.Select className={styles.formSelect} {...props}>
+    <BootstrapForm.Select className="" {...props}>
       {children}
     </BootstrapForm.Select>
   );
@@ -246,7 +243,7 @@ export const FormCheck: React.FC<React.PropsWithChildren<FormCheckProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm.Check className={styles.formCheck} {...props}>
+    <BootstrapForm.Check className="" {...props}>
       {children}
     </BootstrapForm.Check>
   );
@@ -261,7 +258,7 @@ export const FormText: React.FC<React.PropsWithChildren<FormTextProps>> = ({
   ...props
 }) => {
   return (
-    <BootstrapForm.Text className={styles.formText} {...props}>
+    <BootstrapForm.Text className="fs-sm text-muted" {...props}>
       {children}
     </BootstrapForm.Text>
   );
@@ -278,9 +275,9 @@ export const HorizontalFormGroup: React.FC<HorizontalFormGroupProps> = ({
   ...props
 }) => {
   return (
-    <FormGroup className={styles.horizontal} {...props}>
-      <FormLabel className={styles.horizontalLabel}>{label}</FormLabel>
-      <div className={styles.horizontalControl}>{control}</div>
+    <FormGroup className="d-flex align-items-center" {...props}>
+      <FormLabel className="me-3 mb-0">{label}</FormLabel>
+      <div className="flex-grow-1">{control}</div>
     </FormGroup>
   );
 };

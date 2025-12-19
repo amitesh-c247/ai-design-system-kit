@@ -1,42 +1,35 @@
 "use client";
 import React, { useState } from "react";
-import styles from "./accordion.module.scss";
+import classNames from "classnames";
 import type { AccordionItem, AccordionProps } from "./types";
 
 const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className={styles["faq-accordion-root"]}>
+    <div className="accordion">
       {items.map((item, idx) => {
         const isOpen = openIndex === idx;
-        const itemClass = [
-          styles["faq-accordion-item"],
-          isOpen ? styles.open : "",
-          isOpen ? styles.highlight : "",
-        ]
-          .filter(Boolean)
-          .join(" ");
         return (
-          <div key={item.id} className={itemClass}>
+          <div key={item.id} className={classNames("accordion-item", { "border-primary": isOpen })}>
             <button
-              className={`${styles["faq-accordion-title"]} ${
-                isOpen ? styles["active"] : ""
-              } `}
+              className={classNames(
+                "accordion-button",
+                { "collapsed": !isOpen }
+              )}
               onClick={() => setOpenIndex(isOpen ? null : idx)}
               aria-expanded={isOpen}
               type="button"
             >
-              <span className={styles["faq-accordion-title-text"]}>
+              <span className="fw-medium">
                 {item.title}
-              </span>
-              <span className={styles["faq-accordion-icon"]}>
-                {isOpen ? <span>-</span> : <span>+</span>}
               </span>
             </button>
             {isOpen && (
-              <div className={styles["faq-accordion-desc"]}>
-                <span> {item.description}</span>
+              <div className="accordion-collapse collapse show">
+                <div className="accordion-body">
+                  {item.description}
+                </div>
               </div>
             )}
           </div>

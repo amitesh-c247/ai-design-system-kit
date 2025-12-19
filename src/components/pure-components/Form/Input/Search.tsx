@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, FormControlProps, InputGroup } from 'react-bootstrap';
 import classnames from 'classnames';
 import { FaSearch } from 'react-icons/fa';
-import styles from './styles.module.scss';
 
 export interface SearchProps extends Omit<FormControlProps, 'size'> {
   isValid?: boolean;
@@ -22,7 +21,7 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
           <Form.Control
             ref={ref}
             type="search"
-            className={classnames(styles.input, className)}
+            className={className}
             isValid={isValid}
             isInvalid={isInvalid}
             {...props}

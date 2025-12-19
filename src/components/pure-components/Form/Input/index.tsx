@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './styles.module.scss';
 
 export interface InputProps extends Omit<FormControlProps, 'size'> {
   isValid?: boolean;
@@ -16,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <>
         <Form.Control
           ref={ref}
-          className={classnames(styles.input, className)}
+          className={className}
           isValid={isValid}
           isInvalid={isInvalid}
           {...props}

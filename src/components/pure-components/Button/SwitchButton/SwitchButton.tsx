@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
-import styles from './switchButton.module.scss'
+import classNames from 'classnames'
 
 interface SwitchButtonProps {
   checked: boolean
@@ -15,17 +15,17 @@ const SwitchButton: React.FC<SwitchButtonProps> = ({
   id,
   label,
 }) => (
-  <div className={styles.switchGroup} id={id}>
-    {label && <span className={styles.switchLabel}>{label}</span>}
+  <div className="app-switch-group" id={id}>
+    {label && <span className="app-switch-label">{label}</span>}
     <Button
       variant="light"
-      className={`${styles.toggleSwitch} ${checked ? styles.on : styles.off}`}
+      className={classNames('app-switch-toggle', checked ? 'on' : 'off')}
       onClick={() => onChange(!checked)}
       aria-pressed={checked}
       size="sm"
     >
-      <span className={styles.slider} />
-      <span className={styles.toggleText}>{checked ? 'YES' : 'NO'}</span>
+      <span className="app-switch-toggle-slider" />
+      <span className="app-switch-toggle-text">{checked ? 'YES' : 'NO'}</span>
     </Button>
   </div>
 )

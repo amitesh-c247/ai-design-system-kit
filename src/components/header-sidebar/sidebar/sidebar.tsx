@@ -17,7 +17,7 @@ import {
   FileText,
   Upload,
 } from "lucide-react";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 interface MenuItem {
   id: string;
@@ -147,7 +147,7 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       {isMobile && (
         <button
-          className={styles.mobileMenuButton}
+          className="app-mobile-menu-btn"
           onClick={toggleSidebar}
           aria-label="Toggle menu"
         >
@@ -158,28 +158,29 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`
-          ${styles.sidebar}
-          ${isCollapsed ? styles.collapsed : ""}
-          ${isCollapsed ? "collapsed-sidebar" : ""}
-          ${isMobileMenuOpen ? styles.mobileOpen : ""}
-        `}
+        className={classNames(
+          "app-sidebar",
+          {
+            "app-sidebar-collapsed": isCollapsed,
+            "collapsed-sidebar": isCollapsed,
+            "app-sidebar-mobile-open": isMobileMenuOpen,
+          }
+        )}
       >
         {/* Logo Section */}
-        <div className={styles.logo}>
+        <div className="d-flex align-items-center gap-2 p-1 mb-4">
           <Image
             src={LogoIcon}
             alt="Logo"
             width={40}
             height={40}
-            className={styles.logoImage}
           />
-          {!isCollapsed && <span>Frontend</span>}
+          {!isCollapsed && <span className="fs-md">Frontend</span>}
         </div>
 
         {/* Toggle Button */}
         <button
-          className={styles.toggleButton}
+          className="app-sidebar-toggle-btn"
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
         >
@@ -187,41 +188,50 @@ const Sidebar = () => {
         </button>
 
         {/* Navigation Menu */}
-        <nav className={styles.nav}>
+        <nav className="d-flex flex-column gap-1 flex-grow-1">
           {menuItems.map((item) => (
             <div key={item.id}>
               {item.children ? (
                 // Accordion Item
-                <div className={styles.accordionItem}>
+                <div className="mb-1">
                   <button
-                    className={`${styles.navItem} ${styles.accordionHeader}`}
+                    className={classNames(
+                      "app-nav-item w-100 border-0 bg-transparent",
+                      "position-relative"
+                    )}
                     onClick={() => toggleAccordion(item.id)}
                   >
-                    <span className={styles.icon}>{item.icon}</span>
+                    <span className="d-flex align-items-center justify-content-center" style={{ minWidth: "24px" }}>{item.icon}</span>
                     {!isCollapsed && (
                       <>
-                        <span className={styles.label}>{item.label}</span>
+                        <span className="fs-sm fw-medium">{item.label}</span>
                         <ChevronDown
                           size={16}
-                          className={`${styles.chevron} ${
-                            openAccordions.includes(item.id) ? styles.open : ""
-                          }`}
+                          className={classNames(
+                            "app-accordion-chevron",
+                            {
+                              "app-accordion-chevron-open": openAccordions.includes(item.id),
+                            }
+                          )}
                         />
                       </>
                     )}
                   </button>
                   {!isCollapsed && openAccordions.includes(item.id) && (
-                    <div className={styles.accordionContent}>
+                    <div className="app-accordion-content">
                       {item.children.map((child) => (
                         <Link
                           key={child.id}
                           href={child.path!}
-                          className={`${styles.navItem} ${styles.subItem} ${
-                            pathname === child.path ? styles.active : ""
-                          }`}
+                          className={classNames(
+                            "app-nav-item app-nav-sub-item",
+                            {
+                              "app-nav-item-active": pathname === child.path,
+                            }
+                          )}
                         >
-                          <span className={styles.icon}>{child.icon}</span>
-                          <span className={styles.label}>{child.label}</span>
+                          <span className="app-nav-icon d-flex align-items-center justify-content-center">{child.icon}</span>
+                          <span className="fs-xs">{child.label}</span>
                         </Link>
                       ))}
                     </div>
@@ -231,13 +241,16 @@ const Sidebar = () => {
                 // Regular Item
                 <Link
                   href={item.path!}
-                  className={`${styles.navItem} ${
-                    pathname === item.path ? styles.active : ""
-                  }`}
+                  className={classNames(
+                    "app-nav-item",
+                    {
+                      "app-nav-item-active": pathname === item.path,
+                    }
+                  )}
                 >
-                  <span className={styles.icon}>{item.icon}</span>
+                  <span className="d-flex align-items-center justify-content-center" style={{ minWidth: "24px" }}>{item.icon}</span>
                   {!isCollapsed && (
-                    <span className={styles.label}>{item.label}</span>
+                    <span className="fs-sm fw-medium">{item.label}</span>
                   )}
                 </Link>
               )}

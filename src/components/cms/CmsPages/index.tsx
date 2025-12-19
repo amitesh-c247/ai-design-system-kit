@@ -9,6 +9,7 @@ import { handleDeleteAction } from "@/types/utils/deleteHandler";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { usePagesQuery, useDeletePageMutation } from "@/hooks/cms";
 import { useStandardPagination } from "@/hooks/usePagination";
+import ActionButton from "@/components/pure-components/ActionButton";
 
 import type { CMSPage } from "@/types/cms";
 import { Pencil, Trash2, Search } from "lucide-react";
@@ -137,33 +138,25 @@ const CmsPagesComponent: React.FC = () => {
       title: "Actions",
       dataIndex: "id",
       render: (_: any, record: CMSPage) => (
-        <div style={{ display: "flex", gap: 8 }}>
-          <button
-            style={{
-              color: "#0d6efd",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
+        <div className="action-wrap">
+          <ActionButton
+            title=""
+            icon={<Pencil width={16} />}
+            variant="primary"
+            size="sm"
+            tooltip={("edit")}
+            onClick={() => {
+              handleEdit(record)
             }}
-            onClick={() => handleEdit(record)}
-            title="Edit"
-            aria-label="Edit"
-          >
-            <Pencil size={18} />
-          </button>
-          <button
-            style={{
-              color: "#dc3545",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
+          />
+          <ActionButton
+            title=""
+            icon={<Trash2 width={16} />}
+            variant="danger"
+            size="sm"
+            tooltip={("delete")}
             onClick={() => handleDelete(String(record.id))}
-            title="Delete"
-            aria-label="Delete"
-          >
-            <Trash2 size={18} />
-          </button>
+          />
         </div>
       ),
     },
@@ -234,9 +227,7 @@ const CmsPagesComponent: React.FC = () => {
           delay={3000}
           autohide
         >
-          <Toast.Body
-            style={{ color: toast.variant === "danger" ? "#fff" : undefined }}
-          >
+          <Toast.Body className={toast.variant === "danger" ? "text-white" : ""}>
             {toast.message}
           </Toast.Body>
         </Toast>

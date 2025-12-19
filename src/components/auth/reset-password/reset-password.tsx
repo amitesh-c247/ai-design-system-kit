@@ -6,7 +6,7 @@ import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
 import Input from "@/components/pure-components/Form/Input";
 import Button from "@/components/pure-components/Button";
 import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
-import styles from "../auth.module.scss";
+import classNames from "classnames";
 import { Eye, EyeOff } from "@/components/pure-components/Icons";
 
 export type ResetPasswordInputs = {
@@ -35,10 +35,10 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.logoContainer}>
+    <div className="app-auth-container d-flex align-items-center justify-content-center p-4">
+      <div className="app-auth-card card w-100">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
             <ImageWithFallback
               src="/logo.svg"
               alt="Company Logo"
@@ -47,18 +47,11 @@ const ResetPassword = () => {
               priority
             />
           </div>
-          <h1 className={styles.title}>Reset Password</h1>
-          <p className={styles.subtitle}>Enter your new password below</p>
+          <h1 className="fs-xl fw-bold text-center mb-2">Reset Password</h1>
+          <p className="text-center mb-4">Enter your new password below</p>
 
           {submitted ? (
-            <div
-              className={styles.errorMessage}
-              style={{
-                background: "#dcfce7",
-                color: "#166534",
-                borderColor: "#bbf7d0",
-              }}
-            >
+            <div className="alert alert-success mb-3 text-center">
               Your password has been reset successfully. You can now log in with
               your new password.
             </div>
@@ -66,7 +59,7 @@ const ResetPassword = () => {
             <Form onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <FormLabel>New Password</FormLabel>
-                <div style={{ position: "relative" }}>
+                <div className="position-relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -95,17 +88,7 @@ const ResetPassword = () => {
                       showPassword ? "Hide password" : "Show password"
                     }
                     onClick={() => setShowPassword((v) => !v)}
-                    style={{
-                      position: "absolute",
-                      right: 12,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      background: "none",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      color: "#888",
-                    }}
+                    className="app-password-toggle-btn"
                     tabIndex={-1}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -114,7 +97,7 @@ const ResetPassword = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Confirm New Password</FormLabel>
-                <div style={{ position: "relative" }}>
+                <div className="position-relative">
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
@@ -133,17 +116,7 @@ const ResetPassword = () => {
                       showConfirmPassword ? "Hide password" : "Show password"
                     }
                     onClick={() => setShowConfirmPassword((v) => !v)}
-                    style={{
-                      position: "absolute",
-                      right: 12,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      background: "none",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      color: "#888",
-                    }}
+                    className="app-password-toggle-btn"
                     tabIndex={-1}
                   >
                     {showConfirmPassword ? (
@@ -157,7 +130,7 @@ const ResetPassword = () => {
               <Button
                 variant="primary"
                 type="submit"
-                className={styles.submitButton}
+                className="w-100"
                 disabled={!isValid || isSubmitting}
               >
                 {isSubmitting ? "Resetting..." : "Reset Password"}

@@ -1,0 +1,77 @@
+---
+alwaysApply: true
+---
+
+You are a senior frontend architect responsible for enforcing UI consistency,
+clean code, and scalable styling architecture across the entire project.
+
+=====================
+STRICT RULES
+=====================
+
+- Always use React-Bootstrap components and Bootstrap utility classes first.
+- CSS Modules (*.module.scss / *.module.css) are strictly forbidden.
+- Do NOT create custom SCSS unless Bootstrap utilities cannot solve the problem.
+- Inline styles are forbidden unless absolutely unavoidable (must justify).
+- All SCSS must live inside `src/assets/scss`.
+- All custom CSS class names MUST be prefixed with `app-`.
+
+=====================
+SCSS ARCHITECTURE
+=====================
+
+SCSS files must follow this structure strictly:
+
+- abstracts/
+  - variables, mixins, functions only
+  - must not generate CSS output
+
+- vendors/
+  - Bootstrap variable overrides only
+  - no component or layout styles
+
+- base/
+  - global styles (body, typography, resets)
+
+- layout/
+  - app shell only (header, sidebar, footer, layout wrappers)
+
+- components/
+  - reusable UI patterns only
+  - buttons, cards, forms, tables, modals
+
+- pages/
+  - page-specific styles
+  - use sparingly and only when unavoidable
+
+=====================
+THEME RULES
+=====================
+
+- Colors must come from SCSS variables or CSS variables.
+- Spacing must use Bootstrap utility classes (m-*, p-*, gap-*, etc.).
+- Border-radius values must be consistent and centralized.
+- Shadows must be standardized (no random values).
+- Light and Dark mode must be supported using the `data-theme` attribute.
+- No hardcoded colors inside components.
+
+=====================
+REFACTORING RULES
+=====================
+
+When editing existing code:
+- Remove unused classes and styles.
+- Replace custom styles with Bootstrap utilities wherever possible.
+- Remove dead SCSS files.
+- Ensure responsive behavior using Bootstrap grid and utilities.
+- Keep JSX readable and minimal.
+
+=====================
+OUTPUT EXPECTATIONS
+=====================
+
+- Clean, readable JSX
+- Zero unused SCSS
+- Consistent UI across all modules
+- Scalable and maintainable codebase
+- Admin-grade UI quality

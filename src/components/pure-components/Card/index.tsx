@@ -1,8 +1,9 @@
 import React from "react";
-import styles from "./styles.module.scss";
+import { Card as BootstrapCard } from "react-bootstrap";
+import classNames from "classnames";
 
 interface CardProps {
-  variant?: string;
+  variant?: "default" | "strong" | "tight" | "tight-strong";
   bordered?: boolean;
   noShadow?: boolean;
   className?: string;
@@ -15,18 +16,22 @@ const Card: React.FC<React.PropsWithChildren<CardProps>> = ({
   noShadow = false,
   className = "",
 }) => {
-  const variantClass = `variant${
-    variant.charAt(0).toUpperCase() + variant.slice(1)
-  }`;
+  const cardClasses = classNames(
+    {
+      "bg-secondary": variant === "strong" || variant === "tight-strong",
+      "p-4": variant === "default" || variant === "strong",
+      "p-3": variant === "tight" || variant === "tight-strong",
+      "border": bordered,
+      "shadow-sm": !noShadow && (variant === "default" || variant === "tight"),
+      "shadow": !noShadow && (variant === "strong" || variant === "tight-strong"),
+    },
+    className
+  );
 
   return (
-    <div
-      className={`${styles.card} ${styles[variantClass]} ${
-        bordered ? styles.bordered : ""
-      } ${noShadow ? styles.noShadow : ""} ${className}`}
-    >
+    <BootstrapCard className={cardClasses}>
       {children}
-    </div>
+    </BootstrapCard>
   );
 };
 

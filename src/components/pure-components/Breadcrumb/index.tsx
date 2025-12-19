@@ -2,7 +2,6 @@ import React from "react";
 import { Breadcrumb as BootstrapBreadcrumb } from "react-bootstrap";
 import NextLink from "next/link";
 import type { BreadcrumbProps } from "./types";
-import styles from "./styles.module.scss";
 
 // Conditional Link component for breadcrumbs
 const ConditionalBreadcrumbLink: React.FC<
@@ -21,7 +20,7 @@ const ConditionalBreadcrumbLink: React.FC<
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ crumbs, className }) => {
   return (
-    <BootstrapBreadcrumb className={`${styles.breadcrumbs} ${className || ""}`}>
+    <BootstrapBreadcrumb className={className || ""}>
       {crumbs.map(({ link, title }, index) => {
         const isLastBreadcrumb = index === crumbs.length - 1;
 
@@ -31,7 +30,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ crumbs, className }) => {
             linkAs={ConditionalBreadcrumbLink}
             linkProps={{ href: link }}
             active={isLastBreadcrumb}
-            className={styles.breadcrumbItem}
           >
             {title}
           </BootstrapBreadcrumb.Item>

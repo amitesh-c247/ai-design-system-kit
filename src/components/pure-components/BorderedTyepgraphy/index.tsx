@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './styles.module.scss';
 
 export type BorderedTypographyVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 
@@ -42,8 +41,8 @@ const BorderedTypography: React.FC<BorderedTypographyProps> = ({
     <Card 
       bg={variant}
       text={textColor}
-      className={classnames(styles.bordered, className, {
-        [styles.noHover]: !hover,
+      className={classnames('app-bordered-typography', className, {
+        'app-bordered-typography-no-hover': !hover,
       })}
     >
       <Card.Body className={`p-2 ${textClasses}`}>

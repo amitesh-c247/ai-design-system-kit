@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import Button from "../Button";
 import Typography from "../Typography";
 import LoadingSpinner from "../LoadingSpinner";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 interface FileUploadProps {
   name: string;
@@ -196,24 +196,25 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <div className={styles.fileUpload}>
+    <div>
       <Controller
         name={name as keyof FileUploadFormData}
         control={control}
         rules={{ required: required ? "This field is required" : false }}
         render={({ field }) => (
-          <div className={styles.uploadContainer}>
+          <div>
             {label && (
-              <Typography variant="p" className={styles.label}>
+              <Typography variant="p" className="fw-medium mb-2">
                 {label}
-                {required && <span className={styles.required}>*</span>}
+                {required && <span className="text-danger ms-1">*</span>}
               </Typography>
             )}
 
             <div
-              className={`${styles.dropZone} ${
-                disabled ? styles.disabled : ""
-              }`}
+              className={classNames(
+                "app-file-upload-dropzone p-4 text-center",
+                { "disabled": disabled }
+              )}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={() => !disabled && fileInputRef.current?.click()}
@@ -224,44 +225,43 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 accept={accept}
                 multiple={multiple}
                 onChange={handleFileSelect}
-                className={styles.hiddenInput}
+                className="visually-hidden"
                 disabled={disabled}
               />
 
-              <div className={styles.dropZoneContent}>
-                <div className={styles.uploadIcon}>📁</div>
-                <Typography variant="p" className={styles.dropText}>
+              <div className="d-flex flex-column align-items-center gap-2">
+                <div className="fs-1">📁</div>
+                <Typography variant="p" className="mb-0">
                   Drag and drop files here or click to browse
                 </Typography>
-                <Typography variant="span" className={styles.fileTypes}>
+                <Typography variant="span" className="fs-sm text-muted">
                   Accepted types: {accept === "*/*" ? "All files" : accept}
                 </Typography>
-                <Typography variant="span" className={styles.fileSize}>
+                <Typography variant="span" className="fs-sm text-muted">
                   Max size: {maxSize}MB
                 </Typography>
               </div>
             </div>
 
             {selectedFiles.length > 0 && (
-              <div className={styles.selectedFiles}>
-                <Typography variant="p" className={styles.filesTitle}>
+              <div className="mt-3">
+                <Typography variant="p" className="fw-medium mb-2">
                   Selected Files ({selectedFiles.length}):
                 </Typography>
                 {selectedFiles.map((file, index) => (
-                  <div key={index} className={styles.fileItem}>
-                    <div className={styles.fileInfo}>
-                      <Typography variant="p" className={styles.fileName}>
+                  <div key={index} className="d-flex justify-content-between align-items-center p-2 mb-2 border rounded">
+                    <div>
+                      <Typography variant="p" className="mb-0 fw-medium">
                         {file.name}
                       </Typography>
-                      <Typography variant="span" className={styles.fileSize}>
+                      <Typography variant="span" className="fs-sm text-muted">
                         {formatFileSize(file.size)}
                       </Typography>
                     </div>
                     <Button
-                      variant="text"
-                      size="small"
+                      variant="outline-danger"
+                      size="sm"
                       onClick={() => removeFile(index)}
-                      className={styles.removeButton}
                       disabled={disabled}
                     >
                       ✕
@@ -272,12 +272,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             )}
 
             {onFileUpload && selectedFiles.length > 0 && (
-              <div className={styles.uploadSection}>
+              <div className="mt-3">
                 <Button
                   variant="primary"
                   onClick={handleUpload}
                   disabled={disabled || isUploading}
-                  className={styles.uploadButton}
+                  className="w-100"
                 >
                   {isUploading ? (
                     <>
@@ -290,9 +290,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 </Button>
 
                 {isUploading && (
-                  <div className={styles.progressBar}>
+                  <div className="app-file-upload-progress mt-2">
                     <div
-                      className={styles.progressFill}
+                      className="app-file-upload-progress-fill"
                       style={{ width: `${uploadProgress}%` }}
                     />
                   </div>
@@ -301,7 +301,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             )}
 
             {(error || errors[name as keyof FileUploadFormData]) && (
-              <Typography variant="span" className={styles.error}>
+              <Typography variant="span" className="text-danger fs-sm d-block mt-2">
                 {error || errors[name as keyof FileUploadFormData]?.message}
               </Typography>
             )}

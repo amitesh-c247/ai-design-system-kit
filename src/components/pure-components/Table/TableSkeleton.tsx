@@ -32,11 +32,7 @@ const TableSkeleton = ({ columns, rows = 8 }: TableSkeletonProps) => (
         {Array.from({ length: columns }).map((_, colIdx) => (
           <td
             key={colIdx}
-            style={{
-              padding: "8px 16px",
-              verticalAlign: "middle",
-              backgroundColor: "#fff",
-            }}
+            className="p-2 align-middle bg-white"
           >
             <Loader />
           </td>

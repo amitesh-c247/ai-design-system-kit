@@ -1,0 +1,66 @@
+// =====================================================
+// Auth Page Styles
+// =====================================================
+// Page-specific styles for authentication pages
+// Only styles that cannot be achieved with Bootstrap utilities
+
+.app-auth-container {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--bs-body-bg) 0%,
+    var(--bs-secondary) 100%
+  );
+}
+
+.app-auth-card {
+  max-width: 480px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.app-auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0;
+  color: var(--bs-body-color);
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--bs-border-color);
+  }
+
+  span {
+    padding: 0 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.app-password-toggle-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 50px;
+  width: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bs-secondary);
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .app-auth-card {
+    .card-body {
+      padding: 1.5rem !important;
+    }
+  }
+}
+

@@ -6,7 +6,6 @@ import type {
 } from "antd/lib/collapse";
 import classnames from "classnames";
 
-import styles from "./styles.module.scss";
 
 interface CollapseProps extends AntdCollapseProps {
   className?: string;
@@ -18,7 +17,7 @@ const Collapse: React.FC<React.PropsWithChildren<CollapseProps>> & {
   Panel: React.FC<CollapsePanelProps>;
 } = ({ className, children, ...props }) => {
   return (
-    <AntdCollapse className={classnames(styles.collapse, className)} {...props}>
+    <AntdCollapse className={className} {...props}>
       {children}
     </AntdCollapse>
   );

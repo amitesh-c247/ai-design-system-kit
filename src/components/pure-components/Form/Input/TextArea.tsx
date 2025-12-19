@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './styles.module.scss';
 
 export interface TextAreaProps extends Omit<FormControlProps, 'size'> {
   isValid?: boolean;
@@ -18,7 +17,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <Form.Control
           ref={ref}
           as="textarea"
-          className={classnames(styles.input, className)}
+          className={className}
           isValid={isValid}
           isInvalid={isInvalid}
           rows={rows || 3}

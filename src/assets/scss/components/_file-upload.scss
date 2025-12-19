@@ -1,0 +1,35 @@
+// =====================================================
+// File Upload Component Styles
+// =====================================================
+// Only styles that cannot be achieved with Bootstrap utilities
+
+.app-file-upload-dropzone {
+  border: 2px dashed var(--bs-border-color);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover:not(.disabled) {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-secondary);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.app-file-upload-progress {
+  height: 4px;
+  background-color: var(--bs-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.app-file-upload-progress-fill {
+  height: 100%;
+  background-color: var(--bs-primary);
+  transition: width 0.3s ease;
+}
+

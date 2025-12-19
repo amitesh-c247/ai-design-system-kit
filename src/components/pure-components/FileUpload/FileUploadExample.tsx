@@ -3,7 +3,6 @@ import { useForm, Controller } from "react-hook-form";
 import { FileUpload } from "./FileUpload";
 import Button from "../Button";
 import Typography from "../Typography";
-import styles from "./styles.module.scss";
 
 interface FormData {
   documents: File[];
@@ -50,19 +49,19 @@ export const FileUploadExample: React.FC = () => {
   };
 
   return (
-    <div className={styles.exampleContainer}>
-      <Typography variant="h4" className={styles.exampleTitle}>
+    <div className="container py-4">
+      <Typography variant="h4" className="mb-3">
         File Upload Form Example
       </Typography>
 
-      <Typography variant="p" className={styles.exampleDescription}>
+      <Typography variant="p" className="text-muted mb-4">
         This example demonstrates how to use the FileUpload component with React
         Hook Form.
       </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <div className={styles.formSection}>
-          <Typography variant="h6" className={styles.sectionTitle}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-4">
+          <Typography variant="h6" className="mb-3">
             Single File Upload
           </Typography>
           <Controller
@@ -83,8 +82,8 @@ export const FileUploadExample: React.FC = () => {
           />
         </div>
 
-        <div className={styles.formSection}>
-          <Typography variant="h6" className={styles.sectionTitle}>
+        <div className="mb-4">
+          <Typography variant="h6" className="mb-3">
             Multiple Documents
           </Typography>
           <Controller
@@ -106,8 +105,8 @@ export const FileUploadExample: React.FC = () => {
           />
         </div>
 
-        <div className={styles.formSection}>
-          <Typography variant="h6" className={styles.sectionTitle}>
+        <div className="mb-4">
+          <Typography variant="h6" className="mb-3">
             Image Gallery
           </Typography>
           <Controller
@@ -127,12 +126,11 @@ export const FileUploadExample: React.FC = () => {
           />
         </div>
 
-        <div className={styles.formActions}>
+        <div className="d-flex gap-2 mb-4">
           <Button
             type="submit"
             variant="primary"
             disabled={isSubmitting}
-            className={styles.submitButton}
           >
             {isSubmitting ? "Submitting..." : "Submit Form"}
           </Button>
@@ -141,18 +139,17 @@ export const FileUploadExample: React.FC = () => {
             type="button"
             variant="secondary"
             onClick={() => reset()}
-            className={styles.resetButton}
           >
             Reset Form
           </Button>
         </div>
       </form>
 
-      <div className={styles.codeExample}>
-        <Typography variant="h6" className={styles.codeTitle}>
+      <div className="mt-5">
+        <Typography variant="h6" className="mb-3">
           Usage Code Example:
         </Typography>
-        <pre className={styles.codeBlock}>
+        <pre className="bg-light p-3 rounded border">
           {`import { useForm, Controller } from 'react-hook-form';
 import { FileUpload } from './FileUpload';
 

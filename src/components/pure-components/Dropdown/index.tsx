@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Dropdown as BootstrapDropdown, ButtonGroup } from "react-bootstrap";
 import classnames from "classnames";
 import { ChevronDown, ChevronUp } from "../Icons";
-import styles from "./styles.module.scss";
 
 export type DropdownSize = "default" | "large";
 
@@ -59,8 +58,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     <button
       ref={ref}
       onClick={onClick}
-      className={classnames(styles.dropdownToggle, {
-        [styles.block]: buttonProps?.block,
+      className={classnames("btn", {
+        "w-100": buttonProps?.block,
       })}
     >
       {icon && <span className="me-2">{icon}</span>}
@@ -82,9 +81,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         {...dropdownProps}
       >
         <BootstrapDropdown.Toggle as={CustomToggle} />
-        <BootstrapDropdown.Menu className={styles.dropdownMenu}>
+        <BootstrapDropdown.Menu>
           {dropdownRender(
-            <div className={styles.dropdownContent}>
+            <div>
               {dropdownProps?.children}
             </div>
           )}
@@ -96,8 +95,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <ButtonGroup {...buttonProps}>
       <button
-        className={classnames(styles.dropdownToggle, {
-          [styles.block]: buttonProps?.block,
+        className={classnames("btn", {
+          "w-100": buttonProps?.block,
         })}
       >
         {icon && <span className="me-2">{icon}</span>}
@@ -107,12 +106,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         onToggle={(isOpen) => setIsDropdownOpen(isOpen)}
         {...dropdownProps}
       >
-        <BootstrapDropdown.Toggle split className={styles.dropdownToggle}>
+        <BootstrapDropdown.Toggle split className="btn">
           {getMenuIcon(isDropdownOpen, featherIconSize)}
         </BootstrapDropdown.Toggle>
-        <BootstrapDropdown.Menu className={styles.dropdownMenu}>
+        <BootstrapDropdown.Menu>
           {dropdownRender(
-            <div className={styles.dropdownContent}>
+            <div>
               {dropdownProps?.children}
             </div>
           )}

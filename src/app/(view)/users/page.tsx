@@ -14,7 +14,6 @@ import {
 import { useStandardPagination } from "@/hooks/usePagination";
 import { useTranslations } from "next-intl";
 import { Toast, ToastContainer } from "react-bootstrap";
-import styles from "./styles.module.scss";
 import { Trash2, Pencil, Search } from "lucide-react";
 import { handleDeleteAction } from "@/types/utils/deleteHandler";
 import CardWrapper from "@/components/pure-components/CardWrapper";
@@ -111,7 +110,7 @@ export default function UsersPage() {
             icon={<Pencil width={16} />}
             variant="primary"
             size="sm"
-            className={`text-white ${styles.actionLink}`}
+            className="text-white text-decoration-none"
             tooltip={t("edit")}
             onClick={() => {
               setEditId(record.id as any);
@@ -128,7 +127,7 @@ export default function UsersPage() {
             icon={<Trash2 width={16} />}
             variant="danger"
             size="sm"
-            className={`text-white ${styles.actionLink}`}
+            className="text-white text-decoration-none"
             tooltip={t("delete")}
             onClick={() => handleDelete(record.id)}
           />
@@ -247,9 +246,7 @@ export default function UsersPage() {
           delay={3000}
           autohide
         >
-          <Toast.Body
-            style={{ color: toast.variant === "danger" ? "#fff" : undefined }}
-          >
+          <Toast.Body className={toast.variant === "danger" ? "text-white" : ""}>
             {toast.message}
           </Toast.Body>
         </Toast>

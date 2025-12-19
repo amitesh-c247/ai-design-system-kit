@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './styles.module.scss'
+import classNames from 'classnames'
 
 interface LoadingSpinnerProps {
   fullScreen?: boolean
@@ -10,11 +10,16 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 }) => {
   return (
     <div
-      className={`${styles.spinnerContainer} ${
-        fullScreen ? styles.fullScreen : ''
-      }`}
+      className={classNames(
+        'd-flex align-items-center justify-content-center',
+        {
+          'position-fixed top-0 start-0 w-100 h-100': fullScreen,
+        }
+      )}
     >
-      <div className={styles.spinner}></div>
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     </div>
   )
 }

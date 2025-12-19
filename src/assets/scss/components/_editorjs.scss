@@ -1,0 +1,211 @@
+// EditorJS Component Styles
+.app-editorjs {
+  &-wrapper {
+    position: relative;
+    width: 100%;
+    font-family: var(--bs-font-family-base);
+  }
+
+  &-holder {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding-top: 1rem;
+    min-height: 300px;
+    transition: border-color 0.15s ease;
+
+    &:focus-within {
+      outline: none;
+    }
+
+    &.invalid {
+      border-left: 3px solid var(--bs-danger);
+      padding-left: calc(1rem - 3px);
+    }
+
+    &.error {
+      border-color: var(--bs-danger);
+      background-color: var(--bs-danger-bg-subtle);
+    }
+  }
+
+  &-error-message {
+    color: var(--bs-danger);
+    font-size: var(--bs-font-size-sm);
+    margin-top: 0.5rem;
+  }
+
+  &-loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    color: var(--bs-secondary-color);
+    font-size: var(--bs-font-size-sm);
+  }
+
+  &-loading-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--bs-border-color);
+    border-top-color: var(--bs-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  &-error-state {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--bs-danger);
+
+    h4 {
+      margin: 0 0 1rem;
+      font-size: var(--bs-font-size-lg);
+      font-weight: var(--bs-font-weight-semibold);
+    }
+
+    p {
+      margin: 0.5rem 0;
+      font-size: var(--bs-font-size-sm);
+    }
+  }
+}
+
+// EditorJS global styles
+.app-editorjs-holder .codex-editor {
+  z-index: 1;
+}
+
+.app-editorjs-holder .ce-block__content {
+  max-width: none;
+  margin: 0;
+}
+
+.app-editorjs-holder .ce-paragraph {
+  padding: 0.25rem 0.5rem;
+}
+
+.app-editorjs-holder .ce-header {
+  font-weight: var(--bs-font-weight-bold);
+  padding: 0 0.5rem;
+  line-height: 1.2;
+}
+
+.app-editorjs-holder .ce-header[data-level="1"] {
+  font-size: 2.25rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.app-editorjs-holder .ce-header[data-level="2"] {
+  font-size: 1.75rem;
+  margin: 1.25rem 0 0.75rem;
+}
+
+.app-editorjs-holder .ce-header[data-level="3"] {
+  font-size: 1.375rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.app-editorjs-holder .cdx-list {
+  margin: 0.5rem 0;
+}
+
+.app-editorjs-holder .cdx-list__item {
+  padding: 0.25rem 0;
+  line-height: 1.6;
+  color: var(--bs-body-color);
+}
+
+.app-editorjs-holder .cdx-quote {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--bs-border-color);
+  background-color: var(--bs-secondary-bg);
+  border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
+}
+
+.app-editorjs-holder .cdx-quote__text {
+  font-size: var(--bs-font-size-lg);
+  line-height: 1.6;
+  color: var(--bs-body-color);
+  font-style: italic;
+}
+
+.app-editorjs-holder .cdx-quote__caption {
+  color: var(--bs-secondary-color);
+  font-size: var(--bs-font-size-sm);
+  text-align: right;
+}
+
+.app-editorjs-holder .cdx-code {
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  padding: 1rem;
+  margin: 1rem 0;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: var(--bs-font-size-sm);
+  color: var(--bs-body-color);
+  overflow-x: auto;
+}
+
+.app-editorjs-holder .cdx-checklist__item {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+.app-editorjs-holder .cdx-checklist__item-checkbox {
+  width: 1rem;
+  height: 1rem;
+  margin: 0.125rem 0.75rem 0 0;
+  border: 2px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-body-bg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.app-editorjs-holder .cdx-checklist__item-checkbox:hover {
+  border-color: var(--bs-primary);
+}
+
+.app-editorjs-holder .cdx-checklist__item-checkbox--checked {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.app-editorjs-holder .cdx-checklist__item-text {
+  flex: 1;
+  padding: 0.25rem 0;
+  color: var(--bs-body-color);
+  outline: none;
+}
+
+.app-editorjs-holder .cdx-checklist__item--checked .cdx-checklist__item-text {
+  text-decoration: line-through;
+  color: var(--bs-secondary-color);
+}
+
+.app-editorjs-holder .ce-toolbar__plus,
+.app-editorjs-holder .ce-toolbar__settings-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--bs-secondary-color);
+  border-radius: var(--bs-border-radius);
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--bs-primary);
+    background-color: transparent;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

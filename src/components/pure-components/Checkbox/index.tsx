@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 import classNames from 'classnames';
-import styles from './styles.module.scss';
 
 export interface CheckboxProps {
   label?: React.ReactNode;
@@ -35,7 +34,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     ...props 
   }, ref) => {
     return (
-      <Form.Group className={classNames(styles.checkboxGroup, { [styles.inline]: inline })}>
+      <Form.Group className={classNames({ 'd-inline-flex align-items-center me-3': inline })}>
         <Form.Check
           type="checkbox"
           id={id}
@@ -44,7 +43,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           checked={checked}
           disabled={disabled}
           onChange={(e) => onChange?.(e.target.checked)}
-          className={classNames(styles.checkbox, className)}
+          className={className}
           name={name}
           value={value}
           isInvalid={isInvalid}

@@ -2,7 +2,6 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import classnames from "classnames";
 import type { DividerProps } from "./types";
-import styles from "./styles.module.scss";
 
 const Divider: React.FC<DividerProps> = ({
   className,
@@ -15,17 +14,15 @@ const Divider: React.FC<DividerProps> = ({
     <Container
       fluid
       className={classnames(
-        styles.divider,
         {
-          [styles.separatorVertical]: vertical,
-          [styles.noMargin]: noMargin,
-          [styles[variant || ""]]: variant,
+          "d-flex": vertical,
+          "my-0": noMargin,
         },
         className
       )}
       {...props}
     >
-      <hr className={styles.hr} />
+      <hr className={vertical ? "vr" : "hr"} />
     </Container>
   );
 };

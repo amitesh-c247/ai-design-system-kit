@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button as BootstrapButton } from 'react-bootstrap';
-import styles from './styles.module.scss';
+import classNames from 'classnames';
 
 export interface ButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'iconBordered' | 'danger' | 'link';
@@ -62,12 +62,19 @@ const Button: React.FC<ButtonProps> = ({
     }
   };
 
-  const buttonClasses = [
-    styles.button,
-    type === 'icon' || type === 'iconBordered' ? styles.iconButton : '',
-    block ? styles.block : '',
+  const buttonClasses = classNames(
+    'd-inline-flex',
+    'align-items-center',
+    'justify-content-center',
+    'gap-1',
+    {
+      'w-100': block,
+      'rounded-circle': type === 'icon' || type === 'iconBordered',
+      'p-2': type === 'icon' || type === 'iconBordered',
+      'border': type === 'iconBordered',
+    },
     className
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <BootstrapButton
@@ -83,7 +90,7 @@ const Button: React.FC<ButtonProps> = ({
       {loading ? (
         <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
       ) : null}
-      {icon && <span className={styles.icon}>{icon}</span>}
+      {icon && <span className="me-1">{icon}</span>}
       {children}
     </BootstrapButton>
   );

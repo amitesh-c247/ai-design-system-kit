@@ -4,7 +4,6 @@ import { Form } from "react-bootstrap";
 import capitalize from "lodash/capitalize";
 
 import FilterButton from "../FilterButton";
-import styles from "./styles.module.scss";
 
 export interface StateFilterProps {
   filterLabel: string;
@@ -51,12 +50,12 @@ const StatesFilter: React.FC<StateFilterProps> = ({
   };
 
   return (
-    <div className={styles.stateFilter}>
+    <div>
       <Form.Select
         value={value}
         onChange={(e) => handleChange(e.target.value)}
         multiple={type === "multiple"}
-        className={styles.select}
+        className="app-filter-select"
       >
         <option value="">Select State</option>
         {options.map((option) => (

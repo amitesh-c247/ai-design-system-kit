@@ -4,7 +4,6 @@ import { Form } from "react-bootstrap";
 
 import { useTags } from "@/hooks/tags";
 import FilterButton from "../FilterButton";
-import styles from "./styles.module.scss";
 
 interface TagFilterProps {
   type: string;
@@ -68,7 +67,7 @@ const TagFilter: React.FC<TagFilterProps> = ({
       multiple
       value={value}
       onChange={handleChange}
-      className={styles.tagFilter}
+      className="app-filter-select"
       aria-label={formatMessage({ id: "tags.filter.label" })}
       {...rawInputElementProps}
     >

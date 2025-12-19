@@ -2,7 +2,6 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import classnames from "classnames";
 import type { SelectProps } from "./types";
-import styles from "./styles.module.scss";
 
 const Select: React.FC<React.PropsWithChildren<SelectProps>> = ({
   className,
@@ -12,7 +11,7 @@ const Select: React.FC<React.PropsWithChildren<SelectProps>> = ({
   ...props
 }) => {
   return (
-    <Form.Select {...props} className={classnames(className, styles.select)}>
+    <Form.Select {...props} className={className}>
       {optionGroups
         ? optionGroups.map((group, index) => (
             <optgroup key={index} label={group.label}>

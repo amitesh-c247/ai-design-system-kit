@@ -2,7 +2,6 @@ import React, { forwardRef, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from 'react-bootstrap';
 import { ChevronDown } from '@/components/Icons';
-import styles from './styles.module.scss';
 
 interface FilterButtonProps {
   onClick?: () => void;
@@ -18,7 +17,7 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     const { formatMessage } = useIntl();
     const label = useMemo(() => {
       const getLabelName = (label: string, count: string | null = null) => (
-        <span className={styles.labelWrapper}>
+        <span className="app-filter-label-wrapper">
           <span className="text-truncate">{label}</span>
           {count && <span className="text-truncate">{count}</span>}
         </span>
@@ -48,13 +47,13 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     return (
       <Button
         variant={active ? 'primary' : 'outline-secondary'}
-        className={`${styles.filterButton} ${className || ''}`}
+        className={`app-filter-button ${className || ''}`}
         onClick={onClick}
         ref={ref}
         title={label.title}
       >
-        <span className={styles.label}>{label.name}</span>
-        <ChevronDown className={styles.arrowIcon} size={16} />
+        <span className="app-filter-label">{label.name}</span>
+        <ChevronDown className="app-filter-arrow-icon" size={16} />
       </Button>
     );
   }

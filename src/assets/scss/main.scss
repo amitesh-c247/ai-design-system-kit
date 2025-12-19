@@ -1,20 +1,57 @@
-// 1. Variables
-@use "./variables.scss" as *;
+// =====================================================
+// SCSS Architecture - Following strict folder structure
+// =====================================================
+// 
+// NOTE: Deprecation Warnings
+// =====================================================
+// You may see Sass deprecation warnings about @import and Bootstrap functions.
+// These are EXPECTED and do not affect functionality:
+// 1. Bootstrap warnings: Come from Bootstrap's internal SCSS (we cannot fix)
+// 2. Our @import usage: Required because Bootstrap doesn't support @use
+//    - @use must come before @import in Sass
+//    - Since Bootstrap requires @import, we use @import for consistency
+// These warnings are informational about Dart Sass 3.0.0 (not yet released)
+// =====================================================
 
-// 2. Bootstrap functions/mixins/variables/core
-@import "./bootstrap-custom.scss";
+// 1. Abstracts (variables, mixins, functions - no CSS output)
+@use "./abstracts/_variables.scss" as *;
+@use "./abstracts/_mixins.scss" as *;
 
-// 3. Mixins
-@import "./mixins.scss";
+// 2. Vendors (Bootstrap variable overrides only)
+// Note: Must use @import for Bootstrap (doesn't support @use)
+@import "./vendors/_bootstrap-custom.scss";
 
-// 4. Globals (body, placeholders, etc.)
-@import "./global.scss";
+// 3. Base (global styles, typography, resets)
+@import "./base/_global.scss";
+@import "./base/_colors.scss";
+@import "./base/_admin.scss";
 
-// 5. Colors and utilities
-@import "./colors.scss";
+// 4. Layout (header, sidebar, footer, layout wrappers)
+@import "./layout/_header.scss";
+@import "./layout/_sidebar.scss";
+// @import "./layout/_footer.scss";
 
-// 6. Admin specific styles
-@import "./admin.scss";
+// 5. Components (reusable UI patterns)
+@import "./components/_file-upload.scss";
+@import "./components/_bulk-import.scss";
+@import "./components/_switch-button.scss";
+@import "./components/_alert.scss";
+@import "./components/_filters.scss";
+@import "./components/_banner.scss";
+@import "./components/_bordered-typography.scss";
+@import "./components/_tiptap-editor.scss";
+@import "./components/_editorjs.scss";
+// @import "./components/_buttons.scss";
+// @import "./components/_cards.scss";
+// @import "./components/_forms.scss";
+// @import "./components/_tables.scss";
+// @import "./components/_modals.scss";
+
+// 6. Pages (page-specific styles - use sparingly)
+@import "./pages/_auth.scss";
+@import "./pages/_documents.scss";
+// @import "./pages/_dashboard.scss";
+// @import "./pages/_users.scss";
 
 // 7. Generate utilities
 @include generate-color-utilities($theme-colors);

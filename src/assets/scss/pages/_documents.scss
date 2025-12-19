@@ -1,0 +1,58 @@
+// =====================================================
+// Documents Page Styles
+// =====================================================
+// Only styles that cannot be achieved with Bootstrap utilities
+
+.app-documents-grid {
+  min-height: 400px;
+}
+
+.app-documents-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.app-document-card {
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--bs-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.app-document-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.app-toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: app-slide-in 0.3s ease;
+}
+
+@keyframes app-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-documents-list {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -58,7 +58,7 @@ const Table: React.FC<TableProps> = ({
 
     return (
       <div className="pagination-table-bottom pt-3">
-        <span style={{ fontWeight: 500 }}>Go to page</span>
+        <span className="fw-medium">Go to page</span>
         <input
           type="number"
           min={1}
@@ -74,7 +74,7 @@ const Table: React.FC<TableProps> = ({
           className="form-control"
         />
 
-        <span style={{ fontWeight: 500 }}>Per page</span>
+        <span className="fw-medium">Per page</span>
         <select
           value={pageSize}
           onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
@@ -87,17 +87,14 @@ const Table: React.FC<TableProps> = ({
           ))}
         </select>
 
-        <span style={{ fontWeight: 500 }}>
+        <span className="fw-medium">
           {start} - {end} of {total}
         </span>
 
         <Button
           onClick={() => onChange(currentPage - 1)}
           disabled={currentPage === 1}
-          style={{
-            // backgroundColor: currentPage === 1 ? '#60a5fa' : '#60a5fa',
-            cursor: currentPage === 1 ? "not-allowed" : "pointer",
-          }}
+          className={currentPage === 1 ? "pe-none" : ""}
           className="btn d-flex align-items-center justify-content-center p-0 border-0"
           variant="primary"
         >
@@ -107,10 +104,7 @@ const Table: React.FC<TableProps> = ({
         <Button
           onClick={() => onChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          style={{
-            // backgroundColor: currentPage === totalPages ? '#dbeafe' : '#60a5fa',
-            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-          }}
+          className={currentPage === totalPages ? "pe-none" : ""}
           className="btn d-flex align-items-center justify-content-center p-0 border-0"
           variant="primary"
         >
@@ -129,7 +123,7 @@ const Table: React.FC<TableProps> = ({
         hover={hover}
         size={size}
         variant={variant}
-        style={{ opacity: loading ? 0.5 : 1 }}
+        className={loading ? "opacity-50" : ""}
       >
         <thead>
           <tr>

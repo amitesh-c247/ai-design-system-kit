@@ -5,7 +5,6 @@ import { FetchNextPageOptions } from "@tanstack/react-query";
 import { Search } from "@/components/Icons";
 import highlightText from "@/types/utils/highlight";
 import FilterButton from "../FilterButton";
-import styles from "./styles.module.scss";
 
 export interface SelectFilterProps {
   filterLabel: string;
@@ -119,7 +118,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
     <Form.Select
       onChange={(e) => onOptionChange(e.target.value)}
       value={selectedOptions}
-      className={styles.dropdown}
+      className="app-filter-select"
       multiple={isMultiple}
       {...rawInputElementProps}
       {...otherProps}

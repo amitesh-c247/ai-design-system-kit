@@ -6,7 +6,7 @@ import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
 import Input from "@/components/pure-components/Form/Input";
 import Button from "@/components/pure-components/Button";
 import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
-import styles from "../auth.module.scss";
+import classNames from "classnames";
 import { useRouter } from "next/navigation";
 // import { useAuth } from "@/hooks/auth"; // Uncomment if you add signup logic
 import { Eye, EyeOff } from "@/components/pure-components/Icons";
@@ -71,10 +71,10 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.logoContainer}>
+    <div className="app-auth-container d-flex align-items-center justify-content-center p-4">
+      <div className="app-auth-card card w-100">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
             <ImageWithFallback
               src="/logo.svg"
               alt="Company Logo"
@@ -83,11 +83,11 @@ const Signup = () => {
               priority
             />
           </div>
-          <h1 className={styles.title}>Create Account</h1>
-          <p className={styles.subtitle}>Sign up to get started</p>
+          <h1 className="fs-xl fw-bold text-center mb-2">Create Account</h1>
+          <p className="text-center mb-4">Sign up to get started</p>
 
           {/* {signupError && (
-            <div className={styles.errorMessage}>{signupError.message}</div>
+            <div className="alert alert-danger">{signupError.message}</div>
           )} */}
 
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -134,7 +134,7 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Password</FormLabel>
-              <div className={styles.passwordInputWrapper}>
+              <div className="position-relative">
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -161,20 +161,20 @@ const Signup = () => {
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword((v) => !v)}
-                  className={`${styles.passwordToggleBtn} ${
-                    showPassword ? styles.hidePassword : styles.showPassword
-                  }`}
+                  className="app-password-toggle-btn"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
               {password && (
-                <div className={styles.passwordStrength}>
+                <div className="mt-2">
                   <span
-                    className={`${styles.passwordStrengthLabel} ${
-                      styles[`passwordStrength${passwordStrength}`]
-                    }`}
+                    className={classNames("fs-sm fw-medium", {
+                      "text-danger": passwordStrength === "Weak",
+                      "text-warning": passwordStrength === "Medium",
+                      "text-success": passwordStrength === "Strong",
+                    })}
                   >
                     {passwordStrength}
                   </span>
@@ -183,7 +183,7 @@ const Signup = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Confirm Password</FormLabel>
-              <div className={styles.passwordInputWrapper}>
+              <div className="position-relative">
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
@@ -201,9 +201,7 @@ const Signup = () => {
                     showConfirmPassword ? "Hide password" : "Show password"
                   }
                   onClick={() => setShowConfirmPassword((v) => !v)}
-                  className={`${styles.passwordToggleBtn} ${
-                    showPassword ? styles.hidePassword : styles.showPassword
-                  }`}
+                  className="app-password-toggle-btn"
                   tabIndex={-1}
                 >
                   {showConfirmPassword ? (
@@ -214,8 +212,8 @@ const Signup = () => {
                 </button>
               </div>
             </FormGroup>
-            <div className={styles.formFooter}>
-              <label className={styles.rememberMe}>
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <label className="d-flex align-items-center gap-2">
                 <input
                   type="checkbox"
                   {...register("acceptTerms", {
@@ -227,23 +225,23 @@ const Signup = () => {
               </label>
             </div>
             {errors.acceptTerms && (
-              <div className={styles.errorMessage}>
+              <div className="alert alert-danger mb-3 text-center">
                 {errors.acceptTerms.message}
               </div>
             )}
             <Button
               variant="primary"
               type="submit"
-              className={styles.submitButton}
+              className="w-100"
               disabled={!isValid || isSubmitting}
             >
               {isSubmitting ? "Signing up..." : "Sign Up"}
             </Button>
           </Form>
 
-          <p className={styles.signupText}>
+          <p className="text-center text-muted mt-3">
             Already have an account?{" "}
-            <a href="/login" className={styles.signupLink}>
+            <a href="/login" className="text-primary text-decoration-none fw-medium">
               Sign in
             </a>
           </p>

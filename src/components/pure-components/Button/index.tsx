@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './styles.module.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'icon' | 'iconBordered' | 'danger' | 'link' | 'inlineIcon';
 export type ButtonSize = 'default' | 'large';
@@ -35,13 +34,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const featherIconSize = size === 'default' ? 16 : 24;
     const classNames = classnames(
-      styles.button,
-      styles[`size-button-${size}`],
+      'd-inline-flex',
+      'align-items-center',
+      'justify-content-center',
+      'gap-1',
       {
-        [styles[`type-${variant}`]]: Boolean(variant),
-        [styles[`size-button-${variant}-${size}`]]: variant === 'icon' || variant === 'iconBordered',
-        [styles.block]: block,
         'w-100': block,
+        'rounded-circle': variant === 'icon' || variant === 'iconBordered',
+        'p-2': variant === 'icon' || variant === 'iconBordered',
+        'border': variant === 'iconBordered',
       },
       className,
     );
@@ -75,15 +76,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...restProps}
       >
         {icon ? (
-          <div className={styles.buttonWithIcon}>
+          <div className="d-inline-flex align-items-center gap-1">
             {iconPosition === 'left' && (
               <>
                 {React.cloneElement(icon, {
                   size: featherIconSize,
-                  className: classnames(styles[`size-icon-${size}`], icon.props.className, {
-                    [styles.hideIconOnLoading]:
-                      (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
-                  }),
+                  className: classnames(
+                    size === 'default' ? 'w-4' : 'w-6',
+                    icon.props.className,
+                    {
+                      'opacity-0': (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
+                    }
+                  ),
                 })}
                 {children}
               </>
@@ -93,10 +97,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {children}
                 {React.cloneElement(icon, {
                   size: featherIconSize,
-                  className: classnames(styles[`size-icon-${size}`], icon.props.className, {
-                    [styles.hideIconOnLoading]:
-                      (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
-                  }),
+                  className: classnames(
+                    size === 'default' ? 'w-4' : 'w-6',
+                    icon.props.className,
+                    {
+                      'opacity-0': (variant === 'icon' || variant === 'iconBordered') && otherProps.disabled,
+                    }
+                  ),
                 })}
               </>
             )}

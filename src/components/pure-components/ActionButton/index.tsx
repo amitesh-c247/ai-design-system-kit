@@ -31,7 +31,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       disabled={disabled}
       className={className}
     >
-      {icon && <span style={{ marginRight: title ? 8 : 0 }}>{icon}</span>}
+      {icon && <span className={title ? "me-2" : ""}>{icon}</span>}
       {title}
     </Button>
   );

@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import { X, Upload, File, AlertCircle } from "lucide-react";
+import { Upload, File, AlertCircle } from "lucide-react";
+import { Modal, Button as BootstrapButton } from "react-bootstrap";
 import Button from "@/components/pure-components/Button";
 import { useDocumentUpload } from "@/hooks/documents";
 import { DocumentUploadRequest } from "@/types/documents";
-import styles from "./DocumentUploadModal.module.scss";
+import classNames from "classnames";
 
 interface DocumentUploadModalProps {
   isOpen: boolean;
@@ -101,121 +102,114 @@ const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modal}>
-        <div className={styles.header}>
-          <h3>Upload Document</h3>
-          <button
-            className={styles.closeButton}
-            onClick={handleClose}
+    <Modal show={isOpen} onHide={handleClose} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Upload Document</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        {/* File Drop Zone */}
+        <div
+          className={classNames(
+            "app-file-upload-dropzone p-4 text-center mb-3",
+            {
+              "border-primary": dragActive,
+              "bg-light": selectedFile,
+            }
+          )}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="visually-hidden"
+            onChange={handleFileInputChange}
+            accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.mp4,.avi,.mov,.ppt,.pptx,.xls,.xlsx"
             disabled={uploading}
-          >
-            <X size={20} />
-          </button>
-        </div>
+          />
 
-        <div className={styles.content}>
-          {/* File Drop Zone */}
-          <div
-            className={`${styles.dropZone} ${
-              dragActive ? styles.dragActive : ""
-            } ${selectedFile ? styles.hasFile : ""}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              className={styles.hiddenInput}
-              onChange={handleFileInputChange}
-              accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.mp4,.avi,.mov,.ppt,.pptx,.xls,.xlsx"
-              disabled={uploading}
-            />
-
-            {selectedFile ? (
-              <div className={styles.selectedFile}>
-                <File size={32} className={styles.fileIcon} />
-                <div className={styles.fileInfo}>
-                  <div className={styles.fileName}>{selectedFile.name}</div>
-                  <div className={styles.fileSize}>
-                    {formatFileSize(selectedFile.size)}
-                  </div>
+          {selectedFile ? (
+            <div className="d-flex align-items-center gap-3">
+              <File size={32} />
+              <div>
+                <div className="fw-medium">{selectedFile.name}</div>
+                <div className="fs-sm text-muted">
+                  {formatFileSize(selectedFile.size)}
                 </div>
-              </div>
-            ) : (
-              <div className={styles.dropZoneContent}>
-                <Upload size={32} className={styles.uploadIcon} />
-                <div className={styles.dropText}>
-                  Drag and drop a file here or click to browse
-                </div>
-                <div className={styles.supportedTypes}>
-                  Supported: PDF, DOC, DOCX, TXT, Images, Videos, Presentations
-                </div>
-                <div className={styles.maxSize}>Max size: 10MB</div>
-              </div>
-            )}
-          </div>
-
-          {/* Description Input */}
-          <div className={styles.descriptionSection}>
-            <label className={styles.label}>Description (optional)</label>
-            <textarea
-              className={styles.textarea}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Add a description for this document..."
-              rows={3}
-              disabled={uploading}
-            />
-          </div>
-
-          {/* Upload Progress */}
-          {uploading && (
-            <div className={styles.progressSection}>
-              <div className={styles.progressBar}>
-                <div
-                  className={styles.progressFill}
-                  style={{ width: `${uploadProgress}%` }}
-                />
-              </div>
-              <div className={styles.progressText}>
-                Uploading... {uploadProgress}%
               </div>
             </div>
-          )}
-
-          {/* Error Message */}
-          {error && (
-            <div className={styles.errorMessage}>
-              <AlertCircle size={16} />
-              <span>{error}</span>
+          ) : (
+            <div className="d-flex flex-column align-items-center gap-2">
+              <Upload size={32} />
+              <div className="fw-medium">
+                Drag and drop a file here or click to browse
+              </div>
+              <div className="fs-sm text-muted">
+                Supported: PDF, DOC, DOCX, TXT, Images, Videos, Presentations
+              </div>
+              <div className="fs-sm text-muted">Max size: 10MB</div>
             </div>
           )}
         </div>
 
-        <div className={styles.footer}>
-          <Button
-            variant="outline-secondary"
-            onClick={handleClose}
+        {/* Description Input */}
+        <div className="mb-3">
+          <label className="form-label fw-medium">Description (optional)</label>
+          <textarea
+            className="form-control"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Add a description for this document..."
+            rows={3}
             disabled={uploading}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleUpload}
-            disabled={!selectedFile || uploading}
-          >
-            {uploading ? "Uploading..." : "Upload Document"}
-          </Button>
+          />
         </div>
-      </div>
-    </div>
+
+        {/* Upload Progress */}
+        {uploading && (
+          <div className="mb-3">
+            <div className="app-file-upload-progress">
+              <div
+                className="app-file-upload-progress-fill"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
+            <div className="text-center mt-2 fs-sm">
+              Uploading... {uploadProgress}%
+            </div>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="alert alert-danger d-flex align-items-center gap-2">
+            <AlertCircle size={16} />
+            <span>{error}</span>
+          </div>
+        )}
+      </Modal.Body>
+
+      <Modal.Footer>
+        <BootstrapButton
+          variant="outline-secondary"
+          onClick={handleClose}
+          disabled={uploading}
+        >
+          Cancel
+        </BootstrapButton>
+        <BootstrapButton
+          variant="primary"
+          onClick={handleUpload}
+          disabled={!selectedFile || uploading}
+        >
+          {uploading ? "Uploading..." : "Upload Document"}
+        </BootstrapButton>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

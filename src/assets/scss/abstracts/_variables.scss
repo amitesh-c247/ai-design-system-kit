@@ -1,0 +1,109 @@
+// ---------------------------
+// Layout
+// ---------------------------
+$sidebar-width: 260px !default;
+$sidebar-collapsed-width: 80px !default;
+
+// ---------------------------
+// 1. Theme Colors (Light)
+// ---------------------------
+$primary: #6366f1 !default;     // Indigo 500
+$secondary: #f1f5f9 !default;   // Slate 100
+$success: #22c55e !default;     // Green 500
+$info: #38bdf8 !default;        // Sky 400
+$warning: #f59e0b !default;     // Amber 500
+$danger: #ef4444 !default;      // Red 500
+$light: #ffffff !default;
+$dark: #0f172a !default;
+
+$body-color: #0f172a !default;  // Slate 900
+$body-bg: #f8fafc !default;     // Slate 50
+$border-color: #e2e8f0 !default; // Slate 200
+
+$theme-colors: (
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark,
+  text: $body-color,
+  border: $border-color,
+);
+
+// ---------------------------
+// 2. Theme Colors (Dark)
+// ---------------------------
+$dark-theme-colors: (
+  primary: #818cf8,   // Indigo 400
+  secondary: #1e293b, // Slate 800
+  success: #22c55e,
+  info: #60a5fa,
+  warning: #fbbf24,
+  danger: #f87171,
+  light: #020617,
+  dark: #020617,
+  text: #e5e7eb,      // Gray 200
+  border: #1e293b,    // Slate 800
+);
+
+$dark-body-color: #e5e7eb;  // Gray 200
+$dark-body-bg: #020617;     // Slate 950
+
+// ---------------------------
+// 2. Spacing
+// ---------------------------
+$global-spacing-unit: 0.5rem !default;
+$spacers: (
+  0: 0,
+  1: $global-spacing-unit,
+  2: $global-spacing-unit * 2,
+  3: $global-spacing-unit * 3,
+  4: $global-spacing-unit * 4,
+  5: $global-spacing-unit * 6,
+  6: $global-spacing-unit * 8,
+);
+
+// ---------------------------
+// 3. Typography
+// ---------------------------
+$font-sizes: (
+  xs: 0.75rem,
+  sm: 0.875rem,
+  md: 1rem,
+  lg: 1.125rem,
+  xl: 1.25rem,
+  xxl: 1.5rem,
+);
+
+$font-weights: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  bold: 700,
+);
+
+// ---------------------------
+// 4. Border Radius
+// ---------------------------
+$border-radii: (
+  none: 0,
+  sm: 0.2rem,
+  md: 0.3rem,
+  lg: 0.5rem,
+  xl: 1rem,
+  rounded: 50%,
+);
+
+// ---------------------------
+// 5. Breakpoints
+// ---------------------------
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);

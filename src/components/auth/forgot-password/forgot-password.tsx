@@ -6,7 +6,6 @@ import { Form, FormGroup, FormLabel } from "@/components/pure-components/Form";
 import Input from "@/components/pure-components/Form/Input";
 import Button from "@/components/pure-components/Button";
 import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
-import styles from "../auth.module.scss";
 
 export type ForgotPasswordInputs = {
   email: string;
@@ -28,10 +27,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.logoContainer}>
+    <div className="app-auth-container d-flex align-items-center justify-content-center p-4">
+      <div className="app-auth-card card w-100">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
             <ImageWithFallback
               src="/logo.svg"
               alt="Company Logo"
@@ -40,20 +39,13 @@ const ForgotPassword = () => {
               priority
             />
           </div>
-          <h1 className={styles.title}>Forgot Password</h1>
-          <p className={styles.subtitle}>
+          <h1 className="fs-xl fw-bold text-center mb-2">Forgot Password</h1>
+          <p className="text-center mb-4">
             Enter your email to reset your password
           </p>
 
           {submitted ? (
-            <div
-              className={styles.errorMessage}
-              style={{
-                background: "#dcfce7",
-                color: "#166534",
-                borderColor: "#bbf7d0",
-              }}
-            >
+            <div className="alert alert-success mb-3 text-center">
               If an account with that email exists, a password reset link has
               been sent.
             </div>
@@ -80,15 +72,15 @@ const ForgotPassword = () => {
                 <Button
                   variant="primary"
                   type="submit"
-                  className={styles.submitButton}
+                  className="w-100"
                   disabled={!isValid || isSubmitting}
                 >
                   {isSubmitting ? "Sending..." : "Send Reset Link"}
                 </Button>
               </Form>
-              <p className={styles.signupText}>
+              <p className="text-center mt-3 mb-0">
                 Already have an account?{" "}
-                <a href="/login" className={styles.signupLink}>
+                <a href="/login" className="text-decoration-none">
                   Sign in
                 </a>
               </p>

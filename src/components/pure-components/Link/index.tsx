@@ -3,7 +3,6 @@ import { Button } from "react-bootstrap";
 import classnames from "classnames";
 import NextLink from "next/link";
 import type { LinkProps } from "./types";
-import styles from "./styles.module.scss";
 
 const isUrl = (path: string): boolean => {
   return path.startsWith("http://") || path.startsWith("https://");
@@ -33,13 +32,14 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
     </>
   );
 
-  const linkClassName = classnames(className, styles.link, {
-    [styles.tertiary]: variant === "tertiary",
-    [styles.emphasized]: emphasized,
-    [styles.standalone]: variant === "standalone",
-    [styles.inline]: variant === "inline",
-    [styles.inlineIcon]: variant === "inlineIcon",
-    [styles.disabled]: isDisabled,
+  const linkClassName = classnames(className, {
+    'text-primary text-decoration-none': variant === "tertiary",
+    'fw-bold': emphasized,
+    'd-inline-block': variant === "standalone",
+    'd-inline': variant === "inline",
+    'd-inline-flex align-items-center': variant === "inlineIcon",
+    'text-muted text-decoration-none': isDisabled,
+    'text-primary': !isDisabled && variant !== "tertiary",
   });
 
   if (variant === "button") {

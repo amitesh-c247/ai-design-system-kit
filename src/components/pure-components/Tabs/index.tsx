@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabs as BootstrapTabs, Tab } from "react-bootstrap";
 import classNames from "classnames";
-import styles from "./styles.module.scss";
 
 export interface TabPaneProps {
   eventKey: string;
@@ -19,7 +18,7 @@ const Tabs: React.FC<React.PropsWithChildren<TabsProps>> & {
   Pane: React.FC<React.PropsWithChildren<TabPaneProps>>;
 } = ({ className, defaultActiveKey, onSelect, children }) => (
   <BootstrapTabs
-    className={classNames(styles.tabs, className)}
+    className={className}
     defaultActiveKey={defaultActiveKey}
     onSelect={onSelect}
     mountOnEnter

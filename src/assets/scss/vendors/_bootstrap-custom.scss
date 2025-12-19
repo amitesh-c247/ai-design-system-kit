@@ -1,0 +1,15 @@
+// =====================================================
+// Bootstrap Variable Overrides Only
+// =====================================================
+// This file should only contain Bootstrap variable overrides
+// No component or layout styles allowed here
+
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+// @import "bootstrap/scss/mixins";
+
+// Override Bootstrap variables
+$enable-css-variables: true;
+
+// Import bootstrap core
+@import "bootstrap/scss/bootstrap";

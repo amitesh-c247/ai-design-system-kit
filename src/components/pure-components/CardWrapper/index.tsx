@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "./styles.module.scss";
+import { Card } from "react-bootstrap";
+import classNames from "classnames";
 
 interface CardWrapperProps {
   title: React.ReactNode;
@@ -15,17 +16,17 @@ const CardWrapper: React.FC<React.PropsWithChildren<CardWrapperProps>> = ({
   children,
   className = "",
 }) => (
-  <div className={`${styles.customCardWrap} ${className}`}>
-    <div className={styles.customCardHeader}>
+  <Card className={classNames("mb-3 shadow-sm", className)}>
+    <Card.Header className="d-flex justify-content-between align-items-center gap-3">
       <h4 className="mb-0">{title}</h4>
       {onCreate && createButtonText && (
-        <button className={styles.createButton} onClick={onCreate}>
+        <button className="btn btn-primary" onClick={onCreate}>
           {createButtonText}
         </button>
       )}
-    </div>
-    <div className={styles.customCardBody}>{children}</div>
-  </div>
+    </Card.Header>
+    <Card.Body>{children}</Card.Body>
+  </Card>
 );
 
 export default CardWrapper;

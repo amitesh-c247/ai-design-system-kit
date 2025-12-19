@@ -50,7 +50,7 @@ import {
   Heading5,
   Heading6,
 } from "lucide-react";
-import styles from "./TipTapEditor.module.scss";
+import classNames from "classnames";
 
 interface TipTapEditorProps {
   content?: string;
@@ -590,100 +590,100 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
 
   return (
     <div
-      className={`${styles.notionEditor} ${className}`}
+      className={classNames("app-tiptap-editor", className)}
       onKeyDown={handleCommandKeyDown}
     >
       <div
-        className={`${styles.editorContent} ${
-          error || isInvalid ? styles.invalid : ""
-        }`}
+        className={classNames("app-tiptap-content", {
+          invalid: error || isInvalid,
+        })}
       >
         <BubbleMenu
           editor={editor}
           tippyOptions={{ duration: 100 }}
-          className={styles.bubbleMenu}
+          className="app-tiptap-bubble-menu"
         >
-          <div className={styles.bubbleMenuContent}>
+          <div className="app-tiptap-bubble-menu-content">
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleBold().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("bold") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("bold"),
+              })}
             >
               <Bold size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("italic") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("italic"),
+              })}
             >
               <Italic size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("strike") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("strike"),
+              })}
             >
               <Strikethrough size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("underline") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("underline"),
+              })}
             >
               <UnderlineIcon size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleCode().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("code") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("code"),
+              })}
             >
               <Code size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleHighlight().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("highlight") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("highlight"),
+              })}
             >
               <Highlighter size={14} />
             </button>
-            <div className={styles.bubbleMenuDivider} />
+            <div className="app-tiptap-bubble-menu-divider" />
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleSubscript().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("subscript") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("subscript"),
+              })}
             >
               <SubscriptIcon size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().toggleSuperscript().run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("superscript") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("superscript"),
+              })}
             >
               <SuperscriptIcon size={14} />
             </button>
-            <div className={styles.bubbleMenuDivider} />
+            <div className="app-tiptap-bubble-menu-divider" />
             <button
               type="button"
               onClick={() => editor.chain().focus().setTextAlign("left").run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive({ textAlign: "left" }) ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive({ textAlign: "left" }),
+              })}
             >
               <AlignLeft size={14} />
             </button>
@@ -692,18 +692,18 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
               onClick={() =>
                 editor.chain().focus().setTextAlign("center").run()
               }
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive({ textAlign: "center" }) ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive({ textAlign: "center" }),
+              })}
             >
               <AlignCenter size={14} />
             </button>
             <button
               type="button"
               onClick={() => editor.chain().focus().setTextAlign("right").run()}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive({ textAlign: "right" }) ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive({ textAlign: "right" }),
+              })}
             >
               <AlignRight size={14} />
             </button>
@@ -712,36 +712,36 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
               onClick={() =>
                 editor.chain().focus().setTextAlign("justify").run()
               }
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive({ textAlign: "justify" }) ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive({ textAlign: "justify" }),
+              })}
             >
               <AlignJustify size={14} />
             </button>
-            <div className={styles.bubbleMenuDivider} />
+            <div className="app-tiptap-bubble-menu-divider" />
             <button
               type="button"
               onClick={() =>
                 editor.chain().focus().clearNodes().unsetAllMarks().run()
               }
-              className={styles.bubbleMenuBtn}
+              className="app-tiptap-bubble-menu-btn"
               title="Clear formatting"
             >
               <Eraser size={14} />
             </button>
-            <div className={styles.bubbleMenuDivider} />
+            <div className="app-tiptap-bubble-menu-divider" />
             <button
               type="button"
               onClick={handleLinkClick}
-              className={`${styles.bubbleMenuBtn} ${
-                editor.isActive("link") ? styles.active : ""
-              }`}
+              className={classNames("app-tiptap-bubble-menu-btn", {
+                active: editor.isActive("link"),
+              })}
             >
               <LinkIcon size={14} />
             </button>
           </div>
           {showLinkInput && (
-            <div className={styles.bubbleMenuLinkInput}>
+            <div className="app-tiptap-bubble-menu-link-input">
               <input
                 ref={linkInputRef}
                 type="url"
@@ -749,12 +749,12 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
                 value={linkUrl}
                 onChange={(e) => setLinkUrl(e.target.value)}
                 onKeyDown={handleLinkKeyDown}
-                className={styles.linkInput}
+                className="app-tiptap-link-input"
               />
               <button
                 type="button"
                 onClick={handleLinkSubmit}
-                className={styles.linkBtn}
+                className="app-tiptap-link-btn"
               >
                 Apply
               </button>
@@ -765,7 +765,7 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
         <FloatingMenu
           editor={editor}
           tippyOptions={{ duration: 100 }}
-          className={styles.floatingMenu}
+          className="app-tiptap-floating-menu"
         >
           <button
             type="button"
@@ -783,7 +783,7 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
               setSearchQuery("");
               setSelectedCommandIndex(0);
             }}
-            className={styles.floatingMenuBtn}
+            className="app-tiptap-floating-menu-btn"
           >
             <Plus size={16} />
           </button>
@@ -793,29 +793,29 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
       </div>
 
       {(error || feedback) && (
-        <div className={styles.editorError}>{error || feedback}</div>
+        <div className="app-tiptap-error">{error || feedback}</div>
       )}
 
       {showCommandMenu && (
         <div
           ref={commandMenuRef}
-          className={styles.commandMenu}
+          className="app-tiptap-command-menu"
           style={{
             left: commandMenuPosition.x,
             top: commandMenuPosition.y,
           }}
         >
-          <div className={styles.commandMenuSearch}>
+          <div className="app-tiptap-command-menu-search">
             <input
               type="text"
               placeholder="Search commands..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.commandSearchInput}
+              className="app-tiptap-command-search-input"
               autoFocus
             />
           </div>
-          <div className={styles.commandMenuItems}>
+          <div className="app-tiptap-command-menu-items">
             {filteredCommands.length > 0 ? (
               filteredCommands.map((command, index) => (
                 <button
@@ -845,23 +845,23 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({
 
                     command.command();
                   }}
-                  className={`${styles.commandMenuItem} ${
-                    index === selectedCommandIndex ? styles.selected : ""
-                  }`}
+                  className={classNames("app-tiptap-command-menu-item", {
+                    selected: index === selectedCommandIndex,
+                  })}
                 >
                   {command.icon}
-                  <div className={styles.commandMenuItemContent}>
-                    <div className={styles.commandMenuItemTitle}>
+                  <div className="app-tiptap-command-menu-item-content">
+                    <div className="app-tiptap-command-menu-item-title">
                       {command.title}
                     </div>
-                    <div className={styles.commandMenuItemDescription}>
+                    <div className="app-tiptap-command-menu-item-description">
                       {command.description}
                     </div>
                   </div>
                 </button>
               ))
             ) : (
-              <div className={styles.commandMenuEmpty}>No commands found</div>
+              <div className="app-tiptap-command-menu-empty">No commands found</div>
             )}
           </div>
         </div>

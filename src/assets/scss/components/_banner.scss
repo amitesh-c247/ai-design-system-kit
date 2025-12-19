@@ -1,0 +1,23 @@
+// Banner Component Styles
+.app-banner {
+  width: 100%;
+  padding: 3rem 0;
+  background: var(--bs-dark);
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--bs-border-color);
+  color: var(--bs-light);
+  font-weight: var(--bs-font-weight-medium);
+  font-size: 1.7rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] {
+  .app-banner {
+    background: var(--bs-dark);
+    color: var(--bs-light);
+  }
+}
+

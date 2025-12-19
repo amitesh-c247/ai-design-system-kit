@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 import WebHeader from "../../components/web/WebHeader";
 import WebFooter from "../../components/web/WebFooter";
-import styles from "../../components/web/web.module.scss";
 
 export const metadata: Metadata = {
   title: "Web Pages",
@@ -11,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function ViewLayout({ children }: PropsWithChildren<{}>) {
   return (
-    <div className={styles["web-layout"]}>
+    <div className="d-flex flex-column min-vh-100">
       <WebHeader />
-      <main className={styles["web-main-content"]}>{children}</main>
+      <main className="flex-grow-1">{children}</main>
       <WebFooter />
     </div>
   );

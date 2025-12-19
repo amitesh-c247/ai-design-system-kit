@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './styles.module.scss';
 
 export interface PasswordProps extends Omit<FormControlProps, 'size'> {
   isValid?: boolean;
@@ -17,7 +16,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(
         <Form.Control
           ref={ref}
           type="password"
-          className={classnames(styles.input, className)}
+          className={className}
           isValid={isValid}
           isInvalid={isInvalid}
           {...props}

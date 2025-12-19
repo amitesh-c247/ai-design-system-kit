@@ -20,7 +20,7 @@ export default async function RootLayout({
   const colorScheme = theme === "dark" ? "dark" : "light";
 
   return (
-    <html lang={locale} className={theme} style={{ colorScheme }}>
+    <html lang={locale} data-theme={theme}>
       <body>
         <NextIntlClientProvider
           locale={locale}

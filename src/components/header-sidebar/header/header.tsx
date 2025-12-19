@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/auth";
-import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
+import classNames from "classnames";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -43,50 +43,53 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.headerContent}>
-        <div className={styles.rightSection}>
+    <header className="app-header d-flex justify-content-between align-items-center p-2 px-4 bg-body border-bottom position-sticky top-0" style={{ height: "64px", zIndex: 100 }}>
+      <div className="ms-auto">
+        <div className="d-flex align-items-center gap-1 ms-auto">
           <button
-            className={styles.themeToggle}
+            className="btn btn-link p-1 rounded-circle d-flex align-items-center justify-content-center text-body"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          <div className={styles.userSection} ref={dropdownRef}>
+          <div className="position-relative" ref={dropdownRef}>
             <button
-              className={styles.userButton}
+              className="btn btn-link d-flex align-items-center gap-2 p-1 rounded text-body"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <div className={styles.avatar}>
+              <div className="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px" }}>
                 <User size={24} />
               </div>
-              <span className={styles.userName}>{user?.name || "User"}</span>
+              <span className="fs-sm fw-medium d-none d-md-inline">{user?.name || "User"}</span>
             </button>
 
             {isDropdownOpen && (
-              <div className={styles.dropdown}>
-                <div className={styles.dropdownHeader}>
-                  <div className={styles.userInfo}>
-                    <span className={styles.name}>{user?.name || "User"}</span>
-                    <span className={styles.email}>{user?.email}</span>
+              <div className="app-header-dropdown position-absolute top-100 end-0 mt-1 bg-body border rounded shadow-sm" style={{ minWidth: "200px" }}>
+                <div className="p-2">
+                  <div className="d-flex flex-column gap-1">
+                    <span className="fw-medium">{user?.name || "User"}</span>
+                    <span className="fs-sm text-muted">{user?.email}</span>
                   </div>
                 </div>
-                <div className={styles.dropdownDivider} />
+                <div className="border-top my-1" />
                 <button
                   onClick={() => {
                     router.push("/profile");
                     setIsDropdownOpen(false);
                   }}
-                  className={styles.dropdownItem}
+                  className="btn btn-link d-flex align-items-center gap-2 w-100 text-start text-body p-2"
                 >
                   <User size={16} />
-                  <span>Profile</span>
+                  <span className="fs-sm">Profile</span>
                 </button>
-                <button onClick={handleLogout} className={styles.dropdownItem}>
+                <button 
+                  onClick={handleLogout} 
+                  className="btn btn-link d-flex align-items-center gap-2 w-100 text-start text-body p-2"
+                >
                   <LogOut size={16} />
-                  <span>Logout</span>
+                  <span className="fs-sm">Logout</span>
                 </button>
               </div>
             )}

@@ -19,7 +19,7 @@ import { documentService } from "@/services/documents";
 import DocumentUploadModal from "@/components/documents/DocumentUploadModal";
 import { Document } from "@/types/documents";
 import { confirmDialog } from "@/types/utils/swal";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 const DocumentsPage = () => {
   const t = useTranslations("common");
@@ -128,10 +128,10 @@ const DocumentsPage = () => {
   }, [toast.show]);
 
   return (
-    <div className={styles.documentsContainer}>
+    <div>
       <CardWrapper title="Documents">
-        <div className={styles.header}>
-          <div className={styles.headerActions}>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="d-flex gap-2 align-items-center">
             <Button
               variant="primary"
               size="sm"
@@ -143,13 +143,13 @@ const DocumentsPage = () => {
           </div>
         </div>
 
-        <div className={styles.searchSection}>
-          <div className={styles.searchBar}>
-            <Search size={16} className={styles.searchIcon} />
+        <div className="mb-4">
+          <div className="position-relative" style={{ maxWidth: "400px" }}>
+            <Search size={16} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style={{ zIndex: 1 }} />
             <input
               type="text"
               placeholder="Search documents..."
-              className={styles.searchInput}
+              className="form-control ps-5"
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -159,8 +159,8 @@ const DocumentsPage = () => {
         {loading && <LoadingSpinner />}
 
         {error && (
-          <div className={styles.errorMessage}>
-            <p>Error: {error}</p>
+          <div className="alert alert-danger text-center mb-3">
+            <p className="mb-2 fw-medium">Error: {error}</p>
             <Button
               variant="outline-primary"
               size="sm"
@@ -174,13 +174,13 @@ const DocumentsPage = () => {
         {!loading && !error && (
           <>
             {documents.length === 0 ? (
-              <div className={styles.documentsGrid}>
-                <div className={styles.emptyState}>
-                  <FileText size={48} className={styles.emptyIcon} />
-                  <h3>
+              <div className="app-documents-grid d-flex align-items-center justify-content-center">
+                <div className="text-center p-5 text-muted">
+                  <FileText size={48} className="text-muted mb-3" />
+                  <h3 className="fs-5 fw-semibold mb-2">
                     {searchTerm ? "No documents found" : "No documents yet"}
                   </h3>
-                  <p>
+                  <p className="mb-4">
                     {searchTerm
                       ? "Try adjusting your search terms."
                       : "Upload your first document to get started."}
@@ -195,54 +195,58 @@ const DocumentsPage = () => {
                 </div>
               </div>
             ) : (
-              <div className={styles.documentsList}>
+              <div className="app-documents-list">
                 {documents.map((document: Document) => (
-                  <div key={document.id} className={styles.documentCard}>
-                    <div className={styles.documentIcon}>
-                      <span className={styles.fileEmoji}>
-                        {documentService.getFileIcon(document.type)}
-                      </span>
-                    </div>
-
-                    <div className={styles.documentContent}>
-                      <div className={styles.documentTitle}>
-                        {document.name}
+                  <div key={document.id} className="app-document-card card shadow-sm">
+                    <div className="card-body">
+                      <div className="mb-3">
+                        <span className="fs-2 d-block">
+                          {documentService.getFileIcon(document.type)}
+                        </span>
                       </div>
 
-                      {document.description && (
-                        <div className={styles.documentDescription}>
-                          {document.description}
+                      <div className="mb-3">
+                        <div className="fs-6 fw-semibold mb-2">
+                          {document.name}
                         </div>
-                      )}
 
-                      <div className={styles.documentMeta}>
-                        <span className={styles.fileSize}>
-                          {documentService.formatFileSize(document.size)}
-                        </span>
-                        <span className={styles.uploadDate}>
-                          <Calendar size={12} className="me-1" />
-                          {formatDate(document.uploadedAt)}
-                        </span>
+                        {document.description && (
+                          <div className="app-document-description text-muted fs-sm mb-2">
+                            {document.description}
+                          </div>
+                        )}
+
+                        <div className="d-flex flex-column gap-1 fs-xs text-muted">
+                          <span className="fw-medium">
+                            {documentService.formatFileSize(document.size)}
+                          </span>
+                          <span className="d-flex align-items-center">
+                            <Calendar size={12} className="me-1" />
+                            {formatDate(document.uploadedAt)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className={styles.documentActions}>
-                      <Button
-                        variant="outline-primary"
-                        size="sm"
-                        onClick={() => handleDownload(document.id)}
-                      >
-                        <Download size={14} className="me-1" />
-                        Download
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => handleDelete(document.id, document.name)}
-                      >
-                        <Trash2 size={14} className="me-1" />
-                        Delete
-                      </Button>
+                      <div className="d-flex gap-2">
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="flex-grow-1"
+                          onClick={() => handleDownload(document.id)}
+                        >
+                          <Download size={14} className="me-1" />
+                          Download
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="flex-grow-1"
+                          onClick={() => handleDelete(document.id, document.name)}
+                        >
+                          <Trash2 size={14} className="me-1" />
+                          Delete
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -251,7 +255,7 @@ const DocumentsPage = () => {
 
             {/* Pagination */}
             {total > 10 && (
-              <div className={styles.pagination}>
+              <div className="d-flex justify-content-center align-items-center gap-3 mt-4 pt-4 border-top">
                 <Button
                   variant="outline-secondary"
                   size="sm"
@@ -260,7 +264,7 @@ const DocumentsPage = () => {
                 >
                   Previous
                 </Button>
-                <span className={styles.pageInfo}>
+                <span className="fs-sm text-muted fw-medium">
                   Page {currentPage} of {Math.ceil(total / 10)}
                 </span>
                 <Button
@@ -278,7 +282,10 @@ const DocumentsPage = () => {
 
         {/* Toast Notification */}
         {toast.show && (
-          <div className={`${styles.toast} ${styles[toast.type]}`}>
+          <div className={classNames(
+            "app-toast-notification alert",
+            toast.type === "success" ? "alert-success" : "alert-danger"
+          )}>
             {toast.message}
           </div>
         )}

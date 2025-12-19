@@ -2,7 +2,6 @@ import React from "react";
 import { Offcanvas } from "react-bootstrap";
 import classnames from "classnames";
 
-import styles from "./styles.module.scss";
 
 interface DrawerProps {
   show: boolean;
@@ -40,7 +39,7 @@ const Drawer: React.FC<React.PropsWithChildren<DrawerProps>> = ({
       placement={placement}
       backdrop={backdrop}
       scrollable={scrollable}
-      className={classnames(styles.drawer, className)}
+      className={className}
       style={{
         minHeight: minHeight,
         maxHeight: maxHeight,

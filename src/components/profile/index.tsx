@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import styles from "./profile.module.scss";
 import CardWrapper from "@/components/pure-components/CardWrapper";
 import SwitchButton from "../pure-components/Button/SwitchButton/SwitchButton";
 import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff } from "@/components/pure-components/Icons";
-import commonStyles from "@/assets/scss/admin.module.scss";
 
 const ProfilePage: React.FC = () => {
   const [editPassword, setEditPassword] = useState(true);
@@ -19,22 +17,20 @@ const ProfilePage: React.FC = () => {
       <Form>
         <div className="mb-4">
           <Form.Label className="fw-bold">{t("profileImage")}</Form.Label>
-          <div
-            className={`d-flex align-items-center gap-3 ${styles.profileImageSection}`}
-          >
+          <div className="d-flex flex-column flex-md-row align-items-center gap-3">
             <img
               src={
                 profileImage || "https://via.placeholder.com/80x80?text=User"
               }
               alt="Profile"
-              className={styles.profileImage}
+              className="app-profile-image rounded-circle"
             />
-            <div className={styles.profileUpload}>
+            <div className="d-flex flex-column gap-2">
               <Form.Control
                 type="file"
                 accept="image/jpeg,image/png,image/jpg"
                 id="profile-upload"
-                style={{ display: "none" }}
+                className="visually-hidden"
                 onChange={(e) => {
                   const fileInput = e.target as HTMLInputElement;
                   if (fileInput.files && fileInput.files[0]) {
@@ -42,7 +38,7 @@ const ProfilePage: React.FC = () => {
                   }
                 }}
               />
-              <label htmlFor="profile-upload">
+              <label htmlFor="profile-upload" className="mb-0">
                 <Button as="span" variant="primary" className="me-2">
                   {t("uploadPhoto")}
                 </Button>
@@ -118,7 +114,6 @@ const ProfilePage: React.FC = () => {
                     variant="secondary"
                     onClick={() => setShowPassword((v) => !v)}
                     tabIndex={-1}
-                    className={commonStyles.border}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </Button>
@@ -138,7 +133,6 @@ const ProfilePage: React.FC = () => {
                     variant="secondary"
                     onClick={() => setShowConfirmPassword((v) => !v)}
                     tabIndex={-1}
-                    className={commonStyles.border}
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={20} />

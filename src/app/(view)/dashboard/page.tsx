@@ -4,7 +4,6 @@ import React from "react";
 import { useAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import styles from "./styles.module.scss";
 import LoadingSpinner from "@/components/pure-components/LoadingSpinner";
 
 const Dashboard = () => {
@@ -27,29 +26,31 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`${styles.dashboardContainer}`}>
-      <div className={styles.header}>
-        <h1>{t("welcome", { name: user.name || "User" })}</h1>
+    <div className="p-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className="fs-xxl fw-bold">{t("welcome", { name: user.name || "User" })}</h1>
       </div>
-      <div className={styles.content}>
-        <div className={styles.card}>
-          <h2>{t("overview")}</h2>
-          <p>{t("info")}</p>
-          <div className={styles.userInfo}>
-            <h3>{t("yourInformation")}</h3>
-            <p>
-              {t("email")}: {user.email}
-            </p>
-            {user.first_name && (
-              <p>
-                {t("firstName")}: {user.first_name}
+      <div className="d-grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+        <div className="card shadow-sm">
+          <div className="card-body p-3">
+            <h2 className="fs-lg fw-medium mb-2">{t("overview")}</h2>
+            <p className="text-muted">{t("info")}</p>
+            <div className="mt-4 pt-3 border-top">
+              <h3 className="fs-md fw-medium mb-2">{t("yourInformation")}</h3>
+              <p className="mb-1 text-muted">
+                {t("email")}: {user.email}
               </p>
-            )}
-            {user.last_name && (
-              <p>
-                {t("lastName")}: {user.last_name}
-              </p>
-            )}
+              {user.first_name && (
+                <p className="mb-1 text-muted">
+                  {t("firstName")}: {user.first_name}
+                </p>
+              )}
+              {user.last_name && (
+                <p className="mb-1 text-muted">
+                  {t("lastName")}: {user.last_name}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

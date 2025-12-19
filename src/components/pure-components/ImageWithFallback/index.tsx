@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image, { ImageProps, StaticImageData } from "next/image";
 import type { ImageWithFallbackProps } from "./types";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 const ImageWithFallback = ({
   fallback = "",
@@ -26,15 +26,16 @@ const ImageWithFallback = ({
   };
 
   return (
-    <div className={`${styles.imageWrapper} ${className || ""}`}>
+    <div className={classNames("position-relative", className)}>
       <Image
         alt={alt}
         onError={() => setError(true)}
         onLoad={handleLoad}
         src={error ? fallback : src}
-        className={`${styles.fadeIn} ${
-          isLoading && showLoadingState ? styles.loading : ""
-        }`}
+        className={classNames({
+          "opacity-50": isLoading && showLoadingState,
+        })}
+        style={{ transition: "opacity 0.3s ease" }}
         {...props}
         unoptimized
       />

@@ -7,7 +7,7 @@ import Input from "@/components/pure-components/Form/Input";
 import Button from "@/components/pure-components/Button";
 import { useAuth } from "@/hooks/auth";
 import ImageWithFallback from "@/components/pure-components/ImageWithFallback";
-import styles from "../auth.module.scss";
+import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/pure-components/LoadingSpinner";
 import { EMAIL_REGEX } from "@/constants/regex";
@@ -63,10 +63,10 @@ const Login = () => {
   }
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <div className={styles.cardContent}>
-          <div className={styles.logoContainer}>
+    <div className="app-auth-container d-flex align-items-center justify-content-center p-4">
+      <div className="app-auth-card card w-100">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
             <ImageWithFallback
               src="/logo.svg"
               alt="Company Logo"
@@ -76,11 +76,11 @@ const Login = () => {
             />
           </div>
 
-          <h1 className={styles.title}>{t("title")}</h1>
-          <p className={styles.subtitle}>{t("subtitle")}</p>
+          <h1 className="fs-xl fw-bold text-center mb-2">{t("title")}</h1>
+          <p className="text-center mb-4">{t("subtitle")}</p>
 
           {loginError && (
-            <div className={styles.errorMessage}>{loginError.message}</div>
+            <div className="alert alert-danger mb-3 text-center">{loginError.message}</div>
           )}
 
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +105,7 @@ const Login = () => {
 
             <FormGroup>
               <FormLabel>{t("password.label")}</FormLabel>
-              <div className={styles.passwordInputWrapper}>
+              <div className="position-relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -121,9 +121,7 @@ const Login = () => {
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword((v) => !v)}
-                  className={`${styles.passwordToggleBtn} ${
-                    showPassword ? styles.hidePassword : styles.showPassword
-                  }`}
+                  className="app-password-toggle-btn"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -131,8 +129,8 @@ const Login = () => {
                 </div>
             </FormGroup>
 
-            <div className={styles.formFooter}>
-              <label className={`cursor-pointer ${styles.rememberMe}`}>
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <label className="d-flex align-items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   {...register("rememberMe")}
@@ -141,7 +139,7 @@ const Login = () => {
                 {t("rememberMe")}
               </label>
 
-              <a href="/forgot-password" className={styles.forgotPassword}>
+              <a href="/forgot-password" className="text-primary text-decoration-none fw-medium">
                 {t("forgotPassword")}
               </a>
             </div>
@@ -149,16 +147,15 @@ const Login = () => {
             <Button
               variant="primary"
               type="submit"
-              // className={styles.submitButton}
               // disabled={isLoggingIn}
             >
               {isLoggingIn ? t("submitting") : t("submit")}
             </Button>
             </FormGroup>
           </Form>
-          <p className={styles.signupText}>
+          <p className="text-center text-muted mt-3">
             Don&apos;t have an account?{" "}
-            <a href="/signup" className={styles.signupLink}>
+            <a href="/signup" className="text-primary text-decoration-none fw-medium">
               Sign up
             </a>
           </p>

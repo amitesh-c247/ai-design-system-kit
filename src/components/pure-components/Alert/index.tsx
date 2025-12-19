@@ -10,7 +10,6 @@ import {
   Info,
   LoaderIcon,
 } from "../Icons";
-import styles from "./styles.module.scss";
 
 export const PERSISTED_CLOSED_ALERTS_STORAGE_KEY = "alerts-closed";
 const PERSISTED_CLOSED_ALERTS_INITIAL_STATE: string[] = [];
@@ -68,24 +67,25 @@ const Alert: React.FC<React.PropsWithChildren<AlertProps>> = ({
 }) => {
   const typeClass = `color${type.charAt(0).toUpperCase() + type.slice(1)}`;
 
+  const getVariant = () => {
+    switch (type) {
+      case "success": return "success";
+      case "danger": return "danger";
+      case "warning": return "warning";
+      case "info": return "info";
+      default: return "secondary";
+    }
+  };
+
   return (
-    <div
-      className={`${styles.alert} ${styles[typeClass]} ${
-        inline ? styles.inline : ""
-      } ${className}`}
+    <BootstrapAlert
+      variant={getVariant()}
+      className={classnames({ "d-inline-flex align-items-center": inline }, className)}
+      dismissible={!!onClose}
+      onClose={onClose}
     >
-      <div className={styles.content}>{children}</div>
-      {onClose && (
-        <button
-          type="button"
-          className={styles.alertCloseIcon}
-          onClick={onClose}
-          aria-label="Close"
-        >
-          ×
-        </button>
-      )}
-    </div>
+      {children}
+    </BootstrapAlert>
   );
 };
 

@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Popover, Button, Stack, OverlayTrigger } from "react-bootstrap";
 import FilterButton from "../FilterButton";
-import styles from "./styles.module.scss";
 
 interface PopupFilterProps {
   label: string;
@@ -38,10 +37,10 @@ const PopupFilter: React.FC<React.PropsWithChildren<PopupFilterProps>> = ({
   };
 
   const popover = (
-    <Popover id="popup-filter" className={styles.popover}>
+    <Popover id="popup-filter" className="app-filter-popover">
       <Popover.Body>
-        <div className={styles.content}>{children}</div>
-        <div className={styles.footer}>
+        <div className="app-filter-popover-content">{children}</div>
+        <div className="app-filter-popover-footer">
           <Stack direction="horizontal" gap={2}>
             <Button variant="outline-secondary" onClick={hideAndClear}>
               {formatMessage({ id: "generic.clear" })}

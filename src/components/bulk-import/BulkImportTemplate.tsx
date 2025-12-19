@@ -8,7 +8,7 @@ import Button from "@/components/pure-components/Button";
 import Alert from "@/components/pure-components/Alert";
 import Modal from "@/components/pure-components/Modal";
 import Table from "@/components/pure-components/Table";
-import styles from "./styles.module.scss";
+import classNames from "classnames";
 
 export interface ValidationError {
   row: number;
@@ -175,13 +175,13 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
 
   return (
     <>
-      <div className={styles.content}>
+      <div className="app-bulk-import-content">
         {/* Template Download */}
-        <Card className={styles.templateCard}>
-          <div className={styles.templateContent}>
-            <div className={styles.templateInfo}>
-              <h2>Step 1: Download Template</h2>
-              <p>
+        <Card>
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <div className="flex-grow-1">
+              <h2 className="h4 mb-2">Step 1: Download Template</h2>
+              <p className="text-muted mb-0">
                 Download the Excel template to ensure your data is in the
                 correct format.
               </p>
@@ -189,7 +189,7 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
             <Button
               variant="secondary"
               onClick={downloadTemplate}
-              className={styles.downloadButton}
+              className="d-flex align-items-center gap-2"
             >
               <Download size={20} />
               Download Template
@@ -198,43 +198,43 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
         </Card>
 
         {/* File Upload */}
-        <Card className={styles.uploadCard}>
-          <div className={styles.cardHeader}>
-            <h2>Step 2: Upload File</h2>
-            <p>Upload your Excel or CSV file with data.</p>
+        <Card>
+          <div className="mb-3">
+            <h2 className="h4 mb-2">Step 2: Upload File</h2>
+            <p className="text-muted mb-0">Upload your Excel or CSV file with data.</p>
           </div>
 
           <div
-            className={`${styles.uploadArea} ${
-              dragActive ? styles.dragActive : ""
-            }`}
+            className={classNames("app-bulk-import-upload-area", {
+              "drag-active": dragActive,
+            })}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
           >
-            <Upload size={48} />
-            <h3>Drag & Drop your file here</h3>
-            <p>or</p>
+            <Upload size={48} className="mb-3" />
+            <h3 className="h5 mb-2">Drag & Drop your file here</h3>
+            <p className="mb-3">or</p>
             <input
               type="file"
               accept={config.acceptedFileTypes}
               onChange={(e) =>
                 e.target.files?.[0] && handleFileUpload(e.target.files[0])
               }
-              className={styles.fileInput}
+              className="visually-hidden"
               id="fileInput"
             />
-            <label htmlFor="fileInput" className={styles.uploadButton}>
+            <label htmlFor="fileInput" className="btn btn-primary">
               Choose File
             </label>
           </div>
 
           {file && (
-            <div className={styles.fileInfo}>
-              <p>
+            <div className="app-bulk-import-file-info mt-3">
+              <p className="mb-1">
                 <strong>Selected file:</strong> {file.name}
               </p>
-              <p>
+              <p className="mb-0">
                 <strong>Size:</strong> {(file.size / 1024).toFixed(2)} KB
               </p>
             </div>
@@ -243,47 +243,43 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
 
         {/* Validation Errors */}
         {validationErrors.length > 0 && (
-          <Card className={styles.errorCard}>
-            <div className={styles.cardHeader}>
-              <h2 className={styles.errorTitle}>
+          <Card className="border-danger">
+            <div className="mb-3">
+              <h2 className="h5 text-danger d-flex align-items-center gap-2 mb-2">
                 <AlertCircle size={20} />
                 Validation Errors ({validationErrors.length})
               </h2>
-              <p>Please fix the following errors before importing:</p>
+              <p className="text-muted mb-0">Please fix the following errors before importing:</p>
             </div>
-            <div className={styles.tableContainer}>
-              <Table
-                columns={errorColumns}
-                dataSource={validationErrorsWithId}
-                rowKey="id"
-              />
-            </div>
+            <Table
+              columns={errorColumns}
+              dataSource={validationErrorsWithId}
+              rowKey="id"
+            />
           </Card>
         )}
 
         {/* Valid Data Preview */}
         {validData.length > 0 && (
-          <Card className={styles.previewCard}>
-            <div className={styles.cardHeader}>
-              <h2 className={styles.successTitle}>
+          <Card className="border-success">
+            <div className="mb-3">
+              <h2 className="h5 text-success d-flex align-items-center gap-2 mb-2">
                 <CheckCircle size={20} />
                 Valid Data ({validData.length} records)
               </h2>
-              <p>The following data is ready for import:</p>
+              <p className="text-muted mb-0">The following data is ready for import:</p>
             </div>
-            <div className={styles.actionButtons}>
+            <div className="d-flex gap-2">
               <Button
                 variant="primary"
                 onClick={() => setShowPreview(true)}
-                className={styles.previewButton}
               >
                 Preview Data
               </Button>
               <Button
-                variant="primary"
+                variant="success"
                 onClick={handleImport}
                 disabled={isImporting}
-                className={styles.importButton}
               >
                 {isImporting ? "Importing..." : "Import Now"}
               </Button>
@@ -293,17 +289,17 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
 
         {/* Import Results */}
         {importResult && (
-          <Card className={styles.resultCard}>
-            <div className={styles.cardHeader}>
-              <h2>Import Results</h2>
+          <Card className="border-success">
+            <div className="mb-3">
+              <h2 className="h5 mb-0">Import Results</h2>
             </div>
-            <div className={styles.resultStats}>
-              <div className={styles.successStat}>
+            <div className="app-bulk-import-result-stats mb-3">
+              <div className="text-success">
                 <CheckCircle size={20} />
                 <span>Successfully imported: {importResult.success}</span>
               </div>
               {importResult.failed > 0 && (
-                <div className={styles.errorStat}>
+                <div className="text-danger">
                   <AlertCircle size={20} />
                   <span>Failed: {importResult.failed}</span>
                 </div>
@@ -311,9 +307,9 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
             </div>
 
             {importResult.errors.length > 0 && (
-              <div className={styles.errorDetails}>
-                <h3>Error Details:</h3>
-                <ul>
+              <div className="app-bulk-import-error-details">
+                <h3 className="h6 mb-2">Error Details:</h3>
+                <ul className="mb-0">
                   {importResult.errors.map((error, index) => (
                     <li key={index}>
                       Row {error.row}: {error.error}
@@ -324,7 +320,7 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
             )}
 
             {importResult.success > 0 && (
-              <Alert type="success" className={styles.successAlert}>
+              <Alert type="success" className="mt-3">
                 Successfully imported {importResult.success} record(s)!
               </Alert>
             )}
@@ -338,38 +334,30 @@ const BulkImportTemplate = <T,>({ config }: BulkImportTemplateProps<T>) => {
         onClose={() => setShowPreview(false)}
         size="lg"
         title="Preview Import Data"
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setShowPreview(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleImport}
+              disabled={isImporting}
+            >
+              {isImporting ? "Importing..." : "Import Data"}
+            </Button>
+          </>
+        }
       >
-        <div className={styles.modalHeader}>
-          <h2>Preview Import Data</h2>
-          <button
-            onClick={() => setShowPreview(false)}
-            className={styles.closeButton}
-          >
-            <X size={20} />
-          </button>
-        </div>
-        <div className={styles.modalContent}>
-          <p>Review the data before importing ({validData.length} records):</p>
-          <div className={styles.previewTableContainer}>
-            <Table
-              columns={config.columns}
-              dataSource={validDataWithId}
-              rowKey="id"
-            />
-          </div>
-        </div>
-        <div className={styles.modalFooter}>
-          <Button variant="secondary" onClick={() => setShowPreview(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleImport}
-            disabled={isImporting}
-            className={styles.importButton}
-          >
-            {isImporting ? "Importing..." : "Import Data"}
-          </Button>
+        <p className="text-muted mb-3">
+          Review the data before importing ({validData.length} records):
+        </p>
+        <div className="app-bulk-import-preview-table">
+          <Table
+            columns={config.columns}
+            dataSource={validDataWithId}
+            rowKey="id"
+          />
         </div>
       </Modal>
     </>
